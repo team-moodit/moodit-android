@@ -1,10 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
-    namespace = "com.swyp.untitle.swyp"
+    namespace = "com.swyp.moodit"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -12,7 +12,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.swyp.untitle.swyp"
+        applicationId = "com.swyp.moodit"
         minSdk = 28
         targetSdk = 36
         versionCode = 1
@@ -40,6 +40,22 @@ android {
 }
 
 dependencies {
+    implementation(projects.feature.home)
+    implementation(projects.feature.round)
+    implementation(projects.feature.report)
+    implementation(projects.feature.auth)
+
+    implementation(projects.core.auth)
+    implementation(projects.core.common)
+    implementation(projects.core.data)
+    implementation(projects.core.datastore)
+    implementation(projects.core.designsystem)
+    implementation(projects.core.model)
+    implementation(projects.core.navigation)
+    implementation(projects.core.network)
+    implementation(projects.core.ui)
+
+    implementation(libs.hilt.android)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
