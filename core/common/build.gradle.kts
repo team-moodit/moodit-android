@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.swyp.untitle.common"
+    namespace = "com.swyp.moodit.common"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1

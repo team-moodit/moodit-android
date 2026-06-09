@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.swyp.untitle.home"
+    namespace = "com.swyp.moodit.home"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1

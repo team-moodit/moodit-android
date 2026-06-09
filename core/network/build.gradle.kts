@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.swyp.untitle.network"
+    namespace = "com.swyp.moodit.network"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1

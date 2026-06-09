@@ -24,7 +24,7 @@ dependencyResolutionManagement {
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-rootProject.name = "SWYP"
+rootProject.name = "Moodit"
 include(":app")
 include(":feature:home")
 include(":core:data")

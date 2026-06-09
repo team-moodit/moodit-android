@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.swyp.untitle.swyp"
+    namespace = "com.swyp.moodit"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -12,7 +12,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.swyp.untitle.swyp"
+        applicationId = "com.swyp.moodit"
         minSdk = 28
         targetSdk = 36
         versionCode = 1

@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.swyp.untitle.auth"
+    namespace = "com.swyp.moodit.feature.auth"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1

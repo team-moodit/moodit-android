@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.swyp.untitle.navigation"
+    namespace = "com.swyp.moodit.navigation"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1

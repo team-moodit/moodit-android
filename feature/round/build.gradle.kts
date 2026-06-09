@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.swyp.untitle.round"
+    namespace = "com.swyp.moodit.round"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1

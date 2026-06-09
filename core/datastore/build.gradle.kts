@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.swyp.untitle.datastore"
+    namespace = "com.swyp.moodit.datastore"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
