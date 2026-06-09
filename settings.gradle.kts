@@ -22,6 +22,8 @@ dependencyResolutionManagement {
     }
 }
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 rootProject.name = "SWYP"
 include(":app")
 include(":feature:home")
@@ -33,7 +35,7 @@ include(":core:navigation")
 include(":core:designsystem")
 include(":core:common")
 include(":core:auth")
+include(":core:ui")
 include(":feature:round")
 include(":feature:report")
 include(":feature:auth")
-include(":core:ui")

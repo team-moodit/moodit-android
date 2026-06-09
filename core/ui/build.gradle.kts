@@ -23,6 +23,10 @@ android {
 }
 
 dependencies {
+    api(projects.core.model)
+    api(projects.core.designsystem)
+    implementation(libs.bundles.coil)
+
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)

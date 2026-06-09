@@ -23,6 +23,13 @@ android {
 }
 
 dependencies {
+    api(projects.core.common)
+    api(projects.core.model)
+    api(projects.core.datastore)
+    api(projects.core.network)
+    api(projects.core.auth)
+    implementation(libs.bundles.paging)
+
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)

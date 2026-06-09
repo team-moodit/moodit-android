@@ -23,6 +23,12 @@ android {
 }
 
 dependencies {
+    api(projects.core.model)
+    api(libs.androidx.dataStore)
+    api(libs.androidx.dataStore.preferences)
+    implementation(projects.core.common)
+    implementation(libs.kotlinx.serialization.json)
+
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
