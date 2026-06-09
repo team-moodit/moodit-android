@@ -24,4 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "SWYP"
 include(":app")
- 
+include(":feature:home")
