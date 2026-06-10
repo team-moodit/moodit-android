@@ -6,6 +6,7 @@ projectVersionName = "1.0"
 minSdkVersion = "28"
 targetSdkVersion = "36"
 compileSdkVersion = "36"
+minorApiLevel = "1"
 
 # AndroidX
 androidx-core-ktx = "1.15.0"

@@ -14,7 +14,13 @@ internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension
 ) {
     commonExtension.apply {
-        compileSdk = libs.getVersion("compileSdkVersion").requiredVersion.toInt()
+        val compileSdkVersion = libs.getVersion("compileSdkVersion").requiredVersion.toInt()
+        val minorApiVersion = libs.getVersion("minorApiLevel").requiredVersion.toInt()
+        compileSdk {
+            version = release(compileSdkVersion) {
+                minorApiLevel = minorApiVersion
+            }
+        }
 
         when (this) {
             is ApplicationExtension -> {
