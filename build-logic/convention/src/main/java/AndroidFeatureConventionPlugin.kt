@@ -13,6 +13,7 @@ class AndroidFeatureConventionPlugin: Plugin<Project> {
         with(target) {
             pluginManager.run {
                 apply("swyp.moodit.android.library.compose")
+                apply("swyp.moodit.hilt")
                 apply("org.jetbrains.kotlin.plugin.serialization")
             }
 

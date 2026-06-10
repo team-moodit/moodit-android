@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.moodit.android.library)
+    alias(libs.plugins.moodit.hilt)
 }
 
 android {
@@ -9,8 +10,4 @@ android {
 dependencies {
     api(projects.core.model)
     implementation(libs.kotlinx.coroutines.core)
-
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core.ktx)
-    testImplementation(libs.junit)
 }
