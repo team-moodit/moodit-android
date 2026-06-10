@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.moodit.android.library)
+    alias(libs.plugins.moodit.android.library.compose)
 }
 
 android {

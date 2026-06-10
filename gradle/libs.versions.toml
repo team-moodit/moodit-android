@@ -229,3 +229,4 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 moodit-android-application = { id = "swyp.moodit.android.application" }
 moodit-android-application-compose = { id = "swyp.moodit.android.application.compose" }
 moodit-android-library = { id = "swyp.moodit.android.library" }
+moodit-android-library-compose = { id = "swyp.moodit.android.library.compose" }
