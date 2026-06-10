@@ -24,5 +24,10 @@ gradlePlugin {
             id = "swyp.moodit.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
+
+        register("androidLibrary") {
+            id = "swyp.moodit.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
     }
 }
