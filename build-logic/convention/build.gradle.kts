@@ -44,5 +44,10 @@ gradlePlugin {
             id = "swyp.moodit.android.room"
             implementationClass = "AndroidRoomConventionPlugin"
         }
+
+        register("jvmLibrary") {
+            id = "swyp.moodit.jvm.library"
+            implementationClass = "JvmLibraryConventionPlugin"
+        }
     }
 }
