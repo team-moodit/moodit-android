@@ -12,3 +12,12 @@ dependencies {
     compileOnly(libs.ksp.gradlePlugin)
     compileOnly(libs.room.gradlePlugin)
 }
+
+gradlePlugin {
+    plugins {
+        register("androidApplication") {
+            id = "swyp.moodit.android.application"
+            implementationClass = "AndroidApplicationConventionPlugin"
+        }
+    }
+}

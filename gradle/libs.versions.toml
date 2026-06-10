@@ -1,4 +1,12 @@
 [versions]
+# Project versions
+projectApplicationId = "com.swyp.moodit"
+projectVersionCode = "1"
+projectVersionName = "1.0"
+minSdkVersion = "28"
+targetSdkVersion = "36"
+compileSdkVersion = "36"
+
 # AndroidX
 androidx-core-ktx = "1.15.0"
 androidx-appcompat = "1.7.1"
@@ -70,6 +78,7 @@ androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-te
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-dataStore = { group = "androidx.datastore", name = "datastore", version.ref = "androidxDataStore" }
 androidx-dataStore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
+android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-runtime-ktx" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle-runtime-ktx" }
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle-runtime-ktx" }
@@ -209,3 +218,5 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
+# Custom Convention Plugin
+moodit-android-application = { id = "swyp.moodit.android.application" }
