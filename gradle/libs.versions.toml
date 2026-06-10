@@ -32,6 +32,7 @@ compose-bom = "2026.02.01"
 compose-navigation = "2.9.8"
 compose-material3 = "1.4.0"
 compose-icons = "1.7.8"
+compose-compiler = "2.3.21"
 
 # Hilt
 hilt = "2.55"
@@ -174,6 +175,11 @@ compose = [
     "androidx-lifecycle-viewmodel-compose",
 ]
 
+compose-debug = [
+    "compose-ui-tooling",
+    "compose-ui-test-manifest",
+]
+
 # Navigation
 navigation = [
     "compose-navigation",
@@ -221,3 +227,4 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
 # Custom Convention Plugin
 moodit-android-application = { id = "swyp.moodit.android.application" }
+moodit-android-application-compose = { id = "swyp.moodit.android.application.compose" }

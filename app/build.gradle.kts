@@ -1,6 +1,5 @@
 plugins {
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.moodit.android.application)
+    alias(libs.plugins.moodit.android.application.compose)
 }
 
 android {
@@ -14,10 +13,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-    }
-
-    buildFeatures {
-        compose = true
     }
 }
 
