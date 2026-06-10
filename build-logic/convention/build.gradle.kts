@@ -39,5 +39,10 @@ gradlePlugin {
             id = "swyp.moodit.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
         }
+
+        register("androidRoom") {
+            id = "swyp.moodit.android.room"
+            implementationClass = "AndroidRoomConventionPlugin"
+        }
     }
 }

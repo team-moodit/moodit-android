@@ -231,3 +231,4 @@ moodit-android-application-compose = { id = "swyp.moodit.android.application.com
 moodit-android-library = { id = "swyp.moodit.android.library" }
 moodit-android-library-compose = { id = "swyp.moodit.android.library.compose" }
 moodit-android-feature = { id = "swyp.moodit.android.feature"}
+moodit-android-room = { id = "swyp.moodit.android.room" }
