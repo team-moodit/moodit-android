@@ -4,7 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.swyp.moodit.auth.navigation.authNavGraph
+import com.swyp.moodit.auth.navigation.navigateToLogin
 import com.swyp.moodit.home.navigation.homeNavGraph
+import com.swyp.moodit.onboard.navigation.onBoardingNavGraph
 import com.swyp.moodit.report.navigation.reportNavGraph
 import com.swyp.moodit.round.navigation.roundNavGraph
 import com.swyp.moodit.ui.MooditAppState
@@ -20,9 +22,16 @@ fun MooditNavHost(
         navController = navController,
         startDestination = appState.startDestination
     ) {
+        onBoardingNavGraph(
+            navController = navController,
+            onShowSnackbar = onShowSnackbar,
+            navigateToLogin = { navController.navigateToLogin() }
+        )
+
         authNavGraph(
             navController = navController,
-            onShowSnackbar = onShowSnackbar
+            onShowSnackbar = onShowSnackbar,
+            navigateToMain = { appState.navigateToMain() }
         )
 
         homeNavGraph(
