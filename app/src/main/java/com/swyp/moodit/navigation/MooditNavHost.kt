@@ -30,5 +30,10 @@ fun MooditNavHost(
             navController = navController,
             onShowSnackbar = onShowSnackbar
         )
+
+        reportNavGraph(
+            navController = navController,
+            onShowSnackbar = onShowSnackbar
+        )
     }
 }
