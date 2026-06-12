@@ -15,7 +15,7 @@ enum class MainBottomBarTab(
     val iconTitle: String,
     val route: BottomBarRoute
 ) {
-    Home(
+    HOME(
         selectedIcon = Icons.Default.Home,
         unselectedIcon = Icons.Rounded.Home,
         iconTitle = "Home",

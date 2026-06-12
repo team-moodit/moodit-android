@@ -2,24 +2,28 @@ package com.swyp.moodit.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.swyp.moodit.auth.navigation.authNavGraph
 import com.swyp.moodit.home.navigation.homeNavGraph
 import com.swyp.moodit.report.navigation.reportNavGraph
 import com.swyp.moodit.round.navigation.roundNavGraph
+import com.swyp.moodit.ui.MooditAppState
 
 @Composable
 fun MooditNavHost(
     modifier: Modifier = Modifier,
-    navController: NavHostController,
+    appState: MooditAppState,
     onShowSnackbar: suspend (String, String?) -> Boolean
 ) {
+    val navController = appState.navController
     NavHost(
         navController = navController,
-        startDestination = AuthRoute.Login
+        startDestination = appState.startDestination
     ) {
-        authNavGraph(onShowSnackbar = onShowSnackbar)
+        authNavGraph(
+            navController = navController,
+            onShowSnackbar = onShowSnackbar
+        )
 
         homeNavGraph(
             navController = navController,

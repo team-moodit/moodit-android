@@ -18,6 +18,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.compose.navigation)
     implementation(projects.feature.home)
     implementation(projects.feature.round)
     implementation(projects.feature.report)
