@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.swyp.moodit.auth.navigation.authNavGraph
+import com.swyp.moodit.home.navigation.homeNavGraph
 
 @Composable
 fun MooditNavHost(
@@ -17,5 +18,10 @@ fun MooditNavHost(
         startDestination = AuthRoute.Login
     ) {
         authNavGraph(onShowSnackbar = onShowSnackbar)
+
+        homeNavGraph(
+            navController = navController,
+            onShowSnackbar = onShowSnackbar
+        )
     }
 }
