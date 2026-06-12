@@ -1,11 +1,13 @@
 package com.swyp.moodit.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.swyp.moodit.home.navigation.navigateToHome
 import com.swyp.moodit.navigation.AuthRoute
@@ -13,6 +15,15 @@ import com.swyp.moodit.navigation.BottomBarRoute
 import com.swyp.moodit.navigation.MainBottomBarTab
 import com.swyp.moodit.report.navigation.navigateToReport
 import com.swyp.moodit.round.navigation.navigateToRound
+
+@Composable
+fun rememberMooditAppState(
+    navController: NavHostController = rememberNavController()
+): MooditAppState {
+    return remember(navController) {
+        MooditAppState(navController = navController)
+    }
+}
 
 class MooditAppState(
     val navController: NavHostController
@@ -46,4 +57,12 @@ class MooditAppState(
     fun navigateToMain() {
         navController.navigate(BottomBarRoute.Home)
     }
+
+    fun popBackStack() {
+        navController.popBackStack()
+    }
+
+    @Composable
+    fun showBottomBar() =
+        MainBottomBarTab.contains { currentDestination?.hasRoute(it::class) == true }
 }
