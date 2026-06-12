@@ -182,6 +182,8 @@ compose = [
     "compose-material3",
     "compose-foundation",
     "compose-runtime",
+    "compose-icons-core",
+    "compose-icons-extended",
     "androidx-activity-compose",
     "androidx-lifecycle-viewmodel-compose",
 ]
