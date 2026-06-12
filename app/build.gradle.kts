@@ -23,6 +23,7 @@ dependencies {
     implementation(projects.feature.round)
     implementation(projects.feature.report)
     implementation(projects.feature.auth)
+    implementation(projects.feature.onboard)
 
     implementation(projects.core.auth)
     implementation(projects.core.common)
