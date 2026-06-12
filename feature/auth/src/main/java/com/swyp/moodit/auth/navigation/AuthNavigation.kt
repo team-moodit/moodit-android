@@ -8,10 +8,13 @@ import com.swyp.moodit.navigation.AuthRoute
 
 fun NavGraphBuilder.authNavGraph(
     navController: NavController,
-    onShowSnackbar: suspend (String, String?) -> Boolean
+    onShowSnackbar: suspend (String, String?) -> Boolean,
+    navigateToMain: () -> Unit
 ) {
     composable<AuthRoute.Login> {
-        LoginRoute(onShowSnackbar = onShowSnackbar)
+        LoginRoute(
+            navigateToMain = navigateToMain,
+            onShowSnackbar = onShowSnackbar)
     }
 }
 
