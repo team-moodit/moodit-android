@@ -6,6 +6,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.swyp.moodit.auth.navigation.authNavGraph
 import com.swyp.moodit.home.navigation.homeNavGraph
+import com.swyp.moodit.report.navigation.reportNavGraph
+import com.swyp.moodit.round.navigation.roundNavGraph
 
 @Composable
 fun MooditNavHost(
@@ -20,6 +22,11 @@ fun MooditNavHost(
         authNavGraph(onShowSnackbar = onShowSnackbar)
 
         homeNavGraph(
+            navController = navController,
+            onShowSnackbar = onShowSnackbar
+        )
+
+        roundNavGraph(
             navController = navController,
             onShowSnackbar = onShowSnackbar
         )
