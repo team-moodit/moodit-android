@@ -79,8 +79,7 @@ fun MainBottomBarItemPreview() {
     val navTab = MainBottomBarItemData(
         selectedIcon = Icons.Default.Home,
         unselectedIcon = Icons.Rounded.Home,
-        iconTitle = "Home",
-        onClick = {}
+        iconTitle = "Home"
     )
 
     MaterialTheme {

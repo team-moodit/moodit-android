@@ -61,8 +61,7 @@ fun MainBottomBar(
 data class MainBottomBarItemData(
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
-    val iconTitle: String,
-    val onClick: () -> Unit
+    val iconTitle: String
 )
 
 @Preview
@@ -72,20 +71,17 @@ fun MainBottomBarPreview() {
         MainBottomBarItemData(
             selectedIcon = Icons.Default.Home,
             unselectedIcon = Icons.Rounded.Home,
-            iconTitle = "Home",
-            onClick = {}
+            iconTitle = "Home"
         ),
         MainBottomBarItemData(
             selectedIcon = Icons.Default.Archive,
             unselectedIcon = Icons.Rounded.Archive,
-            iconTitle = "Round",
-            onClick = {}
+            iconTitle = "Round"
         ),
         MainBottomBarItemData(
             selectedIcon = Icons.Default.Menu,
             unselectedIcon = Icons.Rounded.Menu,
-            iconTitle = "Report",
-            onClick = {}
+            iconTitle = "Report"
         )
     )
     MaterialTheme {
