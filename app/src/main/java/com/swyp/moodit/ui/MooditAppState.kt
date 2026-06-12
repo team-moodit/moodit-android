@@ -13,6 +13,7 @@ import com.swyp.moodit.home.navigation.navigateToHome
 import com.swyp.moodit.navigation.AuthRoute
 import com.swyp.moodit.navigation.BottomBarRoute
 import com.swyp.moodit.navigation.MainBottomBarTab
+import com.swyp.moodit.navigation.OnBoardingRoute
 import com.swyp.moodit.report.navigation.navigateToReport
 import com.swyp.moodit.round.navigation.navigateToRound
 
@@ -32,7 +33,7 @@ class MooditAppState(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = AuthRoute.Login
+    val startDestination = OnBoardingRoute.SaveTaste
 
     val currentTab: MainBottomBarTab?
         @Composable get() = MainBottomBarTab.entries.firstOrNull { navTab ->
