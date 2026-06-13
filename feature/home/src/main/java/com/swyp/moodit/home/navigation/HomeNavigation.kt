@@ -6,6 +6,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.swyp.moodit.home.createRound.CreateRoundRoute
 import com.swyp.moodit.home.main.HomeMainRoute
+import com.swyp.moodit.home.missionDetail.MissionDetailRoute
 import com.swyp.moodit.home.setting.SettingRoute
 import com.swyp.moodit.navigation.BottomBarRoute
 import com.swyp.moodit.navigation.HomeRoute
@@ -19,7 +20,8 @@ fun NavGraphBuilder.homeNavGraph(
         HomeMainRoute(
             onShowSnackbar = onShowSnackbar,
             navigateToSetting = { navController.navigateToSetting() },
-            navigateToCreateRound = { navController.navigateToCreateRound() }
+            navigateToCreateRound = { navController.navigateToCreateRound() },
+            navigateToMissionDetail = { navController.navigateToMissionDetail(it) }
         )
     }
 
@@ -33,6 +35,10 @@ fun NavGraphBuilder.homeNavGraph(
     composable<HomeRoute.CreateRound>() {
         CreateRoundRoute(onShowSnackbar = onShowSnackbar)
     }
+
+    composable<HomeRoute.MissionDetail>() {
+        MissionDetailRoute(onShowSnackbar = onShowSnackbar)
+    }
 }
 
 fun NavController.navigateToHome(navOptions: NavOptions) {
@@ -45,4 +51,8 @@ fun NavController.navigateToSetting() {
 
 fun NavController.navigateToCreateRound() {
     navigate(HomeRoute.CreateRound)
+}
+
+fun NavController.navigateToMissionDetail(missionId: String) {
+    navigate(HomeRoute.MissionDetail(missionId))
 }

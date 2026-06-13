@@ -11,12 +11,14 @@ class HomeMainContract {
 
     sealed interface SideEffect : UiSideEffect {
         object NavigateToSetting : SideEffect
-        object NavigateToCreateRound: SideEffect
+        object NavigateToCreateRound : SideEffect
+        data class NavigateToMissionDetail(val missionId: String) : SideEffect
         data class ShowSnackbar(val message: String) : SideEffect
     }
 
     sealed interface Intent : UiIntent {
         object OnSettingClick : Intent
         object OnCreateRoundClick : Intent
+        data class OnMissionClick(val missionId: String) : Intent
     }
 }

@@ -18,6 +18,10 @@ class HomeMainViewModel @Inject constructor() :
             is HomeMainContract.Intent.OnCreateRoundClick -> {
                 sendEffect(HomeMainContract.SideEffect.NavigateToCreateRound)
             }
+
+            is HomeMainContract.Intent.OnMissionClick -> {
+                sendEffect(HomeMainContract.SideEffect.NavigateToMissionDetail(intent.missionId))
+            }
         }
     }
 }
