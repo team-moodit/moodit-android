@@ -15,8 +15,8 @@ class HomeMainViewModel @Inject constructor() :
                 sendEffect(HomeMainContract.SideEffect.NavigateToSetting)
             }
 
-            is HomeMainContract.Intent.OnCreateRoundClick -> {
-                sendEffect(HomeMainContract.SideEffect.NavigateToCreateRound)
+            is HomeMainContract.Intent.OnCreateTournamentClick -> {
+                sendEffect(HomeMainContract.SideEffect.NavigateToCreateTournament)
             }
 
             is HomeMainContract.Intent.OnMissionClick -> {

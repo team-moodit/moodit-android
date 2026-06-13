@@ -8,7 +8,7 @@ import com.swyp.moodit.auth.navigation.navigateToLogin
 import com.swyp.moodit.home.navigation.homeNavGraph
 import com.swyp.moodit.onboard.navigation.onBoardingNavGraph
 import com.swyp.moodit.report.navigation.reportNavGraph
-import com.swyp.moodit.round.navigation.roundNavGraph
+import com.swyp.moodit.tournament.navigation.tournamentNavGraph
 import com.swyp.moodit.ui.MooditAppState
 
 @Composable
@@ -38,11 +38,12 @@ fun MooditNavHost(
             navController = navController,
             onShowSnackbar = onShowSnackbar,
             navigateToLogin = { navController.navigateToLogin() },
-            navigateToHome = { appState.navigateToMain()},
-            navigateToReport = { appState.navigateToReport()}
+            navigateToHome = { appState.navigateToMain() },
+            navigateToReport = { appState.navigateToReport() },
+            navigateToCreateTournament = { appState.navigateToCreateTournament() }
         )
 
-        roundNavGraph(
+        tournamentNavGraph(
             navController = navController,
             onShowSnackbar = onShowSnackbar
         )

@@ -4,7 +4,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.swyp.moodit.home.createRound.CreateRoundRoute
 import com.swyp.moodit.home.main.HomeMainRoute
 import com.swyp.moodit.home.missionDetail.MissionDetailRoute
 import com.swyp.moodit.home.reportReady.ReportReadyRoute
@@ -17,13 +16,14 @@ fun NavGraphBuilder.homeNavGraph(
     onShowSnackbar: suspend (String, String?) -> Boolean,
     navigateToLogin: () -> Unit,
     navigateToHome: () -> Unit,
-    navigateToReport: () -> Unit
+    navigateToReport: () -> Unit,
+    navigateToCreateTournament: () -> Unit
 ) {
     composable<BottomBarRoute.Home>() {
         HomeMainRoute(
             onShowSnackbar = onShowSnackbar,
             navigateToSetting = { navController.navigateToSetting() },
-            navigateToCreateRound = { navController.navigateToCreateRound() },
+            navigateToCreateTournament = navigateToCreateTournament,
             navigateToMissionDetail = { navController.navigateToMissionDetail(it) }
         )
     }
@@ -33,10 +33,6 @@ fun NavGraphBuilder.homeNavGraph(
             onShowSnackbar = onShowSnackbar,
             navigateToLogin = navigateToLogin
         )
-    }
-
-    composable<HomeRoute.CreateRound>() {
-        CreateRoundRoute(onShowSnackbar = onShowSnackbar)
     }
 
     composable<HomeRoute.MissionDetail>() {
@@ -61,10 +57,6 @@ fun NavController.navigateToHome(navOptions: NavOptions) {
 
 fun NavController.navigateToSetting() {
     navigate(HomeRoute.Setting)
-}
-
-fun NavController.navigateToCreateRound() {
-    navigate(HomeRoute.CreateRound)
 }
 
 fun NavController.navigateToMissionDetail(missionId: String) {

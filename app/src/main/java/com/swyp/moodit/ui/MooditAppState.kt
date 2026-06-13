@@ -13,8 +13,9 @@ import com.swyp.moodit.home.navigation.navigateToHome
 import com.swyp.moodit.navigation.BottomBarRoute
 import com.swyp.moodit.navigation.MainBottomBarTab
 import com.swyp.moodit.navigation.OnBoardingRoute
+import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.report.navigation.navigateToReport
-import com.swyp.moodit.round.navigation.navigateToRound
+import com.swyp.moodit.tournament.navigation.navigateToTournament
 
 @Composable
 fun rememberMooditAppState(
@@ -49,7 +50,7 @@ class MooditAppState(
         }
         when (navTab) {
             MainBottomBarTab.HOME -> navController.navigateToHome(bottomTabNavOptions)
-            MainBottomBarTab.ROUND -> navController.navigateToRound(bottomTabNavOptions)
+            MainBottomBarTab.TOURNAMENT -> navController.navigateToTournament(bottomTabNavOptions)
             MainBottomBarTab.REPORT -> navController.navigateToReport(bottomTabNavOptions)
         }
     }
@@ -66,6 +67,10 @@ class MooditAppState(
             popUpTo(BottomBarRoute.Home) { inclusive = false }
             launchSingleTop = true
         }
+    }
+
+    fun navigateToCreateTournament() {
+        navController.navigate(TournamentRoute.CreateTournament)
     }
 
     fun popBackStack() {

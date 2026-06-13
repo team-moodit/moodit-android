@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun HomeMainScreen(
     onSettingClick: () -> Unit,
-    onCreateRoundClick: () -> Unit,
+    onCreateTournamentClick: () -> Unit,
     onMissionClick: (String) -> Unit
 ) {
     Column(
@@ -38,8 +38,8 @@ fun HomeMainScreen(
             Text(text = "설정 버튼")
         }
 
-        Button(modifier = Modifier.fillMaxWidth(), onClick = onCreateRoundClick) {
-            Text(text = "새 라운드 생성하기")
+        Button(modifier = Modifier.fillMaxWidth(), onClick = onCreateTournamentClick) {
+            Text(text = "새 토너먼트 생성하기")
         }
 
         Card(

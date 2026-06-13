@@ -1,4 +1,4 @@
-package com.swyp.moodit.home.createRound
+package com.swyp.moodit.tournament.create
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,8 +11,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
-fun CreateRoundRoute(
-    viewModel: CreateRoundViewModel = hiltViewModel(),
+fun CreateTournamentRoute(
+    viewModel: CreateTournamentViewModel = hiltViewModel(),
     onShowSnackbar: suspend (String, String?) -> Boolean
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -28,7 +28,7 @@ fun CreateRoundRoute(
         }
 
         else -> {
-            CreateRoundScreen()
+            CreateTournamentScreen()
         }
     }
 }

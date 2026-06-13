@@ -23,11 +23,11 @@ enum class MainBottomBarTab(
         iconTitle = "Home",
         route = BottomBarRoute.Home
     ),
-    ROUND(
+    TOURNAMENT(
         selectedIcon = Icons.Default.Archive,
         unselectedIcon = Icons.Rounded.Archive,
-        iconTitle = "Round",
-        route = BottomBarRoute.Round
+        iconTitle = "Tournament",
+        route = BottomBarRoute.Tournament
     ),
     REPORT(
         selectedIcon = Icons.Default.Menu,

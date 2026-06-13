@@ -7,7 +7,7 @@ sealed interface BottomBarRoute: Route {
     @Serializable
     data object Home: BottomBarRoute
     @Serializable
-    data object Round: BottomBarRoute
+    data object Tournament: BottomBarRoute
     @Serializable
     data object Report: BottomBarRoute
 }

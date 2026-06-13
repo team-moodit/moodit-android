@@ -1,10 +1,10 @@
-package com.swyp.moodit.home.createRound
+package com.swyp.moodit.tournament.create
 
 import com.swyp.moodit.ui.base.UiIntent
 import com.swyp.moodit.ui.base.UiSideEffect
 import com.swyp.moodit.ui.base.UiState
 
-class CreateRoundContract {
+class CreateTournamentContract {
     data class State(
         val isLoading: Boolean = false
     ) : UiState

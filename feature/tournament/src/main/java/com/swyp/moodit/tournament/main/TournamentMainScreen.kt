@@ -1,11 +1,11 @@
-package com.swyp.moodit.round
+package com.swyp.moodit.tournament.main
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun RoundMainScreen(
+fun TournamentMainScreen(
     onShowSnackbar: suspend (String, String?) -> Boolean
 ) {
-    Text(text = "RoundMainScreen")
+    Text(text = "TournamentMainScreen")
 }

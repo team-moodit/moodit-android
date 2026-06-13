@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.swyp.moodit.round"
+    namespace = "com.swyp.moodit.tournament"
 }
 
 dependencies {

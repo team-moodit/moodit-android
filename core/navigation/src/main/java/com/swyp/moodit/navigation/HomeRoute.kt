@@ -8,12 +8,10 @@ sealed interface HomeRoute : Route {
     data object Setting : HomeRoute
 
     @Serializable
-    data object CreateRound : HomeRoute
-
-    @Serializable
     data class MissionDetail(
         val missionId: String
     ) : HomeRoute
+
     @Serializable
     data object ReportReady : HomeRoute
 }

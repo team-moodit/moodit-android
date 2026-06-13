@@ -16,7 +16,7 @@ fun HomeMainRoute(
     viewModel: HomeMainViewModel = hiltViewModel(),
     onShowSnackbar: suspend (String, String?) -> Boolean,
     navigateToSetting: () -> Unit,
-    navigateToCreateRound: () -> Unit,
+    navigateToCreateTournament: () -> Unit,
     navigateToMissionDetail: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -25,7 +25,7 @@ fun HomeMainRoute(
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
                 is HomeMainContract.SideEffect.NavigateToSetting -> navigateToSetting()
-                is HomeMainContract.SideEffect.NavigateToCreateRound -> navigateToCreateRound()
+                is HomeMainContract.SideEffect.NavigateToCreateTournament -> navigateToCreateTournament()
                 is HomeMainContract.SideEffect.NavigateToMissionDetail -> navigateToMissionDetail(
                     sideEffect.missionId
                 )
@@ -51,7 +51,7 @@ fun HomeMainRoute(
         else -> {
             HomeMainScreen(
                 onSettingClick = { viewModel.sendIntent(HomeMainContract.Intent.OnSettingClick) },
-                onCreateRoundClick = { viewModel.sendIntent(HomeMainContract.Intent.OnCreateRoundClick) },
+                onCreateTournamentClick = { viewModel.sendIntent(HomeMainContract.Intent.OnCreateTournamentClick) },
                 onMissionClick = { missionId -> viewModel.sendIntent(HomeMainContract.Intent.OnMissionClick(missionId)) }
             )
         }

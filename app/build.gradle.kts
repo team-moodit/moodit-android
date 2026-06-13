@@ -24,7 +24,7 @@ android {
 dependencies {
     implementation(libs.compose.navigation)
     implementation(projects.feature.home)
-    implementation(projects.feature.round)
+    implementation(projects.feature.tournament)
     implementation(projects.feature.report)
     implementation(projects.feature.auth)
     implementation(projects.feature.onboard)
