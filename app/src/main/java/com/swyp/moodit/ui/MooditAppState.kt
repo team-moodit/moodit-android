@@ -10,7 +10,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.swyp.moodit.home.navigation.navigateToHome
-import com.swyp.moodit.navigation.AuthRoute
 import com.swyp.moodit.navigation.BottomBarRoute
 import com.swyp.moodit.navigation.MainBottomBarTab
 import com.swyp.moodit.navigation.OnBoardingRoute
@@ -56,7 +55,10 @@ class MooditAppState(
     }
 
     fun navigateToMain() {
-        navController.navigate(BottomBarRoute.Home)
+        navController.navigate(BottomBarRoute.Home) {
+            popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
+            launchSingleTop = true
+        }
     }
 
     fun popBackStack() {
