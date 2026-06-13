@@ -20,7 +20,12 @@ class MissionDetailViewModel @Inject constructor(
     init {
         Timber.d("missionId: $missionId")
     }
+
     override fun handleIntents(intent: MissionDetailContract.Intent) {
-        TODO("Not yet implemented")
+        when (intent) {
+            is MissionDetailContract.Intent.OnCompleteClick -> {
+                sendEffect(MissionDetailContract.SideEffect.NavigateToReportReady)
+            }
+        }
     }
 }

@@ -25,7 +25,8 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MissionDetailScreen(
-    uiState: MissionDetailContract.State
+    uiState: MissionDetailContract.State,
+    onCompleteClick: () -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -60,6 +61,7 @@ fun MissionDetailScreen(
                 Text(text = "직접 미션을 해보니 어땠나요?", style = MaterialTheme.typography.titleLarge)
                 Button(modifier = Modifier.fillMaxWidth(), onClick = {
                     showBottomSheet = false
+                    onCompleteClick()
                 }) {
                     Text(text = "완료")
                 }

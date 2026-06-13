@@ -12,7 +12,10 @@ class MissionDetailContract {
 
     sealed interface SideEffect : UiSideEffect {
         data class ShowSnackbar(val message: String) : SideEffect
+        data object NavigateToReportReady : SideEffect
     }
 
-    sealed interface Intent : UiIntent
+    sealed interface Intent : UiIntent {
+        data object OnCompleteClick : Intent
+    }
 }
