@@ -56,7 +56,7 @@ class MooditAppState(
 
     fun navigateToMain() {
         navController.navigate(BottomBarRoute.Home) {
-            popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
+            popUpTo(navController.graph.id) { inclusive = true }
             launchSingleTop = true
         }
     }
