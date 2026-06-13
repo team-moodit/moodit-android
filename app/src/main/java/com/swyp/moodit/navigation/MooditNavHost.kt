@@ -37,7 +37,9 @@ fun MooditNavHost(
         homeNavGraph(
             navController = navController,
             onShowSnackbar = onShowSnackbar,
-            navigateToLogin = { navController.navigateToLogin() }
+            navigateToLogin = { navController.navigateToLogin() },
+            navigateToHome = { appState.navigateToMain()},
+            navigateToReport = { appState.navigateToReport()}
         )
 
         roundNavGraph(

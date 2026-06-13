@@ -61,6 +61,13 @@ class MooditAppState(
         }
     }
 
+    fun navigateToReport() {
+        navController.navigate(BottomBarRoute.Report) {
+            popUpTo(BottomBarRoute.Home) { inclusive = false }
+            launchSingleTop = true
+        }
+    }
+
     fun popBackStack() {
         navController.popBackStack()
     }

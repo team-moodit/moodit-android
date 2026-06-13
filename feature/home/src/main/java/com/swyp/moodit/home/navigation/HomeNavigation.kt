@@ -15,7 +15,9 @@ import com.swyp.moodit.navigation.HomeRoute
 fun NavGraphBuilder.homeNavGraph(
     navController: NavController,
     onShowSnackbar: suspend (String, String?) -> Boolean,
-    navigateToLogin: () -> Unit
+    navigateToLogin: () -> Unit,
+    navigateToHome: () -> Unit,
+    navigateToReport: () -> Unit
 ) {
     composable<BottomBarRoute.Home>() {
         HomeMainRoute(
@@ -45,7 +47,11 @@ fun NavGraphBuilder.homeNavGraph(
     }
 
     composable<HomeRoute.ReportReady>() {
-        ReportReadyRoute(onShowSnackbar = onShowSnackbar)
+        ReportReadyRoute(
+            onShowSnackbar = onShowSnackbar,
+            navigateToReport = navigateToReport,
+            navigateToHome = navigateToHome
+        )
     }
 }
 

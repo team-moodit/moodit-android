@@ -11,7 +11,12 @@ class ReportReadyContract {
 
     sealed interface SideEffect : UiSideEffect {
         data class ShowSnackbar(val message: String) : SideEffect
+        data object NavigateToReport : SideEffect
+        data object NavigateToHome: SideEffect
     }
 
-    sealed interface Intent : UiIntent
+    sealed interface Intent : UiIntent {
+        data object OnNavigateReportClick : Intent
+        data object OnNavigateHomeClick : Intent
+    }
 }

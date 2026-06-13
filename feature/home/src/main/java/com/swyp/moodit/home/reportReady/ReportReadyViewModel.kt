@@ -12,9 +12,12 @@ class ReportReadyViewModel @Inject constructor(
     BaseViewModel<ReportReadyContract.State, ReportReadyContract.Intent, ReportReadyContract.SideEffect>(
         initialState = ReportReadyContract.State()
     ) {
-    // 만족도 평가 후 서버로부터 생성된 Report Id 받아서 전달해야함.
+    // 만족도 평가 후 서버로부터 생성된 Report Id 받아서 전달해야함. or 리포트 탭으로 전환되는지 확인해보자.
 
     override fun handleIntents(intent: ReportReadyContract.Intent) {
-        TODO("Not yet implemented")
+        when(intent) {
+            is ReportReadyContract.Intent.OnNavigateReportClick -> sendEffect(ReportReadyContract.SideEffect.NavigateToReport)
+            is ReportReadyContract.Intent.OnNavigateHomeClick -> sendEffect(ReportReadyContract.SideEffect.NavigateToHome)
+        }
     }
 }

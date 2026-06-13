@@ -18,7 +18,9 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ReportReadyScreen(
-    uiState: ReportReadyContract.State
+    uiState: ReportReadyContract.State,
+    onNavigateReportClick: () -> Unit,
+    onNavigateHomeClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -28,11 +30,14 @@ fun ReportReadyScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "ReportReadyScreen", style = MaterialTheme.typography.displayMedium)
-        Button(modifier = Modifier.fillMaxWidth(), onClick = { }) {
+        Text(text = "비비님의 취향을 더 선명하게 정리하고 있어요")
+        Button(modifier = Modifier.fillMaxWidth(), onClick = { onNavigateReportClick() }) {
             Text(text = "리포트 보러가기")
         }
         Text(
-            modifier = Modifier.clickable {}, text = "홈으로 가기", style = TextStyle(
+            modifier = Modifier.clickable { onNavigateHomeClick() },
+            text = "홈으로 가기",
+            style = TextStyle(
                 textDecoration = TextDecoration.Underline
             )
         )
