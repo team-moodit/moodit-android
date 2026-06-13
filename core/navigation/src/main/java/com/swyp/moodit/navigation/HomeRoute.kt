@@ -6,4 +6,7 @@ import kotlinx.serialization.Serializable
 sealed interface HomeRoute : Route {
     @Serializable
     data object Setting : HomeRoute
+
+    @Serializable
+    data object CreateRound : HomeRoute
 }

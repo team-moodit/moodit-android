@@ -20,13 +20,11 @@ class LoginViewModel @Inject constructor() :
         }
     }
 
-    private var clickCount = 0
     fun loginOperation() {
         viewModelScope.launch {
             reduce { it.copy(isLoading = true) }
             delay(3000L)
-            clickCount++
-            val loginResult = clickCount > 1
+            val loginResult = true
             if (loginResult) {
                 reduce { it.copy(isLoading = false) }
                 sendEffect(LoginContract.SideEffect.NavigateToMain)
