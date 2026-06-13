@@ -4,9 +4,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.swyp.moodit.navigation.OnBoardingRoute
-import com.swyp.moodit.onboard.route.ReportRoute
-import com.swyp.moodit.onboard.route.SaveTasteRoute
-import com.swyp.moodit.onboard.route.SelectTasteRoute
+import com.swyp.moodit.onboard.report.ReportRoute
+import com.swyp.moodit.onboard.saveTaste.SaveTasteRoute
+import com.swyp.moodit.onboard.selectTaste.SelectTasteRoute
 
 fun NavGraphBuilder.onBoardingNavGraph(
     navController: NavController,
@@ -15,14 +15,12 @@ fun NavGraphBuilder.onBoardingNavGraph(
 ) {
     composable<OnBoardingRoute.SaveTaste>() {
         SaveTasteRoute(
-            onShowSnackbar = onShowSnackbar,
             navigateToSelectTaste = { navController.navigateToSelectTaste() }
         )
     }
 
     composable<OnBoardingRoute.SelectTaste>() {
         SelectTasteRoute(
-            onShowSnackbar = onShowSnackbar,
             navigateToReport = { navController.navigateToReport() })
     }
 
