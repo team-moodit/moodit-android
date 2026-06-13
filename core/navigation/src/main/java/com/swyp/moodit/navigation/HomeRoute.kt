@@ -9,4 +9,9 @@ sealed interface HomeRoute : Route {
 
     @Serializable
     data object CreateRound : HomeRoute
+
+    @Serializable
+    data class MissionDetail(
+        val missionId: String
+    ) : HomeRoute
 }
