@@ -1,6 +1,7 @@
 package com.swyp.moodit.auth.navigation
 
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.swyp.moodit.auth.login.LoginRoute
@@ -14,12 +15,14 @@ fun NavGraphBuilder.authNavGraph(
     composable<AuthRoute.Login> {
         LoginRoute(
             navigateToMain = navigateToMain,
-            onShowSnackbar = onShowSnackbar)
+            onShowSnackbar = onShowSnackbar
+        )
     }
 }
 
 fun NavController.navigateToLogin() {
     navigate(route = AuthRoute.Login) {
-        popUpTo(AuthRoute.Login) { inclusive = true }
+        popUpTo(graph.id) { inclusive = true }
+        launchSingleTop = true
     }
 }

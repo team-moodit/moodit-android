@@ -36,7 +36,8 @@ fun MooditNavHost(
 
         homeNavGraph(
             navController = navController,
-            onShowSnackbar = onShowSnackbar
+            onShowSnackbar = onShowSnackbar,
+            navigateToLogin = { navController.navigateToLogin() }
         )
 
         roundNavGraph(
