@@ -14,4 +14,6 @@ sealed interface HomeRoute : Route {
     data class MissionDetail(
         val missionId: String
     ) : HomeRoute
+    @Serializable
+    data object ReportReady : HomeRoute
 }
