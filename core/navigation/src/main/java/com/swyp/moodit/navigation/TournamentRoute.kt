@@ -6,4 +6,7 @@ import kotlinx.serialization.Serializable
 sealed interface TournamentRoute: Route {
     @Serializable
     data object CreateTournament: TournamentRoute
+
+    @Serializable
+    data class MatchUp(val photoId: String)
 }
