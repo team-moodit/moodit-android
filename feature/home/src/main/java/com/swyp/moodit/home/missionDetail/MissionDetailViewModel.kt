@@ -3,6 +3,7 @@ package com.swyp.moodit.home.missionDetail
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
 import com.swyp.moodit.navigation.HomeRoute
+import com.swyp.moodit.navigation.MissionStatus
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
@@ -27,7 +28,10 @@ class MissionDetailViewModel @Inject constructor(
     override fun handleIntents(intent: MissionDetailContract.Intent) {
         when (intent) {
             is MissionDetailContract.Intent.OnCompleteClick -> {
-                sendEffect(MissionDetailContract.SideEffect.NavigateToReportReady)
+                when (uiState.value.status) {
+                    MissionStatus.CREATED -> sendEffect(MissionDetailContract.SideEffect.NavigateToHome)
+                    MissionStatus.DEFAULT -> sendEffect(MissionDetailContract.SideEffect.NavigateToReportReady)
+                }
             }
         }
     }

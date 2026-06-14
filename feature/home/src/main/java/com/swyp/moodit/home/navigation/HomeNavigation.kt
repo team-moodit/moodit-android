@@ -40,7 +40,8 @@ fun NavGraphBuilder.homeNavGraph(
     composable<HomeRoute.MissionDetail>() {
         MissionDetailRoute(
             onShowSnackbar = onShowSnackbar,
-            navigateToReportReady = { navController.navigateToReportReady() }
+            navigateToReportReady = { navController.navigateToReportReady() },
+            navigateToHome = navigateToHome
         )
     }
 

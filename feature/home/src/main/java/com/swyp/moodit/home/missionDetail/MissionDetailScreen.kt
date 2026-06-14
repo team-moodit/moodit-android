@@ -46,7 +46,13 @@ fun MissionDetailScreen(
             else -> "미션 완료"
         }
 
-        Button(modifier = Modifier.fillMaxWidth(), onClick = { showBottomSheet = true }) {
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = {
+                if (uiState.status == MissionStatus.CREATED)
+                    onCompleteClick()
+                else showBottomSheet = true
+            }) {
             Text(text = buttonText)
         }
     }

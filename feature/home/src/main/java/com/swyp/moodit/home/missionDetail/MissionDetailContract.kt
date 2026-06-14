@@ -15,6 +15,7 @@ class MissionDetailContract {
     sealed interface SideEffect : UiSideEffect {
         data class ShowSnackbar(val message: String) : SideEffect
         data object NavigateToReportReady : SideEffect
+        data object NavigateToHome : SideEffect
     }
 
     sealed interface Intent : UiIntent {

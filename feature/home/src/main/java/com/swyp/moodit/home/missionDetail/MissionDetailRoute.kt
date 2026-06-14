@@ -15,7 +15,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 fun MissionDetailRoute(
     viewModel: MissionDetailViewModel = hiltViewModel(),
     onShowSnackbar: suspend (String, String?) -> Boolean,
-    navigateToReportReady: () -> Unit
+    navigateToReportReady: () -> Unit,
+    navigateToHome: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -28,6 +29,7 @@ fun MissionDetailRoute(
                 )
 
                 is MissionDetailContract.SideEffect.NavigateToReportReady -> navigateToReportReady()
+                is MissionDetailContract.SideEffect.NavigateToHome -> navigateToHome()
             }
         }
     }
