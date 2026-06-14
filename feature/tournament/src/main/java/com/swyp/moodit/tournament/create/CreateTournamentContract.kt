@@ -11,9 +11,10 @@ class CreateTournamentContract {
 
     sealed interface SideEffect : UiSideEffect {
         data class ShowSnackbar(val message: String) : SideEffect
+        data object NavigateToMatchUp : SideEffect
     }
 
     sealed interface Intent : UiIntent {
-        object OnLoginClick : Intent
+        object OnCreateTournamentClick : Intent
     }
 }
