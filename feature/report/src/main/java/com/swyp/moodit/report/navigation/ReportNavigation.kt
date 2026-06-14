@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.swyp.moodit.navigation.BottomBarRoute
-import com.swyp.moodit.report.route.ReportMainRoute
+import com.swyp.moodit.report.main.ReportMainRoute
 
 fun NavGraphBuilder.reportNavGraph(
     navController: NavController,

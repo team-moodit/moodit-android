@@ -1,0 +1,22 @@
+package com.swyp.moodit.report.main
+
+import com.swyp.moodit.ui.base.UiIntent
+import com.swyp.moodit.ui.base.UiSideEffect
+import com.swyp.moodit.ui.base.UiState
+
+class ReportMainContract {
+    data class State(
+        val isLoading: Boolean = false,
+        val selectedTab: ReportTab = ReportTab.REPORT
+    ) : UiState
+
+    sealed interface SideEffect : UiSideEffect {
+        data class ShowSnackbar(val message: String) : SideEffect
+    }
+
+    sealed interface Intent : UiIntent {
+        data class SelectTab(val tab: ReportTab) : Intent
+    }
+}
+
+enum class ReportTab(val tabName: String) { REPORT("리포트 총평"), SATISFACTION("만족도 평가 결과") }
