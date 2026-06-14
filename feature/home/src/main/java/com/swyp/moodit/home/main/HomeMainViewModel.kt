@@ -1,5 +1,6 @@
 package com.swyp.moodit.home.main
 
+import com.swyp.moodit.navigation.MissionStatus
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -20,7 +21,12 @@ class HomeMainViewModel @Inject constructor() :
             }
 
             is HomeMainContract.Intent.OnMissionClick -> {
-                sendEffect(HomeMainContract.SideEffect.NavigateToMissionDetail(intent.missionId))
+                sendEffect(
+                    HomeMainContract.SideEffect.NavigateToMissionDetail(
+                        intent.missionId,
+                        MissionStatus.DEFAULT
+                    )
+                )
             }
         }
     }

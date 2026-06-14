@@ -16,9 +16,12 @@ class MissionDetailViewModel @Inject constructor(
         initialState = MissionDetailContract.State()
     ) {
     val missionId = savedStateHandle.toRoute<HomeRoute.MissionDetail>().missionId
+    val status = savedStateHandle.toRoute<HomeRoute.MissionDetail>().status
 
     init {
         Timber.d("missionId: $missionId")
+        Timber.d("status: $status")
+        reduce { it.copy(status = status) }
     }
 
     override fun handleIntents(intent: MissionDetailContract.Intent) {

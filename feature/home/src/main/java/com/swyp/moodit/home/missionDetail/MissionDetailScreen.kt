@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.swyp.moodit.navigation.MissionStatus
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,8 +40,14 @@ fun MissionDetailScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "MissionDetailScreen", style = MaterialTheme.typography.displayMedium)
+        val buttonText = when {
+            uiState.status == MissionStatus.CREATED -> "해볼래요"
+            uiState.isCompleted -> "만족도 입력하기"
+            else -> "미션 완료"
+        }
+
         Button(modifier = Modifier.fillMaxWidth(), onClick = { showBottomSheet = true }) {
-            Text(text = if (uiState.isCompleted) "만족도 입력하기" else "미션 완료")
+            Text(text = buttonText)
         }
     }
 

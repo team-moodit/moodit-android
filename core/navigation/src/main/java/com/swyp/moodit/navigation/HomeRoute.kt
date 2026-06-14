@@ -9,9 +9,16 @@ sealed interface HomeRoute : Route {
 
     @Serializable
     data class MissionDetail(
-        val missionId: String
+        val missionId: String,
+        val status: MissionStatus = MissionStatus.DEFAULT
     ) : HomeRoute
 
     @Serializable
     data object ReportReady : HomeRoute
+}
+
+@Serializable
+enum class MissionStatus {
+    DEFAULT,
+    CREATED
 }

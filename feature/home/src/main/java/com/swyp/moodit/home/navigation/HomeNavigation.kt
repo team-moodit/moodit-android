@@ -10,6 +10,7 @@ import com.swyp.moodit.home.reportReady.ReportReadyRoute
 import com.swyp.moodit.home.setting.SettingRoute
 import com.swyp.moodit.navigation.BottomBarRoute
 import com.swyp.moodit.navigation.HomeRoute
+import com.swyp.moodit.navigation.MissionStatus
 
 fun NavGraphBuilder.homeNavGraph(
     navController: NavController,
@@ -17,14 +18,15 @@ fun NavGraphBuilder.homeNavGraph(
     navigateToLogin: () -> Unit,
     navigateToHome: () -> Unit,
     navigateToReport: () -> Unit,
-    navigateToCreateTournament: () -> Unit
+    navigateToCreateTournament: () -> Unit,
+    navigateToMissionDetail: (String, MissionStatus) -> Unit
 ) {
     composable<BottomBarRoute.Home>() {
         HomeMainRoute(
             onShowSnackbar = onShowSnackbar,
             navigateToSetting = { navController.navigateToSetting() },
             navigateToCreateTournament = navigateToCreateTournament,
-            navigateToMissionDetail = { navController.navigateToMissionDetail(it) }
+            navigateToMissionDetail = navigateToMissionDetail
         )
     }
 
@@ -57,10 +59,6 @@ fun NavController.navigateToHome(navOptions: NavOptions) {
 
 fun NavController.navigateToSetting() {
     navigate(HomeRoute.Setting)
-}
-
-fun NavController.navigateToMissionDetail(missionId: String) {
-    navigate(HomeRoute.MissionDetail(missionId))
 }
 
 fun NavController.navigateToReportReady() {

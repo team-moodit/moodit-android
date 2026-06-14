@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.swyp.moodit.navigation.MissionStatus
 
 @Composable
 fun HomeMainRoute(
@@ -17,7 +18,7 @@ fun HomeMainRoute(
     onShowSnackbar: suspend (String, String?) -> Boolean,
     navigateToSetting: () -> Unit,
     navigateToCreateTournament: () -> Unit,
-    navigateToMissionDetail: (String) -> Unit,
+    navigateToMissionDetail: (String, MissionStatus) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -26,10 +27,7 @@ fun HomeMainRoute(
             when (sideEffect) {
                 is HomeMainContract.SideEffect.NavigateToSetting -> navigateToSetting()
                 is HomeMainContract.SideEffect.NavigateToCreateTournament -> navigateToCreateTournament()
-                is HomeMainContract.SideEffect.NavigateToMissionDetail -> navigateToMissionDetail(
-                    sideEffect.missionId
-                )
-
+                is HomeMainContract.SideEffect.NavigateToMissionDetail -> navigateToMissionDetail(sideEffect.missionId, sideEffect.status)
                 is HomeMainContract.SideEffect.ShowSnackbar -> onShowSnackbar(
                     sideEffect.message,
                     null
