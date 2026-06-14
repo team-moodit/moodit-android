@@ -10,23 +10,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import timber.log.Timber
 
 @Composable
 fun MatchUpRoute(
     viewModel: MatchUpViewModel = hiltViewModel(),
-    onShowSnackbar: suspend (String, String?) -> Boolean
+    onShowSnackbar: suspend (String, String?) -> Boolean,
+    navigateToTournamentResult: (Long) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(key1 = viewModel.sideEffect) {
+    LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
                 is MatchUpContract.SideEffect.NavigateToResult -> {
-                    Timber.d("NavigateToResult: ${sideEffect.winnerPhotoId}")
+                    navigateToTournamentResult(sideEffect.winnerPhotoId)
                 }
+
                 is MatchUpContract.SideEffect.NavigateBack -> {}
-                is MatchUpContract.SideEffect.ShowSnackbar -> {}
+
+                is MatchUpContract.SideEffect.ShowSnackbar -> {
+                    onShowSnackbar(sideEffect.message, null)
+                }
             }
         }
     }
