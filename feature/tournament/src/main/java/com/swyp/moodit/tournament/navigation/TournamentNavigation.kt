@@ -8,6 +8,7 @@ import com.swyp.moodit.navigation.BottomBarRoute
 import com.swyp.moodit.navigation.MissionStatus
 import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.tournament.create.CreateTournamentRoute
+import com.swyp.moodit.tournament.detail.TournamentDetailRoute
 import com.swyp.moodit.tournament.main.TournamentMainRoute
 import com.swyp.moodit.tournament.matchUp.MatchUpRoute
 import com.swyp.moodit.tournament.result.TournamentResultRoute
@@ -19,6 +20,10 @@ fun NavGraphBuilder.tournamentNavGraph(
 ) {
     composable<BottomBarRoute.Tournament> {
         TournamentMainRoute(onShowSnackbar = onShowSnackbar)
+    }
+
+    composable<TournamentRoute.Detail>() {
+        TournamentDetailRoute(onShowSnackbar = onShowSnackbar)
     }
 
     composable<TournamentRoute.CreateTournament>() {
