@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.swyp.moodit.navigation.BottomBarRoute
+import com.swyp.moodit.navigation.MissionStatus
 import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.tournament.create.CreateTournamentRoute
 import com.swyp.moodit.tournament.main.TournamentMainRoute
@@ -13,7 +14,8 @@ import com.swyp.moodit.tournament.result.TournamentResultRoute
 
 fun NavGraphBuilder.tournamentNavGraph(
     navController: NavController,
-    onShowSnackbar: suspend (String, String?) -> Boolean
+    onShowSnackbar: suspend (String, String?) -> Boolean,
+    navigateToMissionDetail: (String, MissionStatus) -> Unit
 ) {
     composable<BottomBarRoute.Tournament> {
         TournamentMainRoute(onShowSnackbar = onShowSnackbar)
@@ -35,7 +37,8 @@ fun NavGraphBuilder.tournamentNavGraph(
 
     composable<TournamentRoute.Result>() {
         TournamentResultRoute(
-            onShowSnackbar = onShowSnackbar
+            onShowSnackbar = onShowSnackbar,
+            navigateToMissionDetail = navigateToMissionDetail
         )
     }
 }

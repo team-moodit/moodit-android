@@ -13,14 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.swyp.moodit.tournament.create.CreateTournamentContract
-import com.swyp.moodit.tournament.create.CreateTournamentScreen
-import com.swyp.moodit.tournament.create.CreateTournamentViewModel
+import com.swyp.moodit.navigation.MissionStatus
 
 @Composable
 fun TournamentResultRoute(
     viewModel: TournamentResultViewModel = hiltViewModel(),
-    onShowSnackbar: suspend (String, String?) -> Boolean
+    onShowSnackbar: suspend (String, String?) -> Boolean,
+    navigateToMissionDetail: (String, MissionStatus) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -30,6 +29,11 @@ fun TournamentResultRoute(
                 is TournamentResultContract.SideEffect.ShowSnackbar -> onShowSnackbar(
                     sideEffect.message,
                     null
+                )
+
+                is TournamentResultContract.SideEffect.NavigateToMissionDetail -> navigateToMissionDetail(
+                    sideEffect.missionId,
+                    sideEffect.status
                 )
             }
         }
@@ -52,7 +56,9 @@ fun TournamentResultRoute(
         }
 
         else -> {
-            TournamentResultScreen()
+            TournamentResultScreen(
+                onMissionDetailClick = { viewModel.sendIntent(TournamentResultContract.Intent.OnMissionDetailClick) }
+            )
         }
     }
 }
