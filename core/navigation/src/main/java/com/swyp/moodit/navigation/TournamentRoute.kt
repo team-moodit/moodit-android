@@ -9,4 +9,7 @@ sealed interface TournamentRoute : Route {
 
     @Serializable
     data object MatchUp
+
+    @Serializable
+    data class Result(val winnerCandidateId: Long) : TournamentRoute
 }
