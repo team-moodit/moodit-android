@@ -22,6 +22,7 @@ import com.swyp.moodit.tournament.result.TournamentResultViewModel
 fun TournamentMainRoute(
     viewModel: TournamentMainViewModel = hiltViewModel(),
     onShowSnackbar: suspend (String, String?) -> Boolean,
+    navigateToTournamentDetail: (String) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -33,7 +34,9 @@ fun TournamentMainRoute(
                     null
                 )
 
-                is TournamentMainContract.SideEffect.NavigateToTournamentDetail -> {}
+                is TournamentMainContract.SideEffect.NavigateToTournamentDetail -> {
+                    navigateToTournamentDetail(sideEffect.tournamentId)
+                }
             }
         }
     }
@@ -54,7 +57,9 @@ fun TournamentMainRoute(
         }
 
         else -> {
-            TournamentMainScreen()
+            TournamentMainScreen(
+                onTournamentClick = { viewModel.sendIntent(TournamentMainContract.Intent.OnTournamentClick(it)) }
+            )
         }
     }
 }

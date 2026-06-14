@@ -14,7 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun TournamentMainScreen() {
+fun TournamentMainScreen(
+    onTournamentClick: (String) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -23,10 +25,14 @@ fun TournamentMainScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "TournamentMainScreen", style = MaterialTheme.typography.displayMedium)
-        Button(modifier = Modifier.fillMaxWidth(), onClick = { }) {
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { onTournamentClick("OnGoingTournamentId") }) {
             Text(text = "진행 중인 토너먼트")
         }
-        Button(modifier = Modifier.fillMaxWidth(), onClick = { }) {
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { onTournamentClick("CompletedTournamentId") }) {
             Text(text = "완료한 토너먼트")
         }
     }

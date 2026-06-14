@@ -19,7 +19,10 @@ fun NavGraphBuilder.tournamentNavGraph(
     navigateToMissionDetail: (String, MissionStatus) -> Unit
 ) {
     composable<BottomBarRoute.Tournament> {
-        TournamentMainRoute(onShowSnackbar = onShowSnackbar)
+        TournamentMainRoute(
+            onShowSnackbar = onShowSnackbar,
+            navigateToTournamentDetail = { navController.navigateToTournamentDetail(it) }
+        )
     }
 
     composable<TournamentRoute.Detail>() {
@@ -50,6 +53,10 @@ fun NavGraphBuilder.tournamentNavGraph(
 
 fun NavController.navigateToTournament(navOptions: NavOptions) {
     navigate(BottomBarRoute.Tournament, navOptions)
+}
+
+fun NavController.navigateToTournamentDetail(tournamentId: String) {
+    navigate(TournamentRoute.Detail(tournamentId))
 }
 
 fun NavController.navigateToMatchUp() {

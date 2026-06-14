@@ -41,7 +41,7 @@ class TournamentDetailViewModel @Inject constructor(
         viewModelScope.launch {
             reduce { it.copy(isLoading = true) }
             delay(2000L)
-            val isCompletedTournament = true
+            val isCompletedTournament = false
 
             reduce {
                 it.copy(
