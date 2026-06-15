@@ -7,6 +7,5 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.auth)
-    implementation(libs.kakao.user)
+    implementation(projects.core.data)
 }
