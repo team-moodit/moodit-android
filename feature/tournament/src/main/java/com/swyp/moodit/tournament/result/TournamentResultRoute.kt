@@ -49,7 +49,6 @@ fun TournamentResultRoute(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "토너먼트를 생성하고 있어요")
                     CircularProgressIndicator()
                 }
             }

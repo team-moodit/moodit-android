@@ -63,7 +63,12 @@ internal fun MooditAppContent(
                 }
             )
         },
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier.navigationBarsPadding()
+            )
+        }
     ) { paddingValues ->
         MooditNavHost(
             modifier = Modifier
