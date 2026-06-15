@@ -15,13 +15,19 @@ android {
             )
         }
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
+    implementation(libs.compose.navigation)
     implementation(projects.feature.home)
-    implementation(projects.feature.round)
+    implementation(projects.feature.tournament)
     implementation(projects.feature.report)
     implementation(projects.feature.auth)
+    implementation(projects.feature.onboard)
 
     implementation(projects.core.auth)
     implementation(projects.core.common)
@@ -32,4 +38,6 @@ dependencies {
     implementation(projects.core.navigation)
     implementation(projects.core.network)
     implementation(projects.core.ui)
+
+    implementation(libs.androidx.core.splashscreen)
 }

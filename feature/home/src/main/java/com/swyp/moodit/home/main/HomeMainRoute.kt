@@ -1,0 +1,57 @@
+package com.swyp.moodit.home.main
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.swyp.moodit.navigation.MissionStatus
+
+@Composable
+fun HomeMainRoute(
+    viewModel: HomeMainViewModel = hiltViewModel(),
+    onShowSnackbar: suspend (String, String?) -> Boolean,
+    navigateToSetting: () -> Unit,
+    navigateToCreateTournament: () -> Unit,
+    navigateToMissionDetail: (String, MissionStatus) -> Unit,
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collect { sideEffect ->
+            when (sideEffect) {
+                is HomeMainContract.SideEffect.NavigateToSetting -> navigateToSetting()
+                is HomeMainContract.SideEffect.NavigateToCreateTournament -> navigateToCreateTournament()
+                is HomeMainContract.SideEffect.NavigateToMissionDetail -> navigateToMissionDetail(sideEffect.missionId, sideEffect.status)
+                is HomeMainContract.SideEffect.ShowSnackbar -> onShowSnackbar(
+                    sideEffect.message,
+                    null
+                )
+            }
+        }
+    }
+
+    when {
+        uiState.isLoading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+
+        else -> {
+            HomeMainScreen(
+                onSettingClick = { viewModel.sendIntent(HomeMainContract.Intent.OnSettingClick) },
+                onCreateTournamentClick = { viewModel.sendIntent(HomeMainContract.Intent.OnCreateTournamentClick) },
+                onMissionClick = { missionId -> viewModel.sendIntent(HomeMainContract.Intent.OnMissionClick(missionId)) }
+            )
+        }
+    }
+}

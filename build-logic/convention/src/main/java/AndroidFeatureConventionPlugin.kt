@@ -27,6 +27,8 @@ class AndroidFeatureConventionPlugin: Plugin<Project> {
                 implementation(libs.getBundle("compose"))
                 implementation(libs.getBundle("paging"))
                 implementation(libs.getBundle("test"))
+
+                implementation(libs.getLibrary("timber"))
             }
         }
     }

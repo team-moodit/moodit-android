@@ -3,9 +3,10 @@ plugins {
 }
 
 android {
-    namespace = "com.swyp.moodit.round"
+    namespace = "com.swyp.moodit.tournament"
 }
 
 dependencies {
     implementation(projects.core.data)
+    implementation(libs.bundles.coil)
 }
