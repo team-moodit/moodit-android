@@ -39,6 +39,9 @@ compose-compiler = "2.3.21"
 hilt = "2.59.2"
 hilt-navigation-compose = "1.3.0"
 
+# Kakao
+kakao-user = "2.23.2"
+
 # Kotlin
 kotlin = "2.3.21"
 kotlinx-coroutines = "1.11.0"
@@ -118,6 +121,9 @@ hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+
+# Kakao
+kakao-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-user" }
 
 # Kotlin
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
