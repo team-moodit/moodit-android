@@ -1,7 +1,7 @@
 package com.swyp.moodit.datastore.di
 
-import com.swyp.moodit.datastore.TokenStorage
-import com.swyp.moodit.datastore.TokenStorageImpl
+import com.swyp.moodit.datastore.token.TokenStorage
+import com.swyp.moodit.datastore.token.TokenStorageImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
