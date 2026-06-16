@@ -24,7 +24,7 @@ class AuthDataStoreImpl @Inject constructor(
             preferences[PreferencesKey.REFRESH_TOKEN_KEY]
         }
 
-    override val userId: Flow<String?>
+    override val userId: Flow<Long?>
         get() = dataStore.data.map { preferences ->
             preferences[PreferencesKey.USER_ID]
         }

@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface AuthDataStore {
     val accessToken: Flow<String?>
     val refreshToken: Flow<String?>
-    val userId: Flow<String?>
+    val userId: Flow<Long?>
     suspend fun saveAuthInfo(authInfo: AuthInfo)
     suspend fun refreshAuthToken(accessToken: String, refreshToken: String)
     suspend fun clearToken()
