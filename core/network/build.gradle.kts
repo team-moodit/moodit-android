@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.bundles.okhttp)
     implementation(libs.bundles.retrofit)
+    implementation(libs.bundles.gson)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockk.core)
