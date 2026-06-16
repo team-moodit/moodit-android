@@ -1,6 +1,7 @@
 package com.swyp.moodit.network.di
 
 import com.swyp.moodit.datastore.token.AuthDataStore
+import com.swyp.moodit.network.AuthAuthenticator
 import com.swyp.moodit.network.api.MooditApi
 import dagger.Module
 import dagger.Provides
@@ -17,6 +18,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Type
 import java.util.concurrent.TimeUnit
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -24,6 +26,10 @@ import javax.inject.Singleton
 object NetworkModule {
 
     private const val BASE_URL = "http://14.6.152.212:52309/"
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class BaseOkHttpClient
 
     @Provides
     @Singleton
@@ -56,9 +62,22 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    @BaseOkHttpClient
+    fun provideBaseOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .addInterceptor(loggingInterceptor)
+            .build()
+    }
+
+    @Provides
+    @Singleton
     fun provideOkHttpClient(
         authInterceptor: Interceptor,
-        loggingInterceptor: HttpLoggingInterceptor
+        loggingInterceptor: HttpLoggingInterceptor,
+        authAuthenticator: AuthAuthenticator
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .connectTimeout(15, TimeUnit.SECONDS)
@@ -66,6 +85,7 @@ object NetworkModule {
             .writeTimeout(15, TimeUnit.SECONDS)
             .addInterceptor(authInterceptor)
             .addInterceptor(loggingInterceptor)
+            .authenticator(authAuthenticator)
             .build()
     }
 
