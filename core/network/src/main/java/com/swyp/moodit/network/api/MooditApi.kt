@@ -13,4 +13,7 @@ interface MooditApi {
     suspend fun kakaoLogin(
         @Body request: LoginRequest
     ): Response<BaseResponse<LoginResponse>>
+
+    @POST("v1/auth/logout")
+    suspend fun logout(): Response<BaseResponse<Unit>>
 }

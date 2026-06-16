@@ -9,6 +9,7 @@ import com.swyp.moodit.datastore.token.AuthDataStore
 import com.swyp.moodit.network.api.MooditApi
 import com.swyp.moodit.network.model.auth.LoginRequest
 import com.swyp.moodit.network.model.getOrThrow
+import com.swyp.moodit.network.model.getOrThrowUnit
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -37,6 +38,16 @@ internal class AuthRepositoryImpl @Inject constructor(
                     userId = response.userId
                 )
             )
+            Result.Success(Unit)
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
+    override suspend fun logOut(): Result<Unit> {
+        return try {
+            mooditApi.logout().getOrThrowUnit()
+            authDataStore.clearToken()
             Result.Success(Unit)
         } catch (e: Exception) {
             Result.Error(e)
