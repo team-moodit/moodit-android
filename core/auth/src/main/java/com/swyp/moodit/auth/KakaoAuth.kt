@@ -5,26 +5,20 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import com.swyp.moodit.model.AuthToken
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 class KakaoAuth @Inject constructor() {
-    suspend fun login(activityContext: Context): AuthToken =
+    suspend fun login(activityContext: Context): String =
         suspendCancellableCoroutine { continuation ->
             val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
                 if (error != null) {
                     // 웹 로그인 실패 시 에러 발생
                     continuation.resumeWithException(error)
                 } else if (token != null) {
-                    continuation.resume(
-                        AuthToken(
-                            token.accessToken,
-                            token.refreshToken
-                        )
-                    )
+                    continuation.resume(token.accessToken)
                 }
             }
 
@@ -47,12 +41,7 @@ class KakaoAuth @Inject constructor() {
                         )
                     } else if (token != null) {
                         // 카카오톡 앱으로 로그인 성공
-                        continuation.resume(
-                            AuthToken(
-                                token.accessToken,
-                                token.refreshToken
-                            )
-                        )
+                        continuation.resume(token.accessToken)
                     }
                 }
             } else {

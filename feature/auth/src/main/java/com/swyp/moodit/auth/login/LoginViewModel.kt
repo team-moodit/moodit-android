@@ -28,7 +28,7 @@ class LoginViewModel @Inject constructor(
             reduce { it.copy(isLoading = true) }
             when (val kakaoResult = authRepository.loginWithKakao(context)) {
                 is Result.Success -> {
-                    val accessToken = kakaoResult.data.accessToken
+                    val accessToken = kakaoResult.data
                     when (val loginResult = authRepository.loginWithServer(accessToken)) {
                         is Result.Success -> {
                             sendEffect(LoginContract.SideEffect.NavigateToMain)

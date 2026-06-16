@@ -1,11 +1,13 @@
 package com.swyp.moodit.network.di
 
-import com.swyp.moodit.datastore.token.TokenStorage
+import com.swyp.moodit.datastore.token.AuthDataStore
 import com.swyp.moodit.network.api.MooditApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
@@ -21,23 +23,23 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private const val BASE_URL = "http://14.6.152.212:9000/"
+    private const val BASE_URL = "http://14.6.152.212:52309/"
 
     @Provides
     @Singleton
     fun provideAuthInterceptor(
-        tokenStorage: TokenStorage
+        authDataStore: AuthDataStore
     ): Interceptor {
         return Interceptor { chain ->
             val request = chain.request()
-            val token = tokenStorage.getAccessToken()
+            val accessToken = runBlocking { authDataStore.accessToken.firstOrNull() }
 
             val requestBuilder = request.newBuilder()
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept", "application/json")
 
-            if (!token.isNullOrEmpty()) {
-                requestBuilder.addHeader("Authorization", "Bearer $token")
+            if (!accessToken.isNullOrBlank()) {
+                requestBuilder.addHeader("Authorization", "Bearer $accessToken")
             }
 
             chain.proceed(requestBuilder.build())
