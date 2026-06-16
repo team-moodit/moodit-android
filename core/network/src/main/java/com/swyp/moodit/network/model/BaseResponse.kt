@@ -27,3 +27,14 @@ fun <T> Response<BaseResponse<T>>.getOrThrow(): T {
         throw Exception(baseResponse.error?.message ?: "알 수 없는 서버 에러")
     }
 }
+
+fun <T> Response<BaseResponse<T>>.getOrThrowUnit() {
+    if (!this.isSuccessful) {
+        Timber.d("서버 통신 실패: ${this.code()}")
+        throw Exception("서버 통신 실패: ${this.code()}")
+    }
+    val baseResponse = this.body() ?: return
+    if (baseResponse.error != null) {
+        throw Exception(baseResponse.error.message ?: "알 수 없는 서버 에러")
+    }
+}
