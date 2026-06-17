@@ -35,6 +35,6 @@ fun <T> Response<BaseResponse<T>>.getOrThrowUnit() {
     }
     val baseResponse = this.body() ?: return
     if (baseResponse.error != null) {
-        throw Exception(baseResponse.error.message ?: "알 수 없는 서버 에러")
+        throw Exception(baseResponse.error.message)
     }
 }
