@@ -42,6 +42,10 @@ class MainActivity : ComponentActivity() {
                         is MainSideEffect.NavigateToHome -> {
                             appState.navigateToMain()
                         }
+
+                        is MainSideEffect.NavigateToOnBoarding -> {
+                            appState.navigateToOnBoarding()
+                        }
                     }
                 }
             }

@@ -32,10 +32,13 @@ class MainActivityViewModel @Inject constructor(
     private fun checkState() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
+            val isOnBoardingCompleted = userPreferencesDataStore.isOnBoardingCompleted.first()
             val isAutoLoginEnabled = userPreferencesDataStore.isAutoLoginEnabled.first()
             _state.update { it.copy(isLoading = false) }
             when {
                 isAutoLoginEnabled -> _sideEffect.send(MainSideEffect.NavigateToHome)
+                isOnBoardingCompleted -> _sideEffect.send(MainSideEffect.NavigateToLogin)
+                else -> _sideEffect.send(MainSideEffect.NavigateToOnBoarding)
             }
         }
     }
@@ -48,4 +51,5 @@ data class MainUIState(
 sealed interface MainSideEffect {
     data object NavigateToLogin : MainSideEffect
     data object NavigateToHome : MainSideEffect
+    data object NavigateToOnBoarding : MainSideEffect
 }
