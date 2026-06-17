@@ -19,10 +19,3 @@ fun NavGraphBuilder.authNavGraph(
         )
     }
 }
-
-fun NavController.navigateToLogin() {
-    navigate(route = AuthRoute.Login) {
-        popUpTo(graph.id) { inclusive = true }
-        launchSingleTop = true
-    }
-}

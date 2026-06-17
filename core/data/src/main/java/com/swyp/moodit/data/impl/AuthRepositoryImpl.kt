@@ -6,6 +6,7 @@ import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.AuthRepository
 import com.swyp.moodit.datastore.model.AuthInfo
 import com.swyp.moodit.datastore.token.AuthDataStore
+import com.swyp.moodit.datastore.userPreference.UserPreferencesDataStore
 import com.swyp.moodit.network.api.MooditApi
 import com.swyp.moodit.network.model.auth.LoginRequest
 import com.swyp.moodit.network.model.getOrThrow
@@ -16,7 +17,8 @@ import javax.inject.Inject
 internal class AuthRepositoryImpl @Inject constructor(
     private val kakaoAuth: KakaoAuth,
     private val mooditApi: MooditApi,
-    private val authDataStore: AuthDataStore
+    private val authDataStore: AuthDataStore,
+    private val userPreferencesDataStore: UserPreferencesDataStore
 ) : AuthRepository {
     override suspend fun loginWithKakao(context: Context): Result<String> {
         return try {
@@ -38,6 +40,7 @@ internal class AuthRepositoryImpl @Inject constructor(
                     userId = response.userId
                 )
             )
+            userPreferencesDataStore.setAutoLoginEnabled(true)
             Result.Success(Unit)
         } catch (e: Exception) {
             Result.Error(e)
@@ -48,6 +51,7 @@ internal class AuthRepositoryImpl @Inject constructor(
         return try {
             mooditApi.logout().getOrThrowUnit()
             authDataStore.clearToken()
+            userPreferencesDataStore.setAutoLoginEnabled(false)
             Result.Success(Unit)
         } catch (e: Exception) {
             Result.Error(e)

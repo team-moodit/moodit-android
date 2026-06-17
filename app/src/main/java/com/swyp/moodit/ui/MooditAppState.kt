@@ -2,6 +2,7 @@ package com.swyp.moodit.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -11,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.swyp.moodit.home.main.HomeMainRoute
 import com.swyp.moodit.home.navigation.navigateToHome
+import com.swyp.moodit.navigation.AuthRoute
 import com.swyp.moodit.navigation.BottomBarRoute
 import com.swyp.moodit.navigation.HomeRoute
 import com.swyp.moodit.navigation.MainBottomBarTab
@@ -55,6 +57,13 @@ class MooditAppState(
             MainBottomBarTab.HOME -> navController.navigateToHome(bottomTabNavOptions)
             MainBottomBarTab.TOURNAMENT -> navController.navigateToTournament(bottomTabNavOptions)
             MainBottomBarTab.REPORT -> navController.navigateToReport(bottomTabNavOptions)
+        }
+    }
+
+    fun navigateToLogin() {
+        navController.navigate(route = AuthRoute.Login) {
+            popUpTo(navController.graph.id) { inclusive = true }
+            launchSingleTop = true
         }
     }
 
