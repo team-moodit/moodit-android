@@ -5,6 +5,8 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.swyp.moodit.datastore.token.AuthDataStore
 import com.swyp.moodit.datastore.token.AuthDataStoreImpl
+import com.swyp.moodit.datastore.userPreference.UserPreferencesDataStore
+import com.swyp.moodit.datastore.userPreference.UserPreferencesDataStoreImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,5 +27,16 @@ object DataStoreModule {
             context.preferencesDataStoreFile("auth_preferences")
         }
         return AuthDataStoreImpl(dataStore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserPreferencesDataStore(
+        @ApplicationContext context: Context
+    ): UserPreferencesDataStore {
+        val dataStore = PreferenceDataStoreFactory.create {
+            context.preferencesDataStoreFile("user_preferences")
+        }
+        return UserPreferencesDataStoreImpl(dataStore)
     }
 }
