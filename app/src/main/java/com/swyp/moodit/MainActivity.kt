@@ -4,60 +4,54 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.activity.viewModels
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.swyp.moodit.ui.MooditApp
 import com.swyp.moodit.ui.rememberMooditAppState
 import com.swyp.moodit.ui.theme.MooditTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val viewModel: MainActivityViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
-        var isLoading = true
         super.onCreate(savedInstanceState)
 
-        lifecycleScope.launch {
-            delay(3000L)
-            isLoading = false
-        }
-
         splashScreen.setKeepOnScreenCondition {
-            when (isLoading) {
-                true -> true
-                false -> false
-            }
+            viewModel.state.value.isLoading
         }
 
         enableEdgeToEdge()
+
         setContent {
+            //val state by viewModel.state.collectAsStateWithLifecycle()
             val appState = rememberMooditAppState()
+
+            LaunchedEffect(Unit) {
+                viewModel.sideEffect.collect { sideEffect ->
+                    when (sideEffect) {
+                        is MainSideEffect.NavigateToLogin -> {
+                            appState.navigateToLogin()
+                        }
+
+                        is MainSideEffect.NavigateToHome -> {
+                            appState.navigateToMain()
+                        }
+
+                        is MainSideEffect.NavigateToOnBoarding -> {
+                            appState.navigateToOnBoarding()
+                        }
+                    }
+                }
+            }
             MooditTheme {
                 MooditApp(appState = appState)
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MooditTheme {
-        Greeting("Android")
     }
 }

@@ -8,6 +8,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
@@ -18,6 +19,7 @@ fun LoginRoute(
     navigateToMain: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { sideEffect ->
@@ -40,7 +42,7 @@ fun LoginRoute(
 
         else -> {
             LoginScreen(
-                onLoginClick = { viewModel.sendIntent(LoginContract.Intent.OnLoginClick) }
+                onLoginClick = { viewModel.sendIntent(LoginContract.Intent.OnLoginClick(context)) }
             )
         }
     }

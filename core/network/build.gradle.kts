@@ -14,7 +14,9 @@ dependencies {
     implementation(projects.core.datastore)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.bundles.okhttp)
-    implementation(libs.bundles.retrofit)
+    api(libs.bundles.retrofit)
+    implementation(libs.bundles.gson)
+    implementation(libs.timber)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockk.core)

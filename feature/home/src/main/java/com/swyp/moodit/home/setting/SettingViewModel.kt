@@ -1,6 +1,8 @@
 package com.swyp.moodit.home.setting
 
 import androidx.lifecycle.viewModelScope
+import com.swyp.moodit.common.util.Result
+import com.swyp.moodit.data.repository.AuthRepository
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -8,7 +10,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingViewModel @Inject constructor() :
+class SettingViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) :
     BaseViewModel<SettingContract.State, SettingContract.Intent, SettingContract.SideEffect>(
         initialState = SettingContract.State()
     ) {
@@ -27,14 +31,19 @@ class SettingViewModel @Inject constructor() :
     private fun logOut() {
         viewModelScope.launch {
             reduce { it.copy(isLoading = true) }
-            delay(3000L)
-            val logOutResult = true
-            if (logOutResult) {
-                reduce { it.copy(isLoading = false) }
-                sendEffect(SettingContract.SideEffect.NavigateToLogin)
-            } else {
-                reduce { it.copy(isLoading = false) }
-                sendEffect(SettingContract.SideEffect.ShowSnackbar("로그아웃에 실패했습니다."))
+            when (val logOutResult = authRepository.logOut()) {
+                is Result.Success -> {
+                    sendEffect(SettingContract.SideEffect.NavigateToLogin)
+                }
+
+                is Result.Error -> {
+                    reduce { it.copy(isLoading = false) }
+                    sendEffect(
+                        SettingContract.SideEffect.ShowSnackbar(
+                            logOutResult.exception.message ?: "로그아웃에 실패했습니다."
+                        )
+                    )
+                }
             }
         }
     }

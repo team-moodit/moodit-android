@@ -15,6 +15,7 @@ dependencies {
     api(projects.core.network)
     api(projects.core.auth)
     implementation(libs.bundles.paging)
+    implementation(libs.timber)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockk.core)

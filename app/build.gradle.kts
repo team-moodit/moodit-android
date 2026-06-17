@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.moodit.android.application.compose)
     alias(libs.plugins.moodit.hilt)
@@ -14,6 +16,16 @@ android {
                 "proguard-rules.pro"
             )
         }
+    }
+
+    defaultConfig {
+        val kakaoClientKey =
+            gradleLocalProperties(rootDir, providers).getProperty("KAKAO_CLIENT_KEY") ?: ""
+        if (kakaoClientKey.isEmpty()) {
+            throw GradleException("KAKAO_CLIENT_KEY is not set.")
+        }
+        buildConfigField("String", "KAKAO_CLIENT_KEY", "\"$kakaoClientKey\"")
+        manifestPlaceholders["KAKAO_CLIENT_KEY"] = kakaoClientKey
     }
 
     buildFeatures {
@@ -40,4 +52,5 @@ dependencies {
     implementation(projects.core.ui)
 
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.kakao.user)
 }

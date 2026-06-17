@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.swyp.moodit.auth.navigation.authNavGraph
-import com.swyp.moodit.auth.navigation.navigateToLogin
 import com.swyp.moodit.home.navigation.homeNavGraph
 import com.swyp.moodit.onboard.navigation.onBoardingNavGraph
 import com.swyp.moodit.report.navigation.reportNavGraph
@@ -25,7 +24,7 @@ fun MooditNavHost(
         onBoardingNavGraph(
             navController = navController,
             onShowSnackbar = onShowSnackbar,
-            navigateToLogin = { navController.navigateToLogin() }
+            navigateToLogin = { appState.navigateToLogin() }
         )
 
         authNavGraph(
@@ -37,17 +36,27 @@ fun MooditNavHost(
         homeNavGraph(
             navController = navController,
             onShowSnackbar = onShowSnackbar,
-            navigateToLogin = { navController.navigateToLogin() },
+            navigateToLogin = { appState.navigateToLogin() },
             navigateToHome = { appState.navigateToMain() },
             navigateToReport = { appState.navigateToReport() },
             navigateToCreateTournament = { appState.navigateToCreateTournament() },
-            navigateToMissionDetail = { missionId, status -> appState.navigateToMissionDetail(missionId, status) }
+            navigateToMissionDetail = { missionId, status ->
+                appState.navigateToMissionDetail(
+                    missionId,
+                    status
+                )
+            }
         )
 
         tournamentNavGraph(
             navController = navController,
             onShowSnackbar = onShowSnackbar,
-            navigateToMissionDetail = { missionId, status -> appState.navigateToMissionDetail(missionId, status) }
+            navigateToMissionDetail = { missionId, status ->
+                appState.navigateToMissionDetail(
+                    missionId,
+                    status
+                )
+            }
         )
 
         reportNavGraph(
