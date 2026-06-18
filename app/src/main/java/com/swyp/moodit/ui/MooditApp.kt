@@ -43,9 +43,7 @@ internal fun MooditAppContent(
     snackbarHostState: SnackbarHostState
 ) {
     Scaffold(
-        modifier = modifier
-            .fillMaxSize()
-            .statusBarsPadding(),
+        modifier = modifier.fillMaxSize(),
         containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onBackground,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -66,15 +64,14 @@ internal fun MooditAppContent(
         snackbarHost = {
             SnackbarHost(
                 hostState = snackbarHostState,
-                modifier = Modifier.navigationBarsPadding()
+                modifier = Modifier
             )
         }
     ) { paddingValues ->
         MooditNavHost(
             modifier = Modifier
                 .padding(paddingValues)
-                .consumeWindowInsets(paddingValues)
-                .windowInsetsPadding(WindowInsets.safeDrawing),
+                .consumeWindowInsets(paddingValues),
             appState = appState,
             onShowSnackbar = { message, action ->
                 snackbarHostState.showSnackbar(
