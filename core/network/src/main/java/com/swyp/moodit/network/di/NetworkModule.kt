@@ -2,6 +2,7 @@ package com.swyp.moodit.network.di
 
 import com.swyp.moodit.datastore.token.AuthDataStore
 import com.swyp.moodit.network.AuthAuthenticator
+import com.swyp.moodit.network.api.AuthApi
 import com.swyp.moodit.network.api.MooditApi
 import dagger.Module
 import dagger.Provides
@@ -30,6 +31,10 @@ object NetworkModule {
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
     annotation class BaseOkHttpClient
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class AuthRetrofit
 
     @Provides
     @Singleton
@@ -74,6 +79,24 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    @AuthRetrofit
+    fun provideAuthRetrofit(@BaseOkHttpClient okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(NullOnEmptyConverterFactory())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthApi(@AuthRetrofit retrofit: Retrofit): AuthApi {
+        return retrofit.create(AuthApi::class.java)
+    }
+
+    @Provides
+    @Singleton
     fun provideOkHttpClient(
         authInterceptor: Interceptor,
         loggingInterceptor: HttpLoggingInterceptor,
@@ -105,7 +128,6 @@ object NetworkModule {
     fun provideMooditApi(retrofit: Retrofit): MooditApi {
         return retrofit.create(MooditApi::class.java)
     }
-
 }
 
 class NullOnEmptyConverterFactory : Converter.Factory() {
