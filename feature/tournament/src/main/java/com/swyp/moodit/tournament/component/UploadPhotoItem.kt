@@ -91,7 +91,7 @@ fun UploadPhotoItem(
                 onClick = onDeleteClick,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(7.dp)
+                    .padding(4.dp)
                     .size(22.dp),
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = Color.Black.copy(alpha = 0.6f),
@@ -101,7 +101,7 @@ fun UploadPhotoItem(
                 Icon(
                     imageVector = Icons.Default.Clear,
                     contentDescription = "icon_delete",
-                    modifier = Modifier.size(7.dp)
+                    modifier = Modifier.size(16.dp)
                 )
             }
         }
@@ -112,7 +112,7 @@ fun UploadPhotoItem(
                 onClick = onRetryClick,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(7.dp)
+                    .padding(4.dp)
                     .size(22.dp),
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = Color.Black.copy(alpha = 0.6f),
@@ -122,7 +122,7 @@ fun UploadPhotoItem(
                 Icon(
                     imageVector = Icons.Default.Refresh,
                     contentDescription = "icon_retry",
-                    modifier = Modifier.size(7.dp)
+                    modifier = Modifier.size(16.dp)
                 )
             }
         }
