@@ -12,7 +12,12 @@ class MatchUpContract {
         val currentRoundTitle: String = "",
         val currentStep: TournamentStep = TournamentStep.MATCH_UP,
         val currentMatchUp: MatchUp? = null,
-        val selectedWinner: TasteCandidate? = null
+        val selectedWinner: MoodCandidate? = null,
+        val currentMatchIndex: Int = 0,
+        val totalMatchUpInCurrentRound: Int = 0,
+        val isMatchCompleted: Boolean = false,
+        val selectedReason: MoodReason? = null,
+        val reasons: List<MoodReason> = emptyList()
     ) : UiState
 
     sealed interface SideEffect : UiSideEffect {
@@ -22,8 +27,9 @@ class MatchUpContract {
     }
 
     sealed interface Intent : UiIntent {
-        data class OnCandidateSelect(val candidate: TasteCandidate) : Intent
+        data class OnCandidateSelect(val candidate: MoodCandidate) : Intent
         data class OnReasonSelect(val reasonId: Long) : Intent
+        object OnNextButtonClick: Intent
         object OnBackStepClick : Intent
     }
 }
@@ -34,8 +40,10 @@ enum class TournamentStep {
 }
 
 data class MatchUp(
-    val candidateA: TasteCandidate,
-    val candidateB: TasteCandidate? = null
+    val candidateA: MoodCandidate,
+    val candidateB: MoodCandidate? = null
 )
 
-data class TasteCandidate(val id: Long, val photoUri: String, val name: String)
+data class MoodCandidate(val id: Long, val photoUri: String, val name: String)
+
+data class MoodReason(val id: Long = 0L, val content: String = "", val isSelected: Boolean = false)
