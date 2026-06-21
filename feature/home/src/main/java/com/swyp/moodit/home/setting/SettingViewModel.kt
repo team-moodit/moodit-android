@@ -18,6 +18,18 @@ class SettingViewModel @Inject constructor(
     ) {
     override fun handleIntents(intent: SettingContract.Intent) {
         when (intent) {
+            is SettingContract.Intent.OnTermsClick -> {
+                sendEffect(SettingContract.SideEffect.ShowSnackbar("이용약관 출력하기"))
+            }
+
+            is SettingContract.Intent.OnPrivacyPolicyClick -> {
+                sendEffect(SettingContract.SideEffect.ShowSnackbar("개인정보 처리방침 출력하기"))
+            }
+
+            is SettingContract.Intent.OnFeedbackClick -> {
+                sendEffect(SettingContract.SideEffect.ShowSnackbar("피드백 사이트 이동하기"))
+            }
+
             is SettingContract.Intent.OnLogOutClick -> {
                 logOut()
             }

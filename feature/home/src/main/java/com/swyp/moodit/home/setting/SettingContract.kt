@@ -15,6 +15,9 @@ class SettingContract {
     }
 
     sealed interface Intent : UiIntent {
+        object OnTermsClick : Intent
+        object OnPrivacyPolicyClick : Intent
+        object OnFeedbackClick : Intent
         object OnLogOutClick : Intent
         object OnDeleteAccountClick : Intent
     }

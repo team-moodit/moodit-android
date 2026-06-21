@@ -43,6 +43,9 @@ fun SettingRoute(
 
         else -> {
             SettingScreen(
+                onTermsClick = { viewModel.sendIntent(SettingContract.Intent.OnTermsClick) },
+                onPrivacyPolicyClick = { viewModel.sendIntent(SettingContract.Intent.OnPrivacyPolicyClick) },
+                onFeedbackClick = { viewModel.sendIntent(SettingContract.Intent.OnFeedbackClick) },
                 onLogOutClick = { viewModel.sendIntent(SettingContract.Intent.OnLogOutClick) },
                 onDeleteAccountClick = { viewModel.sendIntent(SettingContract.Intent.OnDeleteAccountClick) }
             )
