@@ -1,8 +1,6 @@
 package com.swyp.moodit.tournament.component
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -23,28 +21,22 @@ fun MoodCandidateItem(
     moodCandidate: MoodCandidate,
     modifier: Modifier = Modifier
 ) {
-    var baseModifier = modifier
-        .fillMaxWidth()
-        .aspectRatio(1f)
-        .clip(RoundedCornerShape(16.dp))
-
-    if (isSelected) {
-        baseModifier = baseModifier.border(
-            width = 2.dp,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
-            shape = RoundedCornerShape(12.dp)
-        )
-    }
+    val borderModifier = if (isSelected) Modifier.border(
+        width = 2.dp,
+        color = Color.Red,
+        shape = RoundedCornerShape(12.dp)
+    ) else Modifier
 
     AsyncImage(
         model = moodCandidate.photoUri,
-        modifier = baseModifier,
+        modifier = modifier.clip(RoundedCornerShape(16.dp)).then(borderModifier),
         contentDescription = "img_candidate",
         contentScale = ContentScale.Crop,
         alpha = if (anyPhotoSelected && isSelected.not()) 0.5f else 1f,
-        error = ColorPainter(Color.Gray)
+        error = ColorPainter(Color.Yellow)
     )
 }
+
 
 @Composable
 @Preview
