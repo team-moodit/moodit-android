@@ -6,12 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.ui.MooditApp
 import com.swyp.moodit.ui.rememberMooditAppState
-import com.swyp.moodit.ui.theme.MooditTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
