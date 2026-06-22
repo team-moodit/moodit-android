@@ -20,19 +20,19 @@ enum class MainBottomBarTab(
     HOME(
         selectedIcon = Icons.Default.Home,
         unselectedIcon = Icons.Rounded.Home,
-        iconTitle = "Home",
+        iconTitle = "홈",
         route = BottomBarRoute.Home
     ),
     TOURNAMENT(
         selectedIcon = Icons.Default.Archive,
         unselectedIcon = Icons.Rounded.Archive,
-        iconTitle = "Tournament",
+        iconTitle = "무드매치",
         route = BottomBarRoute.Tournament
     ),
     REPORT(
         selectedIcon = Icons.Default.Menu,
         unselectedIcon = Icons.Rounded.Menu,
-        iconTitle = "Report",
+        iconTitle = "리포트",
         route = BottomBarRoute.Report
     );
 
