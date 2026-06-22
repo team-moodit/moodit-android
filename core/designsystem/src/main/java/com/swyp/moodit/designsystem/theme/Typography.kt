@@ -1,6 +1,7 @@
 package com.swyp.moodit.designsystem.theme
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -20,116 +21,115 @@ val pretendardFontFamily = FontFamily(
     Font(R.font.pretendard_thin, FontWeight.Thin)
 )
 
-@Immutable
-data class MooditTextStyle(
-    val fontFamily: FontFamily = pretendardFontFamily,
-    val fontWeight: FontWeight = FontWeight.Medium,
-    val fontSize: TextUnit = TextUnit.Unspecified,
-    val lineHeight: TextUnit = TextUnit.Unspecified,
-    val letterSpacing: TextUnit = TextUnit.Unspecified
+private val mooditTextStyle = TextStyle(
+    fontFamily = pretendardFontFamily,
+    fontWeight = FontWeight.Medium,
+    fontSize = TextUnit.Unspecified,
+    lineHeight = TextUnit.Unspecified,
+    letterSpacing = TextUnit.Unspecified
 )
 
 @Immutable
 data class MooditTypography(
-    val h1: MooditTextStyle = MooditTextStyle(
+    val h1: TextStyle = mooditTextStyle.copy(
         fontWeight = FontWeight.SemiBold,
         fontSize = 24.sp,
         lineHeight = 32.sp,
         letterSpacing = (-0.48).sp
     ),
 
-    val h2: MooditTextStyle = MooditTextStyle(
+    val h2: TextStyle = mooditTextStyle.copy(
         fontWeight = FontWeight.SemiBold,
         fontSize = 20.sp,
         lineHeight = 32.sp,
         letterSpacing = (-0.4).sp
     ),
 
-    val h3: MooditTextStyle = MooditTextStyle(
+    val h3: TextStyle = mooditTextStyle.copy(
         fontWeight = FontWeight.SemiBold,
         fontSize = 18.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.sp
     ),
 
-    val h4: MooditTextStyle = MooditTextStyle(
+    val h4: TextStyle = mooditTextStyle.copy(
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp,
         lineHeight = 26.sp,
         letterSpacing = 0.sp
     ),
 
-    val b1Large: MooditTextStyle = MooditTextStyle(
+    val b1Large: TextStyle = mooditTextStyle.copy(
         fontWeight = FontWeight.SemiBold,
         fontSize = 18.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.sp
     ),
 
-    val b1Medium: MooditTextStyle = MooditTextStyle(
+    val b1Medium: TextStyle = mooditTextStyle.copy(
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = (-0.32).sp
     ),
 
-    val b1Small: MooditTextStyle = MooditTextStyle(
+    val b1Small: TextStyle = mooditTextStyle.copy(
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp,
         lineHeight = 24.sp,
         letterSpacing = (-0.28).sp
     ),
 
-    val b2Large: MooditTextStyle = MooditTextStyle(
+    val b2Large: TextStyle = mooditTextStyle.copy(
         fontWeight = FontWeight.Medium,
         fontSize = 20.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.sp
     ),
 
-    val b2Medium: MooditTextStyle = MooditTextStyle(
+    val b2Medium: TextStyle = mooditTextStyle.copy(
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.sp
     ),
 
-    val b2Small: MooditTextStyle = MooditTextStyle(
+    val b2Small: TextStyle = mooditTextStyle.copy(
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.sp
     ),
 
-    val b2ExtraSmall: MooditTextStyle = MooditTextStyle(
+    val b2ExtraSmall: TextStyle = mooditTextStyle.copy(
         fontWeight = FontWeight.Medium,
         fontSize = 12.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.sp
     ),
 
-    val b3Large: MooditTextStyle = MooditTextStyle(
+    val b3Large: TextStyle = mooditTextStyle.copy(
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.sp
     ),
 
-    val b3Medium: MooditTextStyle = MooditTextStyle(
+    val b3Medium: TextStyle = mooditTextStyle.copy(
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.sp
     ),
 
-    val b3Small: MooditTextStyle = MooditTextStyle(
+    val b3Small: TextStyle = mooditTextStyle.copy(
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.sp
     ),
 
-    val caption: MooditTextStyle = MooditTextStyle(
+    val caption: TextStyle = mooditTextStyle.copy(
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
         lineHeight = 12.sp,
