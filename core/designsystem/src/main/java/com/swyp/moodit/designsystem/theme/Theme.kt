@@ -41,7 +41,8 @@ fun MooditTheme(
     if (!view.isInEditMode) {
         val window = (view.context as Activity).window
         val insetsController = WindowCompat.getInsetsController(window, view)
-        insetsController.isAppearanceLightNavigationBars = !isDarkTheme
-        insetsController.isAppearanceLightStatusBars = !isDarkTheme
+        // 앱 배경이 항상 어두우므로 상태바/네비바 아이콘은 항상 밝게(false) 설정
+        insetsController.isAppearanceLightNavigationBars = false
+        insetsController.isAppearanceLightStatusBars = false
     }
 }

@@ -40,7 +40,7 @@ class MooditAppState(
 
     val currentTab: MainBottomBarTab?
         @Composable get() = MainBottomBarTab.entries.firstOrNull { navTab ->
-            currentDestination?.hasRoute(navTab::class) == true
+            currentDestination?.hasRoute(navTab.route::class) == true
         }
 
     fun navigateToMainBottomBarTab(navTab: MainBottomBarTab) {

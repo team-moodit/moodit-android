@@ -1,14 +1,9 @@
 package com.swyp.moodit.ui
 
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -17,8 +12,9 @@ import androidx.compose.material3.SnackbarResult.ActionPerformed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.swyp.moodit.designsystem.component.MainBottomBar
+import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.navigation.MainBottomBarTab
 import com.swyp.moodit.navigation.MainBottomBarTab.Companion.toItemData
 import com.swyp.moodit.navigation.MooditNavHost
@@ -43,15 +39,14 @@ internal fun MooditAppContent(
     snackbarHostState: SnackbarHostState
 ) {
     Scaffold(
-        modifier = modifier
-            .fillMaxSize()
-            .statusBarsPadding(),
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground,
+        modifier = modifier.fillMaxSize(),
+        containerColor = MooditTheme.colors.background,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         bottomBar = {
             MainBottomBar(
-                modifier = Modifier.navigationBarsPadding(),
+                modifier = Modifier
+                    .navigationBarsPadding()
+                    .padding(start = 40.dp, end = 40.dp, bottom = 20.dp),
                 visible = appState.showBottomBar(),
                 mainNavTabs = MainBottomBarTab.entries.map { it.toItemData() },
                 currentTab = appState.currentTab?.toItemData(),
@@ -71,10 +66,7 @@ internal fun MooditAppContent(
         }
     ) { paddingValues ->
         MooditNavHost(
-            modifier = Modifier
-                .padding(paddingValues)
-                .consumeWindowInsets(paddingValues)
-                .windowInsetsPadding(WindowInsets.safeDrawing),
+            modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding()),
             appState = appState,
             onShowSnackbar = { message, action ->
                 snackbarHostState.showSnackbar(
