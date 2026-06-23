@@ -35,6 +35,7 @@ compose-material3 = "1.4.0"
 compose-icons = "1.7.8"
 compose-compiler = "2.3.21"
 compose-lottie = "6.7.1"
+compose-ballon = "1.7.6"
 
 # Gson
 gson = "2.13.2"
@@ -120,6 +121,7 @@ compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-mani
 compose-icons-core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "compose-icons" }
 compose-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "compose-icons" }
 compose-lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "compose-lottie" }
+compose-ballon = { module = "com.github.skydoves:balloon-compose", version.ref = "compose-ballon" }
 
 # Hilt
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
@@ -200,6 +202,7 @@ compose = [
     "compose-icons-core",
     "compose-icons-extended",
     "compose-lottie",
+    "compose-ballon",
     "androidx-activity-compose",
     "androidx-lifecycle-viewmodel-compose",
 ]
