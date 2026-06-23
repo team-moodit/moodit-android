@@ -33,7 +33,6 @@ import com.swyp.moodit.designsystem.theme.MooditTheme
 @Composable
 fun MooditDialog(
     onClickCancel: () -> Unit = {},
-    onClickConfirm: () -> Unit = {},
     title: String,
     description: String,
     icon: @Composable (() -> Unit)? = null,
@@ -58,7 +57,7 @@ fun MooditDialog(
                 modifier = Modifier
                     .wrapContentWidth()
                     .wrapContentHeight()
-                    .padding(horizontal = 16.dp, vertical = 28.dp),
+                    .padding(horizontal = 16.dp, vertical = 20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -82,8 +81,7 @@ fun MooditDialog(
                     textAlign = TextAlign.Center
                 )
 
-                Spacer(modifier = Modifier.height(40.dp))
-
+                Spacer(modifier = Modifier.height(30.dp))
 
                 Row(
                     modifier = Modifier
@@ -106,7 +104,6 @@ fun MooditDialogPreview() {
         Box(modifier = Modifier.fillMaxSize()) {
             MooditDialog(
                 onClickCancel = {},
-                onClickConfirm = {},
                 title = "로그아웃",
                 description = "로그아웃 하시겠습니까?",
                 buttons = {

@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -32,6 +31,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,6 +42,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.swyp.moodit.designsystem.component.CreateMoodMatchTooltip
+import com.swyp.moodit.designsystem.component.MooditDialog
 import com.swyp.moodit.designsystem.component.MooditScaffold
 import com.swyp.moodit.designsystem.component.MooditTopBar
 import com.swyp.moodit.designsystem.component.button.MooditFilledButton
@@ -57,6 +61,8 @@ fun CreateTournamentScreen(
     onRetryUploadClick: (SelectedPhoto) -> Unit,
     uiState: CreateTournamentContract.State
 ) {
+    var retryPhoto by remember { mutableStateOf<SelectedPhoto?>(null) }
+
     MooditScaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -192,8 +198,32 @@ fun CreateTournamentScreen(
                 itemsIndexed(uiState.selectedPhotos) { index, photo ->
                     UploadPhotoItem(
                         onDeleteClick = { onDeletePhotoClick(photo.id) },
-                        onRetryClick = { onRetryUploadClick(photo) },
+                        onRetryClick = { retryPhoto = photo },
                         photo = photo
+                    )
+                }
+            }
+
+            retryPhoto?.let { photo ->
+                MooditDialog(
+                    title = "업로드 재시도",
+                    description = "사진 업로드를 다시 시도하시겠습니까?",
+                    onClickCancel = { retryPhoto = null }
+                ) {
+                    MooditFilledButton(
+                        onClick = { retryPhoto = null },
+                        modifier = Modifier.weight(1f),
+                        text = "취소",
+                        containerColor = MooditTheme.colors.surfaceContainer,
+                        contentColor = MooditTheme.colors.textSecondary
+                    )
+                    MooditFilledButton(
+                        onClick = {
+                            onRetryUploadClick(photo)
+                            retryPhoto = null
+                        },
+                        modifier = Modifier.weight(1f),
+                        text = "확인"
                     )
                 }
             }
