@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.swyp.moodit.designsystem.component.MainBottomBar
+import com.swyp.moodit.designsystem.component.MooditSnackbar
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.navigation.MainBottomBarTab
 import com.swyp.moodit.navigation.MainBottomBarTab.Companion.toItemData
@@ -62,7 +63,9 @@ internal fun MooditAppContent(
             SnackbarHost(
                 hostState = snackbarHostState,
                 modifier = Modifier.navigationBarsPadding()
-            )
+            ) { data ->
+                MooditSnackbar(snackbarData = data)
+            }
         }
     ) { paddingValues ->
         MooditNavHost(
