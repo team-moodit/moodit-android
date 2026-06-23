@@ -2,6 +2,7 @@ package com.swyp.moodit.designsystem.component
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,10 +21,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.swyp.moodit.designsystem.theme.MooditTheme
 
 @Composable
 fun MainBottomBarItem(
@@ -34,24 +35,25 @@ fun MainBottomBarItem(
     onClick: () -> Unit
 ) {
     val iconColor by animateColorAsState(
-        targetValue = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+        targetValue = if (isSelected) MooditTheme.colors.background else MooditTheme.colors.surface,
         label = "IconColorAnimation"
     )
 
     val scale by animateFloatAsState(
-        targetValue = if (isSelected) 1.15f else 1.0f,
-        label = "IconScaleAnimation"
+        targetValue = if (isSelected) 1.15f else 1.0f, label = "IconScaleAnimation"
     )
 
     Column(
         modifier = modifier
-            .clip(RoundedCornerShape(12.dp))
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
+            .padding(8.dp)
+            .clip(RoundedCornerShape(100.dp))
+            .background(
+                color = if (isSelected) MooditTheme.colors.primary else Color.Transparent
             )
-            { onClick() }
-            .padding(vertical = 8.dp),
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() }, indication = null
+            ) { onClick() }
+            .padding(vertical = 5.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -67,7 +69,7 @@ fun MainBottomBarItem(
         Text(
             text = tab.iconTitle,
             color = iconColor,
-            fontSize = 11.sp,
+            style = MooditTheme.typography.caption,
             modifier = Modifier.padding(top = 4.dp)
         )
     }
@@ -77,16 +79,11 @@ fun MainBottomBarItem(
 @Composable
 fun MainBottomBarItemPreview() {
     val navTab = MainBottomBarItemData(
-        selectedIcon = Icons.Default.Home,
-        unselectedIcon = Icons.Rounded.Home,
-        iconTitle = "Home"
+        selectedIcon = Icons.Default.Home, unselectedIcon = Icons.Rounded.Home, iconTitle = "Home"
     )
 
-    MaterialTheme {
+    MooditTheme {
         MainBottomBarItem(
-            tab = navTab,
-            isSelected = true,
-            onClick = {}
-        )
+            tab = navTab, isSelected = true, onClick = {})
     }
 }
