@@ -1,10 +1,10 @@
 package com.swyp.moodit.home.setting
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -13,21 +13,23 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.swyp.moodit.designsystem.R
+import com.swyp.moodit.designsystem.component.MooditDialog
+import com.swyp.moodit.designsystem.component.MooditScaffold
+import com.swyp.moodit.designsystem.component.MooditTopBar
+import com.swyp.moodit.designsystem.component.button.MooditFilledButton
+import com.swyp.moodit.designsystem.theme.MooditTheme
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,25 +37,25 @@ fun SettingScreen(
     onTermsClick: () -> Unit,
     onPrivacyPolicyClick: () -> Unit,
     onFeedbackClick: () -> Unit,
-    onLogOutClick: () -> Unit,
-    onDeleteAccountClick: () -> Unit,
+    onShowLogOutDialog: () -> Unit,
+    onShowDeleteAccountDialog: () -> Unit,
+    onDismissDialog: () -> Unit,
+    onConfirmLogOutClick: () -> Unit,
+    onConfirmDeleteAccountClick: () -> Unit,
+    onConfirmCompleteDeleteAccountClick: () -> Unit,
+    uiState: SettingContract.State
 ) {
-    val containerColor = Color(0xFF12141B)
-
-    Scaffold(
+    MooditScaffold(
         modifier = Modifier.fillMaxSize(),
-        containerColor = containerColor,
-        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
-            CenterAlignedTopAppBar(
+            MooditTopBar(
                 title = {
                     Text(
                         text = "설정",
-                        fontSize = 16.sp, fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        style = MooditTheme.typography.h2
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = containerColor)
+                textAlign = TextAlign.Center
             )
         },
         bottomBar = {
@@ -61,22 +63,22 @@ fun SettingScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .navigationBarsPadding()
-                    .padding(vertical = 20.dp)
-                    .clickable { onDeleteAccountClick() },
+                    .clickable { onShowDeleteAccountDialog() }
+                    .padding(vertical = 20.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = "계정 삭제",
-                    color = Color.Red,
-                    fontSize = 14.sp
+                    color = MooditTheme.colors.error,
+                    style = MooditTheme.typography.b3Medium
                 )
 
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
                     contentDescription = "icon_click",
                     modifier = Modifier.size(20.dp),
-                    tint = Color.Red
+                    tint = MooditTheme.colors.error
                 )
             }
         }
@@ -90,51 +92,66 @@ fun SettingScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 20.dp, horizontal = 16.dp)
-                    .clickable { onTermsClick() },
+                    .padding(vertical = 20.dp, horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Absolute.SpaceBetween
             ) {
-                Text(text = "kakao 로그인", color = Color.White, fontSize = 14.sp)
-                Text(text = "example@kakao.com", color = Color(0xFFA4A9BA), fontSize = 14.sp)
+                Text(
+                    text = "kakao 로그인",
+                    color = MooditTheme.colors.onBackground,
+                    style = MooditTheme.typography.b3Medium
+                )
+                Text(
+                    text = "example@kakao.com",
+                    color = MooditTheme.colors.textSecondary,
+                    style = MooditTheme.typography.b3Medium
+                )
             }
             HorizontalDivider(
                 modifier = Modifier.fillMaxWidth(),
                 thickness = 12.dp,
-                color = Color(0xFF1D212A)
+                color = MooditTheme.colors.onPrimary
             )
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 20.dp, horizontal = 16.dp)
-                    .clickable { onPrivacyPolicyClick() },
+                    .clickable { onTermsClick() }
+                    .padding(vertical = 20.dp, horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Absolute.SpaceBetween
             ) {
-                Text(text = "이용약관", color = Color.White, fontSize = 14.sp)
+                Text(
+                    text = "이용약관",
+                    color = MooditTheme.colors.onBackground,
+                    style = MooditTheme.typography.b3Medium
+                )
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
                     contentDescription = "icon_click",
                     modifier = Modifier.size(20.dp),
-                    tint = Color(0xFFBEC3D1)
+                    tint = MooditTheme.colors.onTertiary
                 )
             }
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 20.dp, horizontal = 16.dp)
-                    .clickable { onPrivacyPolicyClick() },
+                    .clickable { onPrivacyPolicyClick() }
+                    .padding(vertical = 20.dp, horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Absolute.SpaceBetween
             ) {
-                Text(text = "개인정보 처리방침", color = Color.White, fontSize = 14.sp)
+                Text(
+                    text = "개인정보 처리방침",
+                    color = MooditTheme.colors.onBackground,
+                    style = MooditTheme.typography.b3Medium
+                )
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
                     contentDescription = "icon_click",
                     modifier = Modifier.size(20.dp),
-                    tint = Color(0xFFBEC3D1)
+                    tint = MooditTheme.colors.onTertiary
                 )
             }
 
@@ -145,48 +162,139 @@ fun SettingScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Absolute.SpaceBetween
             ) {
-                Text(text = "버전 정보", color = Color.White, fontSize = 14.sp)
-                Text(text = "v 1.0.0", color = Color(0xFFA4A9BA), fontSize = 14.sp)
+                Text(
+                    text = "버전 정보",
+                    color = MooditTheme.colors.onBackground,
+                    style = MooditTheme.typography.b3Medium
+                )
+                Text(
+                    text = "v 1.0.0",
+                    color = MooditTheme.colors.textSecondary,
+                    style = MooditTheme.typography.b3Medium
+                )
             }
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 20.dp, horizontal = 16.dp)
-                    .clickable { onFeedbackClick() },
+                    .clickable { onFeedbackClick() }
+                    .padding(vertical = 20.dp, horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Absolute.SpaceBetween
             ) {
-                Text(text = "피드백 하기", color = Color.White, fontSize = 14.sp)
+                Text(
+                    text = "피드백 하기",
+                    color = MooditTheme.colors.onBackground,
+                    style = MooditTheme.typography.b3Medium
+                )
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
                     contentDescription = "icon_click",
                     modifier = Modifier.size(20.dp),
-                    tint = Color(0xFFBEC3D1)
+                    tint = MooditTheme.colors.onTertiary
                 )
             }
 
             HorizontalDivider(
                 modifier = Modifier.fillMaxWidth(),
                 thickness = 12.dp,
-                color = Color(0xFF1D212A)
+                color = MooditTheme.colors.onPrimary
             )
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 20.dp, horizontal = 16.dp)
-                    .clickable { onLogOutClick() },
+                    .clickable { onShowLogOutDialog() }
+                    .padding(vertical = 20.dp, horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Absolute.SpaceBetween
             ) {
-                Text(text = "로그아웃", color = Color.White, fontSize = 14.sp)
+                Text(
+                    text = "로그아웃",
+                    color = MooditTheme.colors.onBackground,
+                    style = MooditTheme.typography.b3Medium
+                )
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
                     contentDescription = "icon_click",
                     modifier = Modifier.size(20.dp),
-                    tint = Color(0xFFBEC3D1)
+                    tint = MooditTheme.colors.onTertiary
                 )
+            }
+
+            uiState.dialogType?.let { dialogType ->
+                when (dialogType) {
+                    SettingContract.DialogType.LOGOUT -> {
+                        MooditDialog(
+                            title = "로그아웃",
+                            description = "로그아웃 하시겠습니까?",
+                            onClickCancel = { onDismissDialog() }
+                        ) {
+                            MooditFilledButton(
+                                onClick = { onDismissDialog() },
+                                modifier = Modifier.weight(1f),
+                                text = "취소",
+                                containerColor = MooditTheme.colors.surfaceContainer,
+                                contentColor = MooditTheme.colors.textSecondary
+                            )
+                            MooditFilledButton(
+                                onClick = {
+                                    onConfirmLogOutClick()
+                                },
+                                modifier = Modifier.weight(1f),
+                                text = "확인"
+                            )
+                        }
+                    }
+
+                    SettingContract.DialogType.DELETE_ACCOUNT -> {
+                        MooditDialog(
+                            title = "정말 탈퇴하시겠어요?",
+                            description = "모든 기록이 삭제되며 복구할 수 없어요.",
+                            onClickCancel = { onDismissDialog() }
+                        ) {
+                            MooditFilledButton(
+                                onClick = { onDismissDialog() },
+                                modifier = Modifier.weight(1f),
+                                text = "취소",
+                                containerColor = MooditTheme.colors.primary.copy(alpha = 0.1f),
+                                contentColor = MooditTheme.colors.primary
+                            )
+                            MooditFilledButton(
+                                onClick = {
+                                    onConfirmDeleteAccountClick()
+                                },
+                                modifier = Modifier.weight(1f),
+                                text = "확인"
+                            )
+                        }
+                    }
+
+                    SettingContract.DialogType.COMPLETE_DELETE_ACCOUNT -> {
+                        MooditDialog(
+                            title = "탈퇴가 완료되었어요",
+                            description = "그동안 무딧을 이용해주셔서 감사해요.",
+                            onClickCancel = { onConfirmCompleteDeleteAccountClick() },
+                            icon = {
+                                Image(
+                                    modifier = Modifier.size(80.dp),
+                                    painter = painterResource(R.drawable.complete),
+                                    contentDescription = "icon_delete_account_complete"
+                                )
+                            }
+                        ) {
+                            MooditFilledButton(
+                                onClick = {
+                                    onConfirmCompleteDeleteAccountClick()
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp),
+                                text = "확인"
+                            )
+                        }
+                    }
+                }
             }
         }
     }
@@ -195,13 +303,18 @@ fun SettingScreen(
 @Composable
 @Preview
 fun SettingScreenPreview() {
-    MaterialTheme {
+    MooditTheme() {
         SettingScreen(
             onTermsClick = {},
             onPrivacyPolicyClick = {},
             onFeedbackClick = {},
-            onLogOutClick = {},
-            onDeleteAccountClick = {}
+            onShowLogOutDialog = {},
+            onShowDeleteAccountDialog = {},
+            onDismissDialog = {},
+            onConfirmLogOutClick = {},
+            onConfirmDeleteAccountClick = {},
+            onConfirmCompleteDeleteAccountClick = {},
+            uiState = SettingContract.State()
         )
     }
 }

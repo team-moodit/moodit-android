@@ -30,12 +30,28 @@ class SettingViewModel @Inject constructor(
                 sendEffect(SettingContract.SideEffect.ShowSnackbar("피드백 사이트 이동하기"))
             }
 
-            is SettingContract.Intent.OnLogOutClick -> {
+            is SettingContract.Intent.ShowLogOutDialog -> {
+                updateDialogType(SettingContract.DialogType.LOGOUT)
+            }
+
+            is SettingContract.Intent.ShowDeleteAccountDialog -> {
+                updateDialogType(SettingContract.DialogType.DELETE_ACCOUNT)
+            }
+
+            is SettingContract.Intent.DismissDialog -> {
+                updateDialogType(null)
+            }
+
+            is SettingContract.Intent.ConfirmLogOut -> {
                 logOut()
             }
 
-            is SettingContract.Intent.OnDeleteAccountClick -> {
+            is SettingContract.Intent.ConfirmDeleteAccount -> {
                 deleteAccount()
+            }
+
+            is SettingContract.Intent.ConfirmCompleteDeleteAccount -> {
+                sendEffect(SettingContract.SideEffect.NavigateToLogin)
             }
         }
     }
@@ -63,15 +79,19 @@ class SettingViewModel @Inject constructor(
     private fun deleteAccount() {
         viewModelScope.launch {
             reduce { it.copy(isLoading = true) }
-            delay(3000L)
-            val deleteAccountResult = false
+            val deleteAccountResult = true
             if (deleteAccountResult) {
                 reduce { it.copy(isLoading = false) }
-                sendEffect(SettingContract.SideEffect.NavigateToLogin)
+                updateDialogType(SettingContract.DialogType.COMPLETE_DELETE_ACCOUNT)
             } else {
                 reduce { it.copy(isLoading = false) }
+                updateDialogType(null)
                 sendEffect(SettingContract.SideEffect.ShowSnackbar("계정 삭제에 실패했습니다."))
             }
         }
+    }
+
+    private fun updateDialogType(dialogType: SettingContract.DialogType?) {
+        reduce { it.copy(dialogType = dialogType) }
     }
 }
