@@ -1,7 +1,9 @@
 package com.swyp.moodit.data.di
 
 import com.swyp.moodit.data.impl.AuthRepositoryImpl
+import com.swyp.moodit.data.impl.TournamentRepositoryImpl
 import com.swyp.moodit.data.repository.AuthRepository
+import com.swyp.moodit.data.repository.TournamentRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,4 +16,8 @@ internal abstract class RepositoryModule {
     @Binds
     @Singleton
     internal abstract fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
+
+    @Binds
+    @Singleton
+    internal abstract fun bindTournamentRepository(tournamentRepositoryImpl: TournamentRepositoryImpl): TournamentRepository
 }

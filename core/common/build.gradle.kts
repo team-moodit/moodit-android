@@ -8,5 +8,6 @@ android {
 }
 
 dependencies {
+    implementation(libs.bundles.retrofit)
     implementation(libs.kotlinx.coroutines.core)
 }

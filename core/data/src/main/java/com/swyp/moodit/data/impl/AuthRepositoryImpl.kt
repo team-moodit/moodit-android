@@ -7,16 +7,19 @@ import com.swyp.moodit.data.repository.AuthRepository
 import com.swyp.moodit.datastore.model.AuthInfo
 import com.swyp.moodit.datastore.token.AuthDataStore
 import com.swyp.moodit.datastore.userPreference.UserPreferencesDataStore
+import com.swyp.moodit.network.api.AuthApi
 import com.swyp.moodit.network.api.MooditApi
 import com.swyp.moodit.network.model.auth.LoginRequest
 import com.swyp.moodit.network.model.getOrThrow
 import com.swyp.moodit.network.model.getOrThrowUnit
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
 
 internal class AuthRepositoryImpl @Inject constructor(
     private val kakaoAuth: KakaoAuth,
     private val mooditApi: MooditApi,
+    private val authApi: AuthApi,
     private val authDataStore: AuthDataStore,
     private val userPreferencesDataStore: UserPreferencesDataStore
 ) : AuthRepository {
@@ -32,7 +35,7 @@ internal class AuthRepositoryImpl @Inject constructor(
     override suspend fun loginWithServer(accessToken: String): Result<Unit> {
         return try {
             val response =
-                mooditApi.kakaoLogin(LoginRequest(accessToken = accessToken)).getOrThrow()
+                authApi.kakaoLogin(LoginRequest(accessToken = accessToken)).getOrThrow()
             authDataStore.saveAuthInfo(
                 AuthInfo(
                     accessToken = response.accessToken,

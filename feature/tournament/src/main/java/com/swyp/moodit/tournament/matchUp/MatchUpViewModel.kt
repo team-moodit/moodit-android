@@ -1,16 +1,27 @@
 package com.swyp.moodit.tournament.matchUp
 
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
+import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.LinkedList
 import java.util.Queue
 import javax.inject.Inject
 
 @HiltViewModel
-class MatchUpViewModel @Inject constructor() :
+class MatchUpViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle
+) :
     BaseViewModel<MatchUpContract.State, MatchUpContract.Intent, MatchUpContract.SideEffect>(
         initialState = MatchUpContract.State()
     ) {
+        private val tournamentId = savedStateHandle.toRoute<TournamentRoute.MatchUp>().tournamentId
+
     private val currentRoundQueue: Queue<MatchUp> = LinkedList()
     private val nextRoundWinner = mutableListOf<TasteCandidate>()
     private var totalMatchUpInCurrentRound = 0

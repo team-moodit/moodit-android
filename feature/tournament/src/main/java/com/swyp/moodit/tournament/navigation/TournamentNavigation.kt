@@ -32,7 +32,7 @@ fun NavGraphBuilder.tournamentNavGraph(
     composable<TournamentRoute.CreateTournament>() {
         CreateTournamentRoute(
             onShowSnackbar = onShowSnackbar,
-            navigateToMatchUp = { navController.navigateToMatchUp() }
+            navigateToMatchUp = { navController.navigateToMatchUp(it) }
         )
     }
 
@@ -59,8 +59,12 @@ fun NavController.navigateToTournamentDetail(tournamentId: String) {
     navigate(TournamentRoute.Detail(tournamentId))
 }
 
-fun NavController.navigateToMatchUp() {
-    navigate(TournamentRoute.MatchUp)
+fun NavController.navigateToMatchUp(tournamentId: Long) {
+    navigate(TournamentRoute.MatchUp(tournamentId)) {
+        popUpTo(BottomBarRoute.Home) {
+            inclusive = false
+        }
+    }
 }
 
 fun NavController.navigateToTournamentResult(winnerCandidateId: Long) {
