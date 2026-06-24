@@ -9,8 +9,8 @@ import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -62,12 +62,21 @@ class CreateTournamentViewModel @Inject constructor(
     private fun createTournament() {
         viewModelScope.launch {
             reduce { it.copy(isLoading = true) }
-            delay(2000L)
-            val createTournamentResult = true
-            if (createTournamentResult) {
-                sendEffect(CreateTournamentContract.SideEffect.NavigateToMatchUp)
-            } else {
-                sendEffect(CreateTournamentContract.SideEffect.ShowSnackbar("토너먼트 생성에 실패했습니다."))
+            val serverIds = currentState.selectedPhotos.mapNotNull { it.serverId }
+            when (val result =
+                tournamentRepository.createMoodMatch(currentState.title, serverIds)) {
+                is Result.Success -> {
+                    Timber.d(result.data.toString())
+                    sendEffect(CreateTournamentContract.SideEffect.ShowSnackbar("토너먼트 생성에 성공했습니다."))
+                }
+
+                is Result.Error -> {
+                    sendEffect(
+                        CreateTournamentContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "토너먼트 생성에 실패했습니다."
+                        )
+                    )
+                }
             }
             reduce { it.copy(isLoading = false) }
         }
@@ -80,7 +89,11 @@ class CreateTournamentViewModel @Inject constructor(
                     when (val result = tournamentRepository.uploadImage(photo)) {
                         is Result.Success -> result.data
                         is Result.Error -> {
-                            sendEffect(CreateTournamentContract.SideEffect.ShowSnackbar(result.exception.localizedMessage ?: "업로드 실패"))
+                            sendEffect(
+                                CreateTournamentContract.SideEffect.ShowSnackbar(
+                                    result.exception.localizedMessage ?: "업로드 실패"
+                                )
+                            )
                             photo.copy(
                                 status = UploadStatus.Error(
                                     message = result.exception.localizedMessage ?: "업로드 실패"
@@ -99,13 +112,22 @@ class CreateTournamentViewModel @Inject constructor(
         val currentPhoto = retryPhoto.copy(status = UploadStatus.Loading)
         updateSinglePhotoState(currentPhoto)
         viewModelScope.launch {
-            when(val retryUploadResult = tournamentRepository.uploadImage(currentPhoto)) {
+            when (val retryUploadResult = tournamentRepository.uploadImage(currentPhoto)) {
                 is Result.Success -> {
                     updateSinglePhotoState(retryUploadResult.data)
                 }
+
                 is Result.Error -> {
-                    sendEffect(CreateTournamentContract.SideEffect.ShowSnackbar(retryUploadResult.exception.localizedMessage ?: "재시도 실패"))
-                    val error = currentPhoto.copy(status = UploadStatus.Error(retryUploadResult.exception.localizedMessage ?: "재시도 실패"))
+                    sendEffect(
+                        CreateTournamentContract.SideEffect.ShowSnackbar(
+                            retryUploadResult.exception.localizedMessage ?: "재시도 실패"
+                        )
+                    )
+                    val error = currentPhoto.copy(
+                        status = UploadStatus.Error(
+                            retryUploadResult.exception.localizedMessage ?: "재시도 실패"
+                        )
+                    )
                     updateSinglePhotoState(error)
                 }
             }
@@ -126,7 +148,7 @@ class CreateTournamentViewModel @Inject constructor(
         reduce { state ->
             val currentList = state.selectedPhotos.toMutableList()
             updatedPhotos.forEach { updated ->
-                val index = currentList.indexOfFirst { it.id == updated.id}
+                val index = currentList.indexOfFirst { it.id == updated.id }
                 if (index != -1) {
                     currentList[index] = updated
                 }
