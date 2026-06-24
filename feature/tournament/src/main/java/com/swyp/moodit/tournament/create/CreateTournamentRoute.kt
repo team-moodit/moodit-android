@@ -28,7 +28,7 @@ import com.swyp.moodit.designsystem.theme.MooditTheme
 fun CreateTournamentRoute(
     viewModel: CreateTournamentViewModel = hiltViewModel(),
     onShowSnackbar: suspend (String, String?) -> Boolean,
-    navigateToMatchUp: () -> Unit
+    navigateToMatchUp: (Long) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -48,7 +48,7 @@ fun CreateTournamentRoute(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
-                is CreateTournamentContract.SideEffect.NavigateToMatchUp -> navigateToMatchUp()
+                is CreateTournamentContract.SideEffect.NavigateToMatchUp -> navigateToMatchUp(sideEffect.tournamentId)
                 is CreateTournamentContract.SideEffect.ShowSnackbar -> onShowSnackbar(
                     sideEffect.message,
                     null

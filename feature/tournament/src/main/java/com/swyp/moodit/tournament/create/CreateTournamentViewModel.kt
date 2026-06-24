@@ -10,16 +10,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateTournamentViewModel @Inject constructor(
     private val tournamentRepository: TournamentRepository
-) :
-    BaseViewModel<CreateTournamentContract.State, CreateTournamentContract.Intent, CreateTournamentContract.SideEffect>(
-        initialState = CreateTournamentContract.State()
-    ) {
+) : BaseViewModel<CreateTournamentContract.State, CreateTournamentContract.Intent, CreateTournamentContract.SideEffect>(
+    initialState = CreateTournamentContract.State()
+) {
     override fun handleIntents(intent: CreateTournamentContract.Intent) {
         when (intent) {
             is CreateTournamentContract.Intent.OnCreateTournamentClick -> {
@@ -66,8 +64,7 @@ class CreateTournamentViewModel @Inject constructor(
             when (val result =
                 tournamentRepository.createMoodMatch(currentState.title, serverIds)) {
                 is Result.Success -> {
-                    Timber.d(result.data.toString())
-                    sendEffect(CreateTournamentContract.SideEffect.ShowSnackbar("토너먼트 생성에 성공했습니다."))
+                    sendEffect(CreateTournamentContract.SideEffect.NavigateToMatchUp(result.data))
                 }
 
                 is Result.Error -> {
@@ -159,8 +156,10 @@ class CreateTournamentViewModel @Inject constructor(
     }
 
     private fun checkCreateTournamentCondition() {
-        val isAllUploaded = currentState.selectedPhotos.isNotEmpty() && currentState.selectedPhotos.all { it.status is UploadStatus.Success }
-        val photoCountCondition = currentState.selectedPhotos.size in MIN_PHOTO_COUNT .. MAX_PHOTO_COUNT
+        val isAllUploaded =
+            currentState.selectedPhotos.isNotEmpty() && currentState.selectedPhotos.all { it.status is UploadStatus.Success }
+        val photoCountCondition =
+            currentState.selectedPhotos.size in MIN_PHOTO_COUNT..MAX_PHOTO_COUNT
         val titleCondition = currentState.title.length in MIN_TITLE_LENGTH..MAX_TITLE_LENGTH
         val createTournamentCondition = isAllUploaded && photoCountCondition && titleCondition
         reduce { it.copy(isTournamentValid = createTournamentCondition) }
