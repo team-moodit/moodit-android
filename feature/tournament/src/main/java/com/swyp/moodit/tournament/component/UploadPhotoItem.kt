@@ -6,11 +6,9 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -24,10 +22,13 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import coil3.compose.SubcomposeAsyncImageContent
+import com.swyp.moodit.designsystem.R
+import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.SelectedPhoto
 import com.swyp.moodit.model.UploadStatus
 
@@ -43,7 +44,7 @@ fun UploadPhotoItem(
             .fillMaxSize()
             .aspectRatio(1f)
             .clip(RoundedCornerShape(12.dp))
-            .background(Color(0xFF2E303D))
+            .background(MooditTheme.colors.onPrimary)
     ) {
         SubcomposeAsyncImage(
             model = photo.uri,
@@ -53,34 +54,47 @@ fun UploadPhotoItem(
         ) {
             val isLoading = photo.status is UploadStatus.Loading
             val isError = photo.status is UploadStatus.Error
-
-            SubcomposeAsyncImageContent(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .alpha(if (photo.status is UploadStatus.Success) 1.0f else 0.5f)
-            )
+            val isSuccess = photo.status is UploadStatus.Success
 
             when {
+                isError -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(MooditTheme.colors.onPrimary),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.info_triangle),
+                            tint = MooditTheme.colors.onSurface,
+                            contentDescription = "icon_image_error"
+                        )
+                    }
+                }
+
                 isLoading -> {
+                    SubcomposeAsyncImageContent(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .alpha(0.5f)
+                    )
+
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
                         CircularProgressIndicator(
-                            modifier = Modifier.size(22.dp),
+                            modifier = Modifier.size(24.dp),
                             strokeWidth = 3.dp,
-                            color = Color.White
+                            color = MooditTheme.colors.primary
                         )
                     }
                 }
 
-                isError -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(imageVector = Icons.Default.Info, tint = Color(0xFFFF6054), contentDescription = "icon_image_error")
-                    }
+                isSuccess -> {
+                    SubcomposeAsyncImageContent(
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
             }
         }
@@ -94,8 +108,8 @@ fun UploadPhotoItem(
                     .padding(4.dp)
                     .size(22.dp),
                 colors = IconButtonDefaults.iconButtonColors(
-                    containerColor = Color.Black.copy(alpha = 0.6f),
-                    contentColor = Color.White
+                    containerColor = Color.Black.copy(alpha = 0.5f),
+                    contentColor = MooditTheme.colors.tertiary
                 )
             ) {
                 Icon(
@@ -115,8 +129,8 @@ fun UploadPhotoItem(
                     .padding(4.dp)
                     .size(22.dp),
                 colors = IconButtonDefaults.iconButtonColors(
-                    containerColor = Color.Black.copy(alpha = 0.6f),
-                    contentColor = Color.White
+                    containerColor = Color.Black.copy(alpha = 0.55f),
+                    contentColor = MooditTheme.colors.tertiary
                 )
             ) {
                 Icon(

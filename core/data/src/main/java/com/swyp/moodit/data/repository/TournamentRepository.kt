@@ -5,4 +5,5 @@ import com.swyp.moodit.model.SelectedPhoto
 
 interface TournamentRepository {
     suspend fun uploadImage(photo: SelectedPhoto): Result<SelectedPhoto>
+    suspend fun createMoodMatch(title: String, imageIds: List<Long>): Result<Long>
 }

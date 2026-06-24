@@ -1,19 +1,16 @@
 package com.swyp.moodit.tournament.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddPhotoAlternate
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.StarPurple500
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -21,14 +18,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.swyp.moodit.designsystem.R
+import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.SelectedPhoto
 import com.swyp.moodit.model.UploadStatus
 import com.swyp.moodit.tournament.create.CreateTournamentContract
@@ -52,68 +51,89 @@ fun UploadPhotoStatusCard(
     val (statusText, statusColor, statusIcon) = when {
         hasError -> Triple(
             buildAnnotatedString {
-                withStyle(style = SpanStyle(color = Color.White)) {
+                withStyle(style = SpanStyle(color = MooditTheme.colors.borderDefault)) {
                     append("불러오지 못한 사진이 있어요.")
                 }
             },
-            Color.Red,
+            MooditTheme.colors.error,
             Icons.Default.Info
         )
 
         isLoading -> Triple(
             buildAnnotatedString {
-                withStyle(style = SpanStyle(color = Color.White)) {
+                withStyle(style = SpanStyle(color = MooditTheme.colors.borderDefault)) {
                     append("사진을 불러오고 있어요.")
                 }
             },
-            Color(0xFF4CAF50),
-            Icons.Default.AddPhotoAlternate
+            MooditTheme.colors.primary,
+            Unit
         )
 
         else -> Triple(
             buildAnnotatedString {
                 withStyle(
                     style = SpanStyle(
-                        color = Color(0xFF4CAF50),
+                        color = MooditTheme.colors.primary,
                         fontWeight = FontWeight.Bold
                     )
                 ) {
                     append("${totalCount}장")
                 }
-                withStyle(style = SpanStyle(color = Color.White)) {
+                withStyle(style = SpanStyle(color = MooditTheme.colors.borderDefault)) {
                     append(" 선택됨 · ")
                 }
-                withStyle(style = SpanStyle(color = Color(0xFF4CAF50))) {
+                withStyle(style = SpanStyle(color = MooditTheme.colors.primary)) {
                     append("${totalCount}강")
                 }
-                withStyle(style = SpanStyle(color = Color.White)) {
+                withStyle(style = SpanStyle(color = MooditTheme.colors.borderDefault)) {
                     append("으로 시작해요!")
                 }
             },
-            Color(0xFF4CAF50),
-            Icons.Default.StarPurple500
+            MooditTheme.colors.primary,
+            R.drawable.star_filled
         )
     }
 
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(Color.Black, RoundedCornerShape(16.dp))
-            .padding(16.dp),
+            .background(MooditTheme.colors.primaryContainer, RoundedCornerShape(16.dp))
+            .padding(horizontal = 16.dp, vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            imageVector = statusIcon,
-            contentDescription = "icon_state",
-            tint = statusColor,
-            modifier = Modifier.size(24.dp)
-        )
+        when {
+            isLoading -> {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    color = statusColor,
+                    strokeWidth = 2.5.dp
+                )
+            }
+
+            statusIcon is Int -> {
+                Icon(
+                    painter = painterResource(statusIcon),
+                    contentDescription = "icon_state",
+                    tint = statusColor,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+
+            statusIcon is ImageVector -> {
+                Icon(
+                    imageVector = statusIcon,
+                    contentDescription = "icon_state",
+                    tint = statusColor,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.width(12.dp))
 
         Text(
             text = statusText,
-            fontSize = 14.sp,
+            style = MooditTheme.typography.b3Medium,
             modifier = Modifier.weight(1f)
         )
 
@@ -121,13 +141,12 @@ fun UploadPhotoStatusCard(
             buildAnnotatedString {
                 withStyle(
                     style = SpanStyle(
-                        color = Color(0xFF4CAF50),
-                        fontWeight = FontWeight.Bold
+                        color = MooditTheme.colors.primary
                     )
                 ) {
                     append("$successCount")
                 }
-                withStyle(style = SpanStyle(color = Color.White)) {
+                withStyle(style = SpanStyle(color = MooditTheme.colors.borderDefault)) {
                     append("/${totalCount}장")
                 }
             }
@@ -135,13 +154,12 @@ fun UploadPhotoStatusCard(
             buildAnnotatedString {
                 withStyle(
                     style = SpanStyle(
-                        color = Color.Red,
-                        fontWeight = FontWeight.Bold
+                        color = MooditTheme.colors.error
                     )
                 ) {
                     append("$successCount")
                 }
-                withStyle(style = SpanStyle(color = Color.White)) {
+                withStyle(style = SpanStyle(color = MooditTheme.colors.borderDefault)) {
                     append("/${totalCount}장")
                 }
             }
@@ -150,19 +168,10 @@ fun UploadPhotoStatusCard(
             null
         }
 
-        // 상태 표시 점
         if (countText != null) {
-            Box(
-                modifier = Modifier
-                    .size(6.dp)
-                    .background(statusColor, CircleShape)
-            )
-
-            Spacer(modifier = Modifier.width(6.dp))
-
             Text(
                 text = countText,
-                fontSize = 14.sp,
+                style = MooditTheme.typography.caption
             )
         }
     }
