@@ -2,7 +2,7 @@
 # Project versions
 projectApplicationId = "com.swyp.moodit"
 projectVersionCode = "1"
-projectVersionName = "1.0"
+projectVersionName = "1.0.0"
 minSdkVersion = "28"
 targetSdkVersion = "36"
 compileSdkVersion = "36"

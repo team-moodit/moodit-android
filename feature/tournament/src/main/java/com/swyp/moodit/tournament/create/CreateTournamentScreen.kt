@@ -77,6 +77,7 @@ fun CreateTournamentScreen(
         },
         bottomBar = {
             MooditFilledButton(
+                modifier = Modifier.padding(horizontal = 16.dp),
                 onClick = { onCreateTournamentClick() },
                 enabled = uiState.isTournamentValid,
                 text = if (uiState.isTournamentValid) "시작하기" else "사진 준비 중"

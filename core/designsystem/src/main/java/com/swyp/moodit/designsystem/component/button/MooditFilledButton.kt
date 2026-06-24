@@ -51,7 +51,7 @@ fun MooditFilledButton(
     )
 
     Button(
-        modifier = modifier.fillMaxWidth().padding(16.dp),
+        modifier = modifier.fillMaxWidth(),
         onClick = onClick,
         interactionSource = interactionSource,
         colors = colors,
