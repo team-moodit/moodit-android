@@ -1,7 +1,6 @@
 package com.swyp.moodit.tournament.matchUp
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,19 +17,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.swyp.moodit.designsystem.component.MooditScaffold
+import com.swyp.moodit.designsystem.component.button.MooditFilledButton
+import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.tournament.component.MoodCandidateItem
 import com.swyp.moodit.tournament.component.MoodReasonItem
 
@@ -47,47 +45,56 @@ fun MatchUpScreen(
         0f
     }
 
-    Scaffold(
+    MooditScaffold(
         modifier = Modifier.fillMaxSize(),
-        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .windowInsetsPadding(WindowInsets.statusBars)
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 16.dp, vertical = 18.dp)
             ) {
                 LinearProgressIndicator(
                     progress = { progressFraction },
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(bottom = 4.dp)
                         .height(5.dp),
-                    color = Color(0xFFC4F768),
-                    trackColor = Color(0xFF3F4454)
+                    color = MooditTheme.colors.primary,
+                    trackColor = MooditTheme.colors.onSurfaceContainer,
+                    strokeCap = StrokeCap.Round
                 )
+
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Absolute.SpaceBetween
                 ) {
-                    Text(text = "${uiState.currentMatchIndex} / ${uiState.totalMatchUpInCurrentRound}")
-                    Text(text = uiState.currentRoundTitle)
+                    Text(
+                        text = "${uiState.currentMatchIndex}/${uiState.totalMatchUpInCurrentRound}",
+                        style = MooditTheme.typography.caption,
+                        color = MooditTheme.colors.textSecondary
+                    )
+                    Text(
+                        text = uiState.currentRoundTitle,
+                        style = MooditTheme.typography.b2Medium,
+                        color = MooditTheme.colors.primary
+                    )
                 }
             }
         },
         bottomBar = {
             if (uiState.currentStep == TournamentStep.REASON) {
-                Button(
+                MooditFilledButton(
                     onClick = { onNextButtonClick() },
                     modifier = Modifier
                         .fillMaxWidth()
                         .navigationBarsPadding()
                         .padding(16.dp),
                     shape = RoundedCornerShape(12.dp),
-                    enabled = uiState.selectedReason != null
-                ) { Text(text = if (uiState.isMatchCompleted) "결과 보러가기" else "다음") }
+                    enabled = uiState.selectedReason != null,
+                    text = if (uiState.isMatchCompleted) "결과 보러가기" else "다음"
+                )
             }
         }
     ) { innerPadding ->
@@ -123,12 +130,17 @@ fun SelectPhotoContent(
     uiState: MatchUpContract.State,
     onSelectPhoto: (MoodCandidate) -> Unit
 ) {
-    val isWalkOver = uiState.currentMatchUp?.candidateB == null
     Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = uiState.tournamentTitle, fontSize = 14.sp)
         Text(
-            text = if (uiState.currentMatchUp?.candidateB == null) "부전승으로 이 사진이 올라가요." else "더 마음이 가는 쪽을 골라보세요.",
-            fontSize = 18.sp
+            text = uiState.tournamentTitle,
+            style = MooditTheme.typography.b2Medium,
+            color = MooditTheme.colors.tertiary
+        )
+        Spacer(modifier = Modifier.height(6.dp))
+        Text(
+            text = "더 마음이 가는 쪽을 골라보세요.",
+            style = MooditTheme.typography.b1Large,
+            color = MooditTheme.colors.onPrimaryContainer
         )
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -136,8 +148,8 @@ fun SelectPhotoContent(
             MoodCandidateItem(
                 modifier = Modifier
                     .weight(1f)
+                    .padding(horizontal = 24.dp)
                     .aspectRatio(1f)
-                    .padding(horizontal = 16.dp)
                     .clickable { onSelectPhoto(uiState.currentMatchUp.candidateA) },
                 isSelected = uiState.selectedWinner == uiState.currentMatchUp.candidateA,
                 anyPhotoSelected = uiState.selectedWinner != null,
@@ -146,28 +158,16 @@ fun SelectPhotoContent(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            if (!isWalkOver) {
-                MoodCandidateItem(
-                    modifier = Modifier
-                        .weight(1f)
-                        .aspectRatio(1f)
-                        .padding(horizontal = 16.dp)
-                        .clickable { onSelectPhoto(uiState.currentMatchUp.candidateB) },
-                    isSelected = uiState.selectedWinner == uiState.currentMatchUp.candidateB,
-                    anyPhotoSelected = uiState.selectedWinner != null,
-                    moodCandidate = uiState.currentMatchUp.candidateB
-                )
-            } else {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 16.dp)
-                        .fillMaxWidth()
-                        .aspectRatio(1f)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color.Yellow)
-                )
-            }
+            MoodCandidateItem(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 24.dp)
+                    .aspectRatio(1f)
+                    .clickable { onSelectPhoto(uiState.currentMatchUp.candidateB) },
+                isSelected = uiState.selectedWinner == uiState.currentMatchUp.candidateB,
+                anyPhotoSelected = uiState.selectedWinner != null,
+                moodCandidate = uiState.currentMatchUp.candidateB
+            )
 
             Spacer(modifier = Modifier.height(24.dp))
         }
@@ -180,10 +180,18 @@ fun SelectReasonContent(
     onSelectReason: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = "어떤 점이 더 좋았나요?", modifier = Modifier.padding(vertical = 24.dp))
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "어떤 점이 더 좋았나요?",
+            modifier = Modifier.padding(top = 7.dp, bottom = 20.dp),
+            style = MooditTheme.typography.b1Large,
+            color = MooditTheme.colors.onBackground
+        )
 
-        if (uiState.currentMatchUp?.candidateB != null) {
+        if (uiState.currentMatchUp != null) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -192,7 +200,7 @@ fun SelectReasonContent(
                 MoodCandidateItem(
                     modifier = Modifier
                         .weight(1f)
-                        .aspectRatio(0.72f),
+                        .aspectRatio(0.6f),
                     isSelected = uiState.selectedWinner == uiState.currentMatchUp.candidateA,
                     anyPhotoSelected = uiState.selectedWinner != null,
                     moodCandidate = uiState.currentMatchUp.candidateA
@@ -201,7 +209,7 @@ fun SelectReasonContent(
                 MoodCandidateItem(
                     modifier = Modifier
                         .weight(1f)
-                        .aspectRatio(0.72f),
+                        .aspectRatio(0.6f),
                     isSelected = uiState.selectedWinner == uiState.currentMatchUp.candidateB,
                     anyPhotoSelected = uiState.selectedWinner != null,
                     moodCandidate = uiState.currentMatchUp.candidateB
@@ -209,12 +217,12 @@ fun SelectReasonContent(
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             uiState.reasons.forEach { reason ->
                 MoodReasonItem(

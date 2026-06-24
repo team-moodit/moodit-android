@@ -1,14 +1,10 @@
 package com.swyp.moodit.tournament.matchUp
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.util.LinkedList
 import java.util.Queue
 import javax.inject.Inject
@@ -20,7 +16,7 @@ class MatchUpViewModel @Inject constructor(
     BaseViewModel<MatchUpContract.State, MatchUpContract.Intent, MatchUpContract.SideEffect>(
         initialState = MatchUpContract.State()
     ) {
-        private val tournamentId = savedStateHandle.toRoute<TournamentRoute.MatchUp>().tournamentId
+    private val tournamentId = savedStateHandle.toRoute<TournamentRoute.MatchUp>().tournamentId
 
     private val currentRoundQueue: Queue<MatchUp> = LinkedList()
     private val nextRoundWinner = mutableListOf<MoodCandidate>()
@@ -118,8 +114,6 @@ class MatchUpViewModel @Inject constructor(
         for (i in photoList.indices step 2) {
             if (i + 1 < photoList.size) {
                 currentRoundQueue.add(MatchUp(photoList[i], photoList[i + 1]))
-            } else {
-                currentRoundQueue.add(MatchUp(photoList[i], null))
             }
         }
         totalMatchUpInCurrentRound = currentRoundQueue.size
@@ -147,6 +141,12 @@ class MatchUpViewModel @Inject constructor(
                     totalMatchUpInCurrentRound = totalMatchUpInCurrentRound,
                     isMatchCompleted = isFinalMatch
                 )
+            }
+            val nextMatchUpResult = true
+            if (nextMatchUpResult) {
+                sendEffect(MatchUpContract.SideEffect.ShowSnackbar("진행 상황이 저장됐어요"))
+            } else {
+                sendEffect(MatchUpContract.SideEffect.ShowSnackbar("진행 상황을 저장하지 못했어요"))
             }
         } else {
             startTournament(nextRoundWinner.toList())

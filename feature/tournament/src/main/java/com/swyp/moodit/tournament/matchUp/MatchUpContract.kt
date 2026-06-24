@@ -1,6 +1,5 @@
 package com.swyp.moodit.tournament.matchUp
 
-import android.view.WindowInsets
 import com.swyp.moodit.ui.base.UiIntent
 import com.swyp.moodit.ui.base.UiSideEffect
 import com.swyp.moodit.ui.base.UiState
@@ -22,14 +21,14 @@ class MatchUpContract {
 
     sealed interface SideEffect : UiSideEffect {
         data class ShowSnackbar(val message: String) : SideEffect
-        data class NavigateToResult(val winnerPhotoId: Long): SideEffect
-        object NavigateBack: SideEffect
+        data class NavigateToResult(val winnerPhotoId: Long) : SideEffect
+        object NavigateBack : SideEffect
     }
 
     sealed interface Intent : UiIntent {
         data class OnCandidateSelect(val candidate: MoodCandidate) : Intent
         data class OnReasonSelect(val reasonId: Long) : Intent
-        object OnNextButtonClick: Intent
+        object OnNextButtonClick : Intent
         object OnBackStepClick : Intent
     }
 }
@@ -41,7 +40,7 @@ enum class TournamentStep {
 
 data class MatchUp(
     val candidateA: MoodCandidate,
-    val candidateB: MoodCandidate? = null
+    val candidateB: MoodCandidate
 )
 
 data class MoodCandidate(val id: Long, val photoUri: String, val name: String)

@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,37 +18,45 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.tournament.matchUp.MoodReason
 
 @Composable
 fun MoodReasonItem(reason: MoodReason, onReasonClick: () -> Unit) {
-    var baseModifier = Modifier
+    val baseModifier = Modifier
         .fillMaxWidth()
-        .height(52.dp)
-        .clip(RoundedCornerShape(16.dp))
+        .clip(RoundedCornerShape(12.dp))
         .clickable { onReasonClick() }
 
-    if (reason.isSelected) {
-        baseModifier = baseModifier
-            .background(Color.Green)
-            .border(1.dp, Color.Yellow, RoundedCornerShape(16.dp))
+    val borderModifier = if (reason.isSelected) {
+        Modifier
+            .background(MooditTheme.colors.primary.copy(alpha = 0.1f))
+            .border(1.dp, MooditTheme.colors.primary, RoundedCornerShape(12.dp))
+    } else {
+        Modifier
+            .background(MooditTheme.colors.primaryContainer)
+            .border(1.dp, MooditTheme.colors.surfaceContainer, RoundedCornerShape(12.dp))
     }
 
     Row(
         modifier = baseModifier
-            .padding(horizontal = 16.dp),
+            .then(borderModifier)
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = reason.content)
+        Text(
+            text = reason.content,
+            style = MooditTheme.typography.b2Medium,
+            color = MooditTheme.colors.onBackground
+        )
         if (reason.isSelected) {
             Icon(
                 imageVector = Icons.Filled.CheckCircle,
                 contentDescription = "icon_check_reason",
-                tint = Color.Red,
+                tint = MooditTheme.colors.primary,
                 modifier = Modifier.size(20.dp)
             )
         }
