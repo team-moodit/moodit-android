@@ -3,11 +3,12 @@ package com.swyp.moodit.onboard.report
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.swyp.moodit.designsystem.component.MooditSnackbarType
 
 @Composable
 fun ReportRoute(
     viewModel: ReportViewModel = hiltViewModel(),
-    onShowSnackbar: suspend (String, String?) -> Boolean,
+    onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
     navigateToLogin: () -> Unit
 ) {
     LaunchedEffect(Unit) {

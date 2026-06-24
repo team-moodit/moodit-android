@@ -15,10 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.swyp.moodit.designsystem.component.MainBottomBar
 import com.swyp.moodit.designsystem.component.MooditSnackbar
+import com.swyp.moodit.designsystem.component.MooditSnackbarType
+import com.swyp.moodit.designsystem.component.MooditSnackbarVisuals
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.navigation.MainBottomBarTab
 import com.swyp.moodit.navigation.MainBottomBarTab.Companion.toItemData
 import com.swyp.moodit.navigation.MooditNavHost
+import kotlin.reflect.typeOf
 
 @Composable
 internal fun MooditApp(
@@ -71,11 +74,12 @@ internal fun MooditAppContent(
         MooditNavHost(
             modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding()),
             appState = appState,
-            onShowSnackbar = { message, action ->
+            onShowSnackbar = { message, type ->
                 snackbarHostState.showSnackbar(
-                    message = message,
-                    actionLabel = action,
-                    duration = SnackbarDuration.Short
+                    MooditSnackbarVisuals(
+                        message = message,
+                        type = type ?: MooditSnackbarType.SUCCESS
+                    )
                 ) == ActionPerformed
             }
         )

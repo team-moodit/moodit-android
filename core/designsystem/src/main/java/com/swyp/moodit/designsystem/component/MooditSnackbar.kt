@@ -28,10 +28,24 @@ import com.swyp.moodit.designsystem.theme.MooditTheme
 fun MooditSnackbar(
     snackbarData: SnackbarData,
     modifier: Modifier = Modifier,
-    iconResId: Int = R.drawable.star_filled,
-    iconColor: Color = MooditTheme.colors.primary,
+    successIconResId: Int = R.drawable.star_filled,
+    errorIconResId: Int = R.drawable.info_triangle,
+    successIconColor: Color = MooditTheme.colors.primary,
+    errorIconColor: Color = MooditTheme.colors.onSurface,
     textColor: Color = MooditTheme.colors.tertiary
 ) {
+    val visuals = snackbarData.visuals as? MooditSnackbarVisuals
+    val type = visuals?.type ?: MooditSnackbarType.SUCCESS
+
+    val iconId = when (type) {
+        MooditSnackbarType.SUCCESS -> successIconResId
+        MooditSnackbarType.ERROR -> errorIconResId
+    }
+    val iconColor = when (type) {
+        MooditSnackbarType.SUCCESS -> successIconColor
+        MooditSnackbarType.ERROR -> errorIconColor
+    }
+
     Row(
         modifier = modifier
             .wrapContentWidth()
@@ -44,7 +58,7 @@ fun MooditSnackbar(
         horizontalArrangement = Arrangement.Center
     ) {
         Icon(
-            painter = painterResource(iconResId),
+            painter = painterResource(iconId),
             contentDescription = "icon_snackbar",
             tint = iconColor,
             modifier = Modifier.size(20.dp)
@@ -66,12 +80,11 @@ fun MooditSnackbarPreview() {
     val mockSnackbarData = object : SnackbarData {
         override val visuals: SnackbarVisuals = object : SnackbarVisuals {
             override val message: String = "진행 상황이 저장됐어요"
-            override val actionLabel: String? = null // 필요한 경우 "Action" 대입
+            override val actionLabel: String? = null
             override val duration: SnackbarDuration = SnackbarDuration.Short
             override val withDismissAction: Boolean = false
         }
 
-        // 프리뷰에서는 사용하지 않는 인터랙션 메서드들은 빈 채로 둡니다.
         override fun dismiss() {}
         override fun performAction() {}
     }
@@ -80,3 +93,15 @@ fun MooditSnackbarPreview() {
         MooditSnackbar(snackbarData = mockSnackbarData)
     }
 }
+
+enum class MooditSnackbarType {
+    SUCCESS, ERROR
+}
+
+data class MooditSnackbarVisuals(
+    override val message: String,
+    override val actionLabel: String? = null,
+    override val duration: SnackbarDuration = SnackbarDuration.Short,
+    override val withDismissAction: Boolean = false,
+    val type: MooditSnackbarType = MooditSnackbarType.SUCCESS
+) : SnackbarVisuals

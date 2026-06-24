@@ -10,11 +10,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.swyp.moodit.designsystem.component.MooditSnackbarType
 
 @Composable
 fun SettingRoute(
     viewModel: SettingViewModel = hiltViewModel(),
-    onShowSnackbar: suspend (String, String?) -> Boolean,
+    onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
     navigateToLogin: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()

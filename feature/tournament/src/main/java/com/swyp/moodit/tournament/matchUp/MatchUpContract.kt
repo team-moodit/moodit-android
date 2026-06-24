@@ -1,5 +1,6 @@
 package com.swyp.moodit.tournament.matchUp
 
+import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.ui.base.UiIntent
 import com.swyp.moodit.ui.base.UiSideEffect
 import com.swyp.moodit.ui.base.UiState
@@ -16,11 +17,12 @@ class MatchUpContract {
         val totalMatchUpInCurrentRound: Int = 0,
         val isMatchCompleted: Boolean = false,
         val selectedReason: MoodReason? = null,
-        val reasons: List<MoodReason> = emptyList()
+        val reasons: List<MoodReason> = emptyList(),
+        val showRetryDialog: Boolean = false
     ) : UiState
 
     sealed interface SideEffect : UiSideEffect {
-        data class ShowSnackbar(val message: String) : SideEffect
+        data class ShowSnackbar(val message: String, val snackbarType: MooditSnackbarType = MooditSnackbarType.SUCCESS) : SideEffect
         data class NavigateToResult(val winnerPhotoId: Long) : SideEffect
         object NavigateBack : SideEffect
     }
@@ -29,6 +31,8 @@ class MatchUpContract {
         data class OnCandidateSelect(val candidate: MoodCandidate) : Intent
         data class OnReasonSelect(val reasonId: Long) : Intent
         object OnNextButtonClick : Intent
+        object ShowRetrySaveDialog : Intent
+        object OnRetryClick : Intent
         object OnBackStepClick : Intent
     }
 }

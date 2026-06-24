@@ -10,12 +10,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.navigation.MissionStatus
 
 @Composable
 fun HomeMainRoute(
     viewModel: HomeMainViewModel = hiltViewModel(),
-    onShowSnackbar: suspend (String, String?) -> Boolean,
+    onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
     navigateToSetting: () -> Unit,
     navigateToCreateTournament: () -> Unit,
     navigateToMissionDetail: (String, MissionStatus) -> Unit,

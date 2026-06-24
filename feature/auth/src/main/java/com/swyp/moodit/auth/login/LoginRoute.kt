@@ -11,11 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.swyp.moodit.designsystem.component.MooditSnackbarType
 
 @Composable
 fun LoginRoute(
     viewModel: LoginViewModel = hiltViewModel(),
-    onShowSnackbar: suspend (String, String?) -> Boolean,
+    onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
     navigateToMain: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()

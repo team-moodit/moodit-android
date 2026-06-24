@@ -12,10 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.swyp.moodit.designsystem.component.MooditSnackbarType
 
 @Composable
 fun ReportScreen(
-    onShowSnackbar: suspend (String, String?) -> Boolean,
+    onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
     onStartClick: () -> Unit
 ) {
     Column(

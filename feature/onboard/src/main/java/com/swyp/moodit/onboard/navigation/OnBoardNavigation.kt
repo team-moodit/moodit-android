@@ -3,6 +3,7 @@ package com.swyp.moodit.onboard.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.navigation.OnBoardingRoute
 import com.swyp.moodit.onboard.report.ReportRoute
 import com.swyp.moodit.onboard.saveTaste.SaveTasteRoute
@@ -10,7 +11,7 @@ import com.swyp.moodit.onboard.selectTaste.SelectTasteRoute
 
 fun NavGraphBuilder.onBoardingNavGraph(
     navController: NavController,
-    onShowSnackbar: suspend (String, String?) -> Boolean,
+    onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
     navigateToLogin: () -> Unit,
 ) {
     composable<OnBoardingRoute.SaveTaste>() {

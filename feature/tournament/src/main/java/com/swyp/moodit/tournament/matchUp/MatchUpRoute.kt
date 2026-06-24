@@ -14,11 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.swyp.moodit.designsystem.component.MooditSnackbarType
 
 @Composable
 fun MatchUpRoute(
     viewModel: MatchUpViewModel = hiltViewModel(),
-    onShowSnackbar: suspend (String, String?) -> Boolean,
+    onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
     navigateToTournamentResult: (Long) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -35,7 +36,7 @@ fun MatchUpRoute(
                 }
 
                 is MatchUpContract.SideEffect.ShowSnackbar -> {
-                    onShowSnackbar(sideEffect.message, null)
+                    onShowSnackbar(sideEffect.message, sideEffect.snackbarType)
                 }
             }
         }
