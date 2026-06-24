@@ -29,6 +29,7 @@ import com.swyp.moodit.designsystem.component.MooditScaffold
 import com.swyp.moodit.designsystem.component.MooditTopBar
 import com.swyp.moodit.designsystem.component.button.MooditFilledButton
 import com.swyp.moodit.designsystem.theme.MooditTheme
+import com.swyp.moodit.home.BuildConfig
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -168,7 +169,7 @@ fun SettingScreen(
                     style = MooditTheme.typography.b3Medium
                 )
                 Text(
-                    text = "v 1.0.0",
+                    text = BuildConfig.VERSION_NAME,
                     color = MooditTheme.colors.textSecondary,
                     style = MooditTheme.typography.b3Medium
                 )
