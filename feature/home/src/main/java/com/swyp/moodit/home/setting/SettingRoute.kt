@@ -43,8 +43,16 @@ fun SettingRoute(
 
         else -> {
             SettingScreen(
-                onLogOutClick = { viewModel.sendIntent(SettingContract.Intent.OnLogOutClick) },
-                onDeleteAccountClick = { viewModel.sendIntent(SettingContract.Intent.OnDeleteAccountClick) }
+                onTermsClick = { viewModel.sendIntent(SettingContract.Intent.OnTermsClick) },
+                onPrivacyPolicyClick = { viewModel.sendIntent(SettingContract.Intent.OnPrivacyPolicyClick) },
+                onFeedbackClick = { viewModel.sendIntent(SettingContract.Intent.OnFeedbackClick) },
+                onShowLogOutDialog = { viewModel.sendIntent(SettingContract.Intent.ShowLogOutDialog) },
+                onShowDeleteAccountDialog = { viewModel.sendIntent(SettingContract.Intent.ShowDeleteAccountDialog) },
+                onDismissDialog = { viewModel.sendIntent(SettingContract.Intent.DismissDialog) },
+                onConfirmLogOutClick = { viewModel.sendIntent(SettingContract.Intent.ConfirmLogOut) },
+                onConfirmDeleteAccountClick = { viewModel.sendIntent(SettingContract.Intent.ConfirmDeleteAccount) },
+                onConfirmCompleteDeleteAccountClick = { viewModel.sendIntent(SettingContract.Intent.ConfirmCompleteDeleteAccount) },
+                uiState = uiState
             )
         }
     }

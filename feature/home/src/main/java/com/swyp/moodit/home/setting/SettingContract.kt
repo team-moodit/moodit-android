@@ -6,7 +6,8 @@ import com.swyp.moodit.ui.base.UiState
 
 class SettingContract {
     data class State(
-        val isLoading: Boolean = false
+        val isLoading: Boolean = false,
+        val dialogType: DialogType? = null
     ) : UiState
 
     sealed interface SideEffect : UiSideEffect {
@@ -15,7 +16,20 @@ class SettingContract {
     }
 
     sealed interface Intent : UiIntent {
-        object OnLogOutClick : Intent
-        object OnDeleteAccountClick : Intent
+        object OnTermsClick : Intent
+        object OnPrivacyPolicyClick : Intent
+        object OnFeedbackClick : Intent
+        object ShowLogOutDialog : Intent
+        object ShowDeleteAccountDialog : Intent
+        object ConfirmLogOut : Intent
+        object ConfirmDeleteAccount : Intent
+        object ConfirmCompleteDeleteAccount : Intent
+        object DismissDialog : Intent
+    }
+
+    enum class DialogType {
+        LOGOUT,
+        DELETE_ACCOUNT,
+        COMPLETE_DELETE_ACCOUNT
     }
 }
