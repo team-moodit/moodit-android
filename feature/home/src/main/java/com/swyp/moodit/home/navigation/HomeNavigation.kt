@@ -20,7 +20,7 @@ fun NavGraphBuilder.homeNavGraph(
     navigateToHome: () -> Unit,
     navigateToReport: () -> Unit,
     navigateToCreateTournament: () -> Unit,
-    navigateToMissionDetail: (String, MissionStatus) -> Unit
+    navigateToMissionDetail: (Long, MissionStatus) -> Unit
 ) {
     composable<BottomBarRoute.Home>() {
         HomeMainRoute(

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,7 +31,7 @@ import com.swyp.moodit.designsystem.theme.MooditTheme
 fun HomeMainScreen(
     onSettingClick: () -> Unit,
     onCreateTournamentClick: () -> Unit,
-    onMissionClick: (String) -> Unit
+    onMissionClick: (Long) -> Unit
 ) {
     MooditScaffold(
         modifier = Modifier.fillMaxSize(),
@@ -68,7 +67,7 @@ fun HomeMainScreen(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { onMissionClick("OnGoingMissionId") },
+                    .clickable { onMissionClick(1234L) },
                 shape = RoundedCornerShape(24.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = Color(0xFFF5F5F5)
@@ -87,7 +86,7 @@ fun HomeMainScreen(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { onMissionClick("CompletedMissionId") },
+                    .clickable { onMissionClick(123L) },
                 shape = RoundedCornerShape(24.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = Color(0xFFF5F5F5)

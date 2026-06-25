@@ -13,13 +13,13 @@ class HomeMainContract {
     sealed interface SideEffect : UiSideEffect {
         object NavigateToSetting : SideEffect
         object NavigateToCreateTournament : SideEffect
-        data class NavigateToMissionDetail(val missionId: String, val status: MissionStatus) : SideEffect
+        data class NavigateToMissionDetail(val missionId: Long, val status: MissionStatus) : SideEffect
         data class ShowSnackbar(val message: String) : SideEffect
     }
 
     sealed interface Intent : UiIntent {
         object OnSettingClick : Intent
         object OnCreateTournamentClick : Intent
-        data class OnMissionClick(val missionId: String) : Intent
+        data class OnMissionClick(val missionId: Long) : Intent
     }
 }

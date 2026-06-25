@@ -9,7 +9,7 @@ sealed interface HomeRoute : Route {
 
     @Serializable
     data class MissionDetail(
-        val missionId: String,
+        val missionId: Long,
         val status: MissionStatus = MissionStatus.DEFAULT
     ) : HomeRoute
 
