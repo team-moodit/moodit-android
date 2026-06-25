@@ -31,9 +31,9 @@ import androidx.compose.ui.unit.dp
 import com.swyp.moodit.designsystem.component.MooditDialog
 import com.swyp.moodit.designsystem.component.MooditScaffold
 import com.swyp.moodit.designsystem.component.button.MooditFilledButton
+import com.swyp.moodit.designsystem.component.button.MooditSelectableButton
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.tournament.component.MoodCandidateItem
-import com.swyp.moodit.tournament.component.MoodReasonItem
 
 @Composable
 fun MatchUpScreen(
@@ -236,9 +236,10 @@ fun SelectReasonContent(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             uiState.reasons.forEach { reason ->
-                MoodReasonItem(
-                    reason = reason,
-                    onReasonClick = { onSelectReason(reason.id) }
+                MooditSelectableButton(
+                    content = reason.content,
+                    isSelected = reason.isSelected,
+                    onItemClick = { onSelectReason(reason.id) }
                 )
             }
         }

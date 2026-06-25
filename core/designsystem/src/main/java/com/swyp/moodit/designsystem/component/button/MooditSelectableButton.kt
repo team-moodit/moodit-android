@@ -1,4 +1,4 @@
-package com.swyp.moodit.tournament.component
+package com.swyp.moodit.designsystem.component.button
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,16 +21,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.swyp.moodit.designsystem.theme.MooditTheme
-import com.swyp.moodit.tournament.matchUp.MoodReason
 
 @Composable
-fun MoodReasonItem(reason: MoodReason, onReasonClick: () -> Unit) {
+fun MooditSelectableButton(content: String, isSelected: Boolean, onItemClick: () -> Unit) {
     val baseModifier = Modifier
         .fillMaxWidth()
         .clip(RoundedCornerShape(12.dp))
-        .clickable { onReasonClick() }
+        .clickable { onItemClick() }
 
-    val borderModifier = if (reason.isSelected) {
+    val borderModifier = if (isSelected) {
         Modifier
             .background(MooditTheme.colors.primary.copy(alpha = 0.1f))
             .border(1.dp, MooditTheme.colors.primary, RoundedCornerShape(12.dp))
@@ -48,11 +47,11 @@ fun MoodReasonItem(reason: MoodReason, onReasonClick: () -> Unit) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = reason.content,
+            text = content,
             style = MooditTheme.typography.b2Medium,
             color = MooditTheme.colors.onBackground
         )
-        if (reason.isSelected) {
+        if (isSelected) {
             Icon(
                 imageVector = Icons.Filled.CheckCircle,
                 contentDescription = "icon_check_reason",
@@ -65,9 +64,13 @@ fun MoodReasonItem(reason: MoodReason, onReasonClick: () -> Unit) {
 
 @Composable
 @Preview
-fun MoodReasonItemPreview() {
-    val testReason = MoodReason(content = "나한테 잘 어울릴 것 같아서", isSelected = true)
+fun MooditSelectableButtonPreview() {
+    val testContent = "나한테 잘 어울릴 것 같아서"
     MaterialTheme {
-        MoodReasonItem(reason = testReason, onReasonClick = {})
+        MooditSelectableButton(
+            content = testContent,
+            isSelected = true,
+            onItemClick = {}
+        )
     }
 }
