@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -20,7 +19,7 @@ import com.swyp.moodit.navigation.MissionStatus
 fun TournamentResultRoute(
     viewModel: TournamentResultViewModel = hiltViewModel(),
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
-    navigateToMissionDetail: (String, MissionStatus) -> Unit
+    navigateToMissionDetail: (Long, MissionStatus) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -57,7 +56,15 @@ fun TournamentResultRoute(
 
         else -> {
             TournamentResultScreen(
-                onMissionDetailClick = { viewModel.sendIntent(TournamentResultContract.Intent.OnMissionDetailClick) }
+                onMissionDetailClick = { viewModel.sendIntent(TournamentResultContract.Intent.OnMissionDetailClick) },
+                onSelectMission = {
+                    viewModel.sendIntent(
+                        TournamentResultContract.Intent.OnMissionSelect(
+                            it
+                        )
+                    )
+                },
+                uiState = uiState
             )
         }
     }
