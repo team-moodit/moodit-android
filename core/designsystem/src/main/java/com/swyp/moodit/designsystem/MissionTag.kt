@@ -3,6 +3,7 @@ package com.swyp.moodit.designsystem
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,12 +20,13 @@ fun MissionTag(
 ) {
     Box(
         modifier = modifier
+            .wrapContentSize()
             .border(
                 width = 1.dp,
                 color = MooditTheme.colors.primary,
                 shape = RoundedCornerShape(100.dp)
             )
-            .padding(horizontal = 24.dp, vertical = 6.dp),
+            .padding(horizontal = 12.dp, vertical = 6.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(

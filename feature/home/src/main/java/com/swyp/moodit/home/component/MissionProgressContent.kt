@@ -1,0 +1,82 @@
+package com.swyp.moodit.home.component
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.swyp.moodit.designsystem.MissionTag
+import com.swyp.moodit.designsystem.theme.MooditTheme
+
+@Composable
+fun MissionProgressContent(tagContent: String) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.Start
+    ) {
+        MissionTag(content = tagContent)
+        Text(
+            modifier = Modifier.padding(top = 12.dp, bottom = 32.dp),
+            text = "후보와 비슷한 색감으로\n하루 코디해보기",
+            style = MooditTheme.typography.h2,
+            color = MooditTheme.colors.onPrimaryContainer,
+            textAlign = TextAlign.Start
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            MissionInfoCard(
+                modifier = Modifier.weight(1f), title = "진행된 라운드 수", content = "16강"
+            )
+            MissionInfoCard(
+                modifier = Modifier.weight(1f), title = "무드매치 완료 날짜", content = "26.06.10"
+            )
+        }
+        Spacer(modifier = Modifier.height(32.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {}
+                .padding(vertical = 20.dp, horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "미션 삭제하기",
+                color = MooditTheme.colors.borderDefault,
+                style = MooditTheme.typography.b3Medium
+            )
+            Icon(
+                imageVector = Icons.Default.ChevronRight,
+                contentDescription = "icon_click",
+                modifier = Modifier.size(20.dp),
+                tint = MooditTheme.colors.onSurface
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun MissionProgressContentPreview() {
+    MooditTheme {
+        MissionProgressContent(tagContent = "진행중")
+    }
+}
