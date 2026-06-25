@@ -20,7 +20,8 @@ import com.swyp.moodit.designsystem.component.MooditSnackbarType
 fun MatchUpRoute(
     viewModel: MatchUpViewModel = hiltViewModel(),
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
-    navigateToTournamentResult: (Long) -> Unit
+    navigateToTournamentResult: (Long) -> Unit,
+    navigateToHome: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -32,7 +33,7 @@ fun MatchUpRoute(
                 }
 
                 is MatchUpContract.SideEffect.NavigateBack -> {
-                    onShowSnackbar("무드 매치를 종료하시겠습니까?", null)
+                    navigateToHome()
                 }
 
                 is MatchUpContract.SideEffect.ShowSnackbar -> {
@@ -75,8 +76,12 @@ fun MatchUpRoute(
                         )
                     )
                 },
-                onNextButtonClick = {
-                    viewModel.sendIntent(MatchUpContract.Intent.OnNextButtonClick)
+                onNextButtonClick = { viewModel.sendIntent(MatchUpContract.Intent.OnNextButtonClick) },
+                onExitClick = {
+                    viewModel.sendIntent(MatchUpContract.Intent.OnExitClick)
+                },
+                onRetryClick = {
+                    viewModel.sendIntent(MatchUpContract.Intent.OnRetryClick)
                 }
             )
         }

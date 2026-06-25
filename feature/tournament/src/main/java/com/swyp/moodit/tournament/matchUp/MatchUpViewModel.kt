@@ -2,6 +2,7 @@ package com.swyp.moodit.tournament.matchUp
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
+import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,12 +49,20 @@ class MatchUpViewModel @Inject constructor(
                 handleReasonSelect(intent.reasonId)
             }
 
-            is MatchUpContract.Intent.OnBackStepClick -> {
-                handleBackStepClick()
-            }
-
             is MatchUpContract.Intent.OnNextButtonClick -> {
                 handleNextButtonClick()
+            }
+
+            is MatchUpContract.Intent.ShowRetrySaveDialog -> {
+                updateRetryDialogState(true)
+            }
+
+            is MatchUpContract.Intent.OnRetryClick -> {
+                handleRetryClick()
+            }
+
+            is MatchUpContract.Intent.OnExitClick -> {
+                handleExitClick()
             }
         }
     }
@@ -79,7 +88,21 @@ class MatchUpViewModel @Inject constructor(
         }
     }
 
-    private fun handleBackStepClick() {
+    private fun handleRetryClick() {
+        // 중간 저장 api 호출
+        val saveMatchProgressResult = true
+        if (saveMatchProgressResult) {
+            updateRetryDialogState(false)
+            sendEffect(MatchUpContract.SideEffect.ShowSnackbar("진행 상황이 저장됐어요."))
+        }
+        else {
+            updateRetryDialogState(false)
+            sendEffect(MatchUpContract.SideEffect.ShowSnackbar("저장에 실패했어요. 다시 시도해주세요.", MooditSnackbarType.ERROR))
+        }
+    }
+
+    private fun handleExitClick() {
+        updateRetryDialogState(false)
         sendEffect(MatchUpContract.SideEffect.NavigateBack)
     }
 
@@ -146,10 +169,15 @@ class MatchUpViewModel @Inject constructor(
             if (nextMatchUpResult) {
                 sendEffect(MatchUpContract.SideEffect.ShowSnackbar("진행 상황이 저장됐어요"))
             } else {
-                sendEffect(MatchUpContract.SideEffect.ShowSnackbar("진행 상황을 저장하지 못했어요"))
+                sendEffect(MatchUpContract.SideEffect.ShowSnackbar("진행 상황을 저장하지 못했어요", MooditSnackbarType.ERROR))
+                sendIntent(MatchUpContract.Intent.ShowRetrySaveDialog)
             }
         } else {
             startTournament(nextRoundWinner.toList())
         }
+    }
+
+    private fun updateRetryDialogState(showRetryDialog: Boolean) {
+        reduce { it.copy(showRetryDialog = showRetryDialog) }
     }
 }

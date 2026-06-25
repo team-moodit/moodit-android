@@ -30,10 +30,10 @@ class MatchUpContract {
     sealed interface Intent : UiIntent {
         data class OnCandidateSelect(val candidate: MoodCandidate) : Intent
         data class OnReasonSelect(val reasonId: Long) : Intent
-        object OnNextButtonClick : Intent
         object ShowRetrySaveDialog : Intent
+        object OnNextButtonClick : Intent
         object OnRetryClick : Intent
-        object OnBackStepClick : Intent
+        object OnExitClick : Intent
     }
 }
 

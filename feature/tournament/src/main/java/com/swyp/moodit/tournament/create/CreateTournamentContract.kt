@@ -9,10 +9,10 @@ import java.util.Collections.emptyList
 class CreateTournamentContract {
     data class State(
         val isLoading: Boolean = false,
-        val showPhotoPicker: Boolean = false, //true,
+        val showPhotoPicker: Boolean = true,
         val title: String = "",
         val selectedPhotos: List<SelectedPhoto> = emptyList(),
-        val isTournamentValid: Boolean = true //false
+        val isTournamentValid: Boolean = false
     ) : UiState
 
     sealed interface SideEffect : UiSideEffect {

@@ -57,7 +57,8 @@ fun MooditNavHost(
                     missionId,
                     status
                 )
-            }
+            },
+            popBackStack = { appState.popBackStack() }
         )
 
         reportNavGraph(

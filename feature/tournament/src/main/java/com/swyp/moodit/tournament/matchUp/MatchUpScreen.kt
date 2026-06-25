@@ -16,7 +16,9 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.swyp.moodit.designsystem.component.MooditDialog
 import com.swyp.moodit.designsystem.component.MooditScaffold
 import com.swyp.moodit.designsystem.component.button.MooditFilledButton
 import com.swyp.moodit.designsystem.theme.MooditTheme
@@ -37,7 +40,9 @@ fun MatchUpScreen(
     uiState: MatchUpContract.State,
     onSelectCandidate: (MoodCandidate) -> Unit,
     onReasonSelect: (Long) -> Unit,
-    onNextButtonClick: () -> Unit
+    onNextButtonClick: () -> Unit,
+    onExitClick: () -> Unit,
+    onRetryClick: () -> Unit
 ) {
     val progressFraction = if (uiState.totalMatchUpInCurrentRound > 0) {
         uiState.currentMatchIndex.toFloat() / uiState.totalMatchUpInCurrentRound
@@ -116,7 +121,9 @@ fun MatchUpScreen(
                     TournamentStep.REASON -> {
                         SelectReasonContent(
                             uiState = uiState,
-                            onSelectReason = onReasonSelect
+                            onSelectReason = onReasonSelect,
+                            onExitClick = onExitClick,
+                            onRetryClick = onRetryClick
                         )
                     }
                 }
@@ -178,10 +185,14 @@ fun SelectPhotoContent(
 fun SelectReasonContent(
     uiState: MatchUpContract.State,
     onSelectReason: (Long) -> Unit,
+    onExitClick: () -> Unit,
+    onRetryClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -217,17 +228,37 @@ fun SelectReasonContent(
             }
         }
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             uiState.reasons.forEach { reason ->
                 MoodReasonItem(
                     reason = reason,
                     onReasonClick = { onSelectReason(reason.id) }
+                )
+            }
+        }
+
+        if (uiState.showRetryDialog) {
+            MooditDialog(
+                title = "저장하지 못했어요",
+                description = "다시 시도하거나 그냥 나갈 수 있어요."
+            ) {
+                MooditFilledButton(
+                    onClick = { onExitClick() },
+                    modifier = Modifier.weight(1f),
+                    text = "그냥 나가기",
+                    containerColor = MooditTheme.colors.surfaceContainer,
+                    contentColor = MooditTheme.colors.textSecondary
+                )
+                MooditFilledButton(
+                    onClick = { onRetryClick() },
+                    modifier = Modifier.weight(1f),
+                    text = "다시 시도"
                 )
             }
         }
@@ -238,7 +269,10 @@ fun SelectReasonContent(
 @Preview
 fun SelectPhotoContentPreview() {
     MaterialTheme {
-        SelectPhotoContent(uiState = MatchUpContract.State(), onSelectPhoto = {})
+        SelectPhotoContent(
+            uiState = MatchUpContract.State(),
+            onSelectPhoto = {}
+        )
     }
 }
 
@@ -246,6 +280,11 @@ fun SelectPhotoContentPreview() {
 @Preview
 fun SelectReasonContentPreview() {
     MaterialTheme {
-        SelectReasonContent(uiState = MatchUpContract.State(), onSelectReason = {})
+        SelectReasonContent(
+            uiState = MatchUpContract.State(),
+            onSelectReason = {},
+            onExitClick = {},
+            onRetryClick = {}
+        )
     }
 }
