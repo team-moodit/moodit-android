@@ -92,7 +92,7 @@ class MooditAppState(
         navController.navigate(TournamentRoute.CreateTournament)
     }
 
-    fun navigateToMissionDetail(missionId: String, status: MissionStatus) {
+    fun navigateToMissionDetail(missionId: Long, status: MissionStatus) {
         navController.navigate(HomeRoute.MissionDetail(missionId, status))
     }
 

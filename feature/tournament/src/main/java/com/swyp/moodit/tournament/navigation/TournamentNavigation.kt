@@ -17,7 +17,7 @@ import com.swyp.moodit.tournament.result.TournamentResultRoute
 fun NavGraphBuilder.tournamentNavGraph(
     navController: NavController,
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
-    navigateToMissionDetail: (String, MissionStatus) -> Unit,
+    navigateToMissionDetail: (Long, MissionStatus) -> Unit,
     popBackStack: () -> Unit,
 ) {
     composable<BottomBarRoute.Tournament> {

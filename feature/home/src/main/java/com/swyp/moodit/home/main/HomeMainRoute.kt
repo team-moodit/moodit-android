@@ -19,7 +19,7 @@ fun HomeMainRoute(
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
     navigateToSetting: () -> Unit,
     navigateToCreateTournament: () -> Unit,
-    navigateToMissionDetail: (String, MissionStatus) -> Unit,
+    navigateToMissionDetail: (Long, MissionStatus) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
