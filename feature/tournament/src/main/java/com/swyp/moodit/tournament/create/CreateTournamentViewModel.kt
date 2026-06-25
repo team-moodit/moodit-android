@@ -21,7 +21,8 @@ class CreateTournamentViewModel @Inject constructor(
     override fun handleIntents(intent: CreateTournamentContract.Intent) {
         when (intent) {
             is CreateTournamentContract.Intent.OnCreateTournamentClick -> {
-                createTournament()
+                //createTournament()
+                sendEffect(CreateTournamentContract.SideEffect.NavigateToMatchUp(12L))
             }
 
             is CreateTournamentContract.Intent.OnTitleChange -> {

@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.home.main.HomeMainRoute
 import com.swyp.moodit.home.missionDetail.MissionDetailRoute
 import com.swyp.moodit.home.reportReady.ReportReadyRoute
@@ -14,7 +15,7 @@ import com.swyp.moodit.navigation.MissionStatus
 
 fun NavGraphBuilder.homeNavGraph(
     navController: NavController,
-    onShowSnackbar: suspend (String, String?) -> Boolean,
+    onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
     navigateToLogin: () -> Unit,
     navigateToHome: () -> Unit,
     navigateToReport: () -> Unit,

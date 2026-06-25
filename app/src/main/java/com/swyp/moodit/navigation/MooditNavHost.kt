@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.swyp.moodit.auth.navigation.authNavGraph
+import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.home.navigation.homeNavGraph
 import com.swyp.moodit.onboard.navigation.onBoardingNavGraph
 import com.swyp.moodit.report.navigation.reportNavGraph
@@ -14,7 +15,7 @@ import com.swyp.moodit.ui.MooditAppState
 fun MooditNavHost(
     modifier: Modifier = Modifier,
     appState: MooditAppState,
-    onShowSnackbar: suspend (String, String?) -> Boolean
+    onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean
 ) {
     val navController = appState.navController
     NavHost(
@@ -56,7 +57,8 @@ fun MooditNavHost(
                     missionId,
                     status
                 )
-            }
+            },
+            popBackStack = { appState.popBackStack() }
         )
 
         reportNavGraph(

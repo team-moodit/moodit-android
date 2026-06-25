@@ -22,12 +22,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.swyp.moodit.designsystem.component.MooditLottie
+import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.designsystem.theme.MooditTheme
 
 @Composable
 fun CreateTournamentRoute(
     viewModel: CreateTournamentViewModel = hiltViewModel(),
-    onShowSnackbar: suspend (String, String?) -> Boolean,
+    onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
     navigateToMatchUp: (Long) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()

@@ -5,11 +5,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.swyp.moodit.designsystem.component.MooditSnackbarType
 
 @Composable
 fun ReportMainRoute(
     viewModel: ReportMainViewModel = hiltViewModel(),
-    onShowSnackbar: suspend (String, String?) -> Boolean
+    onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
