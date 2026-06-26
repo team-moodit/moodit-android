@@ -41,8 +41,7 @@ fun TournamentResultScreen(
     onSelectMission: (Long) -> Unit,
     uiState: TournamentResultContract.State
 ) {
-    MooditScaffold()
-    { innerPadding ->
+    MooditScaffold { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
