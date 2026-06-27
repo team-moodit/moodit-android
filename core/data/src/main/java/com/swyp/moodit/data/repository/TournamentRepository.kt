@@ -8,4 +8,5 @@ interface TournamentRepository {
     suspend fun uploadImage(photo: SelectedPhoto): Result<SelectedPhoto>
     suspend fun createMoodMatch(title: String, imageIds: List<Long>): Result<Long>
     suspend fun getMatchUpInitInfo(matchId: Long): Result<MatchUpInfo>
+    suspend fun saveMatchUp(matchId: Long, winnerId: Long, reasonId: Long): Result<Unit>
 }

@@ -12,6 +12,7 @@ import com.swyp.moodit.network.api.MooditApi
 import com.swyp.moodit.network.model.getOrThrow
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchRequest
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitRequest
+import com.swyp.moodit.network.model.tournament.matchUp.SaveMatchUpRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -54,6 +55,15 @@ internal class TournamentRepositoryImpl @Inject constructor(
             val response =
                 mooditApi.getMatchUpInitInfo(MatchUpInitRequest(matchId = matchId)).getOrThrow()
             return Result.Success(response.toModel())
+        } catch (e: Exception) {
+            return Result.Error(e)
+        }
+    }
+
+    override suspend fun saveMatchUp(matchId: Long, winnerId: Long, reasonId: Long): Result<Unit> {
+        try {
+            mooditApi.saveMatchUp(matchId, SaveMatchUpRequest(winnerId, reasonId)).getOrThrow()
+            return Result.Success(Unit)
         } catch (e: Exception) {
             return Result.Error(e)
         }
