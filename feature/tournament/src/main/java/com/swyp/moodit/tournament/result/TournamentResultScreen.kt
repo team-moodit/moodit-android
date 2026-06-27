@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,7 +42,16 @@ fun TournamentResultScreen(
     onSelectMission: (Long) -> Unit,
     uiState: TournamentResultContract.State
 ) {
-    MooditScaffold { innerPadding ->
+    MooditScaffold(
+        bottomBar = {
+            MooditFilledButton(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
+                onClick = { onMissionDetailClick() },
+                enabled = uiState.selectedMission != null,
+                text = "미션 확인하러 가기"
+            )
+        }
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -120,12 +130,32 @@ fun TournamentResultScreen(
                     .padding(horizontal = 16.dp)
             )
 
-            MooditFilledButton(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
-                onClick = { onMissionDetailClick() },
-                enabled = uiState.selectedMission != null,
-                text = "미션 확인하러 가기"
-            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.warning_diamond),
+                    modifier = Modifier.size(20.dp),
+                    tint = MooditTheme.colors.primary,
+                    contentDescription = "icon_warning_diamond"
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Text(
+                    text = "취향의 기준은 한 번에 만들어지지 않을 수 있어요",
+                    style = MooditTheme.typography.b3Medium,
+                    color = MooditTheme.colors.textSecondary
+                )
+            }
+
+            Spacer(modifier = Modifier.height(40.dp))
 
             Column(
                 modifier = Modifier
