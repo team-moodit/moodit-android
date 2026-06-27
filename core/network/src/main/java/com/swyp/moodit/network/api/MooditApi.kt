@@ -3,9 +3,11 @@ package com.swyp.moodit.network.api
 import com.swyp.moodit.network.model.BaseResponse
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchRequest
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchResponse
+import com.swyp.moodit.network.model.tournament.UploadFileResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitRequest
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitResponse
-import com.swyp.moodit.network.model.tournament.UploadFileResponse
+import com.swyp.moodit.network.model.tournament.matchUp.SaveMatchUpRequest
+import com.swyp.moodit.network.model.tournament.matchUp.SaveMatchUpResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -38,4 +40,10 @@ interface MooditApi {
     suspend fun getMatchUpInitInfo(
         @Path("matchId") request: MatchUpInitRequest
     ): Response<BaseResponse<MatchUpInitResponse>>
+
+    @POST("v1/matches/{matchId}/votes")
+    suspend fun saveMatchUp(
+        @Path("matchId") matchId: Long,
+        @Body request: SaveMatchUpRequest
+    ): Response<BaseResponse<SaveMatchUpResponse>>
 }
