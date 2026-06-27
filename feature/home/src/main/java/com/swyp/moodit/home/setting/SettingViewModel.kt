@@ -3,19 +3,25 @@ package com.swyp.moodit.home.setting
 import androidx.lifecycle.viewModelScope
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.AuthRepository
+import com.swyp.moodit.data.repository.UserRepository
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val userRepository: UserRepository
 ) :
     BaseViewModel<SettingContract.State, SettingContract.Intent, SettingContract.SideEffect>(
         initialState = SettingContract.State()
     ) {
+
+    init {
+        getUserProfile()
+    }
+
     override fun handleIntents(intent: SettingContract.Intent) {
         when (intent) {
             is SettingContract.Intent.OnTermsClick -> {
@@ -53,6 +59,26 @@ class SettingViewModel @Inject constructor(
             is SettingContract.Intent.ConfirmCompleteDeleteAccount -> {
                 sendEffect(SettingContract.SideEffect.NavigateToLogin)
             }
+        }
+    }
+
+    private fun getUserProfile() {
+        viewModelScope.launch {
+            reduce { it.copy(isLoading = true) }
+            when (val result = userRepository.getUserProfile()) {
+                is Result.Success -> {
+                    reduce { it.copy(nickname = result.data) }
+                }
+
+                is Result.Error -> {
+                    sendEffect(
+                        SettingContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "유저 프로필 조회에 실패했습니다."
+                        )
+                    )
+                }
+            }
+            reduce { it.copy(isLoading = false) }
         }
     }
 

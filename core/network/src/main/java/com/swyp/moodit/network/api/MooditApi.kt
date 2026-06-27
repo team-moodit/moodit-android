@@ -8,6 +8,7 @@ import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitRequest
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitResponse
 import com.swyp.moodit.network.model.tournament.matchUp.SaveMatchUpRequest
 import com.swyp.moodit.network.model.tournament.matchUp.SaveMatchUpResponse
+import com.swyp.moodit.network.model.user.UserProfileResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -46,4 +47,8 @@ interface MooditApi {
         @Path("matchId") matchId: Long,
         @Body request: SaveMatchUpRequest
     ): Response<BaseResponse<SaveMatchUpResponse>>
+
+    // User
+    @GET("v1/user-profiles/active")
+    suspend fun getUserProfile(): Response<BaseResponse<UserProfileResponse>>
 }
