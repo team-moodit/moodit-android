@@ -21,8 +21,7 @@ class CreateTournamentViewModel @Inject constructor(
     override fun handleIntents(intent: CreateTournamentContract.Intent) {
         when (intent) {
             is CreateTournamentContract.Intent.OnCreateTournamentClick -> {
-                //createTournament()
-                sendEffect(CreateTournamentContract.SideEffect.NavigateToMatchUp(12L))
+                createTournament()
             }
 
             is CreateTournamentContract.Intent.OnTitleChange -> {
@@ -65,7 +64,7 @@ class CreateTournamentViewModel @Inject constructor(
             when (val result =
                 tournamentRepository.createMoodMatch(currentState.title, serverIds)) {
                 is Result.Success -> {
-                    sendEffect(CreateTournamentContract.SideEffect.NavigateToMatchUp(result.data))
+                    sendEffect(CreateTournamentContract.SideEffect.NavigateToMatchUp(result.data, true))
                 }
 
                 is Result.Error -> {
