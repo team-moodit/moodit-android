@@ -7,7 +7,8 @@ import com.swyp.moodit.ui.base.UiState
 class SettingContract {
     data class State(
         val isLoading: Boolean = false,
-        val dialogType: DialogType? = null
+        val dialogType: DialogType? = null,
+        val nickname: String = ""
     ) : UiState
 
     sealed interface SideEffect : UiSideEffect {
