@@ -109,20 +109,21 @@ class MatchUpViewModel @Inject constructor(
     }
 
     private fun handleRetryClick() {
-        // 중간 저장 api 호출
-        val saveMatchProgressResult = true
-        if (saveMatchProgressResult) {
-            updateRetryDialogState(false)
-            sendEffect(MatchUpContract.SideEffect.ShowSnackbar("진행 상황이 저장됐어요."))
-        } else {
-            updateRetryDialogState(false)
-            sendEffect(
-                MatchUpContract.SideEffect.ShowSnackbar(
-                    "저장에 실패했어요. 다시 시도해주세요.",
-                    MooditSnackbarType.ERROR
+        saveMatchUp(
+            onSuccess = {
+                updateRetryDialogState(false)
+                handleSaveMatchUpSuccess()
+            },
+            onError = {
+                updateRetryDialogState(false)
+                sendEffect(
+                    MatchUpContract.SideEffect.ShowSnackbar(
+                        "저장에 실패했어요. 다시 시도해주세요.",
+                        MooditSnackbarType.ERROR
+                    )
                 )
-            )
-        }
+            }
+        )
     }
 
     private fun handleExitClick() {
@@ -131,37 +132,63 @@ class MatchUpViewModel @Inject constructor(
     }
 
     private fun handleNextButtonClick() {
-        // 중간 저장 API 호출
-        // 성공 시 선택 이유, 선택 사진 상태 초기화
-        val saveMatchResult = true
-        if (saveMatchResult) {
-            sendEffect(MatchUpContract.SideEffect.ShowSnackbar("진행 상황이 저장됐어요"))
-            val isTournamentCompleted = currentState.matchUpInfo.isCompleted
-            if (isTournamentCompleted) {
+        saveMatchUp(
+            onSuccess = {
+                handleSaveMatchUpSuccess()
+            },
+            onError = {
                 sendEffect(
-                    MatchUpContract.SideEffect.NavigateToResult(
-                        currentState.selectedWinner?.id ?: 0L
+                    MatchUpContract.SideEffect.ShowSnackbar(
+                        "진행 상황을 저장하지 못했어요",
+                        MooditSnackbarType.ERROR
                     )
                 )
-            } else {
-                reduce {
-                    it.copy(
-                        selectedReason = null,
-                        selectedWinner = null,
-                        currentStep = TournamentStep.MATCH_UP
-                    )
-                }
-                getTournamentInfo()
+                sendIntent(MatchUpContract.Intent.ShowRetrySaveDialog)
             }
-        } else {
-            // 실패시
+        )
+    }
+
+    private fun saveMatchUp(
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val winnerId = currentState.selectedWinner?.id ?: return
+        val reasonId = currentState.selectedReason?.id ?: return
+
+        viewModelScope.launch {
+            reduce { it.copy(isLoading = true) }
+            val result = tournamentRepository.saveMatchUp(
+                matchId = tournamentId,
+                winnerId = winnerId,
+                reasonId = reasonId
+            )
+            when (result) {
+                is Result.Success -> onSuccess()
+                is Result.Error -> onError(result.exception.message ?: "")
+            }
+            reduce { it.copy(isLoading = false) }
+        }
+    }
+
+    private fun handleSaveMatchUpSuccess() {
+        sendEffect(MatchUpContract.SideEffect.ShowSnackbar("진행 상황이 저장됐어요"))
+
+        if (currentState.matchUpInfo.isCompleted) {
             sendEffect(
-                MatchUpContract.SideEffect.ShowSnackbar(
-                    "진행 상황을 저장하지 못했어요",
-                    MooditSnackbarType.ERROR
+                MatchUpContract.SideEffect.NavigateToResult(
+                    currentState.selectedWinner?.id ?: 0L
                 )
             )
-            sendIntent(MatchUpContract.Intent.ShowRetrySaveDialog)
+        } else {
+            reduce {
+                it.copy(
+                    selectedReason = null,
+                    selectedWinner = null,
+                    currentStep = TournamentStep.MATCH_UP,
+                    isLoading = true
+                )
+            }
+            getTournamentInfo()
         }
     }
 
