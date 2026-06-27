@@ -43,6 +43,10 @@ fun MatchUpRoute(
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.sendIntent(MatchUpContract.Intent.LoadMatchUpInfo)
+    }
+
     when {
         uiState.isLoading -> {
             Box(
