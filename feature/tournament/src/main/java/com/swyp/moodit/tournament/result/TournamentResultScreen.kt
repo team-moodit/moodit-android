@@ -99,7 +99,7 @@ fun TournamentResultScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.reward_stars),
+                        painter = painterResource(R.drawable.warning_diamond),
                         contentDescription = "icon_mood_result",
                         tint = MooditTheme.colors.primary,
                         modifier = Modifier.size(24.dp)
