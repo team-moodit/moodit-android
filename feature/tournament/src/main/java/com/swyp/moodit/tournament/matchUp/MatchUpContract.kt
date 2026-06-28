@@ -11,6 +11,7 @@ import com.swyp.moodit.ui.base.UiState
 class MatchUpContract {
     data class State(
         val isLoading: Boolean = false,
+        val isStarted: Boolean = false,
         val matchUpInfo: MatchUpInfo = MatchUpInfo(),
         val currentStep: TournamentStep = TournamentStep.MATCH_UP,
         val progressFraction: Float = 0f,

@@ -20,10 +20,11 @@ class MatchUpViewModel @Inject constructor(
     private val tournamentRepository: TournamentRepository
 ) :
     BaseViewModel<MatchUpContract.State, MatchUpContract.Intent, MatchUpContract.SideEffect>(
-        initialState = MatchUpContract.State()
+        initialState = MatchUpContract.State(
+            isStarted = savedStateHandle.toRoute<TournamentRoute.MatchUp>().isStarted
+        )
     ) {
     private val tournamentId = savedStateHandle.toRoute<TournamentRoute.MatchUp>().tournamentId
-    private val isStarted = savedStateHandle.toRoute<TournamentRoute.MatchUp>().isStarted
 
     override fun handleIntents(intent: MatchUpContract.Intent) {
         when (intent) {
@@ -60,11 +61,11 @@ class MatchUpViewModel @Inject constructor(
     fun getTournamentInfo() {
         viewModelScope.launch {
             reduce { it.copy(isLoading = true) }
-            val result = if (isStarted) {
+            val result = if (currentState.isStarted) {
                 tournamentRepository.getMatchUpInitInfo(tournamentId)
-            } else { // 다음 매치 정보 조회
+            } else {
                 Timber.d("다음 매치 조회됨.")
-                tournamentRepository.getMatchUpInitInfo(tournamentId)
+                tournamentRepository.getMatchUpProgressInfo(tournamentId)
             }
             when (result) {
                 is Result.Success -> {
@@ -77,7 +78,8 @@ class MatchUpViewModel @Inject constructor(
                     reduce {
                         it.copy(
                             matchUpInfo = result.data,
-                            progressFraction = progressFraction
+                            progressFraction = progressFraction,
+                            isStarted = false
                         )
                     }
                 }
