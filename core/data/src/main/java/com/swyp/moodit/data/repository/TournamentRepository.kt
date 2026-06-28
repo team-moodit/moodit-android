@@ -9,4 +9,5 @@ interface TournamentRepository {
     suspend fun createMoodMatch(title: String, imageIds: List<Long>): Result<Long>
     suspend fun getMatchUpInitInfo(matchId: Long): Result<MatchUpInfo>
     suspend fun saveMatchUp(matchId: Long, winnerId: Long, reasonId: Long): Result<Unit>
+    suspend fun getMatchUpProgressInfo(matchId: Long): Result<MatchUpInfo>
 }

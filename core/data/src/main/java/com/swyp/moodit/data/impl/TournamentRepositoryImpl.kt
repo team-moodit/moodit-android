@@ -68,4 +68,13 @@ internal class TournamentRepositoryImpl @Inject constructor(
             return Result.Error(e)
         }
     }
+
+    override suspend fun getMatchUpProgressInfo(matchId: Long): Result<MatchUpInfo> {
+        try {
+            val response = mooditApi.getNextMatchUpInfo(matchId).getOrThrow()
+            return Result.Success(response.toModel())
+        } catch (e: Exception) {
+            return Result.Error(e)
+        }
+    }
 }
