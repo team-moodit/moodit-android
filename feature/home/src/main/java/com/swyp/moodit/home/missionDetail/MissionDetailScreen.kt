@@ -1,6 +1,7 @@
 package com.swyp.moodit.home.missionDetail
 
 import android.annotation.SuppressLint
+import android.os.Build
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -27,8 +28,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogWindowProvider
+import coil3.Uri
 import coil3.compose.AsyncImage
 import com.swyp.moodit.designsystem.component.MooditScaffold
 import com.swyp.moodit.designsystem.component.button.MooditFilledButton
@@ -119,12 +123,16 @@ fun MissionDetailScreen(
                     sheetState = sheetState,
                     containerColor = MooditTheme.colors.onPrimary
                 ) {
+                    val window = (LocalView.current.parent as DialogWindowProvider).window
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        window.isNavigationBarContrastEnforced = false
+                    }
                     SatisfactionBottomSheetContent(
                         currentSliderRating = currentSliderRating,
                         onValueChange = { currentSliderRating = it },
                         onCompleteClick = {
                             showSatisfactionBottomSheet = false
-                            if (currentSliderRating <= 2.0) {
+                            if (currentSliderRating < 3.0) {
                                 showFeedbackBottomSheet = true
                             } else {
                                 onCompleteClick()
@@ -140,6 +148,10 @@ fun MissionDetailScreen(
                     sheetState = sheetState,
                     containerColor = MooditTheme.colors.onPrimary
                 ) {
+                    val window = (LocalView.current.parent as DialogWindowProvider).window
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        window.isNavigationBarContrastEnforced = false
+                    }
                     FeedbackBottomSheetContent(
                         onConfirmClick = {
                             showFeedbackBottomSheet = false
