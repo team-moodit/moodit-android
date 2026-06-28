@@ -7,8 +7,6 @@ import com.swyp.moodit.model.SelectedPhoto
 import com.swyp.moodit.model.UploadStatus
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -81,27 +79,19 @@ class CreateTournamentViewModel @Inject constructor(
 
     private fun uploadPhotoParallel(newPhotos: List<SelectedPhoto>) {
         viewModelScope.launch {
-            val deferredResults = newPhotos.map { photo ->
-                async {
+            newPhotos.forEach { photo ->
+                launch {
                     when (val result = tournamentRepository.uploadImage(photo)) {
-                        is Result.Success -> result.data
+                        is Result.Success -> updateSinglePhotoState(result.data)
                         is Result.Error -> {
-                            sendEffect(
-                                CreateTournamentContract.SideEffect.ShowSnackbar(
-                                    result.exception.localizedMessage ?: "업로드 실패"
-                                )
-                            )
-                            photo.copy(
-                                status = UploadStatus.Error(
-                                    message = result.exception.localizedMessage ?: "업로드 실패"
-                                )
-                            )
+                            val errorMessage = result.exception.localizedMessage ?: "업로드 실패"
+                            sendEffect(CreateTournamentContract.SideEffect.ShowSnackbar(errorMessage))
+                            val errorPhoto = photo.copy(status = UploadStatus.Error(errorMessage))
+                            updateSinglePhotoState(errorPhoto)
                         }
                     }
                 }
             }
-            val uploadedPhotos = deferredResults.awaitAll()
-            updatePhotoStatus(uploadedPhotos)
         }
     }
 
@@ -137,20 +127,6 @@ class CreateTournamentViewModel @Inject constructor(
                 if (photo.id == updatedPhoto.id) updatedPhoto else photo
             }
             state.copy(selectedPhotos = updatedList)
-        }
-        checkCreateTournamentCondition()
-    }
-
-    private fun updatePhotoStatus(updatedPhotos: List<SelectedPhoto>) {
-        reduce { state ->
-            val currentList = state.selectedPhotos.toMutableList()
-            updatedPhotos.forEach { updated ->
-                val index = currentList.indexOfFirst { it.id == updated.id }
-                if (index != -1) {
-                    currentList[index] = updated
-                }
-            }
-            state.copy(selectedPhotos = currentList)
         }
         checkCreateTournamentCondition()
     }
