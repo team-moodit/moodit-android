@@ -1,6 +1,7 @@
 package com.swyp.moodit.network.api
 
 import com.swyp.moodit.network.model.BaseResponse
+import com.swyp.moodit.network.model.mission.MissionDetailResponse
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchRequest
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchResponse
 import com.swyp.moodit.network.model.tournament.UploadFileResponse
@@ -12,6 +13,7 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MooditApi {
@@ -35,4 +37,10 @@ interface MooditApi {
     // User
     @GET("v1/user-profiles/active")
     suspend fun getUserProfile(): Response<BaseResponse<UserProfileResponse>>
+
+    // Mission
+    @GET("v1/user-missions/{userMissionId}")
+    suspend fun getMissionDetail(
+        @Path("userMissionId") userMissionId: Long
+    ): Response<BaseResponse<MissionDetailResponse>>
 }
