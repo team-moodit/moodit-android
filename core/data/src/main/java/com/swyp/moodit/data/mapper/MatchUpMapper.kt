@@ -6,6 +6,7 @@ import com.swyp.moodit.model.MatchUpInfo
 import com.swyp.moodit.model.MatchUpReason
 import com.swyp.moodit.network.model.tournament.matchUp.CandidateResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitResponse
+import com.swyp.moodit.network.model.tournament.matchUp.MatchUpProgressResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpReasonResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpResponse
 
@@ -18,6 +19,18 @@ fun MatchUpInitResponse.toModel(): MatchUpInfo {
         isCompleted = this.isTournamentCompleted,
         nextMatchUp = this.nextMatchUp?.toModel(),
         reasons = this.reasons.map { it.toModel() }
+    )
+}
+
+fun MatchUpProgressResponse.toModel(): MatchUpInfo {
+    return MatchUpInfo(
+        title = this.tournamentTitle,
+        roundTitle = this.roundTitle,
+        curMatchIndex = this.currentMatchIndex,
+        totalRounds = this.totalMatchUpInRound,
+        isCompleted = this.isTournamentCompleted,
+        nextMatchUp = this.nextMatchUp?.toModel(),
+        reasons = this.reasons.map { it.toModel() },
     )
 }
 
