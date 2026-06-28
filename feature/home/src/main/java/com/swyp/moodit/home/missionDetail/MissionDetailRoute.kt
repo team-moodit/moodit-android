@@ -35,6 +35,10 @@ fun MissionDetailRoute(
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.sendIntent(MissionDetailContract.Intent.LoadMissionDetail)
+    }
+
     when {
         uiState.isLoading -> {
             Box(
