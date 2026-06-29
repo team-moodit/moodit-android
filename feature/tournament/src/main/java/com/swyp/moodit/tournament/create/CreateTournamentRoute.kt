@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,16 +31,41 @@ fun CreateTournamentRoute(
     navigateToMatchUp: (Long) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val maxTotalPhotos = 32
+    val remainingPhotos = (maxTotalPhotos - uiState.selectedPhotos.size)
+    val pickerMaxItems = remainingPhotos.coerceAtLeast(2)
 
     val pickMultipleMedia = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickMultipleVisualMedia(32)
+        contract = ActivityResultContracts.PickMultipleVisualMedia(pickerMaxItems)
     ) { uris ->
-        viewModel.sendIntent(CreateTournamentContract.Intent.OnPhotoChange(photoUris = uris.map { it.toString() }))
+        if (uris.isNotEmpty()) {
+            viewModel.sendIntent(CreateTournamentContract.Intent.OnPhotoChange(photoUris = uris.map { it.toString() }))
+        }
+    }
+
+    val pickSingleMedia = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) { uri ->
+        if (uri != null) {
+            viewModel.sendIntent(
+                CreateTournamentContract.Intent.OnPhotoChange(
+                    photoUris = listOf(
+                        uri.toString()
+                    )
+                )
+            )
+        }
     }
 
     LaunchedEffect(uiState.showPhotoPicker) {
         if (uiState.showPhotoPicker) {
-            pickMultipleMedia.launch(PickVisualMediaRequest(mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly))
+            val request =
+                PickVisualMediaRequest(mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly)
+            if (remainingPhotos == 1) {
+                pickSingleMedia.launch(request)
+            } else if (remainingPhotos >= 2) {
+                pickMultipleMedia.launch(request)
+            }
             viewModel.sendIntent(CreateTournamentContract.Intent.OnPhotoPickerStateChange(false))
         }
     }
@@ -49,7 +73,10 @@ fun CreateTournamentRoute(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
-                is CreateTournamentContract.SideEffect.NavigateToMatchUp -> navigateToMatchUp(sideEffect.tournamentId)
+                is CreateTournamentContract.SideEffect.NavigateToMatchUp -> navigateToMatchUp(
+                    sideEffect.tournamentId
+                )
+
                 is CreateTournamentContract.SideEffect.ShowSnackbar -> onShowSnackbar(
                     sideEffect.message,
                     null

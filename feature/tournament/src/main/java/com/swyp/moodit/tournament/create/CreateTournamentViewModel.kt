@@ -20,7 +20,6 @@ class CreateTournamentViewModel @Inject constructor(
         when (intent) {
             is CreateTournamentContract.Intent.OnCreateTournamentClick -> {
                 createTournament()
-                //sendEffect(CreateTournamentContract.SideEffect.NavigateToMatchUp(12L))
             }
 
             is CreateTournamentContract.Intent.OnTitleChange -> {
@@ -29,11 +28,15 @@ class CreateTournamentViewModel @Inject constructor(
             }
 
             is CreateTournamentContract.Intent.OnPhotoChange -> {
+                val existingUris = currentState.selectedPhotos.map { it.uri }.toSet()
+                val uniqueNewUris = intent.photoUris.filter { it !in existingUris }
                 val newPhotos =
-                    intent.photoUris.map { SelectedPhoto(uri = it, status = UploadStatus.Loading) }
-                reduce { it.copy(selectedPhotos = it.selectedPhotos + newPhotos) }
-                checkCreateTournamentCondition()
-                uploadPhotoParallel(newPhotos)
+                    uniqueNewUris.map { SelectedPhoto(uri = it, status = UploadStatus.Loading) }
+                if (newPhotos.isNotEmpty()) {
+                    reduce { it.copy(selectedPhotos = it.selectedPhotos + newPhotos) }
+                    checkCreateTournamentCondition()
+                    uploadPhotoParallel(newPhotos)
+                }
             }
 
             is CreateTournamentContract.Intent.OnPhotoPickerStateChange -> {
