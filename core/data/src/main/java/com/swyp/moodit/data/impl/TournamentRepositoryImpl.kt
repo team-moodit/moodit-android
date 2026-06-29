@@ -3,9 +3,11 @@ package com.swyp.moodit.data.impl
 import com.swyp.moodit.common.util.ImageProcessor
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.mapper.toModel
+import com.swyp.moodit.data.mapper.toNetworkRequest
 import com.swyp.moodit.data.repository.TournamentRepository
 import com.swyp.moodit.model.MatchUpInfo
 import com.swyp.moodit.model.PartType
+import com.swyp.moodit.model.SelectedMatchUpIds
 import com.swyp.moodit.model.SelectedPhoto
 import com.swyp.moodit.model.UploadStatus
 import com.swyp.moodit.network.api.MooditApi
@@ -60,9 +62,9 @@ internal class TournamentRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveMatchUp(matchId: Long, winnerId: Long, reasonId: Long): Result<Unit> {
+    override suspend fun saveMatchUp(matchId: Long, selectedMatchUpIds: SelectedMatchUpIds): Result<Unit> {
         try {
-            mooditApi.saveMatchUp(matchId, SaveMatchUpRequest(winnerId, reasonId)).getOrThrow()
+            mooditApi.saveMatchUp(matchId, selectedMatchUpIds.toNetworkRequest()).getOrThrow()
             return Result.Success(Unit)
         } catch (e: Exception) {
             return Result.Error(e)

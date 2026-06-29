@@ -7,6 +7,7 @@ import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.TournamentRepository
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.model.Candidate
+import com.swyp.moodit.model.SelectedMatchUpIds
 import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -161,8 +162,11 @@ class MatchUpViewModel @Inject constructor(
             reduce { it.copy(isLoading = true) }
             val result = tournamentRepository.saveMatchUp(
                 matchId = tournamentId,
-                winnerId = winnerId,
-                reasonId = reasonId
+                selectedMatchUpIds = SelectedMatchUpIds(
+                    winnerId = winnerId,
+                    reasonId = reasonId,
+                    matchUpId = currentState.matchUpInfo.nextMatchUp?.matchUpId ?: -1L
+                )
             )
             when (result) {
                 is Result.Success -> onSuccess()
