@@ -166,9 +166,9 @@ fun TournamentResultScreen(
             ) {
                 uiState.missions.forEach { mission ->
                     MooditSelectableButton(
-                        content = mission.content,
-                        isSelected = mission.id == uiState.selectedMission,
-                        onItemClick = { onSelectMission(mission.id) }
+                        content = "123",
+                        isSelected = false,
+                        onItemClick = { }
                     )
                 }
             }
