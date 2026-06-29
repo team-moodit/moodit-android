@@ -6,5 +6,9 @@ data class MissionDetailResponse(
     val missionState: String,
     val matchRepresentativeImageUrl: String,
     val roundCount: Int,
-    val matchCompletedAt: String
+    val missionCompletedAt: String? = null,
+    val matchCompletedAt: String,
+    val matchTitle: String,
+    val matchPreferenceType: String? = null,
+    val satisfactionScore: Float = 0.0f
 )

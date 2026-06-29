@@ -10,10 +10,14 @@ fun MissionDetailResponse.toModel(): Mission {
 
     return Mission(
         userMissionId = this.userMissionId,
-        title = this.missionTitle,
+        missionTitle = this.missionTitle,
         missionState = missionState,
         imageUrl = this.matchRepresentativeImageUrl,
         roundCount = this.roundCount,
-        matchCompletedAt = this.matchCompletedAt
+        matchCompletedAt = this.matchCompletedAt,
+        missionCompletedAt = this.missionCompletedAt ?: "",
+        matchTitle = this.matchTitle,
+        matchPreferenceType = this.matchPreferenceType ?: "",
+        satisfactionScore = this.satisfactionScore
     )
 }
