@@ -19,4 +19,13 @@ internal class MissionRepositoryImpl @Inject constructor(
             Result.Error(e)
         }
     }
+
+    override suspend fun completeMission(userMissionId: Long): Result<Long> {
+        return try {
+            val response = mooditApi.completeMission(userMissionId).getOrThrow()
+            return Result.Success(response.successId)
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
 }
