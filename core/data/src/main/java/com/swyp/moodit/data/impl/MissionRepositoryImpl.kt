@@ -6,6 +6,8 @@ import com.swyp.moodit.data.repository.MissionRepository
 import com.swyp.moodit.model.Mission
 import com.swyp.moodit.network.api.MooditApi
 import com.swyp.moodit.network.model.getOrThrow
+import com.swyp.moodit.network.model.getOrThrowUnit
+import com.swyp.moodit.network.model.mission.MissionSatisfactionRequest
 import javax.inject.Inject
 
 internal class MissionRepositoryImpl @Inject constructor(
@@ -24,6 +26,22 @@ internal class MissionRepositoryImpl @Inject constructor(
         return try {
             val response = mooditApi.completeMission(userMissionId).getOrThrow()
             return Result.Success(response.successId)
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
+    override suspend fun submitSatisfaction(
+        userMissionId: Long,
+        satisfactionScore: Float,
+        feedbackOptions: List<String>
+    ): Result<Unit> {
+        return try {
+            mooditApi.submitSatisfaction(
+                userMissionId,
+                MissionSatisfactionRequest(satisfactionScore, feedbackOptions)
+            ).getOrThrowUnit()
+            return Result.Success(Unit)
         } catch (e: Exception) {
             Result.Error(e)
         }
