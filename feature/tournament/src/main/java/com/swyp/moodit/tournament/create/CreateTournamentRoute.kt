@@ -24,6 +24,8 @@ import com.swyp.moodit.designsystem.component.MooditLottie
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.designsystem.theme.MooditTheme
 
+private const val MAX_TOTAL_PHOTOS = 32
+
 @Composable
 fun CreateTournamentRoute(
     viewModel: CreateTournamentViewModel = hiltViewModel(),
@@ -31,7 +33,7 @@ fun CreateTournamentRoute(
     navigateToMatchUp: (Long) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val maxTotalPhotos = 32
+    val maxTotalPhotos = MAX_TOTAL_PHOTOS
     val remainingPhotos = (maxTotalPhotos - uiState.selectedPhotos.size)
     val pickerMaxItems = remainingPhotos.coerceAtLeast(2)
 

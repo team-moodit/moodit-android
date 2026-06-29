@@ -47,11 +47,14 @@ fun UploadPhotoStatusCard(
     val isLoading = remember(uiState.selectedPhotos) {
         !hasError && uiState.selectedPhotos.any { it.status == UploadStatus.Loading }
     }
+    val isEmpty = remember(uiState.selectedPhotos) {
+        uiState.selectedPhotos.isEmpty()
+    }
 
     val (statusText, statusColor, statusIcon) = when {
         hasError -> Triple(
             buildAnnotatedString {
-                withStyle(style = SpanStyle(color = MooditTheme.colors.borderDefault)) {
+                withStyle(style = SpanStyle(color = MooditTheme.colors.onPrimaryContainer)) {
                     append("불러오지 못한 사진이 있어요.")
                 }
             },
@@ -61,12 +64,22 @@ fun UploadPhotoStatusCard(
 
         isLoading -> Triple(
             buildAnnotatedString {
-                withStyle(style = SpanStyle(color = MooditTheme.colors.borderDefault)) {
+                withStyle(style = SpanStyle(color = MooditTheme.colors.onPrimaryContainer)) {
                     append("사진을 불러오고 있어요.")
                 }
             },
             MooditTheme.colors.primary,
             Unit
+        )
+
+        isEmpty -> Triple(
+            buildAnnotatedString {
+                withStyle(style = SpanStyle(color = MooditTheme.colors.onPrimaryContainer)) {
+                    append("8장부터 32장까지 선택할 수 있어요")
+                }
+            },
+            MooditTheme.colors.primary,
+            R.drawable.star_filled
         )
 
         else -> Triple(
