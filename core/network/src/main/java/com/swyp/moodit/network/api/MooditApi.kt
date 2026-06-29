@@ -3,6 +3,7 @@ package com.swyp.moodit.network.api
 import com.swyp.moodit.network.model.BaseResponse
 import com.swyp.moodit.network.model.mission.MissionCompleteResponse
 import com.swyp.moodit.network.model.mission.MissionDetailResponse
+import com.swyp.moodit.network.model.mission.MissionSatisfactionRequest
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchRequest
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchResponse
 import com.swyp.moodit.network.model.tournament.UploadFileResponse
@@ -49,4 +50,10 @@ interface MooditApi {
     suspend fun completeMission(
         @Path("userMissionId") userMissionId: Long
     ): Response<BaseResponse<MissionCompleteResponse>>
+
+    @POST("v1/user-missions/{userMissionId}/feedback")
+    suspend fun submitSatisfaction(
+        @Path("userMissionId") userMissionId: Long,
+        @Body request: MissionSatisfactionRequest
+    ): Response<BaseResponse<Unit>>
 }
