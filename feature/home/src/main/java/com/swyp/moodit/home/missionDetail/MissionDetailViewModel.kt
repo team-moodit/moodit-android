@@ -5,9 +5,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.MissionRepository
+import com.swyp.moodit.model.FeedbackOption
 import com.swyp.moodit.model.Mission
+import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.navigation.HomeRoute
-import com.swyp.moodit.navigation.MissionStatus
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,6 +22,7 @@ class MissionDetailViewModel @Inject constructor(
     initialState = MissionDetailContract.State(
         status = savedStateHandle.toRoute<HomeRoute.MissionDetail>().status,
         missionInfo = Mission(userMissionId = savedStateHandle.toRoute<HomeRoute.MissionDetail>().missionId),
+        feedbackOptions = loadFeedbackOptions()
     )
 ) {
     init {
@@ -38,6 +40,13 @@ class MissionDetailViewModel @Inject constructor(
             }
 
             is MissionDetailContract.Intent.LoadMissionDetail -> loadMissionDetail()
+            is MissionDetailContract.Intent.OnFeedbackShowChange -> updateFeedbackShow(intent.show)
+            is MissionDetailContract.Intent.OnSatisfactionShowChange -> updateSatisfactionShow(
+                intent.show
+            )
+
+            is MissionDetailContract.Intent.OnSliderRatingChange -> updateSliderRating(intent.rating)
+            is MissionDetailContract.Intent.ToggleFeedbackOption -> toggleFeedbackOption(intent.option)
         }
     }
 
@@ -45,7 +54,7 @@ class MissionDetailViewModel @Inject constructor(
         viewModelScope.launch {
             reduce { it.copy(isLoading = true) }
             when (val result =
-                missionRepository.getMissionDetail(currentState.missionInfo.userMissionId)) {
+                missionRepository.getMissionDetail(9/*currentState.missionInfo.userMissionId */)) {
                 is Result.Success -> {
                     reduce { it.copy(missionInfo = result.data) }
                 }
@@ -60,5 +69,37 @@ class MissionDetailViewModel @Inject constructor(
             }
             reduce { it.copy(isLoading = false) }
         }
+    }
+
+    private fun updateSatisfactionShow(show: Boolean) {
+        reduce { it.copy(showSatisfactionBottomSheet = show) }
+    }
+
+    private fun updateFeedbackShow(show: Boolean) {
+        reduce { it.copy(showFeedbackBottomSheet = show) }
+    }
+
+    private fun updateSliderRating(rating: Float) {
+        reduce { it.copy(currentSliderRating = rating) }
+    }
+
+    private fun toggleFeedbackOption(option: FeedbackOption) {
+        val currentList = currentState.selectedFeedback
+        val updatedList = if (currentList.contains(option)) {
+            currentList - option
+        } else {
+            currentList + option
+        }
+        reduce { it.copy(selectedFeedback = updatedList) }
+    }
+
+    companion object {
+        private fun loadFeedbackOptions(): List<FeedbackOption> =
+            listOf(
+                FeedbackOption("이 스타일이 저랑 안 맞았어요"),
+                FeedbackOption("경험해보니 생각과 달랐어요"),
+                FeedbackOption("선택 이유와 안 맞는 미션이었어요"),
+                FeedbackOption("수행하기 막막한 미션이었어요")
+            )
     }
 }

@@ -1,4 +1,4 @@
-package com.swyp.moodit.home.component
+package com.swyp.moodit.ui.component.mission
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,9 +27,10 @@ import androidx.compose.ui.unit.dp
 import com.swyp.moodit.designsystem.MissionTag
 import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.theme.MooditTheme
+import com.swyp.moodit.model.Mission
 
 @Composable
-fun MissionCompletedContent(tagContent: String) {
+fun MissionCompletedContent(tagContent: String, mission: Mission) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.Start
@@ -37,7 +38,7 @@ fun MissionCompletedContent(tagContent: String) {
         MissionTag(content = tagContent)
         Text(
             modifier = Modifier.padding(top = 12.dp, bottom = 32.dp),
-            text = "후보와 비슷한 색감으로\n하루 코디해보기",
+            text = mission.title,
             style = MooditTheme.typography.h2,
             color = MooditTheme.colors.onPrimaryContainer,
             textAlign = TextAlign.Start
@@ -48,10 +49,14 @@ fun MissionCompletedContent(tagContent: String) {
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             MissionInfoCard(
-                modifier = Modifier.weight(1f), title = "진행된 라운드 수", content = "16강"
+                modifier = Modifier.weight(1f),
+                title = "진행된 라운드 수",
+                content = "${mission.roundCount}"
             )
             MissionInfoCard(
-                modifier = Modifier.weight(1f), title = "무드매치 완료 날짜", content = "26.06.10"
+                modifier = Modifier.weight(1f),
+                title = "무드매치 완료 날짜",
+                content = mission.matchCompletedAt
             )
         }
         Spacer(modifier = Modifier.height(32.dp))
@@ -120,6 +125,6 @@ fun MissionCompletedContent(tagContent: String) {
 @Composable
 fun MissionCompletedContentPreview() {
     MooditTheme {
-        MissionCompletedContent(tagContent = "완료")
+        MissionCompletedContent(tagContent = "완료", mission = Mission())
     }
 }

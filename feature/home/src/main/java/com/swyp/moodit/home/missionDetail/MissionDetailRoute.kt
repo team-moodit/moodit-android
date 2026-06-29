@@ -52,7 +52,12 @@ fun MissionDetailRoute(
         else -> {
             MissionDetailScreen(
                 uiState = uiState,
-                onCompleteClick = { viewModel.sendIntent(MissionDetailContract.Intent.OnCompleteClick) })
+                onCompleteClick = { viewModel.sendIntent(MissionDetailContract.Intent.OnCompleteClick) },
+                onSatisfactionShowChange = { viewModel.sendIntent(MissionDetailContract.Intent.OnSatisfactionShowChange(it)) },
+                onFeedbackShowChange = { viewModel.sendIntent(MissionDetailContract.Intent.OnFeedbackShowChange(it)) },
+                onSliderRatingChange = { viewModel.sendIntent(MissionDetailContract.Intent.OnSliderRatingChange(it)) },
+                onToggleFeedbackOption = { viewModel.sendIntent(MissionDetailContract.Intent.ToggleFeedbackOption(it)) },
+            )
         }
     }
 }
