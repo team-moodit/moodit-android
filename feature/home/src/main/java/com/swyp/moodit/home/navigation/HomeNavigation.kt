@@ -9,9 +9,9 @@ import com.swyp.moodit.home.main.HomeMainRoute
 import com.swyp.moodit.home.missionDetail.MissionDetailRoute
 import com.swyp.moodit.home.reportReady.ReportReadyRoute
 import com.swyp.moodit.home.setting.SettingRoute
+import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.navigation.BottomBarRoute
 import com.swyp.moodit.navigation.HomeRoute
-import com.swyp.moodit.navigation.MissionStatus
 
 fun NavGraphBuilder.homeNavGraph(
     navController: NavController,

@@ -1,6 +1,5 @@
 package com.swyp.moodit.tournament.detail
 
-import com.swyp.moodit.navigation.MissionStatus
 import com.swyp.moodit.ui.base.UiIntent
 import com.swyp.moodit.ui.base.UiSideEffect
 import com.swyp.moodit.ui.base.UiState

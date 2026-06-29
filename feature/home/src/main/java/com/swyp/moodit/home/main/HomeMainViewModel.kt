@@ -1,6 +1,6 @@
 package com.swyp.moodit.home.main
 
-import com.swyp.moodit.navigation.MissionStatus
+import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

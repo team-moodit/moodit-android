@@ -1,5 +1,6 @@
 package com.swyp.moodit.navigation
 
+import com.swyp.moodit.model.MissionStatus
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,15 +11,12 @@ sealed interface HomeRoute : Route {
     @Serializable
     data class MissionDetail(
         val missionId: Long,
-        val status: MissionStatus = MissionStatus.DEFAULT
-    ) : HomeRoute
+        val statusName: String = MissionStatus.DEFAULT.name
+    ) : HomeRoute {
+        val status: MissionStatus
+            get() = runCatching { MissionStatus.valueOf(statusName) }.getOrDefault(MissionStatus.DEFAULT)
+    }
 
     @Serializable
     data object ReportReady : HomeRoute
-}
-
-@Serializable
-enum class MissionStatus {
-    DEFAULT,
-    CREATED
 }

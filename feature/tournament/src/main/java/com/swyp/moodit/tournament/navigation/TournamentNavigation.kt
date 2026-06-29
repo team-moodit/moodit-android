@@ -5,8 +5,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
+import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.navigation.BottomBarRoute
-import com.swyp.moodit.navigation.MissionStatus
 import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.tournament.create.CreateTournamentRoute
 import com.swyp.moodit.tournament.detail.TournamentDetailRoute

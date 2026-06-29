@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
-import com.swyp.moodit.navigation.MissionStatus
+import com.swyp.moodit.model.MissionStatus
 
 @Composable
 fun HomeMainRoute(
@@ -28,7 +28,11 @@ fun HomeMainRoute(
             when (sideEffect) {
                 is HomeMainContract.SideEffect.NavigateToSetting -> navigateToSetting()
                 is HomeMainContract.SideEffect.NavigateToCreateTournament -> navigateToCreateTournament()
-                is HomeMainContract.SideEffect.NavigateToMissionDetail -> navigateToMissionDetail(sideEffect.missionId, sideEffect.status)
+                is HomeMainContract.SideEffect.NavigateToMissionDetail -> navigateToMissionDetail(
+                    sideEffect.missionId,
+                    sideEffect.status
+                )
+
                 is HomeMainContract.SideEffect.ShowSnackbar -> onShowSnackbar(
                     sideEffect.message,
                     null
@@ -51,7 +55,13 @@ fun HomeMainRoute(
             HomeMainScreen(
                 onSettingClick = { viewModel.sendIntent(HomeMainContract.Intent.OnSettingClick) },
                 onCreateTournamentClick = { viewModel.sendIntent(HomeMainContract.Intent.OnCreateTournamentClick) },
-                onMissionClick = { missionId -> viewModel.sendIntent(HomeMainContract.Intent.OnMissionClick(missionId)) }
+                onMissionClick = { missionId ->
+                    viewModel.sendIntent(
+                        HomeMainContract.Intent.OnMissionClick(
+                            missionId
+                        )
+                    )
+                }
             )
         }
     }
