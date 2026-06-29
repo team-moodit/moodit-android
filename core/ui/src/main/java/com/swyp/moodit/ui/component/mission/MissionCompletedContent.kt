@@ -38,35 +38,33 @@ fun MissionCompletedContent(tagContent: String, mission: Mission) {
         MissionTag(content = tagContent)
         Text(
             modifier = Modifier.padding(top = 12.dp, bottom = 32.dp),
-            text = mission.title,
+            text = mission.missionTitle,
             style = MooditTheme.typography.h2,
             color = MooditTheme.colors.onPrimaryContainer,
             textAlign = TextAlign.Start
         )
+
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MooditTheme.colors.onPrimary, shape = RoundedCornerShape(16.dp))
+                .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            MissionInfoCard(
-                modifier = Modifier.weight(1f),
-                title = "진행된 라운드 수",
-                content = "${mission.roundCount}"
+            Text(
+                text = "미션 완료 날짜",
+                color = MooditTheme.colors.textSecondary,
+                style = MooditTheme.typography.b3Medium
             )
-            MissionInfoCard(
-                modifier = Modifier.weight(1f),
-                title = "무드매치 완료 날짜",
-                content = mission.matchCompletedAt
+            Text(
+                text = mission.missionCompletedAt,
+                color = MooditTheme.colors.onPrimaryContainer,
+                style = MooditTheme.typography.b2Medium
             )
         }
-        Spacer(modifier = Modifier.height(32.dp))
 
-        Text(
-            text = "만족도 평가",
-            style = MooditTheme.typography.b1Medium,
-            color = MooditTheme.colors.onPrimaryContainer
-        )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         Row(
             modifier = Modifier
@@ -101,6 +99,7 @@ fun MissionCompletedContent(tagContent: String, mission: Mission) {
                     )
                 }
             }
+
             Column(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.spacedBy(6.dp)
@@ -118,6 +117,66 @@ fun MissionCompletedContent(tagContent: String, mission: Mission) {
                 )
             }
         }
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Text(
+            text = "무드매치 정보",
+            style = MooditTheme.typography.b1Medium,
+            color = MooditTheme.colors.onPrimaryContainer
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MooditTheme.colors.onPrimary, shape = RoundedCornerShape(16.dp))
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(MooditTheme.colors.primary.copy(0.1f))
+                    .padding(8.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.reward_stars),
+                    contentDescription = "icon_mood_result",
+                    tint = MooditTheme.colors.primary,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+
+            Text(
+                text = "이번 무드매치는\n${mission.matchPreferenceType}를 가장 중요하게 생각했어요",
+                color = MooditTheme.colors.tertiary,
+                style = MooditTheme.typography.b3Medium
+            )
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            MissionInfoCard(
+                modifier = Modifier.weight(1f),
+                title = "진행된 라운드 수",
+                content = "${mission.roundCount}"
+            )
+            MissionInfoCard(
+                modifier = Modifier.weight(1f),
+                title = "무드매치 완료 날짜",
+                content = mission.matchCompletedAt
+            )
+        }
     }
 }
 
@@ -125,6 +184,15 @@ fun MissionCompletedContent(tagContent: String, mission: Mission) {
 @Composable
 fun MissionCompletedContentPreview() {
     MooditTheme {
-        MissionCompletedContent(tagContent = "완료", mission = Mission())
+        MissionCompletedContent(
+            tagContent = "완료",
+            mission = Mission(
+                missionTitle = "후보와 비슷한 색감으로\n하루 코디해보기",
+                missionCompletedAt = "26.06.20",
+                matchPreferenceType = "나와의 적합도",
+                roundCount = 16,
+                matchCompletedAt = "26.06.10"
+            )
+        )
     }
 }

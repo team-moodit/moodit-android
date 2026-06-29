@@ -25,7 +25,7 @@ fun MissionCreatedContent(tagContent: String, mission: Mission) {
         MissionTag(content = tagContent)
         Text(
             modifier = Modifier.padding(top = 12.dp, bottom = 32.dp),
-            text = mission.title,
+            text = mission.missionTitle,
             style = MooditTheme.typography.h2,
             color = MooditTheme.colors.onPrimaryContainer,
             textAlign = TextAlign.Center

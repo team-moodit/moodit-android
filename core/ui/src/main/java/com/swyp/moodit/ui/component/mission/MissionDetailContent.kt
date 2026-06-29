@@ -80,7 +80,7 @@ fun MissionDetailContent(
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = missionInfo.title,
+            text = missionInfo.matchTitle,
             style = MooditTheme.typography.h3,
             color = MooditTheme.colors.onBackground
         )
