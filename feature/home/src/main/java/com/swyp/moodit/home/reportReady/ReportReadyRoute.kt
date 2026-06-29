@@ -47,7 +47,6 @@ fun ReportReadyRoute(
 
         else -> {
             ReportReadyScreen(
-                uiState = uiState,
                 onNavigateReportClick = { viewModel.sendIntent(ReportReadyContract.Intent.OnNavigateReportClick) },
                 onNavigateHomeClick = { viewModel.sendIntent(ReportReadyContract.Intent.OnNavigateHomeClick) }
             )
