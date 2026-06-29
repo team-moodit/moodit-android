@@ -11,6 +11,7 @@ import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.navigation.HomeRoute
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -48,12 +49,13 @@ class MissionDetailViewModel @Inject constructor(
 
             is MissionDetailContract.Intent.OnSliderRatingChange -> updateSliderRating(intent.rating)
             is MissionDetailContract.Intent.ToggleFeedbackOption -> toggleFeedbackOption(intent.option)
+            is MissionDetailContract.Intent.SubmitSatisfaction -> submitSatisfaction()
         }
     }
 
     private fun loadMissionDetail() {
         viewModelScope.launch {
-            reduce { it.copy(isLoading = true) }
+            reduce { it.copy(isLoading = MissionDetailLoadingType.DEFAULT) }
             when (val result =
                 missionRepository.getMissionDetail(1/*currentState.missionInfo.userMissionId */)) {
                 is Result.Success -> {
@@ -68,12 +70,12 @@ class MissionDetailViewModel @Inject constructor(
                     )
                 }
             }
-            reduce { it.copy(isLoading = false) }
+            reduce { it.copy(isLoading = MissionDetailLoadingType.NONE) }
         }
     }
 
     private fun completeMission() {
-        reduce { it.copy(isLoading = true) }
+        reduce { it.copy(isLoading = MissionDetailLoadingType.DEFAULT) }
         viewModelScope.launch {
             when (val result =
                 missionRepository.completeMission(currentState.missionInfo.userMissionId)) {
@@ -89,8 +91,39 @@ class MissionDetailViewModel @Inject constructor(
                     )
                 }
             }
-            reduce { it.copy(isLoading = false) }
+            reduce { it.copy(isLoading = MissionDetailLoadingType.NONE) }
         }
+    }
+
+    private fun submitSatisfaction() {
+        reduce { it.copy(isLoading = MissionDetailLoadingType.DEFAULT) }
+        viewModelScope.launch {
+            when (val result = missionRepository.submitSatisfaction(
+                currentState.missionInfo.userMissionId,
+                currentState.currentSliderRating,
+                currentState.selectedFeedback.map { it.content }
+            )) {
+                is Result.Success -> {
+                    makeReport()
+                    sendEffect(MissionDetailContract.SideEffect.NavigateToReportReady)
+                }
+
+                is Result.Error -> {
+                    sendEffect(
+                        MissionDetailContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "만족도 제출에 실패했어요."
+                        )
+                    )
+                }
+            }
+            reduce { it.copy(isLoading = MissionDetailLoadingType.NONE) }
+        }
+    }
+
+    private suspend fun makeReport() {
+        reduce { it.copy(isLoading = MissionDetailLoadingType.REPORT) }
+        delay(3000L)
+        reduce { it.copy(isLoading = MissionDetailLoadingType.NONE) }
     }
 
     private fun updateSatisfactionShow(show: Boolean) {

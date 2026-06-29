@@ -48,7 +48,8 @@ fun MissionDetailContent(
     onSatisfactionShowChange: (Boolean) -> Unit,
     onFeedbackShowChange: (Boolean) -> Unit,
     onSliderRatingChange: (Float) -> Unit,
-    onToggleFeedbackOption: (FeedbackOption) -> Unit
+    onToggleFeedbackOption: (FeedbackOption) -> Unit,
+    submitSatisfaction: () -> Unit
 ) {
     val tagContent = when {
         missionStatus == MissionStatus.CREATED -> "MISSION"
@@ -142,7 +143,7 @@ fun MissionDetailContent(
                 feedbackOptions = feedbackOptions,
                 onConfirmClick = {
                     onFeedbackShowChange(false)
-                    onCompleteClick()
+                    submitSatisfaction()
                 },
                 onOptionClick = { feedbackOption -> onToggleFeedbackOption(feedbackOption) },
             )

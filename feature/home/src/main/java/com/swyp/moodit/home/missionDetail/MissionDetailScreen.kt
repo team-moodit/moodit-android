@@ -29,7 +29,8 @@ fun MissionDetailScreen(
     onSatisfactionShowChange: (Boolean) -> Unit,
     onFeedbackShowChange: (Boolean) -> Unit,
     onSliderRatingChange: (Float) -> Unit,
-    onToggleFeedbackOption: (FeedbackOption) -> Unit
+    onToggleFeedbackOption: (FeedbackOption) -> Unit,
+    submitSatisfaction: () -> Unit
 ) {
     val navButtonText = when {
         uiState.status == MissionStatus.CREATED -> "해볼래요"
@@ -43,7 +44,10 @@ fun MissionDetailScreen(
                 onClick = {
                     when {
                         uiState.status == MissionStatus.CREATED -> onTryButtonClick()
-                        uiState.missionInfo.missionState == MissionState.COMPLETED -> onSatisfactionShowChange(true)
+                        uiState.missionInfo.missionState == MissionState.COMPLETED -> onSatisfactionShowChange(
+                            true
+                        )
+
                         else -> onCompleteClick()
                     }
                 },
@@ -69,7 +73,8 @@ fun MissionDetailScreen(
             onSatisfactionShowChange = onSatisfactionShowChange,
             onFeedbackShowChange = onFeedbackShowChange,
             onSliderRatingChange = onSliderRatingChange,
-            onToggleFeedbackOption = onToggleFeedbackOption
+            onToggleFeedbackOption = onToggleFeedbackOption,
+            submitSatisfaction = submitSatisfaction
         )
     }
 }
@@ -87,7 +92,8 @@ fun MissionDetailScreenPreview() {
             onSatisfactionShowChange = {},
             onFeedbackShowChange = {},
             onSliderRatingChange = {},
-            onToggleFeedbackOption = {}
+            onToggleFeedbackOption = {},
+            submitSatisfaction = {}
         )
     }
 }

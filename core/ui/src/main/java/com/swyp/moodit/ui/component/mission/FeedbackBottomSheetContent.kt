@@ -70,7 +70,8 @@ fun FeedbackBottomSheetContent(
         MooditFilledButton(
             modifier = Modifier.fillMaxWidth(),
             onClick = { onConfirmClick() },
-            text = "완료"
+            text = "완료",
+            enabled = selectedFeedback.isNotEmpty()
         )
     }
 }

@@ -136,9 +136,7 @@ fun SatisfactionBottomSheetContent(
 
         MooditFilledButton(
             modifier = Modifier.fillMaxWidth(),
-            onClick = {
-                onCompleteClick()
-            },
+            onClick = { onCompleteClick() },
             text = "완료"
         )
     }

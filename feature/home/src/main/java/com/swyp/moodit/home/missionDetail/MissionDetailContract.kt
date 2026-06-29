@@ -9,7 +9,7 @@ import com.swyp.moodit.ui.base.UiState
 
 class MissionDetailContract {
     data class State(
-        val isLoading: Boolean = false,
+        val isLoading: MissionDetailLoadingType = MissionDetailLoadingType.NONE,
         val status: MissionStatus = MissionStatus.DEFAULT,
         val missionInfo: Mission = Mission(),
         val selectedFeedback: List<FeedbackOption> = emptyList(),
@@ -34,5 +34,12 @@ class MissionDetailContract {
         data class OnSliderRatingChange(val rating: Float) : Intent
         data class ToggleFeedbackOption(val option: FeedbackOption): Intent
         object LoadMissionDetail : Intent
+        object SubmitSatisfaction : Intent
     }
+}
+
+enum class MissionDetailLoadingType{
+    NONE,
+    DEFAULT,
+    REPORT
 }
