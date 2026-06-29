@@ -13,7 +13,7 @@ fun MissionDetailResponse.toModel(): Mission {
         missionTitle = this.missionTitle,
         missionState = missionState,
         imageUrl = this.matchRepresentativeImageUrl,
-        roundCount = this.roundCount,
+        roundCount = this.matchRoundCount,
         matchCompletedAt = this.matchCompletedAt,
         missionCompletedAt = this.missionCompletedAt ?: "",
         matchTitle = this.matchTitle,
