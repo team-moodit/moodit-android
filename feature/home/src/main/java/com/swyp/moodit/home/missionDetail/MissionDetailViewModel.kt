@@ -32,13 +32,14 @@ class MissionDetailViewModel @Inject constructor(
 
     override fun handleIntents(intent: MissionDetailContract.Intent) {
         when (intent) {
-            is MissionDetailContract.Intent.OnCompleteClick -> {
+            is MissionDetailContract.Intent.OnTryButtonClick -> {
                 when (uiState.value.status) {
                     MissionStatus.CREATED -> sendEffect(MissionDetailContract.SideEffect.NavigateToHome)
                     MissionStatus.DEFAULT -> sendEffect(MissionDetailContract.SideEffect.NavigateToReportReady)
                 }
             }
 
+            is MissionDetailContract.Intent.OnCompleteClick -> completeMission()
             is MissionDetailContract.Intent.LoadMissionDetail -> loadMissionDetail()
             is MissionDetailContract.Intent.OnFeedbackShowChange -> updateFeedbackShow(intent.show)
             is MissionDetailContract.Intent.OnSatisfactionShowChange -> updateSatisfactionShow(
@@ -54,7 +55,7 @@ class MissionDetailViewModel @Inject constructor(
         viewModelScope.launch {
             reduce { it.copy(isLoading = true) }
             when (val result =
-                missionRepository.getMissionDetail(9/*currentState.missionInfo.userMissionId */)) {
+                missionRepository.getMissionDetail(1/*currentState.missionInfo.userMissionId */)) {
                 is Result.Success -> {
                     reduce { it.copy(missionInfo = result.data) }
                 }
@@ -63,6 +64,27 @@ class MissionDetailViewModel @Inject constructor(
                     sendEffect(
                         MissionDetailContract.SideEffect.ShowSnackbar(
                             result.exception.message ?: "미션 상세 조회에 실패했습니다."
+                        )
+                    )
+                }
+            }
+            reduce { it.copy(isLoading = false) }
+        }
+    }
+
+    private fun completeMission() {
+        reduce { it.copy(isLoading = true) }
+        viewModelScope.launch {
+            when (val result =
+                missionRepository.completeMission(currentState.missionInfo.userMissionId)) {
+                is Result.Success -> {
+                    reduce { it.copy(successId = result.data) }
+                }
+
+                is Result.Error -> {
+                    sendEffect(
+                        MissionDetailContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "미션 완료 처리에 실패했어요."
                         )
                     )
                 }

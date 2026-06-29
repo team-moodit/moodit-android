@@ -25,6 +25,7 @@ import com.swyp.moodit.ui.component.mission.MissionDetailContent
 fun MissionDetailScreen(
     uiState: MissionDetailContract.State,
     onCompleteClick: () -> Unit,
+    onTryButtonClick: () -> Unit,
     onSatisfactionShowChange: (Boolean) -> Unit,
     onFeedbackShowChange: (Boolean) -> Unit,
     onSliderRatingChange: (Float) -> Unit,
@@ -40,9 +41,11 @@ fun MissionDetailScreen(
         bottomBar = {
             MooditFilledButton(
                 onClick = {
-                    if (uiState.status == MissionStatus.CREATED)
-                        onCompleteClick()
-                    else onSatisfactionShowChange(true)
+                    when {
+                        uiState.status == MissionStatus.CREATED -> onTryButtonClick()
+                        uiState.missionInfo.missionState == MissionState.COMPLETED -> onSatisfactionShowChange(true)
+                        else -> onCompleteClick()
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -79,6 +82,7 @@ fun MissionDetailScreenPreview() {
             uiState = MissionDetailContract.State(
                 missionInfo = Mission(missionState = MissionState.COMPLETED)
             ),
+            onTryButtonClick = {},
             onCompleteClick = {},
             onSatisfactionShowChange = {},
             onFeedbackShowChange = {},

@@ -17,6 +17,7 @@ class MissionDetailContract {
         val showSatisfactionBottomSheet: Boolean = false,
         val showFeedbackBottomSheet: Boolean = false,
         val currentSliderRating: Float = 1.0f,
+        val successId: Long = 0L
     ) : UiState
 
     sealed interface SideEffect : UiSideEffect {
@@ -26,6 +27,7 @@ class MissionDetailContract {
     }
 
     sealed interface Intent : UiIntent {
+        data object OnTryButtonClick : Intent
         data object OnCompleteClick : Intent
         data class OnSatisfactionShowChange(val show: Boolean) : Intent
         data class OnFeedbackShowChange(val show: Boolean) : Intent
