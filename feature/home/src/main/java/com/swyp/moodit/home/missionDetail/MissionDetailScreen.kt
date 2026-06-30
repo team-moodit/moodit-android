@@ -40,24 +40,28 @@ fun MissionDetailScreen(
 
     MooditScaffold(
         bottomBar = {
-            MooditFilledButton(
-                onClick = {
-                    when {
-                        uiState.status == MissionStatus.CREATED -> onTryButtonClick()
-                        uiState.missionInfo.missionState == MissionState.COMPLETED -> onSatisfactionShowChange(
-                            true
-                        )
+            val isMissionSettled = uiState.missionInfo.missionState == MissionState.COMPLETED
+                    && uiState.missionInfo.satisfactionScore != 0.0f
+            if (!isMissionSettled) {
+                MooditFilledButton(
+                    onClick = {
+                        when {
+                            uiState.status == MissionStatus.CREATED -> onTryButtonClick()
+                            uiState.missionInfo.missionState == MissionState.COMPLETED -> onSatisfactionShowChange(
+                                true
+                            )
 
-                        else -> onCompleteClick()
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .navigationBarsPadding()
-                    .padding(16.dp),
-                shape = RoundedCornerShape(12.dp),
-                text = navButtonText
-            )
+                            else -> onCompleteClick()
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .navigationBarsPadding()
+                        .padding(16.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    text = navButtonText
+                )
+            }
         }
     ) { innerPadding ->
         MissionDetailContent(
