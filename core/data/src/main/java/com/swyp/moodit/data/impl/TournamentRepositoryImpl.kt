@@ -6,6 +6,7 @@ import com.swyp.moodit.data.mapper.toModel
 import com.swyp.moodit.data.mapper.toNetworkRequest
 import com.swyp.moodit.data.repository.TournamentRepository
 import com.swyp.moodit.model.MatchUpInfo
+import com.swyp.moodit.model.MatchUpResult
 import com.swyp.moodit.model.PartType
 import com.swyp.moodit.model.SelectedMatchUpIds
 import com.swyp.moodit.model.SelectedPhoto
@@ -14,7 +15,6 @@ import com.swyp.moodit.network.api.MooditApi
 import com.swyp.moodit.network.model.getOrThrow
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchRequest
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitRequest
-import com.swyp.moodit.network.model.tournament.matchUp.SaveMatchUpRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -62,7 +62,10 @@ internal class TournamentRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveMatchUp(matchId: Long, selectedMatchUpIds: SelectedMatchUpIds): Result<Unit> {
+    override suspend fun saveMatchUp(
+        matchId: Long,
+        selectedMatchUpIds: SelectedMatchUpIds
+    ): Result<Unit> {
         try {
             mooditApi.saveMatchUp(matchId, selectedMatchUpIds.toNetworkRequest()).getOrThrow()
             return Result.Success(Unit)
@@ -74,6 +77,15 @@ internal class TournamentRepositoryImpl @Inject constructor(
     override suspend fun getMatchUpProgressInfo(matchId: Long): Result<MatchUpInfo> {
         try {
             val response = mooditApi.getNextMatchUpInfo(matchId).getOrThrow()
+            return Result.Success(response.toModel())
+        } catch (e: Exception) {
+            return Result.Error(e)
+        }
+    }
+
+    override suspend fun getMatchUpResult(matchId: Long): Result<MatchUpResult> {
+        try {
+            val response = mooditApi.getMatchUpResult(matchId).getOrThrow()
             return Result.Success(response.toModel())
         } catch (e: Exception) {
             return Result.Error(e)
