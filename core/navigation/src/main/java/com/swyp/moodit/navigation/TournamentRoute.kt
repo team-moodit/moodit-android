@@ -11,7 +11,7 @@ sealed interface TournamentRoute : Route {
     data class MatchUp(val tournamentId: Long, val isStarted: Boolean)
 
     @Serializable
-    data class Result(val winnerCandidateId: Long) : TournamentRoute
+    data class Result(val matchResultId: Long) : TournamentRoute
 
     @Serializable
     data class Detail(val tournamentId: String) : TournamentRoute

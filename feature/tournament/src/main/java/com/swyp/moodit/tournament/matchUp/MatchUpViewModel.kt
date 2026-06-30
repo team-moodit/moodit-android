@@ -12,7 +12,6 @@ import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -59,13 +58,14 @@ class MatchUpViewModel @Inject constructor(
         }
     }
 
-    fun getTournamentInfo() {
+    fun getTournamentInfo(isSilentRefresh: Boolean = false) {
         viewModelScope.launch {
-            reduce { it.copy(isLoading = true) }
+            if (!isSilentRefresh) {
+                reduce { it.copy(isLoading = true) }
+            }
             val result = if (currentState.isStarted) {
                 tournamentRepository.getMatchUpInitInfo(tournamentId)
             } else {
-                Timber.d("다음 매치 조회됨.")
                 tournamentRepository.getMatchUpProgressInfo(tournamentId)
             }
             when (result) {
@@ -88,12 +88,15 @@ class MatchUpViewModel @Inject constructor(
                 is Result.Error -> {
                     sendEffect(
                         MatchUpContract.SideEffect.ShowSnackbar(
-                            result.exception.message ?: "매치 정보를 조회할 수 없습니다."
+                            result.exception.message ?: "매치 정보를 조회할 수 없습니다.",
+                            MooditSnackbarType.ERROR
                         )
                     )
                 }
             }
-            reduce { it.copy(isLoading = false) }
+            if (currentState.isLoading) {
+                reduce { it.copy(isLoading = false) }
+            }
         }
     }
 
@@ -176,22 +179,37 @@ class MatchUpViewModel @Inject constructor(
         }
     }
 
+    private fun getMatchUpResult() {
+        viewModelScope.launch {
+            reduce { it.copy(isLoading = true) }
+            when (val result = tournamentRepository.getMatchUpResult(tournamentId)) {
+                is Result.Success -> {
+                    sendEffect(MatchUpContract.SideEffect.NavigateToResult(result.data.matchResultId))
+                }
+
+                is Result.Error -> {
+                    sendEffect(
+                        MatchUpContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "매치 결과를 조회할 수 없습니다.",
+                            MooditSnackbarType.ERROR
+                        )
+                    )
+                }
+            }
+        }
+    }
+
     private fun handleSaveMatchUpSuccess() {
         sendEffect(MatchUpContract.SideEffect.ShowSnackbar("진행 상황이 저장됐어요"))
 
         if (currentState.matchUpInfo.isCompleted) {
-            sendEffect(
-                MatchUpContract.SideEffect.NavigateToResult(
-                    currentState.selectedWinner?.id ?: 0L
-                )
-            )
+            getMatchUpResult()
         } else {
             reduce {
                 it.copy(
                     selectedReason = null,
                     selectedWinner = null,
-                    currentStep = TournamentStep.MATCH_UP,
-                    isLoading = true
+                    currentStep = TournamentStep.MATCH_UP
                 )
             }
             getTournamentInfo()

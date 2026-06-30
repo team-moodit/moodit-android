@@ -21,11 +21,11 @@ class TournamentResultViewModel @Inject constructor(
         initialState = TournamentResultContract.State()
     ) {
 
-    private val winnerCandidateId =
-        savedStateHandle.toRoute<TournamentRoute.Result>().winnerCandidateId
+    private val matchResultId =
+        savedStateHandle.toRoute<TournamentRoute.Result>().matchResultId
 
     init {
-        Timber.d("$winnerCandidateId")
+        Timber.d("$matchResultId")
         loadResult()
     }
 
