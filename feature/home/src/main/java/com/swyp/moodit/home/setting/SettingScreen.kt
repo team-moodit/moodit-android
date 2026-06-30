@@ -98,7 +98,7 @@ fun SettingScreen(
                 horizontalArrangement = Arrangement.Absolute.SpaceBetween
             ) {
                 Text(
-                    text = "kakao 로그인",
+                    text = "카카오 계정 정보",
                     color = MooditTheme.colors.onBackground,
                     style = MooditTheme.typography.b3Medium
                 )
@@ -107,6 +107,35 @@ fun SettingScreen(
                     color = MooditTheme.colors.textSecondary,
                     style = MooditTheme.typography.b3Medium
                 )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 20.dp, horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Absolute.SpaceBetween
+            ) {
+                Text(
+                    text = "닉네임",
+                    color = MooditTheme.colors.onBackground,
+                    style = MooditTheme.typography.b3Medium
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Absolute.SpaceBetween
+                ) {
+                    Text(
+                        text = uiState.name,
+                        color = MooditTheme.colors.textSecondary,
+                        style = MooditTheme.typography.b3Medium
+                    )
+                    Icon(
+                        imageVector = Icons.Default.ChevronRight,
+                        contentDescription = "icon_click",
+                        modifier = Modifier.size(20.dp),
+                        tint = MooditTheme.colors.onTertiary
+                    )
+                }
             }
             HorizontalDivider(
                 modifier = Modifier.fillMaxWidth(),
