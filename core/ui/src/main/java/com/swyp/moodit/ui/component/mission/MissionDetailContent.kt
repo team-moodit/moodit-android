@@ -1,6 +1,7 @@
 package com.swyp.moodit.ui.component.mission
 
 import android.os.Build
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,9 +25,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindowProvider
 import coil3.compose.AsyncImage
+import com.swyp.moodit.designsystem.R
+import com.swyp.moodit.designsystem.component.MooditDialog
+import com.swyp.moodit.designsystem.component.button.MooditFilledButton
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.FeedbackOption
 import com.swyp.moodit.model.Mission
@@ -41,12 +47,17 @@ fun MissionDetailContent(
     contentPadding: PaddingValues = PaddingValues(0.dp),
     showSatisfactionBottomSheet: Boolean,
     showFeedbackBottomSheet: Boolean,
+    showDeleteDialog: Boolean,
+    showDeleteCompleteDialog: Boolean,
     slidingRating: Float,
     selectedFeedback: List<FeedbackOption>,
     feedbackOptions: List<FeedbackOption>,
-    onCompleteClick: () -> Unit,
+    onDeleteClick: () -> Unit,
+    onDeleteCompleteClick: () -> Unit,
     onSatisfactionShowChange: (Boolean) -> Unit,
     onFeedbackShowChange: (Boolean) -> Unit,
+    onDeleteDialogShowChange: (Boolean) -> Unit,
+    onDeleteCompleteDialogShowChange: (Boolean) -> Unit,
     onSliderRatingChange: (Float) -> Unit,
     onToggleFeedbackOption: (FeedbackOption) -> Unit,
     onClearFeedbackOption: () -> Unit,
@@ -155,6 +166,57 @@ fun MissionDetailContent(
                     submitSatisfaction()
                 },
                 onOptionClick = { feedbackOption -> onToggleFeedbackOption(feedbackOption) },
+            )
+        }
+    }
+
+    if (showDeleteDialog) {
+        MooditDialog(
+            title = "정말 미션을 삭제하시겠어요?",
+            description = "삭제한 미션은 다시 진행할 수 없어요",
+            onClickCancel = { onDeleteDialogShowChange(false) }
+        ) {
+            MooditFilledButton(
+                onClick = { onDeleteDialogShowChange(false) },
+                modifier = Modifier.weight(1f),
+                text = "취소",
+                containerColor = MooditTheme.colors.primary.copy(alpha = 0.1f),
+                contentColor = MooditTheme.colors.primary
+            )
+            MooditFilledButton(
+                onClick = {
+                    onDeleteDialogShowChange(false)
+                    onDeleteClick()
+                    onDeleteCompleteDialogShowChange(true)
+                },
+                modifier = Modifier.weight(1f),
+                text = "삭제할래요"
+            )
+        }
+    }
+
+    if (showDeleteCompleteDialog) {
+        MooditDialog(
+            title = "미션을 삭제했어요",
+            description = "삭제할 미션은 다시 볼 수 없어요",
+            onClickCancel = { onDeleteCompleteDialogShowChange(false) },
+            icon = {
+                Image(
+                    modifier = Modifier.size(80.dp),
+                    painter = painterResource(R.drawable.complete),
+                    contentDescription = "icon_delete_account_complete"
+                )
+            }
+        ) {
+            MooditFilledButton(
+                onClick = {
+                    onDeleteCompleteDialogShowChange(false)
+                    onDeleteCompleteClick()
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                text = "확인"
             )
         }
     }

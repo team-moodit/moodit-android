@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.MissionRepository
+import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.model.FeedbackOption
 import com.swyp.moodit.model.Mission
 import com.swyp.moodit.model.MissionStatus
@@ -41,9 +42,22 @@ class MissionDetailViewModel @Inject constructor(
             }
 
             is MissionDetailContract.Intent.OnCompleteClick -> completeMission()
+            is MissionDetailContract.Intent.OnDeleteClick -> deleteMission()
+            is MissionDetailContract.Intent.OnDeleteCompleteClick -> sendEffect(
+                MissionDetailContract.SideEffect.NavigateToHome
+            )
+
             is MissionDetailContract.Intent.LoadMissionDetail -> loadMissionDetail()
             is MissionDetailContract.Intent.OnFeedbackShowChange -> updateFeedbackShow(intent.show)
             is MissionDetailContract.Intent.OnSatisfactionShowChange -> updateSatisfactionShow(
+                intent.show
+            )
+
+            is MissionDetailContract.Intent.OnDeleteDialogShowChange -> updateDeleteDialogShow(
+                intent.show
+            )
+
+            is MissionDetailContract.Intent.OnDeleteCompleteDialogShowChange -> updateDeleteCompleteDialogShow(
                 intent.show
             )
 
@@ -94,6 +108,26 @@ class MissionDetailViewModel @Inject constructor(
                 }
             }
             reduce { it.copy(isLoading = MissionDetailLoadingType.NONE) }
+        }
+    }
+
+    private fun deleteMission() {
+        reduce { it.copy(isLoading = MissionDetailLoadingType.DEFAULT) }
+        viewModelScope.launch {
+            when (val result =
+                missionRepository.deleteMission(currentState.missionInfo.userMissionId)) {
+                is Result.Success -> {
+                    updateDeleteCompleteDialogShow(true)
+                }
+
+                is Result.Error -> {
+                    sendEffect(
+                        MissionDetailContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "미션 삭제 처리에 실패했어요.", MooditSnackbarType.ERROR
+                        )
+                    )
+                }
+            }
         }
     }
 
@@ -152,6 +186,14 @@ class MissionDetailViewModel @Inject constructor(
 
     private fun clearFeedbackOption() {
         reduce { it.copy(selectedFeedback = emptyList()) }
+    }
+
+    private fun updateDeleteDialogShow(show: Boolean) {
+        reduce { it.copy(showDeleteDialog = show) }
+    }
+
+    private fun updateDeleteCompleteDialogShow(show: Boolean) {
+        reduce { it.copy(showDeleteCompleteDialog = show) }
     }
 
     companion object {

@@ -124,6 +124,8 @@ fun MissionDetailRoute(
                 uiState = uiState,
                 onTryButtonClick = { viewModel.sendIntent(MissionDetailContract.Intent.OnTryButtonClick) },
                 onCompleteClick = { viewModel.sendIntent(MissionDetailContract.Intent.OnCompleteClick) },
+                onDeleteCompleteClick = { viewModel.sendIntent(MissionDetailContract.Intent.OnDeleteCompleteClick) },
+                onDeleteClick = { viewModel.sendIntent(MissionDetailContract.Intent.OnDeleteClick) },
                 onSatisfactionShowChange = {
                     viewModel.sendIntent(
                         MissionDetailContract.Intent.OnSatisfactionShowChange(
@@ -148,6 +150,20 @@ fun MissionDetailRoute(
                 onToggleFeedbackOption = {
                     viewModel.sendIntent(
                         MissionDetailContract.Intent.ToggleFeedbackOption(
+                            it
+                        )
+                    )
+                },
+                onDeleteDialogShowChange = {
+                    viewModel.sendIntent(
+                        MissionDetailContract.Intent.OnDeleteDialogShowChange(
+                            it
+                        )
+                    )
+                },
+                onDeleteCompleteDialogShowChange = {
+                    viewModel.sendIntent(
+                        MissionDetailContract.Intent.OnDeleteCompleteDialogShowChange(
                             it
                         )
                     )
