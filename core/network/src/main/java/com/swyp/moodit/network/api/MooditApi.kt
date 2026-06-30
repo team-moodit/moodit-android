@@ -1,6 +1,8 @@
 package com.swyp.moodit.network.api
 
 import com.swyp.moodit.network.model.BaseResponse
+import com.swyp.moodit.network.model.mission.MissionAcceptRequest
+import com.swyp.moodit.network.model.mission.MissionAcceptResponse
 import com.swyp.moodit.network.model.mission.MissionCompleteResponse
 import com.swyp.moodit.network.model.mission.MissionDetailResponse
 import com.swyp.moodit.network.model.mission.MissionSatisfactionRequest
@@ -96,4 +98,9 @@ interface MooditApi {
     suspend fun getMissionOffers(
         @Body request: MissionOfferRequest
     ): Response<BaseResponse<MissionOfferResponse>>
+
+    @POST("v1/mission-offers/accept")
+    suspend fun acceptMissionOffer(
+        @Body request: MissionAcceptRequest
+    ): Response<BaseResponse<MissionAcceptResponse>>
 }
