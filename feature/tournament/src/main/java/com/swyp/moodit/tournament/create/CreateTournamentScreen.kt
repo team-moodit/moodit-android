@@ -124,7 +124,7 @@ fun CreateTournamentScreen(
             OutlinedTextField(
                 value = uiState.title,
                 onValueChange = {
-                    if (it.length <= 20) onTitleChange(it)
+                    onTitleChange(it)
                 },
                 placeholder = {
                     Text(
@@ -168,7 +168,7 @@ fun CreateTournamentScreen(
             )
 
             Text(
-                text = "${uiState.title.length}/20",
+                text = "${uiState.title.length}/15",
                 color = MooditTheme.colors.borderDefault,
                 style = MooditTheme.typography.b3Medium,
                 modifier = Modifier
