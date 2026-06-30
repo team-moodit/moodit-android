@@ -4,7 +4,7 @@ import com.swyp.moodit.network.model.BaseResponse
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchRequest
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchResponse
 import com.swyp.moodit.network.model.tournament.UploadFileResponse
-import com.swyp.moodit.network.model.user.UserProfileResponse
+import com.swyp.moodit.network.model.user.UserPrivacyInfoResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -33,6 +33,6 @@ interface MooditApi {
     ): Response<BaseResponse<CreateMoodMatchResponse>>
 
     // User
-    @GET("v1/user-profiles/active")
-    suspend fun getUserProfile(): Response<BaseResponse<UserProfileResponse>>
+    @GET("v1/settings/privacy/info")
+    suspend fun getUserPrivacyInfo(): Response<BaseResponse<UserPrivacyInfoResponse>>
 }

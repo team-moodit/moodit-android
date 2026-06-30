@@ -103,7 +103,7 @@ fun SettingScreen(
                     style = MooditTheme.typography.b3Medium
                 )
                 Text(
-                    text = uiState.nickname,
+                    text = uiState.email,
                     color = MooditTheme.colors.textSecondary,
                     style = MooditTheme.typography.b3Medium
                 )
