@@ -125,7 +125,8 @@ fun MissionDetailContent(
                     if (slidingRating < 3.0) {
                         onFeedbackShowChange(true)
                     } else {
-                        onCompleteClick()
+                        onSatisfactionShowChange(false)
+                        submitSatisfaction()
                     }
                 }
             )
