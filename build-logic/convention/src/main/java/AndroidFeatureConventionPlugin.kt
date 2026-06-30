@@ -21,6 +21,7 @@ class AndroidFeatureConventionPlugin: Plugin<Project> {
                 implementation(project((":core:designsystem")))
                 implementation(project(":core:ui"))
                 implementation(project(":core:navigation"))
+                implementation(project(":core:common"))
 
                 implementation(libs.getLibrary("kotlinx.serialization.json"))
                 implementation(libs.getBundle("navigation"))

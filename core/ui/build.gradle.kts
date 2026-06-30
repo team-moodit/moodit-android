@@ -8,6 +8,7 @@ android {
 
 dependencies {
     api(projects.core.model)
+    api(projects.core.common)
     api(projects.core.designsystem)
     implementation(libs.bundles.coil)
 }

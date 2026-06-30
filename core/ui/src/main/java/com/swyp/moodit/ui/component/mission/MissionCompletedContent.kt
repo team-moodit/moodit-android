@@ -1,5 +1,6 @@
 package com.swyp.moodit.ui.component.mission
 
+import com.swyp.moodit.common.util.TextUtil
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -181,7 +182,7 @@ fun MissionCompletedContent(tagContent: String, mission: Mission) {
             }
 
             Text(
-                text = "이번 무드매치는\n${mission.matchPreferenceType}를 가장 중요하게 생각했어요",
+                text = "이번 무드매치는\n${mission.matchPreferenceType}${TextUtil.attachParticle(mission.matchPreferenceType)} 가장 중요하게 생각했어요",
                 color = MooditTheme.colors.tertiary,
                 style = MooditTheme.typography.b3Medium
             )
