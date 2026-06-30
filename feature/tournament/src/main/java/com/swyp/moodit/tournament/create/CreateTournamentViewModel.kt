@@ -23,8 +23,10 @@ class CreateTournamentViewModel @Inject constructor(
             }
 
             is CreateTournamentContract.Intent.OnTitleChange -> {
-                reduce { it.copy(title = intent.title) }
-                checkCreateTournamentCondition()
+                if (intent.title.length <= MAX_TITLE_LENGTH) {
+                    reduce { it.copy(title = intent.title) }
+                    checkCreateTournamentCondition()
+                }
             }
 
             is CreateTournamentContract.Intent.OnPhotoChange -> {
@@ -66,7 +68,7 @@ class CreateTournamentViewModel @Inject constructor(
             when (val result =
                 tournamentRepository.createMoodMatch(currentState.title, serverIds)) {
                 is Result.Success -> {
-                    sendEffect(CreateTournamentContract.SideEffect.NavigateToMatchUp(result.data))
+                    sendEffect(CreateTournamentContract.SideEffect.NavigateToMatchUp(result.data, true))
                 }
 
                 is Result.Error -> {
@@ -149,6 +151,6 @@ class CreateTournamentViewModel @Inject constructor(
         const val MIN_PHOTO_COUNT = 1
         const val MAX_PHOTO_COUNT = 32
         const val MIN_TITLE_LENGTH = 1
-        const val MAX_TITLE_LENGTH = 20
+        const val MAX_TITLE_LENGTH = 15
     }
 }

@@ -9,19 +9,18 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.swyp.moodit.designsystem.theme.MooditTheme
-import com.swyp.moodit.tournament.matchUp.MoodCandidate
+import com.swyp.moodit.model.Candidate
 
 @Composable
 fun MoodCandidateItem(
     isSelected: Boolean,
     anyPhotoSelected: Boolean,
-    moodCandidate: MoodCandidate,
+    moodCandidate: Candidate,
     modifier: Modifier = Modifier
 ) {
     val borderModifier = if (isSelected) Modifier.border(
@@ -57,9 +56,8 @@ fun MoodCandidateItemPreview() {
         MoodCandidateItem(
             isSelected = true,
             anyPhotoSelected = true,
-            moodCandidate = MoodCandidate(
+            moodCandidate = Candidate(
                 id = 1,
-                name = "Test Candidate",
                 photoUri = "https://example.com/test.jpg"
             )
         )
