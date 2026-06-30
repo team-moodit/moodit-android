@@ -164,11 +164,11 @@ fun TournamentResultScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                uiState.missions.forEach { mission ->
+                uiState.moodMatchResult.missionSuggestions.forEach { mission ->
                     MooditSelectableButton(
-                        content = "123",
-                        isSelected = false,
-                        onItemClick = { }
+                        content = mission.title,
+                        isSelected = mission.id == uiState.selectedMission,
+                        onItemClick = { onSelectMission(mission.id) }
                     )
                 }
             }

@@ -30,7 +30,7 @@ private const val MAX_TOTAL_PHOTOS = 32
 fun CreateTournamentRoute(
     viewModel: CreateTournamentViewModel = hiltViewModel(),
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
-    navigateToMatchUp: (Long) -> Unit
+    navigateToMatchUp: (Long, Boolean) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val maxTotalPhotos = MAX_TOTAL_PHOTOS
@@ -75,10 +75,7 @@ fun CreateTournamentRoute(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
-                is CreateTournamentContract.SideEffect.NavigateToMatchUp -> navigateToMatchUp(
-                    sideEffect.tournamentId
-                )
-
+                is CreateTournamentContract.SideEffect.NavigateToMatchUp -> navigateToMatchUp(sideEffect.tournamentId, sideEffect.isStarted)
                 is CreateTournamentContract.SideEffect.ShowSnackbar -> onShowSnackbar(
                     sideEffect.message,
                     null

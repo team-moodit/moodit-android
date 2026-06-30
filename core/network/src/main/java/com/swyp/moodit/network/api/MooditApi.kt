@@ -6,7 +6,15 @@ import com.swyp.moodit.network.model.mission.MissionDetailResponse
 import com.swyp.moodit.network.model.mission.MissionSatisfactionRequest
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchRequest
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchResponse
+import com.swyp.moodit.network.model.tournament.MatchUpResultResponse
+import com.swyp.moodit.network.model.tournament.MissionOfferRequest
+import com.swyp.moodit.network.model.tournament.MissionOfferResponse
 import com.swyp.moodit.network.model.tournament.UploadFileResponse
+import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitRequest
+import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitResponse
+import com.swyp.moodit.network.model.tournament.matchUp.MatchUpProgressResponse
+import com.swyp.moodit.network.model.tournament.matchUp.SaveMatchUpRequest
+import com.swyp.moodit.network.model.tournament.matchUp.SaveMatchUpResponse
 import com.swyp.moodit.network.model.user.UserProfileResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -37,6 +45,27 @@ interface MooditApi {
         @Body request: CreateMoodMatchRequest
     ): Response<BaseResponse<CreateMoodMatchResponse>>
 
+    @GET("v1/matches/{matchId}/start")
+    suspend fun getMatchUpInitInfo(
+        @Path("matchId") request: MatchUpInitRequest
+    ): Response<BaseResponse<MatchUpInitResponse>>
+
+    @POST("v1/matches/{matchId}/votes")
+    suspend fun saveMatchUp(
+        @Path("matchId") matchId: Long,
+        @Body request: SaveMatchUpRequest
+    ): Response<BaseResponse<SaveMatchUpResponse>>
+
+    @GET("v1/matches/{matchId}/next-matchup")
+    suspend fun getNextMatchUpInfo(
+        @Path("matchId") matchId: Long
+    ): Response<BaseResponse<MatchUpProgressResponse>>
+
+    @GET("v1/matches/{matchId}/completed")
+    suspend fun getMatchUpResult(
+        @Path("matchId") matchId: Long
+    ): Response<BaseResponse<MatchUpResultResponse>>
+
     // User
     @GET("v1/user-profiles/active")
     suspend fun getUserProfile(): Response<BaseResponse<UserProfileResponse>>
@@ -62,4 +91,9 @@ interface MooditApi {
     suspend fun deleteMission(
         @Path("userMissionId") userMissionId: Long
     ): Response<BaseResponse<Unit>>
+
+    @GET("v1/mission-offers")
+    suspend fun getMissionOffers(
+        @Body request: MissionOfferRequest
+    ): Response<BaseResponse<MissionOfferResponse>>
 }
