@@ -230,14 +230,17 @@ fun CreateTournamentScreen(
 
             retryPhoto?.let { photo ->
                 MooditDialog(
-                    title = "업로드 재시도",
-                    description = "사진 업로드를 다시 시도하시겠습니까?",
+                    title = "이 사진을 다시 불러올까요?",
+                    description = "불러오지 못한 사진을 다시 불러올게요",
                     onClickCancel = { retryPhoto = null }
                 ) {
                     MooditFilledButton(
-                        onClick = { retryPhoto = null },
+                        onClick = {
+                            onDeletePhotoClick(photo.id)
+                            retryPhoto = null
+                        },
                         modifier = Modifier.weight(1f),
-                        text = "취소",
+                        text = "삭제",
                         containerColor = MooditTheme.colors.surfaceContainer,
                         contentColor = MooditTheme.colors.textSecondary
                     )
@@ -247,7 +250,7 @@ fun CreateTournamentScreen(
                             retryPhoto = null
                         },
                         modifier = Modifier.weight(1f),
-                        text = "확인"
+                        text = "다시 시도"
                     )
                 }
             }
