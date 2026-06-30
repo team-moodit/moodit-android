@@ -72,7 +72,7 @@ class MissionDetailViewModel @Inject constructor(
         viewModelScope.launch {
             reduce { it.copy(isLoading = MissionDetailLoadingType.DEFAULT) }
             when (val result =
-                missionRepository.getMissionDetail(3/*currentState.missionInfo.userMissionId */)) {
+                missionRepository.getMissionDetail(currentState.missionInfo.userMissionId)) {
                 is Result.Success -> {
                     reduce { it.copy(missionInfo = result.data) }
                 }
