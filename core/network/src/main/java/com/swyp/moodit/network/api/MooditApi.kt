@@ -3,6 +3,7 @@ package com.swyp.moodit.network.api
 import com.swyp.moodit.network.model.BaseResponse
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchRequest
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchResponse
+import com.swyp.moodit.network.model.tournament.MatchUpResultResponse
 import com.swyp.moodit.network.model.tournament.UploadFileResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitRequest
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitResponse
@@ -53,6 +54,11 @@ interface MooditApi {
     suspend fun getNextMatchUpInfo(
         @Path("matchId") matchId: Long
     ): Response<BaseResponse<MatchUpProgressResponse>>
+
+    @GET("v1/matches/{matchId}/complete")
+    suspend fun getMatchUpResult(
+        @Path("matchId") matchId: Long
+    ): Response<BaseResponse<MatchUpResultResponse>>
 
     // User
     @GET("v1/user-profiles/active")
