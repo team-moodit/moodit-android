@@ -4,7 +4,9 @@ import com.swyp.moodit.model.Candidate
 import com.swyp.moodit.model.MatchUp
 import com.swyp.moodit.model.MatchUpInfo
 import com.swyp.moodit.model.MatchUpReason
+import com.swyp.moodit.model.MatchUpResult
 import com.swyp.moodit.model.SelectedMatchUpIds
+import com.swyp.moodit.network.model.tournament.MatchUpResultResponse
 import com.swyp.moodit.network.model.tournament.matchUp.CandidateResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpProgressResponse
@@ -55,6 +57,16 @@ fun MatchUpReasonResponse.toModel(): MatchUpReason {
     return MatchUpReason(
         id = this.id,
         content = this.content
+    )
+}
+
+fun MatchUpResultResponse.toModel(): MatchUpResult {
+    return MatchUpResult(
+        matchResultId = this.matchResultId,
+        winnerPhotoId = this.winnerPhotoId,
+        preferenceResultType = this.preferenceResultType,
+        mainPreference = this.mainPreference,
+        detailPreference = this.detailPreference
     )
 }
 
