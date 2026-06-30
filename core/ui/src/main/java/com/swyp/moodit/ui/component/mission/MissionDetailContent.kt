@@ -49,6 +49,7 @@ fun MissionDetailContent(
     onFeedbackShowChange: (Boolean) -> Unit,
     onSliderRatingChange: (Float) -> Unit,
     onToggleFeedbackOption: (FeedbackOption) -> Unit,
+    onClearFeedbackOption: () -> Unit,
     submitSatisfaction: () -> Unit
 ) {
     val tagContent = when {
@@ -105,7 +106,10 @@ fun MissionDetailContent(
 
     if (showSatisfactionBottomSheet) {
         ModalBottomSheet(
-            onDismissRequest = { onSatisfactionShowChange(false) },
+            onDismissRequest = {
+                onSatisfactionShowChange(false)
+                onSliderRatingChange(0.0f)
+            },
             sheetState = sheetState,
             containerColor = MooditTheme.colors.onPrimary
         ) {
@@ -130,7 +134,11 @@ fun MissionDetailContent(
 
     if (showFeedbackBottomSheet) {
         ModalBottomSheet(
-            onDismissRequest = { onFeedbackShowChange(false) },
+            onDismissRequest = {
+                onFeedbackShowChange(false)
+                onSliderRatingChange(0.0f)
+                onClearFeedbackOption()
+            },
             sheetState = sheetState,
             containerColor = MooditTheme.colors.onPrimary
         ) {

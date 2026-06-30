@@ -152,7 +152,8 @@ fun MissionDetailRoute(
                         )
                     )
                 },
-                submitSatisfaction = { viewModel.sendIntent(MissionDetailContract.Intent.SubmitSatisfaction) }
+                submitSatisfaction = { viewModel.sendIntent(MissionDetailContract.Intent.SubmitSatisfaction) },
+                onClearFeedbackOption = { viewModel.sendIntent(MissionDetailContract.Intent.ClearFeedbackOption) }
             )
         }
     }

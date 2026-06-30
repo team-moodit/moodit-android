@@ -30,6 +30,7 @@ fun MissionDetailScreen(
     onFeedbackShowChange: (Boolean) -> Unit,
     onSliderRatingChange: (Float) -> Unit,
     onToggleFeedbackOption: (FeedbackOption) -> Unit,
+    onClearFeedbackOption: () -> Unit,
     submitSatisfaction: () -> Unit
 ) {
     val navButtonText = when {
@@ -78,6 +79,7 @@ fun MissionDetailScreen(
             onFeedbackShowChange = onFeedbackShowChange,
             onSliderRatingChange = onSliderRatingChange,
             onToggleFeedbackOption = onToggleFeedbackOption,
+            onClearFeedbackOption = onClearFeedbackOption,
             submitSatisfaction = submitSatisfaction
         )
     }
@@ -97,6 +99,7 @@ fun MissionDetailScreenPreview() {
             onFeedbackShowChange = {},
             onSliderRatingChange = {},
             onToggleFeedbackOption = {},
+            onClearFeedbackOption = {},
             submitSatisfaction = {}
         )
     }

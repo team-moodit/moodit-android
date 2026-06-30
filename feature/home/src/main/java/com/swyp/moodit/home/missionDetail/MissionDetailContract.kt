@@ -16,7 +16,7 @@ class MissionDetailContract {
         val feedbackOptions: List<FeedbackOption> = emptyList(),
         val showSatisfactionBottomSheet: Boolean = false,
         val showFeedbackBottomSheet: Boolean = false,
-        val currentSliderRating: Float = 1.0f,
+        val currentSliderRating: Float = 0.0f,
         val successId: Long = 0L
     ) : UiState
 
@@ -35,6 +35,7 @@ class MissionDetailContract {
         data class ToggleFeedbackOption(val option: FeedbackOption): Intent
         object LoadMissionDetail : Intent
         object SubmitSatisfaction : Intent
+        object ClearFeedbackOption: Intent
     }
 }
 

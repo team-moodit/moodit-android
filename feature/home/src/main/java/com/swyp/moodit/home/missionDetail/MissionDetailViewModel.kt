@@ -50,6 +50,7 @@ class MissionDetailViewModel @Inject constructor(
             is MissionDetailContract.Intent.OnSliderRatingChange -> updateSliderRating(intent.rating)
             is MissionDetailContract.Intent.ToggleFeedbackOption -> toggleFeedbackOption(intent.option)
             is MissionDetailContract.Intent.SubmitSatisfaction -> submitSatisfaction()
+            is MissionDetailContract.Intent.ClearFeedbackOption -> clearFeedbackOption()
         }
     }
 
@@ -57,7 +58,7 @@ class MissionDetailViewModel @Inject constructor(
         viewModelScope.launch {
             reduce { it.copy(isLoading = MissionDetailLoadingType.DEFAULT) }
             when (val result =
-                missionRepository.getMissionDetail(1/*currentState.missionInfo.userMissionId */)) {
+                missionRepository.getMissionDetail(3/*currentState.missionInfo.userMissionId */)) {
                 is Result.Success -> {
                     reduce { it.copy(missionInfo = result.data) }
                 }
@@ -146,6 +147,10 @@ class MissionDetailViewModel @Inject constructor(
             currentList + option
         }
         reduce { it.copy(selectedFeedback = updatedList) }
+    }
+
+    private fun clearFeedbackOption() {
+        reduce { it.copy(selectedFeedback = emptyList()) }
     }
 
     companion object {
