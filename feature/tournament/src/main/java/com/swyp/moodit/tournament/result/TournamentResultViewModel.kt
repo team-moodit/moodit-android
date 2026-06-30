@@ -27,20 +27,25 @@ class TournamentResultViewModel @Inject constructor(
     override fun handleIntents(intent: TournamentResultContract.Intent) {
         when (intent) {
             is TournamentResultContract.Intent.OnMissionDetailClick -> {
-                sendEffect(
-                    TournamentResultContract.SideEffect.NavigateToMissionDetail(
-                        uiState.value.userMissionId,
-                        MissionStatus.CREATED
+                val userMissionId = currentState.userMissionId
+                if (userMissionId == 0L) {
+                    approveMission()
+                } else {
+                    sendEffect(
+                        TournamentResultContract.SideEffect.NavigateToMissionDetail(
+                            userMissionId,
+                            MissionStatus.CREATED
+                        )
                     )
-                )
+                }
             }
 
             is TournamentResultContract.Intent.OnMissionSelect -> {
                 reduce {
-                    val selectedMission = if (it.selectedMission == intent.missionId) {
+                    val selectedMission = if (it.selectedMission?.id == intent.mission.id) {
                         null
                     } else {
-                        intent.missionId
+                        intent.mission
                     }
                     it.copy(selectedMission = selectedMission)
                 }
@@ -57,6 +62,8 @@ class TournamentResultViewModel @Inject constructor(
             reduce { it.copy(isLoading = true) }
             when (val result = missionRepository.getMissionOffers(matchResultId)) {
                 is Result.Success -> {
+                    val assignedMissionId = result.data.assignedMissionId
+                    if (assignedMissionId != 0L) reduce { it.copy(userMissionId = assignedMissionId) }
                     reduce { it.copy(moodMatchResult = result.data) }
                 }
 
@@ -69,6 +76,29 @@ class TournamentResultViewModel @Inject constructor(
                 }
             }
             reduce { it.copy(isLoading = false) }
+        }
+    }
+
+    fun approveMission() {
+        val selectedMission = currentState.selectedMission ?: return
+        viewModelScope.launch {
+            reduce { it.copy(isLoading = true) }
+            when (val result = missionRepository.acceptMissionOffer(
+                currentState.moodMatchResult.offerId,
+                selectedMission.id
+            )) {
+                is Result.Success -> {
+                    reduce { it.copy(userMissionId = result.data) }
+                }
+
+                is Result.Error -> {
+                    sendEffect(
+                        TournamentResultContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "미션 수락에 실패했습니다."
+                        )
+                    )
+                }
+            }
         }
     }
 }

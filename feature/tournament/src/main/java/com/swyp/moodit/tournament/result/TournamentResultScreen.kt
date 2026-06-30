@@ -35,11 +35,12 @@ import com.swyp.moodit.designsystem.component.MooditScaffold
 import com.swyp.moodit.designsystem.component.button.MooditFilledButton
 import com.swyp.moodit.designsystem.component.button.MooditSelectableButton
 import com.swyp.moodit.designsystem.theme.MooditTheme
+import com.swyp.moodit.model.MissionSuggestion
 
 @Composable
 fun TournamentResultScreen(
     onMissionDetailClick: () -> Unit,
-    onSelectMission: (Long) -> Unit,
+    onSelectMission: (MissionSuggestion) -> Unit,
     uiState: TournamentResultContract.State
 ) {
     MooditScaffold(
@@ -47,7 +48,7 @@ fun TournamentResultScreen(
             MooditFilledButton(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
                 onClick = { onMissionDetailClick() },
-                enabled = uiState.selectedMission != null,
+                enabled = uiState.userMissionId != 0L,
                 text = "미션 확인하러 가기"
             )
         }
@@ -170,8 +171,8 @@ fun TournamentResultScreen(
                     uiState.moodMatchResult.missionSuggestions.forEach { mission ->
                         MooditSelectableButton(
                             content = mission.title,
-                            isSelected = mission.id == uiState.selectedMission,
-                            onItemClick = { onSelectMission(mission.id) }
+                            isSelected = mission.id == uiState.selectedMission?.id,
+                            onItemClick = { onSelectMission(mission) }
                         )
                     }
                 }
