@@ -9,7 +9,7 @@ import java.util.Collections.emptyList
 class CreateTournamentContract {
     data class State(
         val isLoading: Boolean = false,
-        val showPhotoPicker: Boolean = true,
+        val showPhotoPicker: Boolean = false,
         val title: String = "",
         val selectedPhotos: List<SelectedPhoto> = emptyList(),
         val isTournamentValid: Boolean = false
