@@ -62,7 +62,7 @@ fun TournamentResultScreen(
         ) {
             Spacer(modifier = Modifier.height(32.dp))
             AsyncImage(
-                model = "https://picsum.photos/200/300",
+                model = "https://picsum.photos/200/300", // uri 추가해야 함
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 48.dp)
@@ -74,13 +74,14 @@ fun TournamentResultScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "약속 날 입고 갈 옷",
+                text = "약속 날 입고 갈 옷", // title 추가해야 함
                 style = MooditTheme.typography.h3,
                 color = MooditTheme.colors.onBackground
             )
 
             Spacer(modifier = Modifier.height(30.dp))
 
+            /* uiState.moodMatchResult.preferenceResultType 으로 Icon, 문자열 분기해야함 */
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -155,21 +156,24 @@ fun TournamentResultScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(40.dp))
+            // 자동으로 미션 할당 받지 못한 경우에만 미션 출력
+            if (uiState.moodMatchResult.assignedMissionId == 0L) {
+                Spacer(modifier = Modifier.height(40.dp))
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                uiState.moodMatchResult.missionSuggestions.forEach { mission ->
-                    MooditSelectableButton(
-                        content = mission.title,
-                        isSelected = mission.id == uiState.selectedMission,
-                        onItemClick = { onSelectMission(mission.id) }
-                    )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    uiState.moodMatchResult.missionSuggestions.forEach { mission ->
+                        MooditSelectableButton(
+                            content = mission.title,
+                            isSelected = mission.id == uiState.selectedMission,
+                            onItemClick = { onSelectMission(mission.id) }
+                        )
+                    }
                 }
             }
 
