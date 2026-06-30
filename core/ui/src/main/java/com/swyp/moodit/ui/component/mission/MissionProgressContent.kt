@@ -95,7 +95,7 @@ fun MissionProgressContent(tagContent: String, mission: Mission) {
             MissionInfoCard(
                 modifier = Modifier.weight(1f),
                 title = "진행된 라운드 수",
-                content = "${mission.roundCount}"
+                content = "${mission.roundCount}회"
             )
             MissionInfoCard(
                 modifier = Modifier.weight(1f),
