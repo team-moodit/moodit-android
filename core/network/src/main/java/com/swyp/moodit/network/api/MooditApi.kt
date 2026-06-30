@@ -11,6 +11,7 @@ import com.swyp.moodit.network.model.user.UserProfileResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -55,5 +56,10 @@ interface MooditApi {
     suspend fun submitSatisfaction(
         @Path("userMissionId") userMissionId: Long,
         @Body request: MissionSatisfactionRequest
+    ): Response<BaseResponse<Unit>>
+
+    @DELETE("v1/user-missions/{userMissionId}")
+    suspend fun deleteMission(
+        @Path("userMissionId") userMissionId: Long
     ): Response<BaseResponse<Unit>>
 }
