@@ -46,4 +46,13 @@ internal class MissionRepositoryImpl @Inject constructor(
             Result.Error(e)
         }
     }
+
+    override suspend fun deleteMission(userMissionId: Long): Result<Unit> {
+        return try {
+            mooditApi.deleteMission(userMissionId).getOrThrowUnit()
+            return Result.Success(Unit)
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
 }
