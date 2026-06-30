@@ -10,4 +10,5 @@ interface MissionRepository {
     suspend fun submitSatisfaction(userMissionId: Long, satisfactionScore: Float, feedbackOptions: List<String>): Result<Unit>
     suspend fun deleteMission(userMissionId: Long): Result<Unit>
     suspend fun getMissionOffers(matchResultId: Long): Result<MoodMatchResult>
+    suspend fun acceptMissionOffer(offerId: Long, candidateId: Long): Result<Long>
 }

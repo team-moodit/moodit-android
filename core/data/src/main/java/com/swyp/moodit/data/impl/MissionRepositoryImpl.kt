@@ -8,6 +8,7 @@ import com.swyp.moodit.model.MoodMatchResult
 import com.swyp.moodit.network.api.MooditApi
 import com.swyp.moodit.network.model.getOrThrow
 import com.swyp.moodit.network.model.getOrThrowUnit
+import com.swyp.moodit.network.model.mission.MissionAcceptRequest
 import com.swyp.moodit.network.model.mission.MissionSatisfactionRequest
 import com.swyp.moodit.network.model.tournament.MissionOfferRequest
 import javax.inject.Inject
@@ -63,6 +64,20 @@ internal class MissionRepositoryImpl @Inject constructor(
             val response =
                 mooditApi.getMissionOffers(MissionOfferRequest(matchResultId)).getOrThrow()
             return Result.Success(response.toModel())
+        } catch (e: Exception) {
+            return Result.Error(e)
+        }
+    }
+
+    override suspend fun acceptMissionOffer(offerId: Long, candidateId: Long): Result<Long> {
+        try {
+            val response = mooditApi.acceptMissionOffer(
+                MissionAcceptRequest(
+                    offerId = offerId,
+                    candidateId = candidateId
+                )
+            ).getOrThrow()
+            return Result.Success(response.userMissionId)
         } catch (e: Exception) {
             return Result.Error(e)
         }
