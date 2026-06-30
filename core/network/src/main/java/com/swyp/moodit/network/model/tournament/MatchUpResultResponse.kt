@@ -4,6 +4,6 @@ data class MatchUpResultResponse(
     val matchResultId: Long,
     val winnerPhotoId: Long,
     val preferenceResultType: String,
-    val mainPreference: String,
-    val detailPreference: String
+    val mainPreference: String?,
+    val detailPreference: String?
 )

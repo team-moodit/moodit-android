@@ -5,8 +5,12 @@ import com.swyp.moodit.model.MatchUp
 import com.swyp.moodit.model.MatchUpInfo
 import com.swyp.moodit.model.MatchUpReason
 import com.swyp.moodit.model.MatchUpResult
+import com.swyp.moodit.model.MissionSuggestion
+import com.swyp.moodit.model.MoodMatchResult
 import com.swyp.moodit.model.SelectedMatchUpIds
 import com.swyp.moodit.network.model.tournament.MatchUpResultResponse
+import com.swyp.moodit.network.model.tournament.MissionOfferResponse
+import com.swyp.moodit.network.model.tournament.MissionSuggestionResponse
 import com.swyp.moodit.network.model.tournament.matchUp.CandidateResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpProgressResponse
@@ -65,8 +69,18 @@ fun MatchUpResultResponse.toModel(): MatchUpResult {
         matchResultId = this.matchResultId,
         winnerPhotoId = this.winnerPhotoId,
         preferenceResultType = this.preferenceResultType,
-        mainPreference = this.mainPreference,
-        detailPreference = this.detailPreference
+        mainPreference = this.mainPreference ?: "",
+        detailPreference = this.detailPreference ?: ""
+    )
+}
+
+fun MissionOfferResponse.toModel(): MoodMatchResult {
+    return MoodMatchResult(
+        offerId = this.offerId,
+        preferenceResultType = this.preferenceResultType,
+        missionSuggestions = this.items.map { it.toModel() },
+        state = this.state,
+        assignedMissionId = this.assignedMissionId ?: 0L
     )
 }
 
@@ -75,5 +89,12 @@ fun SelectedMatchUpIds.toNetworkRequest(): SaveMatchUpRequest {
         photoId = this.winnerId,
         reasonId = this.reasonId,
         matchUpId = this.matchUpId
+    )
+}
+
+fun MissionSuggestionResponse.toModel(): MissionSuggestion {
+    return MissionSuggestion(
+        id = this.id,
+        title = this.title
     )
 }
