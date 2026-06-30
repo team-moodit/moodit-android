@@ -4,6 +4,8 @@ import com.swyp.moodit.network.model.BaseResponse
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchRequest
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchResponse
 import com.swyp.moodit.network.model.tournament.MatchUpResultResponse
+import com.swyp.moodit.network.model.tournament.MissionOfferRequest
+import com.swyp.moodit.network.model.tournament.MissionOfferResponse
 import com.swyp.moodit.network.model.tournament.UploadFileResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitRequest
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitResponse
@@ -55,7 +57,7 @@ interface MooditApi {
         @Path("matchId") matchId: Long
     ): Response<BaseResponse<MatchUpProgressResponse>>
 
-    @GET("v1/matches/{matchId}/complete")
+    @GET("v1/matches/{matchId}/completed")
     suspend fun getMatchUpResult(
         @Path("matchId") matchId: Long
     ): Response<BaseResponse<MatchUpResultResponse>>
@@ -63,4 +65,10 @@ interface MooditApi {
     // User
     @GET("v1/user-profiles/active")
     suspend fun getUserProfile(): Response<BaseResponse<UserProfileResponse>>
+
+    // Mission
+    @GET("v1/mission-offers")
+    suspend fun getMissionOffers(
+        @Body request: MissionOfferRequest
+    ): Response<BaseResponse<MissionOfferResponse>>
 }
