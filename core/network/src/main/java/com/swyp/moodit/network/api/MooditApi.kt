@@ -92,7 +92,7 @@ interface MooditApi {
         @Path("userMissionId") userMissionId: Long
     ): Response<BaseResponse<Unit>>
 
-    @GET("v1/mission-offers")
+    @POST("v1/mission-offers")
     suspend fun getMissionOffers(
         @Body request: MissionOfferRequest
     ): Response<BaseResponse<MissionOfferResponse>>
