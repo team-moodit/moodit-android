@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.swyp.moodit.common.util.DateUtil.toFormatDate
 import com.swyp.moodit.designsystem.MissionTag
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.Mission
@@ -36,10 +37,14 @@ fun MissionCreatedContent(tagContent: String, mission: Mission) {
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             MissionInfoCard(
-                modifier = Modifier.weight(1f), title = "진행된 라운드 수", content = "${mission.roundCount}회"
+                modifier = Modifier.weight(1f),
+                title = "진행된 라운드 수",
+                content = "${mission.roundCount}회"
             )
             MissionInfoCard(
-                modifier = Modifier.weight(1f), title = "무드매치 완료 날짜", content = mission.matchCompletedAt
+                modifier = Modifier.weight(1f),
+                title = "무드매치 완료 날짜",
+                content = mission.matchCompletedAt.toFormatDate()
             )
         }
     }

@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.swyp.moodit.common.util.DateUtil.toFormatDate
 import com.swyp.moodit.designsystem.MissionTag
 import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.theme.MooditTheme
@@ -59,7 +60,7 @@ fun MissionCompletedContent(tagContent: String, mission: Mission) {
                 style = MooditTheme.typography.b3Medium
             )
             Text(
-                text = mission.missionCompletedAt,
+                text = mission.missionCompletedAt.toFormatDate(),
                 color = MooditTheme.colors.onPrimaryContainer,
                 style = MooditTheme.typography.b2Medium
             )
@@ -203,7 +204,7 @@ fun MissionCompletedContent(tagContent: String, mission: Mission) {
             MissionInfoCard(
                 modifier = Modifier.weight(1f),
                 title = "무드매치 완료 날짜",
-                content = mission.matchCompletedAt
+                content = mission.matchCompletedAt.toFormatDate()
             )
         }
     }
