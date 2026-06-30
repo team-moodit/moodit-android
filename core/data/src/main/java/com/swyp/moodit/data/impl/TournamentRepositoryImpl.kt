@@ -93,14 +93,4 @@ internal class TournamentRepositoryImpl @Inject constructor(
             return Result.Error(e)
         }
     }
-
-    override suspend fun getMissionOffers(matchResultId: Long): Result<MoodMatchResult> {
-        try {
-            val response =
-                mooditApi.getMissionOffers(MissionOfferRequest(matchResultId)).getOrThrow()
-            return Result.Success(response.toModel())
-        } catch (e: Exception) {
-            return Result.Error(e)
-        }
-    }
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.swyp.moodit.common.util.Result
-import com.swyp.moodit.data.repository.TournamentRepository
+import com.swyp.moodit.data.repository.MissionRepository
 import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.ui.base.BaseViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TournamentResultViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val tournamentRepository: TournamentRepository
+    private val missionRepository: MissionRepository
 ) :
     BaseViewModel<TournamentResultContract.State, TournamentResultContract.Intent, TournamentResultContract.SideEffect>(
         initialState = TournamentResultContract.State()
@@ -55,7 +55,7 @@ class TournamentResultViewModel @Inject constructor(
     fun loadMatchResult() {
         viewModelScope.launch {
             reduce { it.copy(isLoading = true) }
-            when (val result = tournamentRepository.getMissionOffers(matchResultId)) {
+            when (val result = missionRepository.getMissionOffers(matchResultId)) {
                 is Result.Success -> {
                     reduce { it.copy(moodMatchResult = result.data) }
                 }
