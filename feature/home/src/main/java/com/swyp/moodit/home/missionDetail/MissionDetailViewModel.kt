@@ -82,6 +82,7 @@ class MissionDetailViewModel @Inject constructor(
                 missionRepository.completeMission(currentState.missionInfo.userMissionId)) {
                 is Result.Success -> {
                     reduce { it.copy(successId = result.data) }
+                    updateSatisfactionShow(true)
                 }
 
                 is Result.Error -> {
