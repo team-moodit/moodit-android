@@ -13,7 +13,7 @@ data class MissionMatchResultResponse(
     val matchResultId: Long,
     val matchTitle: String,
     val matchRepresentativeImageUrl: String,
-    val matchPreferenceTypeTitle: String,
+    val matchPreferenceTypeTitle: String?,
     val matchRoundCount: Int,
     val matchCompletedAt: String
 )

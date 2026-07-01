@@ -11,6 +11,6 @@ data class Mission(
 
 enum class MissionState {
     IN_PROGRESS,
-    COMPLETED
+    COMPLETED,
+    FEEDBACK_SUBMITTED
 }
-
