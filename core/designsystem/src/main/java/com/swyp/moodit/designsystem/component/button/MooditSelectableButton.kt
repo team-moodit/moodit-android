@@ -48,7 +48,7 @@ fun MooditSelectableButton(content: String, isSelected: Boolean, onItemClick: ()
     ) {
         Text(
             text = content,
-            style = MooditTheme.typography.b2Medium,
+            style = MooditTheme.typography.b2Small,
             color = MooditTheme.colors.onBackground
         )
         if (isSelected) {
