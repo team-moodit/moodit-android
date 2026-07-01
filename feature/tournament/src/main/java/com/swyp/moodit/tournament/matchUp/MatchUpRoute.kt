@@ -1,17 +1,8 @@
 package com.swyp.moodit.tournament.matchUp
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
@@ -29,7 +20,7 @@ fun MatchUpRoute(
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
                 is MatchUpContract.SideEffect.NavigateToResult -> {
-                    navigateToTournamentResult(sideEffect.winnerPhotoId)
+                    navigateToTournamentResult(sideEffect.matchResultId)
                 }
 
                 is MatchUpContract.SideEffect.NavigateBack -> {
@@ -43,7 +34,11 @@ fun MatchUpRoute(
         }
     }
 
-    when {
+    LaunchedEffect(Unit) {
+        viewModel.sendIntent(MatchUpContract.Intent.LoadMatchUpInfo)
+    }
+
+    /*when {
         uiState.isLoading -> {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -57,33 +52,30 @@ fun MatchUpRoute(
                     CircularProgressIndicator()
                 }
             }
-        }
+        } */
 
-        else -> {
-            MatchUpScreen(
-                uiState = uiState,
-                onSelectCandidate = { candidate ->
-                    viewModel.sendIntent(
-                        MatchUpContract.Intent.OnCandidateSelect(
-                            candidate
-                        )
-                    )
-                },
-                onReasonSelect = { reasonId ->
-                    viewModel.sendIntent(
-                        MatchUpContract.Intent.OnReasonSelect(
-                            reasonId
-                        )
-                    )
-                },
-                onNextButtonClick = { viewModel.sendIntent(MatchUpContract.Intent.OnNextButtonClick) },
-                onExitClick = {
-                    viewModel.sendIntent(MatchUpContract.Intent.OnExitClick)
-                },
-                onRetryClick = {
-                    viewModel.sendIntent(MatchUpContract.Intent.OnRetryClick)
-                }
+    MatchUpScreen(
+        uiState = uiState,
+        onSelectCandidate = { candidate ->
+            viewModel.sendIntent(
+                MatchUpContract.Intent.OnCandidateSelect(
+                    candidate
+                )
             )
+        },
+        onReasonSelect = { reasonId ->
+            viewModel.sendIntent(
+                MatchUpContract.Intent.OnReasonSelect(
+                    reasonId
+                )
+            )
+        },
+        onNextButtonClick = { viewModel.sendIntent(MatchUpContract.Intent.OnNextButtonClick) },
+        onExitClick = {
+            viewModel.sendIntent(MatchUpContract.Intent.OnExitClick)
+        },
+        onRetryClick = {
+            viewModel.sendIntent(MatchUpContract.Intent.OnRetryClick)
         }
-    }
+    )
 }

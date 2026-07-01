@@ -39,6 +39,10 @@ fun TournamentResultRoute(
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.sendIntent(TournamentResultContract.Intent.LoadResult)
+    }
+
     when {
         uiState.isLoading -> {
             Box(

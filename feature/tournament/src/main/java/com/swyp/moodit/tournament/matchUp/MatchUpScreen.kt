@@ -33,23 +33,18 @@ import com.swyp.moodit.designsystem.component.MooditScaffold
 import com.swyp.moodit.designsystem.component.button.MooditFilledButton
 import com.swyp.moodit.designsystem.component.button.MooditSelectableButton
 import com.swyp.moodit.designsystem.theme.MooditTheme
+import com.swyp.moodit.model.Candidate
 import com.swyp.moodit.tournament.component.MoodCandidateItem
 
 @Composable
 fun MatchUpScreen(
     uiState: MatchUpContract.State,
-    onSelectCandidate: (MoodCandidate) -> Unit,
+    onSelectCandidate: (Candidate) -> Unit,
     onReasonSelect: (Long) -> Unit,
     onNextButtonClick: () -> Unit,
     onExitClick: () -> Unit,
     onRetryClick: () -> Unit
 ) {
-    val progressFraction = if (uiState.totalMatchUpInCurrentRound > 0) {
-        uiState.currentMatchIndex.toFloat() / uiState.totalMatchUpInCurrentRound
-    } else {
-        0f
-    }
-
     MooditScaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -60,7 +55,7 @@ fun MatchUpScreen(
                     .padding(horizontal = 16.dp, vertical = 18.dp)
             ) {
                 LinearProgressIndicator(
-                    progress = { progressFraction },
+                    progress = { uiState.progressFraction },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 4.dp)
@@ -76,12 +71,12 @@ fun MatchUpScreen(
                     horizontalArrangement = Arrangement.Absolute.SpaceBetween
                 ) {
                     Text(
-                        text = "${uiState.currentMatchIndex}/${uiState.totalMatchUpInCurrentRound}",
+                        text = "${uiState.matchUpInfo.curMatchIndex}/${uiState.matchUpInfo.totalRounds}",
                         style = MooditTheme.typography.caption,
                         color = MooditTheme.colors.textSecondary
                     )
                     Text(
-                        text = uiState.currentRoundTitle,
+                        text = uiState.matchUpInfo.roundTitle,
                         style = MooditTheme.typography.b2Medium,
                         color = MooditTheme.colors.primary
                     )
@@ -98,7 +93,7 @@ fun MatchUpScreen(
                         .padding(16.dp),
                     shape = RoundedCornerShape(12.dp),
                     enabled = uiState.selectedReason != null,
-                    text = if (uiState.isMatchCompleted) "결과 보러가기" else "다음"
+                    text = if (uiState.matchUpInfo.isCompleted) "결과 보러가기" else "다음"
                 )
             }
         }
@@ -135,11 +130,11 @@ fun MatchUpScreen(
 @Composable
 fun SelectPhotoContent(
     uiState: MatchUpContract.State,
-    onSelectPhoto: (MoodCandidate) -> Unit
+    onSelectPhoto: (Candidate) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = uiState.tournamentTitle,
+            text = uiState.matchUpInfo.title,
             style = MooditTheme.typography.b2Medium,
             color = MooditTheme.colors.tertiary
         )
@@ -151,16 +146,19 @@ fun SelectPhotoContent(
         )
         Spacer(modifier = Modifier.height(24.dp))
 
-        if (uiState.currentMatchUp != null) {
+        uiState.matchUpInfo.nextMatchUp?.let { nextMatch ->
+            val candidateA = nextMatch.candidateA
+            val candidateB = nextMatch.candidateB
+
             MoodCandidateItem(
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = 24.dp)
                     .aspectRatio(1f)
-                    .clickable { onSelectPhoto(uiState.currentMatchUp.candidateA) },
-                isSelected = uiState.selectedWinner == uiState.currentMatchUp.candidateA,
+                    .clickable { onSelectPhoto(candidateA) },
+                isSelected = uiState.selectedWinner == candidateA,
                 anyPhotoSelected = uiState.selectedWinner != null,
-                moodCandidate = uiState.currentMatchUp.candidateA
+                moodCandidate = candidateA
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -170,10 +168,10 @@ fun SelectPhotoContent(
                     .weight(1f)
                     .padding(horizontal = 24.dp)
                     .aspectRatio(1f)
-                    .clickable { onSelectPhoto(uiState.currentMatchUp.candidateB) },
-                isSelected = uiState.selectedWinner == uiState.currentMatchUp.candidateB,
+                    .clickable { onSelectPhoto(candidateB) },
+                isSelected = uiState.selectedWinner == candidateB,
                 anyPhotoSelected = uiState.selectedWinner != null,
-                moodCandidate = uiState.currentMatchUp.candidateB
+                moodCandidate = candidateB
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -202,7 +200,9 @@ fun SelectReasonContent(
             color = MooditTheme.colors.onBackground
         )
 
-        if (uiState.currentMatchUp != null) {
+        uiState.matchUpInfo.nextMatchUp?.let { nextMatch ->
+            val candidateA = nextMatch.candidateA
+            val candidateB = nextMatch.candidateB
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -212,18 +212,18 @@ fun SelectReasonContent(
                     modifier = Modifier
                         .weight(1f)
                         .aspectRatio(0.6f),
-                    isSelected = uiState.selectedWinner == uiState.currentMatchUp.candidateA,
+                    isSelected = uiState.selectedWinner == candidateA,
                     anyPhotoSelected = uiState.selectedWinner != null,
-                    moodCandidate = uiState.currentMatchUp.candidateA
+                    moodCandidate = candidateA
                 )
 
                 MoodCandidateItem(
                     modifier = Modifier
                         .weight(1f)
                         .aspectRatio(0.6f),
-                    isSelected = uiState.selectedWinner == uiState.currentMatchUp.candidateB,
+                    isSelected = uiState.selectedWinner == candidateB,
                     anyPhotoSelected = uiState.selectedWinner != null,
-                    moodCandidate = uiState.currentMatchUp.candidateB
+                    moodCandidate = candidateB
                 )
             }
         }
@@ -235,10 +235,10 @@ fun SelectReasonContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            uiState.reasons.forEach { reason ->
+            uiState.matchUpInfo.reasons.forEach { reason ->
                 MooditSelectableButton(
                     content = reason.content,
-                    isSelected = reason.isSelected,
+                    isSelected = reason.id == uiState.selectedReason?.id,
                     onItemClick = { onSelectReason(reason.id) }
                 )
             }
