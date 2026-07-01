@@ -1,5 +1,6 @@
 package com.swyp.moodit.tournament.create
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -29,6 +30,7 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -41,13 +43,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.component.CreateMoodMatchTooltip
 import com.swyp.moodit.designsystem.component.MooditDialog
 import com.swyp.moodit.designsystem.component.MooditScaffold
@@ -135,12 +140,20 @@ fun CreateTournamentScreen(
                 },
                 trailingIcon = {
                     if (uiState.title.isNotEmpty()) {
-                        IconButton(onClick = { onTitleChange("") }) {
+                        IconButton(
+                            onClick = { onTitleChange("") },
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .size(24.dp),
+                            colors = IconButtonDefaults.iconButtonColors(
+                                containerColor = MooditTheme.colors.onSurfaceContainer,
+                                contentColor = MooditTheme.colors.onTertiary
+                            )
+                        ) {
                             Icon(
-                                modifier = Modifier.size(24.dp),
                                 imageVector = Icons.Default.Clear,
-                                contentDescription = "icon_delete_title",
-                                tint = MooditTheme.colors.onSurfaceContainer
+                                contentDescription = "icon_delete",
+                                modifier = Modifier.size(16.dp)
                             )
                         }
                     }
@@ -209,11 +222,10 @@ fun CreateTournamentScreen(
                                 .background(MooditTheme.colors.surfaceContainer),
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.AddPhotoAlternate,
+                            Image(
+                                painter = painterResource(R.drawable.gallery_button),
                                 contentDescription = "icon_insert_photo",
-                                tint = MooditTheme.colors.primary,
-                                modifier = Modifier.size(24.dp)
+                                modifier = Modifier.size(40.dp)
                             )
                         }
                     }
