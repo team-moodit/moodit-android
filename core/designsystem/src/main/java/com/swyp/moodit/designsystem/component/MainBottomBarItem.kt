@@ -23,8 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.theme.MooditTheme
 
 @Composable
@@ -57,8 +59,9 @@ fun MainBottomBarItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        val iconId = if (isSelected) tab.selectedIcon else tab.unselectedIcon
         Icon(
-            imageVector = if (isSelected) tab.selectedIcon else tab.unselectedIcon,
+            painter = painterResource(iconId),
             contentDescription = tab.iconTitle,
             tint = iconColor,
             modifier = Modifier
@@ -79,7 +82,7 @@ fun MainBottomBarItem(
 @Composable
 fun MainBottomBarItemPreview() {
     val navTab = MainBottomBarItemData(
-        selectedIcon = Icons.Default.Home, unselectedIcon = Icons.Rounded.Home, iconTitle = "Home"
+        selectedIcon = R.drawable.home, unselectedIcon = R.drawable.home, iconTitle = "Home"
     )
 
     MooditTheme {
