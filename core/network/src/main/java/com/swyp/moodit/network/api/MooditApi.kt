@@ -7,6 +7,7 @@ import com.swyp.moodit.network.model.tournament.MatchUpResultResponse
 import com.swyp.moodit.network.model.tournament.MissionOfferRequest
 import com.swyp.moodit.network.model.tournament.MissionOfferResponse
 import com.swyp.moodit.network.model.tournament.UploadFileResponse
+import com.swyp.moodit.network.model.user.UserPrivacyInfoResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitRequest
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpProgressResponse
@@ -63,6 +64,9 @@ interface MooditApi {
     ): Response<BaseResponse<MatchUpResultResponse>>
 
     // User
+    @GET("v1/settings/privacy/info")
+    suspend fun getUserPrivacyInfo(): Response<BaseResponse<UserPrivacyInfoResponse>>
+  
     @GET("v1/user-profiles/active")
     suspend fun getUserProfile(): Response<BaseResponse<UserProfileResponse>>
 
