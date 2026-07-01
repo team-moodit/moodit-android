@@ -38,7 +38,7 @@ fun SatisfactionBottomSheetContent(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 16.dp)
+            .padding(start = 20.dp, end = 20.dp, top = 32.dp, bottom = 16.dp)
             .verticalScroll(rememberScrollState())
             .navigationBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -61,9 +61,9 @@ fun SatisfactionBottomSheetContent(
                     MooditTheme.colors.onSurfaceContainer,
                     RoundedCornerShape(999.dp)
                 )
-                .padding(horizontal = 8.dp, vertical = 10.dp),
+                .padding(horizontal = 12.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(2.dp)
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Icon(
                 imageVector = Icons.Default.Info,
