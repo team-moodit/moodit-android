@@ -1,10 +1,12 @@
 package com.swyp.moodit.ui.component.mission
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,25 +20,28 @@ fun MissionInfoCard(
     title: String,
     content: String
 ) {
-    Column(
-        modifier = modifier
-            .background(
-                color = MooditTheme.colors.onPrimary,
-                shape = RoundedCornerShape(16.dp)
-            )
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+    Surface(
+        modifier = modifier.wrapContentHeight(),
+        shape = RoundedCornerShape(16.dp),
+        color = MooditTheme.colors.onPrimary
     ) {
-        Text(
-            text = title,
-            style = MooditTheme.typography.b3Medium,
-            color = MooditTheme.colors.textSecondary
-        )
-        Text(
-            text = content,
-            style = MooditTheme.typography.b2Medium,
-            color = MooditTheme.colors.onPrimaryContainer
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = title,
+                style = MooditTheme.typography.b3Medium,
+                color = MooditTheme.colors.textSecondary
+            )
+            Text(
+                text = content,
+                style = MooditTheme.typography.b2Medium,
+                color = MooditTheme.colors.onPrimaryContainer
+            )
+        }
     }
 }
 
