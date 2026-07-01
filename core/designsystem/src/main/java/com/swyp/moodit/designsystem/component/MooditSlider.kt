@@ -88,7 +88,7 @@ fun MooditSlider(
 
                 if (i % 2 == 0) {
                     // 정수 모양 그리기 (휘어져 있는 다이아몬드)
-                    drawDiamondPoint(x = pointX, centerY = centerY, sizePx = 20.dp.toPx(), color = color)
+                    drawDiamondPoint(x = pointX, centerY = centerY, sizePx = 24.dp.toPx(), color = color)
                 } else {
                     // 중간 원 그리기
                     drawCircle(
