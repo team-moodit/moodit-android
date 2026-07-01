@@ -212,7 +212,7 @@ class MatchUpViewModel @Inject constructor(
                     currentStep = TournamentStep.MATCH_UP
                 )
             }
-            getTournamentInfo()
+            getTournamentInfo(isSilentRefresh = true)
         }
     }
 

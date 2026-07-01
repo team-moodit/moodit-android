@@ -30,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.swyp.moodit.common.util.TextUtil
 import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.component.MooditScaffold
 import com.swyp.moodit.designsystem.component.button.MooditFilledButton
@@ -49,7 +50,7 @@ fun TournamentResultScreen(
             MooditFilledButton(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
                 onClick = { onMissionDetailClick() },
-                enabled = uiState.moodMatchResult.assignedMissionId != 0L || uiState.selectedMission != null,
+                enabled = uiState.moodMatchResult.preferenceResultType == PreferenceResultType.TYPE_AND_DETAIL || uiState.selectedMission != null,
                 text = "미션 확인하러 가기"
             )
         }) { innerPadding ->
@@ -63,7 +64,7 @@ fun TournamentResultScreen(
         ) {
             Spacer(modifier = Modifier.height(32.dp))
             AsyncImage(
-                model = "https://picsum.photos/200/300", // uri 추가해야 함
+                model = uiState.moodMatchResult.matchResult.matchRepresentativeImageUrl,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 48.dp)
@@ -75,13 +76,12 @@ fun TournamentResultScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "약속 날 입고 갈 옷", // title 추가해야 함
+                text = uiState.moodMatchResult.matchResult.matchTitle,
                 style = MooditTheme.typography.h3, color = MooditTheme.colors.onBackground
             )
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            /* 취향 문자열 넣어야 함 */
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -102,7 +102,11 @@ fun TournamentResultScreen(
                     if (uiState.moodMatchResult.preferenceResultType == PreferenceResultType.TIE)
                         "이번 무드매치는\n뚜렷한 취향의 기준이 없었어요"
                     else {
-                        "이번 무드매치는\n나와의 적합도를 가장 중요하게 생각했어요"
+                        "이번 무드매치는\n${uiState.moodMatchResult.matchResult.matchPreferenceTypeTitle}${
+                            TextUtil.attachParticle(
+                                uiState.moodMatchResult.matchResult.matchPreferenceTypeTitle
+                            )
+                        }를 가장 중요하게 생각했어요"
                     }
                 Box(
                     modifier = Modifier
