@@ -21,6 +21,14 @@ data class Error(
     @SerialName("code") val errorCode: String, val message: String
 )
 
+@OptIn(InternalSerializationApi::class, ExperimentalSerializationApi::class)
+@Serializable
+data class PagingResult<T>(
+    val content: List<T>,
+    val totalCount: Int,
+    val hasNext: Boolean
+)
+
 fun <T> Response<BaseResponse<T>>.getOrThrow(): T {
     if (!this.isSuccessful) {
         Timber.d("서버 통신 실패: ${this.code()}")

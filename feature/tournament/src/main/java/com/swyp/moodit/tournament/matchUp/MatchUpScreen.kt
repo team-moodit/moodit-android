@@ -245,6 +245,8 @@ fun SelectReasonContent(
             }
         }
 
+        Spacer(modifier = Modifier.height(24.dp))
+
         if (uiState.showRetryDialog) {
             MooditDialog(
                 title = "저장하지 못했어요",

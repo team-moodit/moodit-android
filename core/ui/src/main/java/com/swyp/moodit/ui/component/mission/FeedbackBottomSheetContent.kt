@@ -29,7 +29,7 @@ fun FeedbackBottomSheetContent(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 16.dp)
+            .padding(start = 20.dp, end = 20.dp, top = 32.dp, bottom = 16.dp)
             .verticalScroll(rememberScrollState())
             .navigationBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -52,16 +52,14 @@ fun FeedbackBottomSheetContent(
         Spacer(modifier = Modifier.height(20.dp))
 
         Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             feedbackOptions.forEach { feedbackOption ->
                 val isSelected = selectedFeedback.contains(feedbackOption)
                 FeedbackOptionItem(
                     feedbackOption = feedbackOption,
                     isSelected = isSelected,
-                    onClick = { onOptionClick(feedbackOption) }
-                )
+                    onClick = { onOptionClick(feedbackOption) })
             }
         }
 
@@ -90,7 +88,6 @@ fun FeedbackBottomSheetContentPreview() {
             selectedFeedback = emptyList(),
             feedbackOptions = testFeedbackOptions,
             onConfirmClick = {},
-            onOptionClick = {}
-        )
+            onOptionClick = {})
     }
 }

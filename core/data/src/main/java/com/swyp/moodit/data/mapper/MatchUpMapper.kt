@@ -108,7 +108,7 @@ fun MissionMatchResultResponse.toModel(): MissionMatchResult {
         matchResultId = this.matchResultId,
         matchTitle = this.matchTitle,
         imageUrl = this.matchRepresentativeImageUrl,
-        matchPreferenceTypeTitle = this.matchPreferenceTypeTitle,
+        matchPreferenceTypeTitle = this.matchPreferenceTypeTitle ?: "",
         matchRoundCount = this.matchRoundCount,
         matchCompletedAt = this.matchCompletedAt
     )

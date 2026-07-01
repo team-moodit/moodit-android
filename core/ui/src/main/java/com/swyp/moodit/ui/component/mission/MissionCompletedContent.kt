@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -119,7 +118,7 @@ fun MissionCompletedContent(tagContent: String, mission: Mission) {
                         Icon(
                             painter = painterResource(R.drawable.bomb),
                             contentDescription = "icon_mood_result",
-                            tint = Color.White,
+                            tint = MooditTheme.colors.onTertiary,
                             modifier = Modifier.size(24.dp)
                         )
                         Text(

@@ -1,13 +1,20 @@
 package com.swyp.moodit.home.main
 
+import androidx.paging.PagingData
+import com.swyp.moodit.model.Mission
 import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.ui.base.UiIntent
 import com.swyp.moodit.ui.base.UiSideEffect
 import com.swyp.moodit.ui.base.UiState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 class HomeMainContract {
     data class State(
-        val isLoading: Boolean = false
+        val isLoading: Boolean = false,
+        val inProgressMissions: Flow<PagingData<Mission>> = flowOf(PagingData.empty()),
+        val completedMissions: Flow<PagingData<Mission>> = flowOf(PagingData.empty()),
+        val feedbackSubMittedMissions: Flow<PagingData<Mission>> = flowOf(PagingData.empty())
     ) : UiState
 
     sealed interface SideEffect : UiSideEffect {
