@@ -1,9 +1,14 @@
 package com.swyp.moodit.data.impl
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.mapper.toModel
+import com.swyp.moodit.data.paging.MissionPagingSource
 import com.swyp.moodit.data.repository.MissionRepository
 import com.swyp.moodit.model.Mission
+import com.swyp.moodit.model.MissionState
 import com.swyp.moodit.model.MoodMatchResult
 import com.swyp.moodit.network.api.MooditApi
 import com.swyp.moodit.network.model.getOrThrow
@@ -11,11 +16,20 @@ import com.swyp.moodit.network.model.getOrThrowUnit
 import com.swyp.moodit.network.model.mission.MissionAcceptRequest
 import com.swyp.moodit.network.model.mission.MissionSatisfactionRequest
 import com.swyp.moodit.network.model.tournament.MissionOfferRequest
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 internal class MissionRepositoryImpl @Inject constructor(
     private val mooditApi: MooditApi
 ) : MissionRepository {
+    override fun getPagingMissions(type: MissionState): Flow<PagingData<Mission>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = MISSION_PAGE_SIZE, enablePlaceholders = false
+            ), pagingSourceFactory = { MissionPagingSource(mooditApi, type.name) }
+        ).flow
+    }
+
     override suspend fun getMissionDetail(userMissionId: Long): Result<Mission> {
         return try {
             val response = mooditApi.getMissionDetail(userMissionId).getOrThrow()
@@ -81,5 +95,9 @@ internal class MissionRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             return Result.Error(e)
         }
+    }
+
+    companion object {
+        const val MISSION_PAGE_SIZE = 5
     }
 }
