@@ -95,7 +95,7 @@ class MissionDetailViewModel @Inject constructor(
             when (val result =
                 missionRepository.completeMission(currentState.missionInfo.userMissionId)) {
                 is Result.Success -> {
-                    reduce { it.copy(successId = result.data) }
+                    reduce { it.copy(missionInfo =  result.data) }
                     updateSatisfactionShow(true)
                 }
 
@@ -128,6 +128,7 @@ class MissionDetailViewModel @Inject constructor(
                     )
                 }
             }
+            reduce { it.copy(isLoading = MissionDetailLoadingType.NONE) }
         }
     }
 
