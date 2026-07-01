@@ -34,6 +34,7 @@ import com.swyp.moodit.designsystem.component.button.MooditFilledButton
 import com.swyp.moodit.designsystem.component.button.MooditSelectableButton
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.Candidate
+import com.swyp.moodit.model.MatchUpInfo
 import com.swyp.moodit.tournament.component.MoodCandidateItem
 
 @Composable
@@ -77,7 +78,7 @@ fun MatchUpScreen(
                     )
                     Text(
                         text = uiState.matchUpInfo.roundTitle,
-                        style = MooditTheme.typography.b2Medium,
+                        style = MooditTheme.typography.b2ExtraSmall,
                         color = MooditTheme.colors.primary
                     )
                 }
@@ -266,6 +267,23 @@ fun SelectReasonContent(
     }
 }
 
+@Preview
+@Composable
+fun MatchUpScreenPreview() {
+    MooditTheme {
+        MatchUpScreen(
+            uiState = MatchUpContract.State(
+
+            ),
+            onSelectCandidate = {},
+            onReasonSelect = {},
+            onNextButtonClick = {},
+            onExitClick = {},
+            onRetryClick = {}
+        )
+    }
+}
+
 @Composable
 @Preview
 fun SelectPhotoContentPreview() {
@@ -282,7 +300,7 @@ fun SelectPhotoContentPreview() {
 fun SelectReasonContentPreview() {
     MaterialTheme {
         SelectReasonContent(
-            uiState = MatchUpContract.State(),
+            uiState = MatchUpContract.State(matchUpInfo = MatchUpInfo(roundTitle = "예선전")),
             onSelectReason = {},
             onExitClick = {},
             onRetryClick = {}
