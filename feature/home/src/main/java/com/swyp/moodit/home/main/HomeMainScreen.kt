@@ -1,5 +1,6 @@
 package com.swyp.moodit.home.main
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -62,6 +63,7 @@ fun HomeMainScreen(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             MooditTopBar(
+                modifier = Modifier.padding(end = 8.dp),
                 title = {
                     Text(
                         text = "비비님,\n오늘의 취향을 찾아볼까요?",
@@ -70,7 +72,7 @@ fun HomeMainScreen(
                     )
                 },
                 actionIcon = {
-                    Icon(
+                    Image(
                         painter = painterResource(R.drawable.setting),
                         modifier = Modifier
                             .size(40.dp)
@@ -135,11 +137,10 @@ fun HomeMainScreen(
                                 textAlign = TextAlign.Start
                             )
                         }
-                        Icon(
+                        Image(
                             painter = painterResource(R.drawable.subtract),
                             contentDescription = "icon_subtract",
                             modifier = Modifier.size(80.dp),
-                            tint = Color.White
                         )
                     }
                 }
