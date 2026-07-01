@@ -67,7 +67,7 @@ interface MooditApi {
     suspend fun getUserProfile(): Response<BaseResponse<UserProfileResponse>>
 
     // Mission
-    @GET("v1/mission-offers")
+    @POST("v1/mission-offers")
     suspend fun getMissionOffers(
         @Body request: MissionOfferRequest
     ): Response<BaseResponse<MissionOfferResponse>>
