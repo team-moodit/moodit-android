@@ -31,12 +31,7 @@ class TournamentResultViewModel @Inject constructor(
                 if (userMissionId == 0L) {
                     approveMission()
                 } else {
-                    sendEffect(
-                        TournamentResultContract.SideEffect.NavigateToMissionDetail(
-                            userMissionId,
-                            MissionStatus.CREATED
-                        )
-                    )
+                    navigateToMissionDetail()
                 }
             }
 
@@ -79,7 +74,7 @@ class TournamentResultViewModel @Inject constructor(
         }
     }
 
-    fun approveMission() {
+    private fun approveMission() {
         val selectedMission = currentState.selectedMission ?: return
         viewModelScope.launch {
             reduce { it.copy(isLoading = true) }
@@ -89,6 +84,7 @@ class TournamentResultViewModel @Inject constructor(
             )) {
                 is Result.Success -> {
                     reduce { it.copy(userMissionId = result.data) }
+                    navigateToMissionDetail()
                 }
 
                 is Result.Error -> {
@@ -99,6 +95,16 @@ class TournamentResultViewModel @Inject constructor(
                     )
                 }
             }
+            reduce { it.copy(isLoading = false) }
         }
+    }
+
+    private fun navigateToMissionDetail() {
+        sendEffect(
+            TournamentResultContract.SideEffect.NavigateToMissionDetail(
+                currentState.userMissionId,
+                MissionStatus.CREATED
+            )
+        )
     }
 }
