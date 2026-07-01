@@ -64,7 +64,7 @@ fun TournamentResultScreen(
         ) {
             Spacer(modifier = Modifier.height(32.dp))
             AsyncImage(
-                model = uiState.moodMatchResult.matchResult.matchRepresentativeImageUrl,
+                model = uiState.moodMatchResult.matchResult.imageUrl,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 48.dp)

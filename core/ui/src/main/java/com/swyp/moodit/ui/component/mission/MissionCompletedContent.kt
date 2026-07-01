@@ -1,6 +1,5 @@
 package com.swyp.moodit.ui.component.mission
 
-import com.swyp.moodit.common.util.TextUtil
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,10 +25,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.swyp.moodit.common.util.DateUtil.toFormatDate
+import com.swyp.moodit.common.util.TextUtil
 import com.swyp.moodit.designsystem.MissionTag
 import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.Mission
+import com.swyp.moodit.model.MissionMatchResult
 
 @Composable
 fun MissionCompletedContent(tagContent: String, mission: Mission) {
@@ -183,7 +184,11 @@ fun MissionCompletedContent(tagContent: String, mission: Mission) {
             }
 
             Text(
-                text = "이번 무드매치는\n${mission.matchPreferenceType}${TextUtil.attachParticle(mission.matchPreferenceType)} 가장 중요하게 생각했어요",
+                text = "이번 무드매치는\n${mission.matchResult.matchPreferenceTypeTitle}${
+                    TextUtil.attachParticle(
+                        mission.matchResult.matchPreferenceTypeTitle
+                    )
+                } 가장 중요하게 생각했어요",
                 color = MooditTheme.colors.tertiary,
                 style = MooditTheme.typography.b3Medium
             )
@@ -199,12 +204,12 @@ fun MissionCompletedContent(tagContent: String, mission: Mission) {
             MissionInfoCard(
                 modifier = Modifier.weight(1f),
                 title = "진행된 라운드 수",
-                content = "${mission.roundCount}회"
+                content = "${mission.matchResult.matchRoundCount}회"
             )
             MissionInfoCard(
                 modifier = Modifier.weight(1f),
                 title = "무드매치 완료 날짜",
-                content = mission.matchCompletedAt.toFormatDate()
+                content = mission.matchResult.matchCompletedAt.toFormatDate()
             )
         }
     }
@@ -219,9 +224,11 @@ fun MissionCompletedContentPreview() {
             mission = Mission(
                 missionTitle = "후보와 비슷한 색감으로\n하루 코디해보기",
                 missionCompletedAt = "26.06.20",
-                matchPreferenceType = "나와의 적합도",
-                roundCount = 16,
-                matchCompletedAt = "26.06.10",
+                matchResult = MissionMatchResult(
+                    matchPreferenceTypeTitle = "나와의 적합도",
+                    matchRoundCount = 16,
+                    matchCompletedAt = "26.06.10"
+                ),
                 satisfactionScore = 1.0f
             )
         )

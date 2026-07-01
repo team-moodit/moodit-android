@@ -32,6 +32,7 @@ import com.swyp.moodit.designsystem.MissionTag
 import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.Mission
+import com.swyp.moodit.model.MissionMatchResult
 
 @Composable
 fun MissionProgressContent(
@@ -84,7 +85,7 @@ fun MissionProgressContent(
             }
 
             Text(
-                text = "이번 무드매치는\n${mission.matchPreferenceType}${TextUtil.attachParticle(mission.matchPreferenceType)} 가장 중요하게 생각했어요",
+                text = "이번 무드매치는\n${mission.matchResult.matchPreferenceTypeTitle}${TextUtil.attachParticle(mission.matchResult.matchPreferenceTypeTitle)} 가장 중요하게 생각했어요",
                 color = MooditTheme.colors.tertiary,
                 style = MooditTheme.typography.b3Medium
             )
@@ -100,12 +101,12 @@ fun MissionProgressContent(
             MissionInfoCard(
                 modifier = Modifier.weight(1f),
                 title = "진행된 라운드 수",
-                content = "${mission.roundCount}회"
+                content = "${mission.matchResult.matchRoundCount}회"
             )
             MissionInfoCard(
                 modifier = Modifier.weight(1f),
                 title = "무드매치 완료 날짜",
-                content = mission.matchCompletedAt.toFormatDate()
+                content = mission.matchResult.matchCompletedAt.toFormatDate()
             )
         }
         Spacer(modifier = Modifier.height(32.dp))
@@ -140,9 +141,11 @@ fun MissionProgressContentPreview() {
             tagContent = "진행중", mission = Mission(
                 missionTitle = "후보와 비슷한 색감으로\n하루 코디해보기",
                 missionCompletedAt = "26.06.20",
-                matchPreferenceType = "나와의 적합도",
-                roundCount = 16,
-                matchCompletedAt = "26.06.10"
+                matchResult = MissionMatchResult(
+                    matchPreferenceTypeTitle = "나와의 적합도",
+                    matchRoundCount = 16,
+                    matchCompletedAt = "26.06.10"
+                )
             ), onMissionDeleteClick = {})
     }
 }

@@ -82,7 +82,7 @@ fun MissionDetailContent(
     ) {
         Spacer(modifier = Modifier.height(32.dp))
         AsyncImage(
-            model = missionInfo.imageUrl,
+            model = missionInfo.matchResult.imageUrl,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 48.dp)
@@ -93,7 +93,7 @@ fun MissionDetailContent(
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = missionInfo.matchTitle,
+            text = missionInfo.matchResult.matchTitle,
             style = MooditTheme.typography.h3,
             color = MooditTheme.colors.onBackground
         )

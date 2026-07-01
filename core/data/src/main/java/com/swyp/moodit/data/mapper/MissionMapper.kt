@@ -13,12 +13,8 @@ fun MissionDetailResponse.toModel(): Mission {
         userMissionId = this.userMissionId,
         missionTitle = this.missionTitle,
         missionState = missionState,
-        imageUrl = this.matchRepresentativeImageUrl,
-        roundCount = this.matchRoundCount,
-        matchCompletedAt = this.matchCompletedAt,
         missionCompletedAt = this.missionCompletedAt ?: "",
-        matchTitle = this.matchTitle,
-        matchPreferenceType = this.matchPreferenceType ?: "",
+        matchResult = this.matchResult.toModel(),
         satisfactionScore = this.satisfactionScore
     )
 }
@@ -31,12 +27,8 @@ fun MissionCompleteResponse.toModel(): Mission {
         userMissionId = this.userMissionId,
         missionTitle = this.missionTitle,
         missionState = missionState,
-        imageUrl = this.matchRepresentativeImageUrl,
-        roundCount = this.matchRoundCount,
-        matchCompletedAt = this.matchCompletedAt,
         missionCompletedAt = this.missionCompletedAt ?: "",
-        matchTitle = this.matchTitle,
-        matchPreferenceType = this.matchPreferenceType ?: "",
+        matchResult = this.matchResult.toModel(),
         satisfactionScore = this.satisfactionScore
     )
 }

@@ -39,12 +39,12 @@ fun MissionCreatedContent(tagContent: String, mission: Mission) {
             MissionInfoCard(
                 modifier = Modifier.weight(1f),
                 title = "진행된 라운드 수",
-                content = "${mission.roundCount}회"
+                content = "${mission.matchResult.matchRoundCount}회"
             )
             MissionInfoCard(
                 modifier = Modifier.weight(1f),
                 title = "무드매치 완료 날짜",
-                content = mission.matchCompletedAt.toFormatDate()
+                content = mission.matchResult.matchCompletedAt.toFormatDate()
             )
         }
     }
