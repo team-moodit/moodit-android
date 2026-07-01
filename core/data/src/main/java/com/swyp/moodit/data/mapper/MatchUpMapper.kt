@@ -7,6 +7,7 @@ import com.swyp.moodit.model.MatchUpReason
 import com.swyp.moodit.model.MatchUpResult
 import com.swyp.moodit.model.MissionSuggestion
 import com.swyp.moodit.model.MoodMatchResult
+import com.swyp.moodit.model.PreferenceResultType
 import com.swyp.moodit.model.SelectedMatchUpIds
 import com.swyp.moodit.network.model.tournament.MatchUpResultResponse
 import com.swyp.moodit.network.model.tournament.MissionOfferResponse
@@ -68,7 +69,7 @@ fun MatchUpResultResponse.toModel(): MatchUpResult {
     return MatchUpResult(
         matchResultId = this.matchResultId,
         winnerPhotoId = this.winnerPhotoId,
-        preferenceResultType = this.preferenceResultType,
+        preferenceResultType = this.preferenceResultType.toModel(),
         mainPreference = this.mainPreference ?: "",
         detailPreference = this.detailPreference ?: ""
     )
@@ -77,7 +78,7 @@ fun MatchUpResultResponse.toModel(): MatchUpResult {
 fun MissionOfferResponse.toModel(): MoodMatchResult {
     return MoodMatchResult(
         offerId = this.offerId,
-        preferenceResultType = this.preferenceResultType,
+        preferenceResultType = this.preferenceResultType.toModel(),
         missionSuggestions = this.items.map { it.toModel() },
         state = this.state,
         assignedMissionId = this.assignedMissionId ?: 0L
@@ -97,4 +98,8 @@ fun MissionSuggestionResponse.toModel(): MissionSuggestion {
         id = this.id,
         title = this.title
     )
+}
+
+fun String.toModel(): PreferenceResultType {
+    return PreferenceResultType.entries.find { it.name == this } ?: PreferenceResultType.TIE
 }
