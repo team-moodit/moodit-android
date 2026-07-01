@@ -5,11 +5,13 @@ import com.swyp.moodit.model.MatchUp
 import com.swyp.moodit.model.MatchUpInfo
 import com.swyp.moodit.model.MatchUpReason
 import com.swyp.moodit.model.MatchUpResult
+import com.swyp.moodit.model.MissionMatchResult
 import com.swyp.moodit.model.MissionSuggestion
 import com.swyp.moodit.model.MoodMatchResult
 import com.swyp.moodit.model.PreferenceResultType
 import com.swyp.moodit.model.SelectedMatchUpIds
 import com.swyp.moodit.network.model.tournament.MatchUpResultResponse
+import com.swyp.moodit.network.model.tournament.MissionMatchResultResponse
 import com.swyp.moodit.network.model.tournament.MissionOfferResponse
 import com.swyp.moodit.network.model.tournament.MissionSuggestionResponse
 import com.swyp.moodit.network.model.tournament.matchUp.CandidateResponse
@@ -81,7 +83,8 @@ fun MissionOfferResponse.toModel(): MoodMatchResult {
         preferenceResultType = this.preferenceResultType.toModel(),
         missionSuggestions = this.items.map { it.toModel() },
         state = this.state,
-        assignedMissionId = this.assignedMissionId ?: 0L
+        assignedMissionId = this.assignedMissionId ?: 0L,
+        matchResult = this.matchResult.toModel()
     )
 }
 
@@ -97,6 +100,17 @@ fun MissionSuggestionResponse.toModel(): MissionSuggestion {
     return MissionSuggestion(
         id = this.id,
         title = this.title
+    )
+}
+
+fun MissionMatchResultResponse.toModel(): MissionMatchResult {
+    return MissionMatchResult(
+        matchResultId = this.matchResultId,
+        matchTitle = this.matchTitle,
+        matchRepresentativeImageUrl = this.matchRepresentativeImageUrl,
+        matchPreferenceTypeTitle = this.matchPreferenceTypeTitle,
+        matchRoundCount = this.matchRoundCount,
+        matchCompletedAt = this.matchCompletedAt
     )
 }
 
