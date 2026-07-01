@@ -1,6 +1,7 @@
 package com.swyp.moodit.network.api
 
 import com.swyp.moodit.network.model.BaseResponse
+import com.swyp.moodit.network.model.PagingResult
 import com.swyp.moodit.network.model.mission.MissionAcceptRequest
 import com.swyp.moodit.network.model.mission.MissionAcceptResponse
 import com.swyp.moodit.network.model.mission.MissionCompleteResponse
@@ -103,4 +104,11 @@ interface MooditApi {
     suspend fun acceptMissionOffer(
         @Body request: MissionAcceptRequest
     ): Response<BaseResponse<MissionAcceptResponse>>
+
+    @GET("v1/user-missions")
+    suspend fun getPagingMissions(
+        @Query("type") type: String,
+        @Query("offset") offset: Int,
+        @Query("limit") size: Int
+    ): Response<BaseResponse<PagingResult<MissionDetailResponse>>>
 }
