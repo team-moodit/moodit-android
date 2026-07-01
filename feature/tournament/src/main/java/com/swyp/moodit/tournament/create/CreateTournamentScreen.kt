@@ -177,11 +177,11 @@ fun CreateTournamentScreen(
                 textAlign = TextAlign.End
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(28.dp))
 
             UploadPhotoStatusCard(uiState)
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),

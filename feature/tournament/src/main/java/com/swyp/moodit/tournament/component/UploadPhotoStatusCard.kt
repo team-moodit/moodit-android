@@ -1,6 +1,7 @@
 package com.swyp.moodit.tournament.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,7 +23,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -85,10 +85,7 @@ fun UploadPhotoStatusCard(
         else -> Triple(
             buildAnnotatedString {
                 withStyle(
-                    style = SpanStyle(
-                        color = MooditTheme.colors.primary,
-                        fontWeight = FontWeight.Bold
-                    )
+                    style = SpanStyle(color = MooditTheme.colors.primary)
                 ) {
                     append("${totalCount}장")
                 }
@@ -110,8 +107,13 @@ fun UploadPhotoStatusCard(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .border(
+                width = 1.dp,
+                color = MooditTheme.colors.surfaceContainer,
+                RoundedCornerShape(16.dp)
+            )
             .background(MooditTheme.colors.primaryContainer, RoundedCornerShape(16.dp))
-            .padding(horizontal = 16.dp, vertical = 20.dp),
+            .padding(horizontal = 16.dp, vertical = 24.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         when {

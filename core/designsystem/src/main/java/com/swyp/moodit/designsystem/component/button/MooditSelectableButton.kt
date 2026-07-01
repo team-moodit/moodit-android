@@ -56,7 +56,7 @@ fun MooditSelectableButton(content: String, isSelected: Boolean, onItemClick: ()
                 imageVector = Icons.Filled.CheckCircle,
                 contentDescription = "icon_check_reason",
                 tint = MooditTheme.colors.primary,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(24.dp)
             )
         }
     }
