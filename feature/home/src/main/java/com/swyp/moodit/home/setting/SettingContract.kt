@@ -8,7 +8,8 @@ class SettingContract {
     data class State(
         val isLoading: Boolean = false,
         val dialogType: DialogType? = null,
-        val nickname: String = ""
+        val name: String = "",
+        val email: String = ""
     ) : UiState
 
     sealed interface SideEffect : UiSideEffect {

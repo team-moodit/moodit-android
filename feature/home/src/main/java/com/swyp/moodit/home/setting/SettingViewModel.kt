@@ -19,7 +19,7 @@ class SettingViewModel @Inject constructor(
     ) {
 
     init {
-        getUserProfile()
+        getUserPrivacyInfo()
     }
 
     override fun handleIntents(intent: SettingContract.Intent) {
@@ -62,18 +62,21 @@ class SettingViewModel @Inject constructor(
         }
     }
 
-    private fun getUserProfile() {
+    private fun getUserPrivacyInfo() {
         viewModelScope.launch {
             reduce { it.copy(isLoading = true) }
-            when (val result = userRepository.getUserProfile()) {
+            when (val result = userRepository.getUserPrivacyInfo()) {
                 is Result.Success -> {
-                    reduce { it.copy(nickname = result.data) }
+                    reduce { it.copy(
+                        name = result.data.name,
+                        email = result.data.email
+                    ) }
                 }
 
                 is Result.Error -> {
                     sendEffect(
                         SettingContract.SideEffect.ShowSnackbar(
-                            result.exception.message ?: "유저 프로필 조회에 실패했습니다."
+                            result.exception.message ?: "유저 개인정보 조회에 실패했습니다."
                         )
                     )
                 }

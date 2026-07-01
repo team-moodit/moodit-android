@@ -17,7 +17,7 @@ import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpProgressResponse
 import com.swyp.moodit.network.model.tournament.matchUp.SaveMatchUpRequest
 import com.swyp.moodit.network.model.tournament.matchUp.SaveMatchUpResponse
-import com.swyp.moodit.network.model.user.UserProfileResponse
+import com.swyp.moodit.network.model.user.UserPrivacyInfoResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -69,8 +69,8 @@ interface MooditApi {
     ): Response<BaseResponse<MatchUpResultResponse>>
 
     // User
-    @GET("v1/user-profiles/active")
-    suspend fun getUserProfile(): Response<BaseResponse<UserProfileResponse>>
+    @GET("v1/settings/privacy/info")
+    suspend fun getUserPrivacyInfo(): Response<BaseResponse<UserPrivacyInfoResponse>>
 
     // Mission
     @GET("v1/user-missions/{userMissionId}")
