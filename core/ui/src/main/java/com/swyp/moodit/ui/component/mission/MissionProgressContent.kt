@@ -27,16 +27,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.swyp.moodit.common.util.DateUtil.toFormatDate
+import com.swyp.moodit.common.util.TextUtil
 import com.swyp.moodit.designsystem.MissionTag
 import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.Mission
 
 @Composable
-fun MissionProgressContent(tagContent: String, mission: Mission) {
+fun MissionProgressContent(
+    tagContent: String,
+    mission: Mission,
+    onMissionDeleteClick: () -> Unit
+) {
     Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.Start
+        modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.Start
     ) {
         MissionTag(content = tagContent)
         Text(
@@ -80,7 +84,7 @@ fun MissionProgressContent(tagContent: String, mission: Mission) {
             }
 
             Text(
-                text = "이번 무드매치는\n${mission.matchPreferenceType}를 가장 중요하게 생각했어요",
+                text = "이번 무드매치는\n${mission.matchPreferenceType}${TextUtil.attachParticle(mission.matchPreferenceType)} 가장 중요하게 생각했어요",
                 color = MooditTheme.colors.tertiary,
                 style = MooditTheme.typography.b3Medium
             )
@@ -109,11 +113,10 @@ fun MissionProgressContent(tagContent: String, mission: Mission) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { /* Todo */ }
+                .clickable { onMissionDeleteClick() }
                 .padding(vertical = 20.dp, horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
+            horizontalArrangement = Arrangement.Center) {
             Text(
                 text = "미션 삭제하기",
                 color = MooditTheme.colors.borderDefault,
@@ -134,14 +137,12 @@ fun MissionProgressContent(tagContent: String, mission: Mission) {
 fun MissionProgressContentPreview() {
     MooditTheme {
         MissionProgressContent(
-            tagContent = "진행중",
-            mission = Mission(
+            tagContent = "진행중", mission = Mission(
                 missionTitle = "후보와 비슷한 색감으로\n하루 코디해보기",
                 missionCompletedAt = "26.06.20",
                 matchPreferenceType = "나와의 적합도",
                 roundCount = 16,
                 matchCompletedAt = "26.06.10"
-            )
-        )
+            ), onMissionDeleteClick = {})
     }
 }

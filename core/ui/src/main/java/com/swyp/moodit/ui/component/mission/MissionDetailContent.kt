@@ -110,7 +110,7 @@ fun MissionDetailContent(
             )
 
             missionInfo.missionState == MissionState.IN_PROGRESS -> MissionProgressContent(
-                tagContent, missionInfo
+                tagContent, missionInfo, onMissionDeleteClick = { onDeleteDialogShowChange(true) }
             )
         }
     }
