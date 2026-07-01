@@ -1,4 +1,4 @@
-package com.swyp.moodit.home.component
+package com.swyp.moodit.ui.component.mission
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,8 +21,9 @@ import com.swyp.moodit.model.FeedbackOption
 
 @Composable
 fun FeedbackBottomSheetContent(
-    selectedDrawback: FeedbackOption? = null,
-    onValueChange: (String) -> Unit,
+    selectedFeedback: List<FeedbackOption>,
+    feedbackOptions: List<FeedbackOption>,
+    onOptionClick: (FeedbackOption) -> Unit,
     onConfirmClick: () -> Unit
 ) {
     Column(
@@ -54,18 +55,12 @@ fun FeedbackBottomSheetContent(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            val feedbackOptions = listOf(
-                FeedbackOption(1L, "이 스타일이 저랑 안 맞았어요"),
-                FeedbackOption(2L, "경험해보니 생각과 달랐어요"),
-                FeedbackOption(3L, "선택 이유와 안 맞는 미션이었어요"),
-                FeedbackOption(4L, "수행하기 막막한 미션이었어요")
-            )
-
             feedbackOptions.forEach { feedbackOption ->
+                val isSelected = selectedFeedback.contains(feedbackOption)
                 FeedbackOptionItem(
                     feedbackOption = feedbackOption,
-                    isSelected = false,
-                    onClick = { }
+                    isSelected = isSelected,
+                    onClick = { onOptionClick(feedbackOption) }
                 )
             }
         }
@@ -75,7 +70,8 @@ fun FeedbackBottomSheetContent(
         MooditFilledButton(
             modifier = Modifier.fillMaxWidth(),
             onClick = { onConfirmClick() },
-            text = "완료"
+            text = "완료",
+            enabled = selectedFeedback.isNotEmpty()
         )
     }
 }
@@ -84,9 +80,17 @@ fun FeedbackBottomSheetContent(
 @Composable
 fun FeedbackBottomSheetContentPreview() {
     MooditTheme {
+        val testFeedbackOptions = listOf(
+            FeedbackOption("이 스타일이 저랑 안 맞았어요"),
+            FeedbackOption("경험해보니 생각과 달랐어요"),
+            FeedbackOption("선택 이유와 안 맞는 미션이었어요"),
+            FeedbackOption("수행하기 막막한 미션이었어요")
+        )
         FeedbackBottomSheetContent(
-            onValueChange = {},
-            onConfirmClick = {}
+            selectedFeedback = emptyList(),
+            feedbackOptions = testFeedbackOptions,
+            onConfirmClick = {},
+            onOptionClick = {}
         )
     }
 }

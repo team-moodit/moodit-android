@@ -1,4 +1,4 @@
-package com.swyp.moodit.home.component
+package com.swyp.moodit.ui.component.mission
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -73,7 +73,7 @@ fun SatisfactionBottomSheetContent(
             )
             Text(
                 text = "탭하거나 드래그해서 0.5점까지 선택할 수 있어요",
-                style = MooditTheme.typography.b3Medium,
+                style = MooditTheme.typography.b3Small,
                 color = MooditTheme.colors.textSecondary
             )
         }
@@ -110,9 +110,11 @@ fun SatisfactionBottomSheetContent(
             withStyle(
                 style = SpanStyle(
                     color = MooditTheme.colors.primary,
+                    fontFamily = MooditTheme.typography.h1.fontFamily,
                     fontStyle = MooditTheme.typography.h1.fontStyle,
                     fontSize = MooditTheme.typography.h1.fontSize,
-                    fontWeight = MooditTheme.typography.h1.fontWeight
+                    fontWeight = MooditTheme.typography.h1.fontWeight,
+                    letterSpacing = MooditTheme.typography.h1.letterSpacing
                 )
             ) {
                 append("$currentSliderRating")
@@ -121,6 +123,7 @@ fun SatisfactionBottomSheetContent(
             withStyle(
                 style = SpanStyle(
                     color = MooditTheme.colors.textSecondary,
+                    fontFamily = MooditTheme.typography.b3Medium.fontFamily,
                     fontStyle = MooditTheme.typography.b3Medium.fontStyle,
                     fontSize = MooditTheme.typography.b3Medium.fontSize,
                     fontWeight = MooditTheme.typography.b3Medium.fontWeight
@@ -136,9 +139,8 @@ fun SatisfactionBottomSheetContent(
 
         MooditFilledButton(
             modifier = Modifier.fillMaxWidth(),
-            onClick = {
-                onCompleteClick()
-            },
+            onClick = { onCompleteClick() },
+            enabled = currentSliderRating != 0.0f,
             text = "완료"
         )
     }
@@ -149,7 +151,7 @@ fun SatisfactionBottomSheetContent(
 fun SatisfactionBottomSheetContentPreview() {
     MooditTheme {
         SatisfactionBottomSheetContent(
-            currentSliderRating = 2.0f,
+            currentSliderRating = 1.0f,
             onValueChange = {},
             onCompleteClick = {}
         )

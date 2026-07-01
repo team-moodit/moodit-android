@@ -1,4 +1,4 @@
-package com.swyp.moodit.home.component
+package com.swyp.moodit.ui.component.mission
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -66,7 +66,7 @@ fun FeedbackOptionItem(
 @Composable
 fun FeedbackOptionPreview() {
     MooditTheme {
-        val testFeedbackOption = FeedbackOption(1L, "이 스타일이 저랑 안 맞았어요")
+        val testFeedbackOption = FeedbackOption("이 스타일이 저랑 안 맞았어요")
         FeedbackOptionItem(
             feedbackOption = testFeedbackOption,
             isSelected = true,

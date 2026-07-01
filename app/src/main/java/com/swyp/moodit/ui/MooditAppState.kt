@@ -10,11 +10,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.swyp.moodit.home.navigation.navigateToHome
+import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.navigation.AuthRoute
 import com.swyp.moodit.navigation.BottomBarRoute
 import com.swyp.moodit.navigation.HomeRoute
 import com.swyp.moodit.navigation.MainBottomBarTab
-import com.swyp.moodit.navigation.MissionStatus
 import com.swyp.moodit.navigation.OnBoardingRoute
 import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.report.navigation.navigateToReport
@@ -93,7 +93,7 @@ class MooditAppState(
     }
 
     fun navigateToMissionDetail(missionId: Long, status: MissionStatus) {
-        navController.navigate(HomeRoute.MissionDetail(missionId, status))
+        navController.navigate(HomeRoute.MissionDetail(missionId, status.name))
     }
 
     fun popBackStack() {

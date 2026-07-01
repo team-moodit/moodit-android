@@ -59,7 +59,7 @@ fun MooditDialog(
             Column(
                 modifier = Modifier
                     .wrapContentHeight()
-                    .padding(horizontal = 16.dp, vertical = 20.dp),
+                    .padding(start = 16.dp, end = 16.dp, top = 32.dp, bottom = 20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {

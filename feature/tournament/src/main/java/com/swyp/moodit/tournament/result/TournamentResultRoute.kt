@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
-import com.swyp.moodit.navigation.MissionStatus
+import com.swyp.moodit.model.MissionStatus
 
 @Composable
 fun TournamentResultRoute(

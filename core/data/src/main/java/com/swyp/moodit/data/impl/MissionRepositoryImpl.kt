@@ -1,0 +1,85 @@
+package com.swyp.moodit.data.impl
+
+import com.swyp.moodit.common.util.Result
+import com.swyp.moodit.data.mapper.toModel
+import com.swyp.moodit.data.repository.MissionRepository
+import com.swyp.moodit.model.Mission
+import com.swyp.moodit.model.MoodMatchResult
+import com.swyp.moodit.network.api.MooditApi
+import com.swyp.moodit.network.model.getOrThrow
+import com.swyp.moodit.network.model.getOrThrowUnit
+import com.swyp.moodit.network.model.mission.MissionAcceptRequest
+import com.swyp.moodit.network.model.mission.MissionSatisfactionRequest
+import com.swyp.moodit.network.model.tournament.MissionOfferRequest
+import javax.inject.Inject
+
+internal class MissionRepositoryImpl @Inject constructor(
+    private val mooditApi: MooditApi
+) : MissionRepository {
+    override suspend fun getMissionDetail(userMissionId: Long): Result<Mission> {
+        return try {
+            val response = mooditApi.getMissionDetail(userMissionId).getOrThrow()
+            Result.Success(response.toModel())
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
+    override suspend fun completeMission(userMissionId: Long): Result<Mission> {
+        return try {
+            val response = mooditApi.completeMission(userMissionId).getOrThrow()
+            return Result.Success(response.toModel())
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
+    override suspend fun submitSatisfaction(
+        userMissionId: Long,
+        satisfactionScore: Float,
+        feedbackOptions: List<String>
+    ): Result<Unit> {
+        return try {
+            mooditApi.submitSatisfaction(
+                userMissionId,
+                MissionSatisfactionRequest(satisfactionScore, feedbackOptions)
+            ).getOrThrowUnit()
+            return Result.Success(Unit)
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
+    override suspend fun deleteMission(userMissionId: Long): Result<Unit> {
+        return try {
+            mooditApi.deleteMission(userMissionId).getOrThrowUnit()
+            return Result.Success(Unit)
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
+    override suspend fun getMissionOffers(matchResultId: Long): Result<MoodMatchResult> {
+        try {
+            val response =
+                mooditApi.getMissionOffers(MissionOfferRequest(matchResultId)).getOrThrow()
+            return Result.Success(response.toModel())
+        } catch (e: Exception) {
+            return Result.Error(e)
+        }
+    }
+
+    override suspend fun acceptMissionOffer(offerId: Long, candidateId: Long): Result<Long> {
+        try {
+            val response = mooditApi.acceptMissionOffer(
+                MissionAcceptRequest(
+                    offerId = offerId,
+                    candidateId = candidateId
+                )
+            ).getOrThrow()
+            return Result.Success(response.userMissionId)
+        } catch (e: Exception) {
+            return Result.Error(e)
+        }
+    }
+}

@@ -1,4 +1,4 @@
-package com.swyp.moodit.home.component
+package com.swyp.moodit.ui.component.mission
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,11 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.swyp.moodit.common.util.DateUtil.toFormatDate
 import com.swyp.moodit.designsystem.MissionTag
 import com.swyp.moodit.designsystem.theme.MooditTheme
+import com.swyp.moodit.model.Mission
 
 @Composable
-fun MissionCreatedContent(tagContent: String) {
+fun MissionCreatedContent(tagContent: String, mission: Mission) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -24,7 +26,7 @@ fun MissionCreatedContent(tagContent: String) {
         MissionTag(content = tagContent)
         Text(
             modifier = Modifier.padding(top = 12.dp, bottom = 32.dp),
-            text = "후보와 비슷한 색감으로\n하루 코디해보기",
+            text = mission.missionTitle,
             style = MooditTheme.typography.h2,
             color = MooditTheme.colors.onPrimaryContainer,
             textAlign = TextAlign.Center
@@ -35,10 +37,14 @@ fun MissionCreatedContent(tagContent: String) {
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             MissionInfoCard(
-                modifier = Modifier.weight(1f), title = "진행된 라운드 수", content = "16강"
+                modifier = Modifier.weight(1f),
+                title = "진행된 라운드 수",
+                content = "${mission.matchResult.matchRoundCount}회"
             )
             MissionInfoCard(
-                modifier = Modifier.weight(1f), title = "무드매치 완료 날짜", content = "26.06.10"
+                modifier = Modifier.weight(1f),
+                title = "무드매치 완료 날짜",
+                content = mission.matchResult.matchCompletedAt.toFormatDate()
             )
         }
     }
@@ -48,6 +54,6 @@ fun MissionCreatedContent(tagContent: String) {
 @Composable
 fun MissionCreatedContentPreview() {
     MooditTheme {
-        MissionCreatedContent("MISSION")
+        MissionCreatedContent(tagContent = "MISSION", mission = Mission())
     }
 }

@@ -30,16 +30,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.swyp.moodit.common.util.TextUtil
 import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.component.MooditScaffold
 import com.swyp.moodit.designsystem.component.button.MooditFilledButton
 import com.swyp.moodit.designsystem.component.button.MooditSelectableButton
 import com.swyp.moodit.designsystem.theme.MooditTheme
+import com.swyp.moodit.model.MissionSuggestion
+import com.swyp.moodit.model.PreferenceResultType
 
 @Composable
 fun TournamentResultScreen(
     onMissionDetailClick: () -> Unit,
-    onSelectMission: (Long) -> Unit,
+    onSelectMission: (MissionSuggestion) -> Unit,
     uiState: TournamentResultContract.State
 ) {
     MooditScaffold(
@@ -47,11 +50,10 @@ fun TournamentResultScreen(
             MooditFilledButton(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
                 onClick = { onMissionDetailClick() },
-                enabled = uiState.selectedMission != null,
+                enabled = uiState.moodMatchResult.preferenceResultType == PreferenceResultType.TYPE_AND_DETAIL || uiState.selectedMission != null,
                 text = "미션 확인하러 가기"
             )
-        }
-    ) { innerPadding ->
+        }) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -62,7 +64,7 @@ fun TournamentResultScreen(
         ) {
             Spacer(modifier = Modifier.height(32.dp))
             AsyncImage(
-                model = "https://picsum.photos/200/300",
+                model = uiState.moodMatchResult.matchResult.imageUrl,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 48.dp)
@@ -74,9 +76,8 @@ fun TournamentResultScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "약속 날 입고 갈 옷",
-                style = MooditTheme.typography.h3,
-                color = MooditTheme.colors.onBackground
+                text = uiState.moodMatchResult.matchResult.matchTitle,
+                style = MooditTheme.typography.h3, color = MooditTheme.colors.onBackground
             )
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -90,24 +91,51 @@ fun TournamentResultScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
+                val iconId =
+                    if (uiState.moodMatchResult.preferenceResultType == PreferenceResultType.TIE) {
+                        R.drawable.face_sad_tear
+                    } else {
+                        R.drawable.reward_stars
+                    }
+
+                val findTasteMessage =
+                    if (uiState.moodMatchResult.preferenceResultType == PreferenceResultType.TIE)
+                        "이번 무드매치는\n뚜렷한 취향의 기준이 없었어요"
+                    else {
+                        "이번 무드매치는\n${uiState.moodMatchResult.matchResult.matchPreferenceTypeTitle}${
+                            TextUtil.attachParticle(
+                                uiState.moodMatchResult.matchResult.matchPreferenceTypeTitle
+                            )
+                        }를 가장 중요하게 생각했어요"
+                    }
                 Box(
                     modifier = Modifier
                         .wrapContentSize()
                         .clip(RoundedCornerShape(16.dp))
-                        .background(MooditTheme.colors.primary.copy(0.1f))
+                        .background(
+                            color = if (uiState.moodMatchResult.preferenceResultType == PreferenceResultType.TIE)
+                                MooditTheme.colors.surfaceContainer
+                            else
+                                MooditTheme.colors.primary.copy(
+                                    0.1f
+                                )
+                        )
                         .padding(8.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.warning_diamond),
+                        painter = painterResource(iconId),
                         contentDescription = "icon_mood_result",
-                        tint = MooditTheme.colors.primary,
+                        tint = if (uiState.moodMatchResult.preferenceResultType == PreferenceResultType.TIE)
+                            MooditTheme.colors.onTertiary
+                        else
+                            MooditTheme.colors.primary,
                         modifier = Modifier.size(24.dp)
                     )
                 }
 
                 Text(
-                    text = "이번 무드매치는\n나와의 적합도를 가장 중요하게 생각했어요",
+                    text = findTasteMessage,
                     color = MooditTheme.colors.tertiary,
                     style = MooditTheme.typography.b3Medium
                 )
@@ -155,21 +183,22 @@ fun TournamentResultScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(40.dp))
+            if (uiState.moodMatchResult.preferenceResultType != PreferenceResultType.TYPE_AND_DETAIL) {
+                Spacer(modifier = Modifier.height(40.dp))
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                uiState.moodMatchResult.missionSuggestions.forEach { mission ->
-                    MooditSelectableButton(
-                        content = mission.title,
-                        isSelected = mission.id == uiState.selectedMission,
-                        onItemClick = { onSelectMission(mission.id) }
-                    )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    uiState.moodMatchResult.missionSuggestions.forEach { mission ->
+                        MooditSelectableButton(
+                            content = mission.title,
+                            isSelected = mission.id == uiState.selectedMission?.id,
+                            onItemClick = { onSelectMission(mission) })
+                    }
                 }
             }
 
