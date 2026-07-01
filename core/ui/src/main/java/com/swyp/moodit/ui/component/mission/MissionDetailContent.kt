@@ -86,7 +86,7 @@ fun MissionDetailContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 48.dp)
-                .aspectRatio(0.82f)
+                .aspectRatio(232f/309f)
                 .clip(RoundedCornerShape(16.dp)),
             contentDescription = "img_result",
             contentScale = ContentScale.Crop,
