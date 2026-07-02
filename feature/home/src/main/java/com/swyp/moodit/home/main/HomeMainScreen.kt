@@ -16,8 +16,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -46,6 +48,7 @@ import com.swyp.moodit.designsystem.component.MooditTopBar
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.home.component.MissionEmptyMessageCard
 import com.swyp.moodit.home.component.MissionItemCard
+import com.swyp.moodit.home.component.MissionReviewedItemCard
 import com.swyp.moodit.model.Mission
 import com.swyp.moodit.model.MissionState
 import kotlinx.coroutines.flow.flowOf
@@ -84,12 +87,12 @@ fun HomeMainScreen(
             )
         },
     ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
+        LazyVerticalGrid(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = innerPadding,
+            columns = GridCells.Fixed(2)
         ) {
-            item {
+            item(span = { GridItemSpan(maxLineSpan) }) {
                 Button(
                     onClick = onCreateTournamentClick,
                     modifier = Modifier
@@ -143,7 +146,7 @@ fun HomeMainScreen(
                 }
             }
 
-            item {
+            item(span = { GridItemSpan(maxLineSpan) }) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -180,7 +183,7 @@ fun HomeMainScreen(
                 }
             }
 
-            item {
+            item(span = { GridItemSpan(maxLineSpan) }) {
                 if (inProgressMissions.itemCount == 0) {
                     MissionEmptyMessageCard(
                         modifier = Modifier.padding(horizontal = 16.dp),
@@ -207,7 +210,7 @@ fun HomeMainScreen(
                 }
             }
 
-            item {
+            item(span = { GridItemSpan(maxLineSpan) }) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -244,7 +247,7 @@ fun HomeMainScreen(
                 }
             }
 
-            item {
+            item(span = { GridItemSpan(maxLineSpan) }) {
                 if (completedMissions.itemCount == 0) {
                     MissionEmptyMessageCard(
                         modifier = Modifier.padding(horizontal = 16.dp),
@@ -271,7 +274,7 @@ fun HomeMainScreen(
                 }
             }
 
-            item {
+            item(span = { GridItemSpan(maxLineSpan) }) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -308,30 +311,32 @@ fun HomeMainScreen(
                 }
             }
 
-            item {
-                if (feedbackSubMittedMissions.itemCount == 0) {
+            if (feedbackSubMittedMissions.itemCount == 0) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
                     MissionEmptyMessageCard(
                         modifier = Modifier.padding(horizontal = 16.dp),
                         missionState = MissionState.REVIEWED
                     )
-                } else {
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentPadding = PaddingValues(horizontal = 16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        items(
-                            count = feedbackSubMittedMissions.itemCount,
-                            key = { index ->
-                                feedbackSubMittedMissions[index]?.userMissionId ?: index
-                            }) { index ->
-                            val mission = feedbackSubMittedMissions[index]
-                            if (mission != null)
-                                MissionItemCard(
-                                    mission = mission,
-                                    onClick = { onMissionClick(mission.userMissionId) })
-                        }
-                    }
+                }
+            } else {
+                items(
+                    count = feedbackSubMittedMissions.itemCount,
+                    key = { index ->
+                        feedbackSubMittedMissions[index]?.userMissionId ?: index
+                    }) { index ->
+                    val mission = feedbackSubMittedMissions[index]
+                    val isLeft = index % 2 == 0
+                    if (mission != null)
+                        MissionReviewedItemCard(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    start = if (isLeft) 0.dp else 6.dp,
+                                    end = if (isLeft) 6.dp else 0.dp,
+                                    bottom = 20.dp
+                                ),
+                            mission = mission,
+                            onClick = { onMissionClick(mission.userMissionId) })
                 }
             }
         }
