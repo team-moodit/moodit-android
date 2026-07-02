@@ -10,4 +10,5 @@ internal object PreferencesKey {
     val USER_ID = longPreferencesKey("moodit_user_id")
     val OnBoarding_Completed = booleanPreferencesKey("moodit_onboarding_completed")
     val AutoLogin_Enabled = booleanPreferencesKey("moodit_auto_login_enabled")
+    val Nickname = stringPreferencesKey("moodit_nickname")
 }

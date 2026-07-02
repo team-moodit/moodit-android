@@ -13,12 +13,15 @@ class SettingContract {
     ) : UiState
 
     sealed interface SideEffect : UiSideEffect {
-        object NavigateToLogin : SideEffect
+        data object NavigateToLogin : SideEffect
+        data class NavigateToInputNickname(val isEditMode: Boolean) : SideEffect
         data class ShowSnackbar(val message: String) : SideEffect
     }
 
     sealed interface Intent : UiIntent {
+        object LoadUserInfo : Intent
         object OnTermsClick : Intent
+        object OnNicknameClick : Intent
         object OnPrivacyPolicyClick : Intent
         object OnFeedbackClick : Intent
         object ShowLogOutDialog : Intent

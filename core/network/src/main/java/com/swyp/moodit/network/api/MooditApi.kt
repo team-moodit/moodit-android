@@ -73,6 +73,11 @@ interface MooditApi {
     @GET("v1/settings/privacy/info")
     suspend fun getUserPrivacyInfo(): Response<BaseResponse<UserPrivacyInfoResponse>>
 
+    @POST("v1/settings/privacy/name")
+    suspend fun postNickname(
+        @Body request: String
+    ): Response<BaseResponse<Unit>>
+
     // Mission
     @GET("v1/user-missions/{userMissionId}")
     suspend fun getMissionDetail(

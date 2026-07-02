@@ -16,14 +16,20 @@ import com.swyp.moodit.designsystem.component.MooditSnackbarType
 fun SettingRoute(
     viewModel: SettingViewModel = hiltViewModel(),
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
-    navigateToLogin: () -> Unit
+    navigateToLogin: () -> Unit,
+    navigateToInputNickname: (Boolean) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.sendIntent(SettingContract.Intent.LoadUserInfo)
+    }
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
                 is SettingContract.SideEffect.NavigateToLogin -> navigateToLogin()
+                is SettingContract.SideEffect.NavigateToInputNickname -> navigateToInputNickname(sideEffect.isEditMode)
                 is SettingContract.SideEffect.ShowSnackbar -> onShowSnackbar(
                     sideEffect.message,
                     null
@@ -45,6 +51,7 @@ fun SettingRoute(
         else -> {
             SettingScreen(
                 onTermsClick = { viewModel.sendIntent(SettingContract.Intent.OnTermsClick) },
+                onNicknameClick = { viewModel.sendIntent(SettingContract.Intent.OnNicknameClick) },
                 onPrivacyPolicyClick = { viewModel.sendIntent(SettingContract.Intent.OnPrivacyPolicyClick) },
                 onFeedbackClick = { viewModel.sendIntent(SettingContract.Intent.OnFeedbackClick) },
                 onShowLogOutDialog = { viewModel.sendIntent(SettingContract.Intent.ShowLogOutDialog) },

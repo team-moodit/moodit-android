@@ -148,7 +148,7 @@ class CreateTournamentViewModel @Inject constructor(
     }
 
     companion object {
-        const val MIN_PHOTO_COUNT = 1
+        const val MIN_PHOTO_COUNT = 8
         const val MAX_PHOTO_COUNT = 32
         const val MIN_TITLE_LENGTH = 1
         const val MAX_TITLE_LENGTH = 15
