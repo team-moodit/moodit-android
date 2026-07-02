@@ -10,11 +10,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,6 +36,7 @@ import com.swyp.moodit.home.BuildConfig
 @Composable
 fun SettingScreen(
     onTermsClick: () -> Unit,
+    onNicknameClick: () -> Unit,
     onPrivacyPolicyClick: () -> Unit,
     onFeedbackClick: () -> Unit,
     onShowLogOutDialog: () -> Unit,
@@ -111,6 +112,7 @@ fun SettingScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .clickable { onNicknameClick() }
                     .padding(vertical = 20.dp, horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Absolute.SpaceBetween
@@ -333,9 +335,10 @@ fun SettingScreen(
 @Composable
 @Preview
 fun SettingScreenPreview() {
-    MooditTheme() {
+    MooditTheme {
         SettingScreen(
             onTermsClick = {},
+            onNicknameClick = {},
             onPrivacyPolicyClick = {},
             onFeedbackClick = {},
             onShowLogOutDialog = {},

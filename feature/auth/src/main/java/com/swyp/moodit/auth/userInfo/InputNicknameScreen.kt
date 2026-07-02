@@ -115,8 +115,6 @@ fun InputNicknameScreen(
                     unfocusedTextColor = MooditTheme.colors.onBackground,
                     cursorColor = MooditTheme.colors.onBackground,
                 ),
-                supportingText = {
-                },
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Done
                 ),

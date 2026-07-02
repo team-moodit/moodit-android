@@ -18,14 +18,18 @@ class SettingViewModel @Inject constructor(
         initialState = SettingContract.State()
     ) {
 
-    init {
-        getUserPrivacyInfo()
-    }
-
     override fun handleIntents(intent: SettingContract.Intent) {
         when (intent) {
+            is SettingContract.Intent.LoadUserInfo -> {
+                getUserPrivacyInfo()
+            }
+
             is SettingContract.Intent.OnTermsClick -> {
                 sendEffect(SettingContract.SideEffect.ShowSnackbar("이용약관 출력하기"))
+            }
+
+            is SettingContract.Intent.OnNicknameClick -> {
+                sendEffect(SettingContract.SideEffect.NavigateToInputNickname(true))
             }
 
             is SettingContract.Intent.OnPrivacyPolicyClick -> {

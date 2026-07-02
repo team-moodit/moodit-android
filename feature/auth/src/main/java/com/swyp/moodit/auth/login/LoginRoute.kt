@@ -17,7 +17,8 @@ import com.swyp.moodit.designsystem.component.MooditSnackbarType
 fun LoginRoute(
     viewModel: LoginViewModel = hiltViewModel(),
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
-    navigateToMain: () -> Unit
+    navigateToMain: () -> Unit,
+    navigateToInputNickname: (Boolean) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -26,6 +27,7 @@ fun LoginRoute(
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
                 is LoginContract.SideEffect.NavigateToMain -> navigateToMain()
+                is LoginContract.SideEffect.NavigateToInputNickname -> navigateToInputNickname(sideEffect.isEditMode)
                 is LoginContract.SideEffect.ShowSnackbar -> onShowSnackbar(sideEffect.message, null)
             }
         }

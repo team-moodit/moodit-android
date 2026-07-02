@@ -8,6 +8,7 @@ import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.home.main.HomeMainRoute
 import com.swyp.moodit.home.missionDetail.MissionDetailRoute
 import com.swyp.moodit.home.reportReady.ReportReadyRoute
+import com.swyp.moodit.home.setting.SettingContract
 import com.swyp.moodit.home.setting.SettingRoute
 import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.navigation.BottomBarRoute
@@ -20,6 +21,7 @@ fun NavGraphBuilder.homeNavGraph(
     navigateToHome: () -> Unit,
     navigateToReport: () -> Unit,
     navigateToCreateTournament: () -> Unit,
+    navigateToInputNickname: (Boolean) -> Unit,
     navigateToMissionDetail: (Long, MissionStatus) -> Unit
 ) {
     composable<BottomBarRoute.Home>() {
@@ -34,7 +36,8 @@ fun NavGraphBuilder.homeNavGraph(
     composable<HomeRoute.Setting>() {
         SettingRoute(
             onShowSnackbar = onShowSnackbar,
-            navigateToLogin = navigateToLogin
+            navigateToLogin = navigateToLogin,
+            navigateToInputNickname = navigateToInputNickname
         )
     }
 

@@ -10,6 +10,7 @@ import com.swyp.moodit.navigation.AuthRoute
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,11 +28,6 @@ class InputNicknameViewModel @Inject constructor(
 
             is InputNicknameContract.Intent.OnConfirmClick -> {
                 postNickname()
-                if (currentState.isEditMode) {
-                    sendEffect(InputNicknameContract.SideEffect.NavigateToSetting)
-                } else {
-                    sendEffect(InputNicknameContract.SideEffect.NavigateToMain)
-                }
             }
         }
     }
@@ -42,11 +38,11 @@ class InputNicknameViewModel @Inject constructor(
             when (val result = userRepository.postNickname(currentState.nickname)) {
                 is Result.Success -> {
                     // datastore에 저장
-                    sendEffect(
-                        InputNicknameContract.SideEffect.ShowSnackbar(
-                            "닉네임 등록에 성공했습니다.", MooditSnackbarType.SUCCESS
-                        )
-                    )
+                    if (currentState.isEditMode) {
+                        sendEffect(InputNicknameContract.SideEffect.NavigateToSetting)
+                    } else {
+                        sendEffect(InputNicknameContract.SideEffect.NavigateToMain)
+                    }
                 }
 
                 is Result.Error -> {
@@ -57,12 +53,15 @@ class InputNicknameViewModel @Inject constructor(
                     )
                 }
             }
+            reduce { it.copy(isLoading = false) }
         }
     }
 
     private fun updateNickname(nickname: String) {
-        reduce { it.copy(nickname = nickname) }
-        checkNicknameCondition()
+        if (nickname.length <= MAX_NICKNAME_LENGTH) {
+            reduce { it.copy(nickname = nickname) }
+            checkNicknameCondition()
+        }
     }
 
     private fun checkNicknameCondition() {

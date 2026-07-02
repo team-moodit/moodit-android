@@ -76,7 +76,9 @@ class MooditAppState(
 
     fun navigateToInputNickname(isEditMode: Boolean) {
         navController.navigate(route = AuthRoute.InputNickname(isEditMode)) {
-            popUpTo(navController.graph.id) { inclusive = true }
+            if (!isEditMode) {
+                popUpTo(navController.graph.id) { inclusive = true }
+            }
             launchSingleTop = true
         }
     }
