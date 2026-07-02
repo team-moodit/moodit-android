@@ -31,7 +31,9 @@ fun MooditNavHost(
         authNavGraph(
             navController = navController,
             onShowSnackbar = onShowSnackbar,
-            navigateToMain = { appState.navigateToMain() }
+            navigateToMain = { appState.navigateToMain() },
+            navigateToInputNickname = { appState.navigateToInputNickname(it) },
+            navigateToSetting = { appState.popBackStack() }
         )
 
         homeNavGraph(
