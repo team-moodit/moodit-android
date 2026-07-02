@@ -25,7 +25,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddPhotoAlternate
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -43,7 +42,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -94,7 +92,7 @@ fun CreateTournamentScreen(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 onClick = { onCreateTournamentClick() },
                 enabled = uiState.isTournamentValid,
-                text = if (uiState.isTournamentValid) "시작하기" else "사진 준비 중"
+                text = "시작하기"
             )
         }
     ) { innerPadding ->
@@ -168,6 +166,7 @@ fun CreateTournamentScreen(
                     unfocusedContainerColor = MooditTheme.colors.onPrimary,
                     focusedTextColor = MooditTheme.colors.onBackground,
                     unfocusedTextColor = MooditTheme.colors.onBackground,
+                    cursorColor = MooditTheme.colors.onBackground,
                 ),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Done

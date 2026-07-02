@@ -31,7 +31,9 @@ fun MooditNavHost(
         authNavGraph(
             navController = navController,
             onShowSnackbar = onShowSnackbar,
-            navigateToMain = { appState.navigateToMain() }
+            navigateToMain = { appState.navigateToMain() },
+            navigateToInputNickname = { appState.navigateToInputNickname(it) },
+            navigateToSetting = { appState.popBackStack() }
         )
 
         homeNavGraph(
@@ -41,6 +43,7 @@ fun MooditNavHost(
             navigateToHome = { appState.navigateToMain() },
             navigateToReport = { appState.navigateToReport() },
             navigateToCreateTournament = { appState.navigateToCreateTournament() },
+            navigateToInputNickname = { appState.navigateToInputNickname(it) },
             navigateToMissionDetail = { missionId, status ->
                 appState.navigateToMissionDetail(
                     missionId,

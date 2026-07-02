@@ -1,6 +1,5 @@
 package com.swyp.moodit.home.main
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
@@ -10,6 +9,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
@@ -28,16 +29,10 @@ fun HomeMainRoute(
     val completedMissions = uiState.completedMissions.collectAsLazyPagingItems()
     val feedbackSubMittedMissions = uiState.feedbackSubMittedMissions.collectAsLazyPagingItems()
 
-    LaunchedEffect(inProgressMissions.loadState) {
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         inProgressMissions.refresh()
-    }
-
-    LaunchedEffect(completedMissions.loadState) {
-        Log.d("PagingStatus", "completedMissionsLoadState: ${completedMissions.loadState.refresh}")
-    }
-
-    LaunchedEffect(feedbackSubMittedMissions.loadState) {
-        Log.d("PagingStatus", "feedbackSubMittedMissionsLoadState: ${feedbackSubMittedMissions.loadState.refresh}")
+        completedMissions.refresh()
+        feedbackSubMittedMissions.refresh()
     }
 
     LaunchedEffect(Unit) {

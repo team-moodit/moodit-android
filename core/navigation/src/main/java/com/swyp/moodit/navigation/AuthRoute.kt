@@ -6,4 +6,7 @@ import kotlinx.serialization.Serializable
 sealed interface AuthRoute : Route {
     @Serializable
     data object Login : AuthRoute
+
+    @Serializable
+    data class InputNickname(val isEditMode: Boolean) : AuthRoute
 }

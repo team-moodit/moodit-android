@@ -12,6 +12,7 @@ class LoginContract {
 
     sealed interface SideEffect : UiSideEffect {
         object NavigateToMain : SideEffect
+        data class NavigateToInputNickname(val isEditMode: Boolean) : SideEffect
         data class ShowSnackbar(val message: String) : SideEffect
     }
 
