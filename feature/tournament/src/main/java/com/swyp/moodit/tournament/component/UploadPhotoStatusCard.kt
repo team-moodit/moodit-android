@@ -31,6 +31,7 @@ import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.SelectedPhoto
 import com.swyp.moodit.model.UploadStatus
 import com.swyp.moodit.tournament.create.CreateTournamentContract
+import kotlin.math.log2
 
 @Composable
 fun UploadPhotoStatusCard(
@@ -49,6 +50,12 @@ fun UploadPhotoStatusCard(
     }
     val isEmpty = remember(uiState.selectedPhotos) {
         uiState.selectedPhotos.isEmpty()
+    }
+    val selectedCount = uiState.selectedPhotos.size
+    val roundNumber = if (selectedCount >= 8) {
+        1 shl log2(selectedCount.toDouble()).toInt()
+    } else {
+        0
     }
 
     val (statusText, statusColor, statusIcon) = when {
@@ -93,7 +100,7 @@ fun UploadPhotoStatusCard(
                     append(" 선택됨 · ")
                 }
                 withStyle(style = SpanStyle(color = MooditTheme.colors.primary)) {
-                    append("${totalCount}강")
+                    append("${roundNumber}강")
                 }
                 withStyle(style = SpanStyle(color = MooditTheme.colors.borderDefault)) {
                     append("으로 시작해요!")
