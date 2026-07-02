@@ -27,7 +27,7 @@ class HomeMainViewModel @Inject constructor(
         val completedMissionsFlow = missionRepository.getPagingMissions(MissionState.COMPLETED)
             .cachedIn(viewModelScope)
         val feedbackSubMittedMissionsFlow =
-            missionRepository.getPagingMissions(MissionState.FEEDBACK_SUBMITTED)
+            missionRepository.getPagingMissions(MissionState.REVIEWED)
                 .cachedIn(viewModelScope)
 
         reduce {

@@ -15,7 +15,7 @@ fun MissionDetailResponse.toModel(): Mission {
         missionState = missionState,
         missionCompletedAt = this.missionCompletedAt ?: "",
         matchResult = this.matchResult.toModel(),
-        satisfactionScore = this.satisfactionScore
+        satisfactionScore = this.rate
     )
 }
 

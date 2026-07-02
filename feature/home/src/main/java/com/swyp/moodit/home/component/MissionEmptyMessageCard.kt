@@ -30,7 +30,7 @@ fun MissionEmptyMessageCard(modifier: Modifier = Modifier, missionState: Mission
             R.string.COMPLETED_EMPTY_MISSION_MESSAGE
         )
 
-        MissionState.FEEDBACK_SUBMITTED -> Pair(
+        MissionState.REVIEWED -> Pair(
             R.string.FEEDBACK_SUBMITTED_EMPTY_MISSION_TITLE_MESSAGE,
             R.string.FEEDBACK_SUBMITTED_EMPTY_MISSION_MESSAGE
         )
