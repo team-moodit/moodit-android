@@ -5,4 +5,5 @@ import com.swyp.moodit.model.UserPrivacy
 
 interface UserRepository {
     suspend fun getUserPrivacyInfo(): Result<UserPrivacy>
+    suspend fun postNickname(nickname: String): Result<Unit>
 }
