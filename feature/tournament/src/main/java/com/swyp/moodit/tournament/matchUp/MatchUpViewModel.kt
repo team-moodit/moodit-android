@@ -200,8 +200,6 @@ class MatchUpViewModel @Inject constructor(
     }
 
     private fun handleSaveMatchUpSuccess() {
-        sendEffect(MatchUpContract.SideEffect.ShowSnackbar("진행 상황이 저장됐어요"))
-
         if (currentState.matchUpInfo.isCompleted) {
             getMatchUpResult()
         } else {
@@ -213,6 +211,7 @@ class MatchUpViewModel @Inject constructor(
                 )
             }
             getTournamentInfo(isSilentRefresh = true)
+            sendEffect(MatchUpContract.SideEffect.ShowSnackbar("진행 상황이 저장됐어요"))
         }
     }
 

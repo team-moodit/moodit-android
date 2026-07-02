@@ -312,7 +312,7 @@ fun HomeMainScreen(
                 if (feedbackSubMittedMissions.itemCount == 0) {
                     MissionEmptyMessageCard(
                         modifier = Modifier.padding(horizontal = 16.dp),
-                        missionState = MissionState.FEEDBACK_SUBMITTED
+                        missionState = MissionState.REVIEWED
                     )
                 } else {
                     LazyRow(
