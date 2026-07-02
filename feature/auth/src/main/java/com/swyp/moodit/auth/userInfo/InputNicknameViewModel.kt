@@ -10,7 +10,6 @@ import com.swyp.moodit.navigation.AuthRoute
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,7 +36,6 @@ class InputNicknameViewModel @Inject constructor(
             reduce { it.copy(isLoading = true) }
             when (val result = userRepository.postNickname(currentState.nickname)) {
                 is Result.Success -> {
-                    // datastore에 저장
                     if (currentState.isEditMode) {
                         sendEffect(InputNicknameContract.SideEffect.NavigateToSetting)
                     } else {

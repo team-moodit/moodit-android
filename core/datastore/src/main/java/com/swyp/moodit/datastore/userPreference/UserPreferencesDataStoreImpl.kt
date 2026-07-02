@@ -21,6 +21,11 @@ class UserPreferencesDataStoreImpl @Inject constructor(
             preferences[PreferencesKey.AutoLogin_Enabled] ?: false
         }
 
+    override val nickname: Flow<String>
+        get() = dataStore.data.map { preferences ->
+            preferences[PreferencesKey.Nickname] ?: ""
+        }
+
     override suspend fun setOnBoardingCompleted(completed: Boolean) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.OnBoarding_Completed] = completed
@@ -30,6 +35,12 @@ class UserPreferencesDataStoreImpl @Inject constructor(
     override suspend fun setAutoLoginEnabled(enabled: Boolean) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.AutoLogin_Enabled] = enabled
+        }
+    }
+
+    override suspend fun setNickname(nickname: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.Nickname] = nickname
         }
     }
 }
