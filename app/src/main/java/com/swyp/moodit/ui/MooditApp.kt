@@ -75,6 +75,7 @@ internal fun MooditAppContent(
             modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding()),
             appState = appState,
             onShowSnackbar = { message, type ->
+                snackbarHostState.currentSnackbarData?.dismiss()
                 snackbarHostState.showSnackbar(
                     MooditSnackbarVisuals(
                         message = message,

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="IN_PROGRESS_EMPTY_MISSION_TITLE_MESSAGE">먼저 무드매치를 만들어볼까요?</string>
+    <string name="IN_PROGRESS_EMPTY_MISSION_MESSAGE">무드매치 완료 후 시도해볼 취향을 추천해드려요</string>
+    <string name="COMPLETED_EMPTY_MISSION_TITLE_MESSAGE">취향을 경험한 뒤 기록해볼까요?</string>
+    <string name="COMPLETED_EMPTY_MISSION_MESSAGE">기록할수록 내 취향 기준이 더 선명해져요</string>
+    <string name="FEEDBACK_SUBMITTED_EMPTY_MISSION_TITLE_MESSAGE">후기를 남기면 기록이 쌓여요</string>
+    <string name="FEEDBACK_SUBMITTED_EMPTY_MISSION_MESSAGE">경험한 후기를 남기고 나만의 취향 흐름을 확인해보세요</string>
+</resources>

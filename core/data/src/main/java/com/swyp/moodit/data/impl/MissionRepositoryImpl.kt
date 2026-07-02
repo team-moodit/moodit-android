@@ -55,8 +55,7 @@ internal class MissionRepositoryImpl @Inject constructor(
     ): Result<Unit> {
         return try {
             mooditApi.submitSatisfaction(
-                userMissionId,
-                MissionSatisfactionRequest(satisfactionScore, feedbackOptions)
+                MissionSatisfactionRequest(userMissionId, satisfactionScore, feedbackOptions)
             ).getOrThrowUnit()
             return Result.Success(Unit)
         } catch (e: Exception) {

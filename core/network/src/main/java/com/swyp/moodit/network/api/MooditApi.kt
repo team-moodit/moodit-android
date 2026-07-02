@@ -89,9 +89,8 @@ interface MooditApi {
         @Path("userMissionId") userMissionId: Long
     ): Response<BaseResponse<MissionCompleteResponse>>
 
-    @POST("v1/user-missions/{userMissionId}/feedback")
+    @POST("v1/reviews")
     suspend fun submitSatisfaction(
-        @Path("userMissionId") userMissionId: Long,
         @Body request: MissionSatisfactionRequest
     ): Response<BaseResponse<Unit>>
 
@@ -112,7 +111,7 @@ interface MooditApi {
 
     @GET("v1/user-missions")
     suspend fun getPagingMissions(
-        @Query("type") type: String,
+        @Query("state") type: String,
         @Query("offset") offset: Int,
         @Query("limit") size: Int
     ): Response<BaseResponse<PagingResult<MissionDetailResponse>>>

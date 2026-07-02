@@ -1,6 +1,7 @@
 package com.swyp.moodit.network.model.mission
 
 data class MissionSatisfactionRequest(
-    val satisfactionScore: Float,
-    val dissatisfactionReasons: List<String>
+    val userMissionId: Long,
+    val rate: Float,
+    val content: List<String>?
 )

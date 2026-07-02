@@ -8,5 +8,5 @@ data class MissionDetailResponse(
     val missionState: String,
     val missionCompletedAt: String? = null,
     val matchResult: MissionMatchResultResponse,
-    val satisfactionScore: Float = 0.0f
+    val rate: Float = 0.0f
 )
