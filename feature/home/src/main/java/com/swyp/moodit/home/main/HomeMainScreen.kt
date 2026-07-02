@@ -31,7 +31,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -45,8 +44,10 @@ import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.component.MooditScaffold
 import com.swyp.moodit.designsystem.component.MooditTopBar
 import com.swyp.moodit.designsystem.theme.MooditTheme
+import com.swyp.moodit.home.component.MissionEmptyMessageCard
 import com.swyp.moodit.home.component.MissionItemCard
 import com.swyp.moodit.model.Mission
+import com.swyp.moodit.model.MissionState
 import kotlinx.coroutines.flow.flowOf
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -98,16 +99,12 @@ fun HomeMainScreen(
                     shape = RoundedCornerShape(16.dp)
                 ) {
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 10.dp),
+                        modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Absolute.SpaceBetween
                     ) {
                         Column(
-                            modifier = Modifier
-                                .wrapContentHeight()
-                                .padding(start = 10.dp),
+                            modifier = Modifier.wrapContentHeight(),
                             horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
                             Row(
@@ -162,11 +159,12 @@ fun HomeMainScreen(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        val isEmpty = inProgressMissions.itemCount == 0
                         Box(
                             modifier = Modifier
                                 .size(8.dp)
                                 .background(
-                                    color = MooditTheme.colors.primary,
+                                    color = if (isEmpty) MooditTheme.colors.borderDefault else MooditTheme.colors.primary,
                                     shape = CircleShape
                                 )
                         )
@@ -175,7 +173,7 @@ fun HomeMainScreen(
 
                         Text(
                             text = "${inProgressMissions.itemCount}개",
-                            color = MooditTheme.colors.primary,
+                            color = if (isEmpty) MooditTheme.colors.borderDefault else MooditTheme.colors.primary,
                             style = MooditTheme.typography.caption
                         )
                     }
@@ -183,21 +181,28 @@ fun HomeMainScreen(
             }
 
             item {
-                LazyRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(
-                        count = inProgressMissions.itemCount,
-                        key = { index ->
-                            inProgressMissions[index]?.userMissionId ?: index
-                        }) { index ->
-                        val mission = inProgressMissions[index]
-                        if (mission != null)
-                            MissionItemCard(
-                                mission = mission,
-                                onClick = { onMissionClick(mission.userMissionId) })
+                if (inProgressMissions.itemCount == 0) {
+                    MissionEmptyMessageCard(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        missionState = MissionState.IN_PROGRESS
+                    )
+                } else {
+                    LazyRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(
+                            count = inProgressMissions.itemCount,
+                            key = { index ->
+                                inProgressMissions[index]?.userMissionId ?: index
+                            }) { index ->
+                            val mission = inProgressMissions[index]
+                            if (mission != null)
+                                MissionItemCard(
+                                    mission = mission,
+                                    onClick = { onMissionClick(mission.userMissionId) })
+                        }
                     }
                 }
             }
@@ -218,11 +223,12 @@ fun HomeMainScreen(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        val isEmpty = completedMissions.itemCount == 0
                         Box(
                             modifier = Modifier
                                 .size(8.dp)
                                 .background(
-                                    color = MooditTheme.colors.primary,
+                                    color = if (isEmpty) MooditTheme.colors.borderDefault else MooditTheme.colors.primary,
                                     shape = CircleShape
                                 )
                         )
@@ -231,7 +237,7 @@ fun HomeMainScreen(
 
                         Text(
                             text = "${completedMissions.itemCount}개",
-                            color = MooditTheme.colors.primary,
+                            color = if (isEmpty) MooditTheme.colors.borderDefault else MooditTheme.colors.primary,
                             style = MooditTheme.typography.caption
                         )
                     }
@@ -239,21 +245,28 @@ fun HomeMainScreen(
             }
 
             item {
-                LazyRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(
-                        count = completedMissions.itemCount,
-                        key = { index ->
-                            completedMissions[index]?.userMissionId ?: index
-                        }) { index ->
-                        val mission = completedMissions[index]
-                        if (mission != null)
-                            MissionItemCard(
-                                mission = mission,
-                                onClick = { onMissionClick(mission.userMissionId) })
+                if (completedMissions.itemCount == 0) {
+                    MissionEmptyMessageCard(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        missionState = MissionState.COMPLETED
+                    )
+                } else {
+                    LazyRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(
+                            count = completedMissions.itemCount,
+                            key = { index ->
+                                completedMissions[index]?.userMissionId ?: index
+                            }) { index ->
+                            val mission = completedMissions[index]
+                            if (mission != null)
+                                MissionItemCard(
+                                    mission = mission,
+                                    onClick = { onMissionClick(mission.userMissionId) })
+                        }
                     }
                 }
             }
@@ -274,11 +287,12 @@ fun HomeMainScreen(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        val isEmpty = feedbackSubMittedMissions.itemCount == 0
                         Box(
                             modifier = Modifier
                                 .size(8.dp)
                                 .background(
-                                    color = MooditTheme.colors.primary,
+                                    color = if (isEmpty) MooditTheme.colors.borderDefault else MooditTheme.colors.primary,
                                     shape = CircleShape
                                 )
                         )
@@ -287,7 +301,7 @@ fun HomeMainScreen(
 
                         Text(
                             text = "${feedbackSubMittedMissions.itemCount}개",
-                            color = MooditTheme.colors.primary,
+                            color = if (isEmpty) MooditTheme.colors.borderDefault else MooditTheme.colors.primary,
                             style = MooditTheme.typography.caption
                         )
                     }
@@ -295,21 +309,28 @@ fun HomeMainScreen(
             }
 
             item {
-                LazyRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(
-                        count = feedbackSubMittedMissions.itemCount,
-                        key = { index ->
-                            feedbackSubMittedMissions[index]?.userMissionId ?: index
-                        }) { index ->
-                        val mission = feedbackSubMittedMissions[index]
-                        if (mission != null)
-                            MissionItemCard(
-                                mission = mission,
-                                onClick = { onMissionClick(mission.userMissionId) })
+                if (feedbackSubMittedMissions.itemCount == 0) {
+                    MissionEmptyMessageCard(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        missionState = MissionState.FEEDBACK_SUBMITTED
+                    )
+                } else {
+                    LazyRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(
+                            count = feedbackSubMittedMissions.itemCount,
+                            key = { index ->
+                                feedbackSubMittedMissions[index]?.userMissionId ?: index
+                            }) { index ->
+                            val mission = feedbackSubMittedMissions[index]
+                            if (mission != null)
+                                MissionItemCard(
+                                    mission = mission,
+                                    onClick = { onMissionClick(mission.userMissionId) })
+                        }
                     }
                 }
             }
