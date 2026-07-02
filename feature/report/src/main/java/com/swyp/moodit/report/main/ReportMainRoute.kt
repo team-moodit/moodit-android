@@ -26,6 +26,7 @@ fun ReportMainRoute(
 
     ReportMainScreen(
         uiState = uiState,
-        onTabClick = { viewModel.sendIntent(ReportMainContract.Intent.SelectTab(it)) }
+        onTabClick = { viewModel.sendIntent(ReportMainContract.Intent.SelectTab(it)) },
+        onSettingClick = {}
     )
 }

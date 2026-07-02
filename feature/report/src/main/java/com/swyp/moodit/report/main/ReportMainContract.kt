@@ -25,4 +25,4 @@ class ReportMainContract {
     }
 }
 
-enum class ReportTab(val tabName: String) { REPORT("리포트 총평"), SATISFACTION("만족도 평가 결과") }
+enum class ReportTab(val tabName: String) { REPORT("종합 리포트"), SATISFACTION("완료한 미션") }
