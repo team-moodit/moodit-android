@@ -166,6 +166,7 @@ fun CreateTournamentScreen(
                     unfocusedContainerColor = MooditTheme.colors.onPrimary,
                     focusedTextColor = MooditTheme.colors.onBackground,
                     unfocusedTextColor = MooditTheme.colors.onBackground,
+                    cursorColor = MooditTheme.colors.onBackground,
                 ),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Done
