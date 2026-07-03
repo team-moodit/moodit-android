@@ -9,6 +9,7 @@ import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,17 +37,27 @@ class LoginViewModel @Inject constructor(
                         val accessToken = kakaoResult.data
                         when (val loginResult = authRepository.loginWithServer(accessToken)) {
                             is Result.Success -> {
-                                val savedNickname = userRepository.nickname.first()
-                                if (savedNickname.isEmpty()) {
-                                    sendEffect(
-                                        LoginContract.SideEffect.NavigateToInputNickname(
-                                            false
+                                when(val userInfoResult = userRepository.getUserPrivacyInfo()) {
+                                    is Result.Success -> {
+                                        if (userInfoResult.data.name.isEmpty()) {
+                                            sendEffect(
+                                                LoginContract.SideEffect.NavigateToInputNickname(
+                                                    false
+                                                )
+                                            )
+                                        } else {
+                                            sendEffect(LoginContract.SideEffect.NavigateToMain)
+                                        }
+                                        return@launch
+                                    }
+                                    is Result.Error -> {
+                                        sendEffect(
+                                            LoginContract.SideEffect.ShowSnackbar(
+                                                userInfoResult.exception.message ?: "사용자 정보를 가져오는데 실패했습니다."
+                                            )
                                         )
-                                    )
-                                } else {
-                                    sendEffect(LoginContract.SideEffect.NavigateToMain)
+                                    }
                                 }
-                                return@launch
                             }
 
                             is Result.Error -> {
