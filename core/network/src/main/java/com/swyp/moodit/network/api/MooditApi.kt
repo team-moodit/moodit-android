@@ -13,6 +13,7 @@ import com.swyp.moodit.network.model.tournament.CreateMoodMatchResponse
 import com.swyp.moodit.network.model.tournament.MatchUpResultResponse
 import com.swyp.moodit.network.model.tournament.MissionOfferRequest
 import com.swyp.moodit.network.model.tournament.MissionOfferResponse
+import com.swyp.moodit.network.model.tournament.PresignedUrlResponse
 import com.swyp.moodit.network.model.tournament.UploadFileResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitRequest
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitResponse
@@ -43,6 +44,12 @@ interface MooditApi {
         @Query("resourceType") resourceType: String,
         @Part file: MultipartBody.Part
     ): Response<BaseResponse<UploadFileResponse>>
+
+    @GET("v1/files/presigned-url")
+    suspend fun getPresignedUrl(
+        @Query("resourceType") resourceType: String,
+        @Query("fileName") fileName: String
+    ): Response<BaseResponse<PresignedUrlResponse>>
 
     @POST("v1/matches")
     suspend fun createMoodMatch(
