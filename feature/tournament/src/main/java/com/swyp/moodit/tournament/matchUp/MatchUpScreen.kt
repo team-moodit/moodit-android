@@ -133,7 +133,10 @@ fun SelectPhotoContent(
     uiState: MatchUpContract.State,
     onSelectPhoto: (Candidate) -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(
             text = uiState.matchUpInfo.title,
             style = MooditTheme.typography.b2Medium,
@@ -156,7 +159,11 @@ fun SelectPhotoContent(
                     .weight(1f)
                     .padding(horizontal = 24.dp)
                     .aspectRatio(1f)
-                    .clickable { onSelectPhoto(candidateA) },
+                    .clickable(uiState.selectedWinner == null && !uiState.isLoading) {
+                        onSelectPhoto(
+                            candidateA
+                        )
+                    },
                 isSelected = uiState.selectedWinner == candidateA,
                 anyPhotoSelected = uiState.selectedWinner != null,
                 moodCandidate = candidateA
@@ -169,7 +176,11 @@ fun SelectPhotoContent(
                     .weight(1f)
                     .padding(horizontal = 24.dp)
                     .aspectRatio(1f)
-                    .clickable { onSelectPhoto(candidateB) },
+                    .clickable(uiState.selectedWinner == null && !uiState.isLoading) {
+                        onSelectPhoto(
+                            candidateB
+                        )
+                    },
                 isSelected = uiState.selectedWinner == candidateB,
                 anyPhotoSelected = uiState.selectedWinner != null,
                 moodCandidate = candidateB

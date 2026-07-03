@@ -331,8 +331,8 @@ fun HomeMainScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(
-                                    start = if (isLeft) 0.dp else 6.dp,
-                                    end = if (isLeft) 6.dp else 0.dp,
+                                    start = if (isLeft) 16.dp else 6.dp,
+                                    end = if (isLeft) 6.dp else 16.dp,
                                     bottom = 20.dp
                                 ),
                             mission = mission,

@@ -15,7 +15,8 @@ data class MissionMatchResultResponse(
     val matchRepresentativeImageUrl: String,
     val matchPreferenceTypeTitle: String?,
     val matchRoundCount: Int,
-    val matchCompletedAt: String
+    val matchCompletedAt: String,
+    val preferenceResultType: String
 )
 
 data class MissionSuggestionResponse(
