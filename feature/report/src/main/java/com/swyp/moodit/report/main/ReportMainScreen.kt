@@ -16,6 +16,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -23,19 +24,26 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.component.MooditScaffold
 import com.swyp.moodit.designsystem.component.MooditTopBar
 import com.swyp.moodit.designsystem.theme.MooditTheme
+import com.swyp.moodit.model.Mission
 import com.swyp.moodit.report.component.OverAllReviewContent
 import com.swyp.moodit.report.component.SatisfactionResultContent
 import com.swyp.moodit.ui.component.mission.MissionInfoCard
+import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun ReportMainScreen(
     uiState: ReportMainContract.State,
     onTabClick: (ReportTab) -> Unit,
-    onSettingClick: () -> Unit
+    onSettingClick: () -> Unit,
+    onMissionClick: (Long) -> Unit,
+    feedbackSubMittedMissions: LazyPagingItems<Mission>
 ) {
     MooditScaffold(
         modifier = Modifier.fillMaxSize(),
@@ -70,7 +78,9 @@ fun ReportMainScreen(
         ) {
             Text(
                 text = "분석에 반영된 기록",
-                modifier = Modifier.fillMaxWidth().padding(top = 18.dp, bottom = 12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 18.dp, bottom = 12.dp),
                 color = MooditTheme.colors.onPrimaryContainer,
                 style = MooditTheme.typography.b1Medium
             )
@@ -138,7 +148,13 @@ fun ReportMainScreen(
                     }
 
                     ReportTab.SATISFACTION -> {
-                        SatisfactionResultContent(uiState = uiState, onCreateMoodMatchClick = {}, onCheckMissionClick = {})
+                        SatisfactionResultContent(
+                            uiState = uiState,
+                            onCreateMoodMatchClick = {},
+                            onCheckMissionClick = {},
+                            onMissionClick = onMissionClick,
+                            feedbackSubMittedMissions = feedbackSubMittedMissions
+                        )
                     }
                 }
             }
@@ -149,11 +165,16 @@ fun ReportMainScreen(
 @Preview
 @Composable
 fun ReportMainScreenPreview() {
+    val emptyMissionsFlow = remember {
+        flowOf(PagingData.from(emptyList<Mission>()))
+    }
     MooditTheme {
         ReportMainScreen(
             uiState = ReportMainContract.State(),
             onTabClick = {},
-            onSettingClick = {}
+            onSettingClick = {},
+            onMissionClick = {},
+            feedbackSubMittedMissions = emptyMissionsFlow.collectAsLazyPagingItems()
         )
     }
 }
