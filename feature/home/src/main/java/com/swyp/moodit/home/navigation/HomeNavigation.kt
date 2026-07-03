@@ -20,6 +20,7 @@ fun NavGraphBuilder.homeNavGraph(
     navigateToLogin: () -> Unit,
     navigateToHome: () -> Unit,
     navigateToReport: () -> Unit,
+    navigateToSetting: () -> Unit,
     navigateToCreateTournament: () -> Unit,
     navigateToInputNickname: (Boolean) -> Unit,
     navigateToMissionDetail: (Long, MissionStatus) -> Unit
@@ -27,7 +28,7 @@ fun NavGraphBuilder.homeNavGraph(
     composable<BottomBarRoute.Home>() {
         HomeMainRoute(
             onShowSnackbar = onShowSnackbar,
-            navigateToSetting = { navController.navigateToSetting() },
+            navigateToSetting = navigateToSetting,
             navigateToCreateTournament = navigateToCreateTournament,
             navigateToMissionDetail = navigateToMissionDetail
         )

@@ -42,6 +42,7 @@ fun MooditNavHost(
             navigateToLogin = { appState.navigateToLogin() },
             navigateToHome = { appState.navigateToMain() },
             navigateToReport = { appState.navigateToReport() },
+            navigateToSetting = { appState.navigateToSetting()},
             navigateToCreateTournament = { appState.navigateToCreateTournament() },
             navigateToInputNickname = { appState.navigateToInputNickname(it) },
             navigateToMissionDetail = { missionId, status ->
@@ -66,7 +67,8 @@ fun MooditNavHost(
 
         reportNavGraph(
             navController = navController,
-            onShowSnackbar = onShowSnackbar
+            onShowSnackbar = onShowSnackbar,
+            navigateToSetting = { appState.navigateToSetting()}
         )
     }
 }

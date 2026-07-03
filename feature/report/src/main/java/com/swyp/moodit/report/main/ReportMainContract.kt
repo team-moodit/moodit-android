@@ -18,10 +18,12 @@ class ReportMainContract {
             val message: String,
             val snackbarType: MooditSnackbarType = MooditSnackbarType.SUCCESS
         ) : SideEffect
+        data object NavigateToSetting: SideEffect
     }
 
     sealed interface Intent : UiIntent {
         data class SelectTab(val tab: ReportTab) : Intent
+        data object OnSettingClick : Intent
     }
 }
 

@@ -10,6 +10,7 @@ import com.swyp.moodit.designsystem.component.MooditSnackbarType
 @Composable
 fun ReportMainRoute(
     viewModel: ReportMainViewModel = hiltViewModel(),
+    navigateToSetting: () -> Unit,
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -20,6 +21,10 @@ fun ReportMainRoute(
                 is ReportMainContract.SideEffect.ShowSnackbar -> {
                     onShowSnackbar(sideEffect.message, null)
                 }
+
+                is ReportMainContract.SideEffect.NavigateToSetting -> {
+                    navigateToSetting()
+                }
             }
         }
     }
@@ -27,6 +32,6 @@ fun ReportMainRoute(
     ReportMainScreen(
         uiState = uiState,
         onTabClick = { viewModel.sendIntent(ReportMainContract.Intent.SelectTab(it)) },
-        onSettingClick = {}
+        onSettingClick = { viewModel.sendIntent(ReportMainContract.Intent.OnSettingClick) }
     )
 }

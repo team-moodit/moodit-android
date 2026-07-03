@@ -25,6 +25,10 @@ class ReportMainViewModel @Inject constructor(
             is ReportMainContract.Intent.SelectTab -> {
                 updateTab(intent.tab)
             }
+
+            is ReportMainContract.Intent.OnSettingClick -> {
+                sendEffect(ReportMainContract.SideEffect.NavigateToSetting)
+            }
         }
     }
 

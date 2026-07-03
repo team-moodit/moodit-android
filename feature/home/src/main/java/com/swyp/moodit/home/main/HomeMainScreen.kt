@@ -71,7 +71,7 @@ fun HomeMainScreen(
                 title = {
                     Text(
                         text = "비비님,\n오늘의 취향을 찾아볼까요?",
-                        fontSize = 20.sp, fontWeight = FontWeight.Bold,
+                        style = MooditTheme.typography.h1,
                         color = MooditTheme.colors.onBackground
                     )
                 },

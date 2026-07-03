@@ -1,5 +1,6 @@
 package com.swyp.moodit.report.component
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -9,10 +10,16 @@ import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.report.main.ReportMainContract
 
 @Composable
-fun OverAllReviewContent(uiState: ReportMainContract.State, onCreateMoodMatchClick: () -> Unit) {
+fun OverAllReviewContent(
+    uiState: ReportMainContract.State,
+    onCreateMoodMatchClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     if (uiState.reportSummary.summary.totalMatchCount == 0L) {
         ReportEmptyContent(
-            modifier = Modifier.padding(top = 78.dp),
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(top = 78.dp),
             title = "아직 분석할 취향이 없어요",
             content = "무드매치를 시작하고 사진을 선택해보세요\n" +
                     "선택이 쌓일수록 나만의 리포트가 만들어집니다",
