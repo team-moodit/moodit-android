@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import com.swyp.moodit.auth.navigation.authNavGraph
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.home.navigation.homeNavGraph
+import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.onboard.navigation.onBoardingNavGraph
 import com.swyp.moodit.report.navigation.reportNavGraph
 import com.swyp.moodit.tournament.navigation.tournamentNavGraph
@@ -42,7 +43,7 @@ fun MooditNavHost(
             navigateToLogin = { appState.navigateToLogin() },
             navigateToHome = { appState.navigateToMain() },
             navigateToReport = { appState.navigateToReport() },
-            navigateToSetting = { appState.navigateToSetting()},
+            navigateToSetting = { appState.navigateToSetting() },
             navigateToCreateTournament = { appState.navigateToCreateTournament() },
             navigateToInputNickname = { appState.navigateToInputNickname(it) },
             navigateToMissionDetail = { missionId, status ->
@@ -68,7 +69,13 @@ fun MooditNavHost(
         reportNavGraph(
             navController = navController,
             onShowSnackbar = onShowSnackbar,
-            navigateToSetting = { appState.navigateToSetting()}
+            navigateToSetting = { appState.navigateToSetting() },
+            navigateToMissionDetail = {
+                appState.navigateToMissionDetail(
+                    it,
+                    MissionStatus.DEFAULT
+                )
+            }
         )
     }
 }
