@@ -80,7 +80,10 @@ class MatchUpViewModel @Inject constructor(
                         it.copy(
                             matchUpInfo = result.data,
                             progressFraction = progressFraction,
-                            isStarted = false
+                            isStarted = false,
+                            selectedReason = null,
+                            selectedWinner = null,
+                            currentStep = TournamentStep.MATCH_UP
                         )
                     }
                 }
@@ -203,16 +206,9 @@ class MatchUpViewModel @Inject constructor(
         if (currentState.matchUpInfo.isCompleted) {
             getMatchUpResult()
         } else {
-            reduce {
-                it.copy(
-                    selectedReason = null,
-                    selectedWinner = null,
-                    currentStep = TournamentStep.MATCH_UP
-                )
-            }
             getTournamentInfo(isSilentRefresh = true)
-            sendEffect(MatchUpContract.SideEffect.ShowSnackbar("진행 상황이 저장됐어요"))
         }
+        //sendEffect(MatchUpContract.SideEffect.ShowSnackbar("진행 상황이 저장됐어요"))
     }
 
     private fun updateRetryDialogState(showRetryDialog: Boolean) {

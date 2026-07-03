@@ -65,7 +65,7 @@ fun MissionDetailContent(
 ) {
     val tagContent = when {
         missionStatus == MissionStatus.CREATED -> "MISSION"
-        missionInfo.missionState == MissionState.COMPLETED -> "완료"
+        missionInfo.missionState == MissionState.COMPLETED || missionInfo.missionState == MissionState.REVIEWED -> "완료"
         else -> "진행중"
     }
 
@@ -86,7 +86,7 @@ fun MissionDetailContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 48.dp)
-                .aspectRatio(232f/309f)
+                .aspectRatio(232f / 309f)
                 .clip(RoundedCornerShape(16.dp)),
             contentDescription = "img_result",
             contentScale = ContentScale.Crop,
@@ -105,7 +105,7 @@ fun MissionDetailContent(
                 missionInfo
             )
 
-            missionInfo.missionState == MissionState.COMPLETED -> MissionCompletedContent(
+            missionInfo.missionState == MissionState.COMPLETED || missionInfo.missionState == MissionState.REVIEWED -> MissionCompletedContent(
                 tagContent, missionInfo
             )
 

@@ -6,5 +6,6 @@ data class MissionMatchResult(
     val imageUrl: String = "",
     val matchPreferenceTypeTitle: String = "",
     val matchRoundCount: Int = 0,
-    val matchCompletedAt: String = ""
+    val matchCompletedAt: String = "",
+    val preferenceResultType: PreferenceResultType = PreferenceResultType.TIE
 )

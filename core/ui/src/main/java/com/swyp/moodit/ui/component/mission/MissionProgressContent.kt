@@ -33,6 +33,7 @@ import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.Mission
 import com.swyp.moodit.model.MissionMatchResult
+import com.swyp.moodit.model.PreferenceResultType
 
 @Composable
 fun MissionProgressContent(
@@ -68,24 +69,30 @@ fun MissionProgressContent(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
+            val findPreferenceType =
+                mission.matchResult.preferenceResultType != PreferenceResultType.TIE
             Box(
                 modifier = Modifier
                     .wrapContentSize()
                     .clip(RoundedCornerShape(16.dp))
-                    .background(MooditTheme.colors.primary.copy(0.1f))
+                    .background(if (findPreferenceType) MooditTheme.colors.primary.copy(0.1f) else MooditTheme.colors.surfaceContainer)
                     .padding(8.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.reward_stars),
+                    painter = painterResource(if (findPreferenceType) R.drawable.reward_stars else R.drawable.face_sad_tear),
                     contentDescription = "icon_mood_result",
-                    tint = MooditTheme.colors.primary,
+                    tint = if (findPreferenceType) MooditTheme.colors.primary else MooditTheme.colors.onTertiary,
                     modifier = Modifier.size(24.dp)
                 )
             }
 
             Text(
-                text = "이번 무드매치는\n${mission.matchResult.matchPreferenceTypeTitle}${TextUtil.attachParticle(mission.matchResult.matchPreferenceTypeTitle)} 가장 중요하게 생각했어요",
+                text = if (findPreferenceType) "이번 무드매치는\n${mission.matchResult.matchPreferenceTypeTitle}${
+                    TextUtil.attachParticle(
+                        mission.matchResult.matchPreferenceTypeTitle
+                    )
+                } 가장 중요하게 생각했어요" else "이번 무드매치는\n뚜렷한 취향의 기준이 없었어요",
                 color = MooditTheme.colors.tertiary,
                 style = MooditTheme.typography.b3Medium
             )

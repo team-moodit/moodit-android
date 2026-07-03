@@ -45,8 +45,7 @@ fun MissionDetailScreen(
 
     MooditScaffold(
         bottomBar = {
-            val isMissionSettled = uiState.missionInfo.missionState == MissionState.COMPLETED
-                    && uiState.missionInfo.satisfactionScore != 0.0f
+            val isMissionSettled = uiState.missionInfo.missionState == MissionState.REVIEWED
             if (!isMissionSettled) {
                 MooditFilledButton(
                     onClick = {
