@@ -4,6 +4,7 @@ import com.swyp.moodit.datastore.token.AuthDataStore
 import com.swyp.moodit.network.AuthAuthenticator
 import com.swyp.moodit.network.api.AuthApi
 import com.swyp.moodit.network.api.MooditApi
+import com.swyp.moodit.network.api.S3Api
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,11 +31,46 @@ object NetworkModule {
 
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
+    annotation class S3Retrofit
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
     annotation class BaseOkHttpClient
 
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
     annotation class AuthRetrofit
+
+    @Provides
+    @Singleton
+    @S3Retrofit
+    fun provideS3OkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @S3Retrofit
+    fun provideS3Retrofit(
+        @S3Retrofit okHttpClient: OkHttpClient
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("http://localhost/")
+            .client(okHttpClient)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideS3Api(
+        @S3Retrofit retrofit: Retrofit
+    ): S3Api {
+        return retrofit.create(S3Api::class.java)
+    }
 
     @Provides
     @Singleton

@@ -12,18 +12,24 @@ import com.swyp.moodit.model.SelectedMatchUpIds
 import com.swyp.moodit.model.SelectedPhoto
 import com.swyp.moodit.model.UploadStatus
 import com.swyp.moodit.network.api.MooditApi
+import com.swyp.moodit.network.api.S3Api
 import com.swyp.moodit.network.model.getOrThrow
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchRequest
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.asRequestBody
+import retrofit2.HttpException
+import timber.log.Timber
 import javax.inject.Inject
 
 internal class TournamentRepositoryImpl @Inject constructor(
     private val imageProcessor: ImageProcessor,
-    private val mooditApi: MooditApi
+    private val mooditApi: MooditApi,
+    private val s3Api: S3Api
 ) : TournamentRepository {
-    override suspend fun uploadImage(photo: SelectedPhoto): Result<SelectedPhoto> {
+    /* override suspend fun uploadImage(photo: SelectedPhoto): Result<SelectedPhoto> {
         return withContext(Dispatchers.IO) {
             try {
                 val filePart = imageProcessor.toMultiPartBody(photo.uri)
@@ -36,6 +42,38 @@ internal class TournamentRepositoryImpl @Inject constructor(
                     status = UploadStatus.Success(response.fileUrl)
                 )
                 Result.Success(uploadedPhoto)
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
+    } */
+
+    override suspend fun uploadImage(photo: SelectedPhoto): Result<SelectedPhoto> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val file = imageProcessor.uriToFile(photo.uri)
+                    ?: throw IllegalArgumentException("파일 변환 실패")
+                val presignedResponse = mooditApi.getPresignedUrl(
+                    resourceType = PartType.MATCH.name,
+                    fileName = file.name
+                ).getOrThrow()
+                val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                val s3Response = s3Api.uploadImageToS3(
+                    url = presignedResponse.fileUrl,
+                    contentType = "image/jpeg",
+                    file = requestFile
+                )
+                if (s3Response.isSuccessful) {
+                    val viewUrl = presignedResponse.fileUrl.split("?")[0]
+                    Timber.d(viewUrl)
+                    val uploadedPhoto = photo.copy(
+                        serverId = presignedResponse.id,
+                        status = UploadStatus.Success(viewUrl)
+                    )
+                    Result.Success(uploadedPhoto)
+                } else {
+                    Result.Error(HttpException(s3Response))
+                }
             } catch (e: Exception) {
                 Result.Error(e)
             }
