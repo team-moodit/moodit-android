@@ -25,7 +25,7 @@ class ImageProcessor @Inject constructor(
         try {
             val uri = uri.toUri()
             val tempFile =
-                createTempFile(directory = context.cacheDir.toPath(), "photo_", ".png").toFile()
+                createTempFile(directory = context.cacheDir.toPath(), "photo_", ".jpeg").toFile()
             val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
             val outputStream = FileOutputStream(tempFile)
             inputStream.use { input ->
@@ -38,11 +38,5 @@ class ImageProcessor @Inject constructor(
             e.printStackTrace()
             null
         }
-    }
-
-    suspend fun toMultiPartBody(uri: String, partName: String = "file"): MultipartBody.Part? {
-        val file = uriToFile(uri) ?: return null
-        val requestFile = file.asRequestBody(contentType = "image/png".toMediaTypeOrNull())
-        return MultipartBody.Part.createFormData(partName, file.name, requestFile)
     }
 }
