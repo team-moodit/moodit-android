@@ -62,7 +62,7 @@ fun ReportPreferenceCard(
                 ) {
                     Text(
                         text = "전체 선택 중 ${if (topPreference.percentage % 1.0 == 0.0) topPreference.percentage.toInt() else topPreference.percentage}%가",
-                        style = MooditTheme.typography.b3Medium,
+                        style = MooditTheme.typography.b3Large,
                         color = MooditTheme.colors.onPrimaryContainer
                     )
                     Spacer(modifier = Modifier.height(4.dp))
@@ -76,15 +76,16 @@ fun ReportPreferenceCard(
                                 .wrapContentSize()
                                 .border(
                                     width = 1.dp,
-                                    color = MooditTheme.colors.primary,
+                                    color = Color(0xFF536F21),
                                     shape = RoundedCornerShape(100.dp)
                                 )
                                 .padding(horizontal = 12.dp, vertical = 4.dp),
-                            content = topPreference.title
+                            content = topPreference.title,
+                            textStyle = MooditTheme.typography.b3Large
                         )
                         Text(
                             text = "관련 기준이었어요",
-                            style = MooditTheme.typography.b3Medium,
+                            style = MooditTheme.typography.b3Large,
                             color = MooditTheme.colors.onPrimaryContainer
                         )
                     }

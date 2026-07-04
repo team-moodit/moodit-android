@@ -9,8 +9,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.overscroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -50,7 +51,8 @@ fun OverAllReviewContent(
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Column(
@@ -65,23 +67,23 @@ fun OverAllReviewContent(
                     Text(
                         modifier = Modifier.padding(end = 6.dp),
                         text = "당신은",
-                        style = MooditTheme.typography.b1Medium,
+                        style = MooditTheme.typography.b1Large,
                         color = MooditTheme.colors.onPrimaryContainer
                     )
                     Text(
                         text = "‘${uiState.reportSummary.preferenceReport.topPreference.title}‘",
-                        style = MooditTheme.typography.b1Medium,
+                        style = MooditTheme.typography.b1Large,
                         color = MooditTheme.colors.primary
                     )
                     Text(
                         text = "를",
-                        style = MooditTheme.typography.b1Medium,
+                        style = MooditTheme.typography.b1Large,
                         color = MooditTheme.colors.onPrimaryContainer
                     )
                 }
                 Text(
                     text = "가장 중요하게 봐요",
-                    style = MooditTheme.typography.b1Medium,
+                    style = MooditTheme.typography.b1Large,
                     color = MooditTheme.colors.onPrimaryContainer
                 )
             }
@@ -95,7 +97,9 @@ fun OverAllReviewContent(
             )
 
             Box(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 24.dp),
                 contentAlignment = Alignment.Center
             ) {
                 SatisfactionCard(
@@ -114,7 +118,9 @@ fun OverAllReviewContent(
                             color = MooditTheme.colors.onPrimaryContainer
                         )
                         Button(
-                            modifier = Modifier.fillMaxWidth().padding(horizontal = 80.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 80.dp),
                             onClick = onCheckMissionClick,
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = MooditTheme.colors.primary,
@@ -124,7 +130,9 @@ fun OverAllReviewContent(
                             shape = RoundedCornerShape(12.dp)
                         ) {
                             Text(
-                                modifier = Modifier.fillMaxWidth().padding(),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(),
                                 text = "미션 확인하기",
                                 color = MooditTheme.colors.onPrimary,
                                 style = MooditTheme.typography.b1Medium,

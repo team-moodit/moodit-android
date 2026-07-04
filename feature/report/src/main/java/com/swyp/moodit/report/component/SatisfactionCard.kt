@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.swyp.moodit.designsystem.component.MooditTag
@@ -55,7 +56,7 @@ fun SatisfactionCard(
                 ) {
                     Text(
                         text = "시도한 취향의 만족도는",
-                        style = MooditTheme.typography.b3Medium,
+                        style = MooditTheme.typography.b3Large,
                         color = MooditTheme.colors.onPrimaryContainer
                     )
                     Spacer(modifier = Modifier.height(4.dp))
@@ -69,15 +70,16 @@ fun SatisfactionCard(
                                 .wrapContentSize()
                                 .border(
                                     width = 1.dp,
-                                    color = MooditTheme.colors.primary,
+                                    color = Color(0xFF536F21),
                                     shape = RoundedCornerShape(100.dp)
                                 )
                                 .padding(horizontal = 12.dp, vertical = 4.dp),
-                            content = "평균 ${if (satisfactionSummary.rate % 1.0 == 0.0) satisfactionSummary.rate.toInt() else satisfactionSummary.rate}점"
+                            content = "평균 ${if (satisfactionSummary.rate % 1.0 == 0.0) satisfactionSummary.rate.toInt() else satisfactionSummary.rate}점",
+                            textStyle = MooditTheme.typography.b3Large
                         )
                         Text(
                             text = "이에요",
-                            style = MooditTheme.typography.b3Medium,
+                            style = MooditTheme.typography.b3Large,
                             color = MooditTheme.colors.onPrimaryContainer
                         )
                     }

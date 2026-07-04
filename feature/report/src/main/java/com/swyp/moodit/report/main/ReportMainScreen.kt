@@ -75,8 +75,7 @@ fun ReportMainScreen(
         Column(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .padding(innerPadding)
-                .verticalScroll(rememberScrollState()),
+                .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -147,7 +146,11 @@ fun ReportMainScreen(
             ) {
                 when (uiState.selectedTab) {
                     ReportTab.REPORT -> {
-                        OverAllReviewContent(uiState = uiState, onCreateMoodMatchClick = {})
+                        OverAllReviewContent(
+                            uiState = uiState,
+                            onCreateMoodMatchClick = {},
+                            onCheckMissionClick = {}
+                        )
                     }
 
                     ReportTab.SATISFACTION -> {

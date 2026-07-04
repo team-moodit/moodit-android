@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.swyp.moodit.designsystem.theme.MooditTheme
@@ -23,6 +24,7 @@ fun MooditTag(
             shape = RoundedCornerShape(100.dp)
         )
         .padding(horizontal = 12.dp, vertical = 10.dp),
+    textStyle: TextStyle = MooditTheme.typography.caption,
     content: String
 ) {
     Surface(
@@ -32,7 +34,7 @@ fun MooditTag(
         Text(
             text = content,
             color = MooditTheme.colors.primary,
-            style = MooditTheme.typography.caption
+            style = textStyle
         )
     }
 }
