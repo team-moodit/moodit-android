@@ -3,6 +3,7 @@ package com.swyp.moodit.report.main
 import androidx.paging.PagingData
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.model.Mission
+import com.swyp.moodit.model.report.PreferenceDetail
 import com.swyp.moodit.model.report.ReportSummary
 import com.swyp.moodit.ui.base.UiIntent
 import com.swyp.moodit.ui.base.UiSideEffect
@@ -15,6 +16,7 @@ class ReportMainContract {
         val isLoading: Boolean = false,
         val selectedTab: ReportTab = ReportTab.REPORT,
         val reportSummary: ReportSummary = ReportSummary(),
+        val top3Distributions: List<PreferenceDetail> = emptyList(),
         val feedbackSubMittedMissions: Flow<PagingData<Mission>> = flowOf(PagingData.empty())
     ) : UiState
 

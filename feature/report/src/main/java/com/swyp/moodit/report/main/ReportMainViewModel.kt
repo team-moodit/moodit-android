@@ -53,7 +53,15 @@ class ReportMainViewModel @Inject constructor(
             reduce { it.copy(isLoading = true) }
             when (val result = reportRepository.getPreferenceReport()) {
                 is Result.Success -> {
-                    reduce { it.copy(reportSummary = result.data) }
+                    val top3Distributions =
+                        result.data.preferenceReport.distributions.sortedBy { it.percentage }
+                            .takeLast(3)
+                    reduce {
+                        it.copy(
+                            reportSummary = result.data,
+                            top3Distributions = top3Distributions
+                        )
+                    }
                 }
 
                 is Result.Error -> {
