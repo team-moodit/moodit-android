@@ -7,7 +7,7 @@ import com.swyp.moodit.ui.base.UiState
 class TournamentDetailContract {
     data class State(
         val isLoading: Boolean = false,
-        val tournamentId: String = "",
+        val tournamentId: Long = 0L,
         val isCompleted: Boolean = false
     ) : UiState
 

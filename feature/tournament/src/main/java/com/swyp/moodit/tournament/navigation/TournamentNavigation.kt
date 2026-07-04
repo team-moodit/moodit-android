@@ -6,6 +6,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.model.MissionStatus
+import com.swyp.moodit.model.tournament.TournamentState
 import com.swyp.moodit.navigation.BottomBarRoute
 import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.tournament.create.CreateTournamentRoute
@@ -23,7 +24,12 @@ fun NavGraphBuilder.tournamentNavGraph(
     composable<BottomBarRoute.Tournament> {
         TournamentMainRoute(
             onShowSnackbar = onShowSnackbar,
-            navigateToTournamentDetail = { navController.navigateToTournamentDetail(it) }
+            navigateToTournamentDetail = { id, state ->
+                navController.navigateToTournamentDetail(
+                    tournamentId = id,
+                    tournamentState = state
+                )
+            }
         )
     }
 
@@ -63,8 +69,8 @@ fun NavController.navigateToTournament(navOptions: NavOptions) {
     navigate(BottomBarRoute.Tournament, navOptions)
 }
 
-fun NavController.navigateToTournamentDetail(tournamentId: String) {
-    navigate(TournamentRoute.Detail(tournamentId))
+fun NavController.navigateToTournamentDetail(tournamentId: Long, tournamentState: TournamentState) {
+    navigate(TournamentRoute.Detail(tournamentId, tournamentState))
 }
 
 fun NavController.navigateToMatchUp(tournamentId: Long, isStarted: Boolean) {

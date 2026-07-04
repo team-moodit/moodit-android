@@ -21,9 +21,12 @@ class TournamentDetailViewModel @Inject constructor(
 
     private val tournamentId =
         savedStateHandle.toRoute<TournamentRoute.Detail>().tournamentId
+    private val tournamentState =
+        savedStateHandle.toRoute<TournamentRoute.Detail>().tournamentType
 
     init {
-        Timber.d(tournamentId)
+        Timber.d("$tournamentId")
+        Timber.d(tournamentState.name)
         loadTournamentInfo()
     }
 

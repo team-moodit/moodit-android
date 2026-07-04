@@ -13,12 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
+import com.swyp.moodit.model.tournament.TournamentState
 
 @Composable
 fun TournamentMainRoute(
     viewModel: TournamentMainViewModel = hiltViewModel(),
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
-    navigateToTournamentDetail: (String) -> Unit
+    navigateToTournamentDetail: (Long, TournamentState) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -31,7 +32,7 @@ fun TournamentMainRoute(
                 )
 
                 is TournamentMainContract.SideEffect.NavigateToTournamentDetail -> {
-                    navigateToTournamentDetail(sideEffect.tournamentId)
+                    navigateToTournamentDetail(sideEffect.tournamentId, sideEffect.tournamentState)
                 }
             }
         }
@@ -54,13 +55,13 @@ fun TournamentMainRoute(
 
         else -> {
             TournamentMainScreen(
-                onTournamentClick = {
+                uiState = uiState,
+                onTournamentClick = { id, state ->
                     viewModel.sendIntent(
-                        TournamentMainContract.Intent.OnTournamentClick(
-                            it
-                        )
+                        TournamentMainContract.Intent.OnTournamentClick(id, state)
                     )
-                }
+                },
+                onSettingClick = {}
             )
         }
     }
