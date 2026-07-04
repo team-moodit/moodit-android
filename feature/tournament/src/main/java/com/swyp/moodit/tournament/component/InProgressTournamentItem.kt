@@ -39,7 +39,7 @@ import com.swyp.moodit.model.tournament.InProgressTournamentDetail
 fun InProgressTournamentItem(
     modifier: Modifier = Modifier,
     inProgressTournament: InProgressTournamentDetail,
-    onTournamentClick: (Long) -> Unit
+    onTournamentClick: () -> Unit
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val itemWidth = screenWidth * (0.75f)
@@ -55,7 +55,7 @@ fun InProgressTournamentItem(
     Card(
         modifier = modifier
             .width(itemWidth)
-            .clickable(onClick = { onTournamentClick(inProgressTournament.id) })
+            .clickable(onClick = { onTournamentClick() })
             .border(1.dp, MooditTheme.colors.onSurface, shape = RoundedCornerShape(16.dp)),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = MooditTheme.colors.onPrimary)
