@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
@@ -135,8 +133,10 @@ fun ReportMainScreen(
                         selected = uiState.selectedTab.ordinal == index,
                         onClick = { onTabClick(tab) },
                         text = {
-                            Text(text = tab.tabName)
-                        }
+                            Text(text = tab.tabName, style = MooditTheme.typography.h4)
+                        },
+                        selectedContentColor = MooditTheme.colors.onPrimaryContainer,
+                        unselectedContentColor = MooditTheme.colors.borderDefault,
                     )
                 }
             }
