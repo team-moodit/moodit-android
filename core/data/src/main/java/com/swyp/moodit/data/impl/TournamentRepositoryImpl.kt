@@ -21,7 +21,6 @@ import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
-import timber.log.Timber
 import javax.inject.Inject
 
 internal class TournamentRepositoryImpl @Inject constructor(
@@ -64,11 +63,9 @@ internal class TournamentRepositoryImpl @Inject constructor(
                     file = requestFile
                 )
                 if (s3Response.isSuccessful) {
-                    val viewUrl = presignedResponse.fileUrl.split("?")[0]
-                    Timber.d(viewUrl)
                     val uploadedPhoto = photo.copy(
                         serverId = presignedResponse.id,
-                        status = UploadStatus.Success(viewUrl)
+                        status = UploadStatus.Success(presignedResponse.fileUrl)
                     )
                     Result.Success(uploadedPhoto)
                 } else {

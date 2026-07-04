@@ -34,11 +34,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -48,9 +46,9 @@ import com.swyp.moodit.designsystem.component.MooditTopBar
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.home.component.MissionEmptyMessageCard
 import com.swyp.moodit.home.component.MissionItemCard
-import com.swyp.moodit.home.component.MissionReviewedItemCard
 import com.swyp.moodit.model.Mission
 import com.swyp.moodit.model.MissionState
+import com.swyp.moodit.ui.component.mission.MissionReviewedItemCard
 import kotlinx.coroutines.flow.flowOf
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,7 +69,7 @@ fun HomeMainScreen(
                 title = {
                     Text(
                         text = "비비님,\n오늘의 취향을 찾아볼까요?",
-                        fontSize = 20.sp, fontWeight = FontWeight.Bold,
+                        style = MooditTheme.typography.h1,
                         color = MooditTheme.colors.onBackground
                     )
                 },

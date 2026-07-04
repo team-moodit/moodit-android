@@ -28,8 +28,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.swyp.moodit.common.util.DateUtil.toFormatDate
 import com.swyp.moodit.common.util.TextUtil
-import com.swyp.moodit.designsystem.MissionTag
 import com.swyp.moodit.designsystem.R
+import com.swyp.moodit.designsystem.component.MooditTag
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.Mission
 import com.swyp.moodit.model.MissionMatchResult
@@ -44,7 +44,7 @@ fun MissionProgressContent(
     Column(
         modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.Start
     ) {
-        MissionTag(content = tagContent)
+        MooditTag(content = tagContent)
         Text(
             modifier = Modifier.padding(top = 12.dp, bottom = 32.dp),
             text = mission.missionTitle,

@@ -7,6 +7,7 @@ import com.swyp.moodit.network.model.mission.MissionAcceptResponse
 import com.swyp.moodit.network.model.mission.MissionCompleteResponse
 import com.swyp.moodit.network.model.mission.MissionDetailResponse
 import com.swyp.moodit.network.model.mission.MissionSatisfactionRequest
+import com.swyp.moodit.network.model.report.ReportSummaryResponse
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchRequest
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchResponse
 import com.swyp.moodit.network.model.tournament.MatchUpResultResponse
@@ -122,4 +123,8 @@ interface MooditApi {
         @Query("offset") offset: Int,
         @Query("limit") size: Int
     ): Response<BaseResponse<PagingResult<MissionDetailResponse>>>
+
+    // Report
+    @GET("v1/reports")
+    suspend fun getReportSummary(): Response<BaseResponse<ReportSummaryResponse>>
 }

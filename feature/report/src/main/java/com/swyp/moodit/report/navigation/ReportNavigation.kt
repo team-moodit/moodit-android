@@ -10,10 +10,20 @@ import com.swyp.moodit.report.main.ReportMainRoute
 
 fun NavGraphBuilder.reportNavGraph(
     navController: NavController,
+    navigateToSetting: () -> Unit,
+    navigateToMissionDetail: (Long) -> Unit,
+    navigateToHome: () -> Unit,
+    navigateToCreateMoodMatch: () -> Unit,
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean
 ) {
     composable<BottomBarRoute.Report>() {
-        ReportMainRoute(onShowSnackbar = onShowSnackbar)
+        ReportMainRoute(
+            onShowSnackbar = onShowSnackbar,
+            navigateToSetting = navigateToSetting,
+            navigateToMissionDetail = navigateToMissionDetail,
+            navigateToHome = navigateToHome,
+            navigateToCreateMoodMatch = navigateToCreateMoodMatch
+        )
     }
 }
 

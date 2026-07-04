@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.swyp.moodit.home.main.HomeMainRoute
 import com.swyp.moodit.home.navigation.navigateToHome
 import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.navigation.AuthRoute
@@ -95,6 +96,10 @@ class MooditAppState(
             popUpTo(BottomBarRoute.Home) { inclusive = false }
             launchSingleTop = true
         }
+    }
+
+    fun navigateToSetting() {
+        navController.navigate(HomeRoute.Setting)
     }
 
     fun navigateToCreateTournament() {
