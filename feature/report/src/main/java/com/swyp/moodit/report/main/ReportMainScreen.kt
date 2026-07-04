@@ -44,6 +44,8 @@ fun ReportMainScreen(
     uiState: ReportMainContract.State,
     onTabClick: (ReportTab) -> Unit,
     onSettingClick: () -> Unit,
+    onCreateMoodMatchClick: () -> Unit,
+    onCheckMissionClick: () -> Unit,
     onMissionClick: (Long) -> Unit,
     feedbackSubMittedMissions: LazyPagingItems<Mission>
 ) {
@@ -148,16 +150,16 @@ fun ReportMainScreen(
                     ReportTab.REPORT -> {
                         OverAllReviewContent(
                             uiState = uiState,
-                            onCreateMoodMatchClick = {},
-                            onCheckMissionClick = {}
+                            onCreateMoodMatchClick = onCreateMoodMatchClick,
+                            onCheckMissionClick = onCheckMissionClick
                         )
                     }
 
                     ReportTab.SATISFACTION -> {
                         SatisfactionResultContent(
                             uiState = uiState,
-                            onCreateMoodMatchClick = {},
-                            onCheckMissionClick = {},
+                            onCreateMoodMatchClick = onCreateMoodMatchClick,
+                            onCheckMissionClick = onCheckMissionClick,
                             onMissionClick = onMissionClick,
                             feedbackSubMittedMissions = feedbackSubMittedMissions
                         )
@@ -180,6 +182,8 @@ fun ReportMainScreenPreview() {
             onTabClick = {},
             onSettingClick = {},
             onMissionClick = {},
+            onCheckMissionClick = {},
+            onCreateMoodMatchClick = {},
             feedbackSubMittedMissions = emptyMissionsFlow.collectAsLazyPagingItems()
         )
     }

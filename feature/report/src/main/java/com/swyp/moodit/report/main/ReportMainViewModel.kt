@@ -41,6 +41,9 @@ class ReportMainViewModel @Inject constructor(
             is ReportMainContract.Intent.LoadPreferenceReport -> {
                 getPreferenceReport()
             }
+
+            is ReportMainContract.Intent.OnCheckMissionClick -> sendEffect(ReportMainContract.SideEffect.NavigateToHome)
+            is ReportMainContract.Intent.OnCreateMoodMatchClick -> sendEffect(ReportMainContract.SideEffect.NavigateToCreateMoodMatch)
         }
     }
 

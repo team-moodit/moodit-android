@@ -12,13 +12,17 @@ fun NavGraphBuilder.reportNavGraph(
     navController: NavController,
     navigateToSetting: () -> Unit,
     navigateToMissionDetail: (Long) -> Unit,
+    navigateToHome: () -> Unit,
+    navigateToCreateMoodMatch: () -> Unit,
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean
 ) {
     composable<BottomBarRoute.Report>() {
         ReportMainRoute(
             onShowSnackbar = onShowSnackbar,
             navigateToSetting = navigateToSetting,
-            navigateToMissionDetail = navigateToMissionDetail
+            navigateToMissionDetail = navigateToMissionDetail,
+            navigateToHome = navigateToHome,
+            navigateToCreateMoodMatch = navigateToCreateMoodMatch
         )
     }
 }

@@ -75,7 +75,9 @@ fun MooditNavHost(
                     it,
                     MissionStatus.DEFAULT
                 )
-            }
+            },
+            navigateToHome = { appState.navigateToMain() },
+            navigateToCreateMoodMatch = { appState.navigateToCreateTournament() }
         )
     }
 }

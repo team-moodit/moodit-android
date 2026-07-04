@@ -28,6 +28,8 @@ class ReportMainContract {
 
         data class NavigateToMissionDetail(val missionId: Long) : SideEffect
         data object NavigateToSetting : SideEffect
+        data object NavigateToHome : SideEffect
+        data object NavigateToCreateMoodMatch: SideEffect
     }
 
     sealed interface Intent : UiIntent {
@@ -35,6 +37,8 @@ class ReportMainContract {
         data class OnMissionClick(val missionId: Long) : Intent
         data object OnSettingClick : Intent
         data object LoadPreferenceReport : Intent
+        data object OnCheckMissionClick: Intent
+        data object OnCreateMoodMatchClick: Intent
     }
 }
 
