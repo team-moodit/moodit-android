@@ -100,7 +100,7 @@ fun ReportMainScreen(
                 MissionInfoCard(
                     modifier = Modifier.weight(1f),
                     title = "완료한 미션",
-                    content = "${uiState.reportSummary.summary.completedMissionCount}회"
+                    content = "${uiState.reportSummary.summary.reviewedMissionCount}회"
                 )
             }
 

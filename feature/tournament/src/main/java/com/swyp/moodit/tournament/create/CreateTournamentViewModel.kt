@@ -7,6 +7,7 @@ import com.swyp.moodit.model.SelectedPhoto
 import com.swyp.moodit.model.UploadStatus
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -69,6 +70,7 @@ class CreateTournamentViewModel @Inject constructor(
                 tournamentRepository.createMoodMatch(currentState.title, serverIds)) {
                 is Result.Success -> {
                     sendEffect(CreateTournamentContract.SideEffect.NavigateToMatchUp(result.data, true))
+                    delay(2000L)
                 }
 
                 is Result.Error -> {

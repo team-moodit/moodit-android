@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.skydoves.balloon.ArrowPositionRules
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
@@ -53,6 +54,7 @@ fun CreateMoodMatchTooltip() {
                         .padding(vertical = 16.dp),
                     text = "제목은 사진을 고를 때마다 떠올릴 질문이에요.\n구체적으로 쓸수록 고르기 쉬워져요.",
                     style = MooditTheme.typography.caption,
+                    lineHeight = 20.sp,
                     color = MooditTheme.colors.primary,
                     textAlign = TextAlign.Start
                 )

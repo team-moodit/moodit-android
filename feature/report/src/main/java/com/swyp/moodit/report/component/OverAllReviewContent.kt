@@ -91,7 +91,7 @@ fun OverAllReviewContent(
             Spacer(modifier = Modifier.height(24.dp))
 
             ReportPreferenceCard(
-                totalMatchCount = uiState.reportSummary.summary.totalMatchCount,
+                totalMatchCount = uiState.reportSummary.preferenceReport.totalSelectionCount,
                 topPreference = uiState.reportSummary.preferenceReport.topPreference,
                 preferenceDistributions = uiState.top3Distributions
             )

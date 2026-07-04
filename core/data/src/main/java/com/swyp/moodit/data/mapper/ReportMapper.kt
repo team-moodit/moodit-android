@@ -23,7 +23,7 @@ fun PreferenceDetailResponse.toModel(): PreferenceDetail {
 fun SummaryCountResponse.toModel(): SummaryCount {
     return SummaryCount(
         totalMatchCount = this.totalMatchCount,
-        completedMissionCount = this.completedMissionCount
+        reviewedMissionCount = this.reviewedMissionCount
     )
 }
 
@@ -38,7 +38,7 @@ fun SatisfactionSummaryResponse.toModel(): SatisfactionSummary {
 
 fun PreferenceReportResponse.toModel(): PreferenceReport {
     return PreferenceReport(
-        totalSelectionCount = this.totalSelectionCount,
+        totalSelectionCount = this.totalMatchCount,
         topPreference = this.topPreference.toModel(),
         distributions = this.distributions.map { it.toModel() }
     )

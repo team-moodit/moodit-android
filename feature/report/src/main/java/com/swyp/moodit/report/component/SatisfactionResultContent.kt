@@ -28,7 +28,7 @@ fun SatisfactionResultContent(
     onMissionClick: (Long) -> Unit,
     feedbackSubMittedMissions: LazyPagingItems<Mission>
 ) {
-    if (uiState.reportSummary.summary.totalMatchCount == 0L && uiState.reportSummary.summary.completedMissionCount == 0L) {
+    if (uiState.reportSummary.summary.totalMatchCount == 0L && uiState.reportSummary.summary.reviewedMissionCount == 0L) {
         ReportEmptyContent(
             modifier = modifier
                 .fillMaxWidth()
@@ -40,7 +40,7 @@ fun SatisfactionResultContent(
         )
     }
 
-    if (uiState.reportSummary.summary.totalMatchCount != 0L && uiState.reportSummary.summary.completedMissionCount == 0L) {
+    if (uiState.reportSummary.summary.totalMatchCount != 0L && uiState.reportSummary.summary.reviewedMissionCount == 0L) {
         ReportEmptyContent(
             modifier = modifier
                 .fillMaxWidth()
@@ -51,7 +51,7 @@ fun SatisfactionResultContent(
             buttonLabel = "미션 확인하기",
             onButtonClick = { onCheckMissionClick() })
     }
-    if (uiState.reportSummary.summary.completedMissionCount != 0L) {
+    if (uiState.reportSummary.summary.reviewedMissionCount != 0L) {
         LazyVerticalGrid(
             modifier = Modifier
                 .fillMaxWidth()
