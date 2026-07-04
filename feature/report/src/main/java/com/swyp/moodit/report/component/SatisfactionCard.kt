@@ -90,14 +90,14 @@ fun SatisfactionCard(
                         modifier = Modifier
                             .size(8.dp)
                             .background(
-                                color = MooditTheme.colors.borderDefault,
+                                color = if (satisfactionSummary.count == 0L) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
                                 shape = CircleShape
                             )
                     )
 
                     Text(
                         text = "${satisfactionSummary.count}개",
-                        color = MooditTheme.colors.borderDefault,
+                        color = if (satisfactionSummary.count == 0L) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
                         style = MooditTheme.typography.caption
                     )
                 }

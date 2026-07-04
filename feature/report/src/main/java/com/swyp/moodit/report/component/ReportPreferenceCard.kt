@@ -97,14 +97,14 @@ fun ReportPreferenceCard(
                         modifier = Modifier
                             .size(8.dp)
                             .background(
-                                color = MooditTheme.colors.borderDefault,
+                                color = if (totalMatchCount == 0L) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
                                 shape = CircleShape
                             )
                     )
 
                     Text(
                         text = "${totalMatchCount}개",
-                        color = MooditTheme.colors.borderDefault,
+                        color = if (totalMatchCount == 0L) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
                         style = MooditTheme.typography.caption
                     )
                 }
