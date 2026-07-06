@@ -65,14 +65,16 @@ class TournamentMainContract {
 
     sealed interface SideEffect : UiSideEffect {
         data class ShowSnackbar(val message: String) : SideEffect
-        data class NavigateToTournamentDetail(
-            val tournamentId: Long,
-            val tournamentState: TournamentState
+        data class NavigateToInProgressTournamentDetail(
+            val tournamentId: Long
+        ) : SideEffect
+        data class NavigateToCompletedTournamentDetail(
+            val tournamentId: Long
         ) : SideEffect
     }
 
     sealed interface Intent : UiIntent {
-        data class OnTournamentClick(val tournamentId: Long, val tournamentState: TournamentState) :
-            Intent
+        data class OnInProgressTournamentClick(val tournamentId: Long) : Intent
+        data class OnCompletedTournamentClick(val tournamentId: Long) : Intent
     }
 }

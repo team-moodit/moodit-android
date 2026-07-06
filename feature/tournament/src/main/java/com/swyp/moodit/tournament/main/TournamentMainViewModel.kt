@@ -12,12 +12,17 @@ class TournamentMainViewModel @Inject constructor() :
 
     override fun handleIntents(intent: TournamentMainContract.Intent) {
         when (intent) {
-            is TournamentMainContract.Intent.OnTournamentClick -> {
+            is TournamentMainContract.Intent.OnInProgressTournamentClick -> {
                 sendEffect(
-                    TournamentMainContract.SideEffect.NavigateToTournamentDetail(
+                    TournamentMainContract.SideEffect.NavigateToInProgressTournamentDetail(
                         intent.tournamentId,
-                        intent.tournamentState
                     )
+                )
+            }
+
+            is TournamentMainContract.Intent.OnCompletedTournamentClick -> {
+                sendEffect(
+                    TournamentMainContract.SideEffect.NavigateToCompletedTournamentDetail(intent.tournamentId)
                 )
             }
         }

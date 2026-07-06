@@ -1,4 +1,4 @@
-package com.swyp.moodit.tournament.detail
+package com.swyp.moodit.tournament.inProgressDetail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -6,35 +6,33 @@ import androidx.navigation.toRoute
 import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class TournamentDetailViewModel @Inject constructor(
+class InProgressTournamentDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) :
-    BaseViewModel<TournamentDetailContract.State, TournamentDetailContract.Intent, TournamentDetailContract.SideEffect>(
-        initialState = TournamentDetailContract.State()
+    BaseViewModel<InProgressTournamentDetailContract.State, InProgressTournamentDetailContract.Intent, InProgressTournamentDetailContract.SideEffect>(
+        initialState = InProgressTournamentDetailContract.State(
+            tournamentId = savedStateHandle.toRoute<TournamentRoute.InProgressDetail>().tournamentId
+        )
     ) {
 
     private val tournamentId =
-        savedStateHandle.toRoute<TournamentRoute.Detail>().tournamentId
-    private val tournamentState =
-        savedStateHandle.toRoute<TournamentRoute.Detail>().tournamentType
+        savedStateHandle.toRoute<TournamentRoute.InProgressDetail>().tournamentId
 
     init {
         Timber.d("$tournamentId")
-        Timber.d(tournamentState.name)
         loadTournamentInfo()
     }
 
-    override fun handleIntents(intent: TournamentDetailContract.Intent) {
+    override fun handleIntents(intent: InProgressTournamentDetailContract.Intent) {
         when (intent) {
-            is TournamentDetailContract.Intent.OnDeleteTournamentClick -> {
+            is InProgressTournamentDetailContract.Intent.OnDeleteTournamentClick -> {
                 sendEffect(
-                    TournamentDetailContract.SideEffect.ShowSnackbar("토너먼트 삭제하시겠습니까?")
+                    InProgressTournamentDetailContract.SideEffect.ShowSnackbar("토너먼트 삭제하시겠습니까?")
                 )
             }
         }
@@ -43,14 +41,12 @@ class TournamentDetailViewModel @Inject constructor(
     fun loadTournamentInfo() {
         viewModelScope.launch {
             reduce { it.copy(isLoading = true) }
-            delay(2000L)
             val isCompletedTournament = false
 
             reduce {
                 it.copy(
                     isLoading = false,
-                    tournamentId = tournamentId,
-                    isCompleted = isCompletedTournament
+                    tournamentId = tournamentId
                 )
             }
         }

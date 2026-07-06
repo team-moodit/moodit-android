@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
@@ -37,6 +38,7 @@ import com.swyp.moodit.report.component.SatisfactionResultContent
 import com.swyp.moodit.ui.component.mission.MissionInfoCard
 import kotlinx.coroutines.flow.flowOf
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReportMainScreen(
     uiState: ReportMainContract.State,

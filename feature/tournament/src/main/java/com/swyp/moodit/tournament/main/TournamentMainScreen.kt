@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -17,6 +19,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,14 +31,15 @@ import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.component.MooditScaffold
 import com.swyp.moodit.designsystem.component.MooditTopBar
 import com.swyp.moodit.designsystem.theme.MooditTheme
-import com.swyp.moodit.model.tournament.TournamentState
 import com.swyp.moodit.tournament.component.CompletedTournamentItem
 import com.swyp.moodit.tournament.component.InProgressTournamentItem
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TournamentMainScreen(
     uiState: TournamentMainContract.State,
-    onTournamentClick: (Long, TournamentState) -> Unit,
+    onInProgressTournamentClick: (Long) -> Unit,
+    onCompletedTournamentClick: (Long) -> Unit,
     onSettingClick: () -> Unit
 ) {
     MooditScaffold(
@@ -117,9 +121,8 @@ fun TournamentMainScreen(
                     InProgressTournamentItem(
                         inProgressTournament = inProgressTournament,
                         onTournamentClick = {
-                            onTournamentClick(
-                                inProgressTournament.id,
-                                TournamentState.IN_PROGRESS
+                            onInProgressTournamentClick(
+                                inProgressTournament.id
                             )
                         }
                     )
@@ -164,7 +167,7 @@ fun TournamentMainScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                contentPadding = PaddingValues(bottom = 6.dp),
+                contentPadding = PaddingValues(bottom = innerPadding.calculateBottomPadding() + 40.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp),
                 columns = GridCells.Fixed(2)
@@ -176,9 +179,8 @@ fun TournamentMainScreen(
                     CompletedTournamentItem(
                         completedTournament = completedTournament,
                         onTournamentClick = {
-                            onTournamentClick(
+                            onCompletedTournamentClick(
                                 completedTournament.id,
-                                TournamentState.COMPLETED
                             )
                         }
                     )

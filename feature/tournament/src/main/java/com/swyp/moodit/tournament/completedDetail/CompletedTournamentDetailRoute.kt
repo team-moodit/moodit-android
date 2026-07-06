@@ -1,4 +1,4 @@
-package com.swyp.moodit.tournament.main
+package com.swyp.moodit.tournament.completedDetail
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,31 +13,24 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
+import com.swyp.moodit.tournament.inProgressDetail.InProgressTournamentDetailContract
+import com.swyp.moodit.tournament.inProgressDetail.InProgressTournamentDetailScreen
+import com.swyp.moodit.tournament.inProgressDetail.InProgressTournamentDetailViewModel
 
 @Composable
-fun TournamentMainRoute(
-    viewModel: TournamentMainViewModel = hiltViewModel(),
-    onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
-    navigateToInProgressTournamentDetail: (Long) -> Unit,
-    navigateToCompletedTournamentDetail: (Long) -> Unit
+fun CompletedTournamentDetailRoute(
+    viewModel: CompletedTournamentDetailViewModel = hiltViewModel(),
+    onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
-                is TournamentMainContract.SideEffect.ShowSnackbar -> onShowSnackbar(
+                is CompletedTournamentDetailContract.SideEffect.ShowSnackbar -> onShowSnackbar(
                     sideEffect.message,
                     null
                 )
-
-                is TournamentMainContract.SideEffect.NavigateToInProgressTournamentDetail -> {
-                    navigateToInProgressTournamentDetail(sideEffect.tournamentId)
-                }
-
-                is TournamentMainContract.SideEffect.NavigateToCompletedTournamentDetail -> {
-                    navigateToCompletedTournamentDetail(sideEffect.tournamentId)
-                }
             }
         }
     }
@@ -58,19 +51,9 @@ fun TournamentMainRoute(
         }
 
         else -> {
-            TournamentMainScreen(
+            CompletedTournamentDetailScreen(
                 uiState = uiState,
-                onInProgressTournamentClick = { id ->
-                    viewModel.sendIntent(
-                        TournamentMainContract.Intent.OnInProgressTournamentClick(id)
-                    )
-                },
-                onCompletedTournamentClick = { id ->
-                    viewModel.sendIntent(
-                        TournamentMainContract.Intent.OnCompletedTournamentClick(id)
-                    )
-                },
-                onSettingClick = {}
+                onTabClick = { viewModel.sendIntent(CompletedTournamentDetailContract.Intent.SelectTab(it)) }
             )
         }
     }
