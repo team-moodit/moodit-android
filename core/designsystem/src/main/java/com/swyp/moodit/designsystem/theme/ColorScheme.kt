@@ -47,22 +47,22 @@ val lightColorScheme = CustomColorScheme(
 )
 
 val darkColorScheme = CustomColorScheme(
-    primary = Green400,
-    onPrimary = Gray1100,
-    primaryContainer = Green900,
-    onPrimaryContainer = Green10,
-    secondary = Green400.copy(alpha = 0.15f),
-    onSecondary = Green400,
-    tertiary = Gray800,
-    onTertiary = Gray600,
+    primary = Green500,
+    onPrimary = Gray1000,
+    primaryContainer = Gray1000,
+    onPrimaryContainer = Gray100,
+    secondary = Green500.copy(alpha = 0.1f),
+    onSecondary = Green500,
+    tertiary = Gray200,
+    onTertiary = Gray300,
     background = Gray1100,
     onBackground = Gray100,
-    surface = Gray900,
-    onSurface = Gray200,
-    surfaceContainer = Gray1000,
-    onSurfaceContainer = Gray300,
+    surface = Gray500,
+    onSurface = Gray700,
+    surfaceContainer = Gray900,
+    onSurfaceContainer = Gray800,
     error = error,
-    borderDefault = Gray800,
+    borderDefault = Gray600,
     textSecondary = Gray400,
-    scrim = Color.Black.copy(alpha = 0.6f)
+    scrim = Color.Black.copy(alpha = 0.5f)
 )

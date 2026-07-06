@@ -25,6 +25,7 @@ fun MooditTag(
         )
         .padding(horizontal = 12.dp, vertical = 10.dp),
     textStyle: TextStyle = MooditTheme.typography.caption,
+    textColor: Color = MooditTheme.colors.primary,
     content: String
 ) {
     Surface(
@@ -33,7 +34,7 @@ fun MooditTag(
     ) {
         Text(
             text = content,
-            color = MooditTheme.colors.primary,
+            color = textColor,
             style = textStyle
         )
     }
