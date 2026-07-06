@@ -53,7 +53,8 @@ fun CompletedTournamentDetailRoute(
         else -> {
             CompletedTournamentDetailScreen(
                 uiState = uiState,
-                onTabClick = { viewModel.sendIntent(CompletedTournamentDetailContract.Intent.SelectTab(it)) }
+                onTabClick = { viewModel.sendIntent(CompletedTournamentDetailContract.Intent.SelectTab(it)) },
+                onMissionDeleteClick = {}
             )
         }
     }

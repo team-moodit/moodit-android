@@ -31,9 +31,10 @@ class CompletedTournamentDetailContract {
                 "16"
             ),
             missionInfo = Mission(
+                missionTitle = "후부와 비슷한 색감으로\n하루 코디해보기",
                 matchResult = MissionMatchResult(
                     matchTitle = "무드매치",
-                    matchCompletedAt = "2023-01-01"
+                    matchCompletedAt = "2023-01-01",
                 )
             )
         ),

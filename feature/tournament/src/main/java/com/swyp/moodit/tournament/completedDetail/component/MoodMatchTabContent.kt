@@ -1,4 +1,4 @@
-package com.swyp.moodit.tournament.completedDetail
+package com.swyp.moodit.tournament.completedDetail.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -42,6 +43,7 @@ import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.component.MooditTag
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.PreferenceResultType
+import com.swyp.moodit.tournament.completedDetail.CompletedTournamentDetailContract
 
 @Composable
 fun MoodMatchTabContent(
@@ -106,10 +108,14 @@ fun MoodMatchTabContent(
         }
 
         item(span = { GridItemSpan(maxLineSpan) }) {
-            Column(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Text(
                     text = uiState.tournamentDetail.missionInfo.matchResult.matchTitle,
-                    style = MooditTheme.typography.h3, color = MooditTheme.colors.onBackground
+                    style = MooditTheme.typography.h3,
+                    color = MooditTheme.colors.onBackground
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))
@@ -249,5 +255,16 @@ fun MoodMatchTabContent(
         item(span = { GridItemSpan(maxLineSpan) }) {
             Spacer(modifier = Modifier.height(20.dp))
         }
+    }
+}
+
+@Preview
+@Composable
+fun MoodMatchTabContentPreview() {
+    MooditTheme {
+        MoodMatchTabContent(
+            innerPadding = PaddingValues(),
+            uiState = CompletedTournamentDetailContract.State()
+        )
     }
 }
