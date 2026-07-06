@@ -13,7 +13,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.swyp.moodit.designsystem.component.MooditDialog
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
+import com.swyp.moodit.designsystem.component.button.MooditFilledButton
+import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.MissionStatus
 
 @Composable
@@ -78,6 +81,26 @@ fun HomeMainRoute(
                     )
                 }
             )
+
+            if (uiState.showResumeTournamentDialog) {
+                MooditDialog(
+                    title = "이어서 진행할 무드매치가 있어요",
+                    description = "마지막 선택 지점부터 다시 시작해요."
+                ) {
+                    MooditFilledButton(
+                        onClick = { /* TODO */},
+                        modifier = Modifier.weight(1f),
+                        text = "나중에",
+                        containerColor = MooditTheme.colors.surfaceContainer,
+                        contentColor = MooditTheme.colors.textSecondary
+                    )
+                    MooditFilledButton(
+                        onClick = { /* TODO */ },
+                        modifier = Modifier.weight(1f),
+                        text = "이어하기"
+                    )
+                }
+            }
         }
     }
 }

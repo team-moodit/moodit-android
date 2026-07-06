@@ -5,6 +5,7 @@ import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.mapper.toModel
 import com.swyp.moodit.data.mapper.toNetworkRequest
 import com.swyp.moodit.data.repository.TournamentRepository
+import com.swyp.moodit.datastore.userPreference.UserPreferencesDataStore
 import com.swyp.moodit.model.MatchUpInfo
 import com.swyp.moodit.model.MatchUpResult
 import com.swyp.moodit.model.PartType
@@ -17,6 +18,7 @@ import com.swyp.moodit.network.model.getOrThrow
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchRequest
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitRequest
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -26,26 +28,10 @@ import javax.inject.Inject
 internal class TournamentRepositoryImpl @Inject constructor(
     private val imageProcessor: ImageProcessor,
     private val mooditApi: MooditApi,
-    private val s3Api: S3Api
+    private val s3Api: S3Api,
+    private val userDataStore: UserPreferencesDataStore
 ) : TournamentRepository {
-    /* override suspend fun uploadImage(photo: SelectedPhoto): Result<SelectedPhoto> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val filePart = imageProcessor.toMultiPartBody(photo.uri)
-                    ?: throw IllegalArgumentException("파일 변환 실패")
-                val response =
-                    mooditApi.uploadFile(resourceType = PartType.MATCH.name, file = filePart)
-                        .getOrThrow()
-                val uploadedPhoto = photo.copy(
-                    serverId = response.id,
-                    status = UploadStatus.Success(response.fileUrl)
-                )
-                Result.Success(uploadedPhoto)
-            } catch (e: Exception) {
-                Result.Error(e)
-            }
-        }
-    } */
+    override val onGoingTournamentId: Flow<Long> = userDataStore.onGoingTournamentId
 
     override suspend fun uploadImage(photo: SelectedPhoto): Result<SelectedPhoto> {
         return withContext(Dispatchers.IO) {
@@ -103,6 +89,15 @@ internal class TournamentRepositoryImpl @Inject constructor(
     ): Result<Unit> {
         try {
             mooditApi.saveMatchUp(matchId, selectedMatchUpIds.toNetworkRequest()).getOrThrow()
+            return Result.Success(Unit)
+        } catch (e: Exception) {
+            return Result.Error(e)
+        }
+    }
+
+    override suspend fun setOnGoingTournamentId(tournamentId: Long): Result<Unit> {
+        try {
+            userDataStore.setOnGoingTournamentId(tournamentId)
             return Result.Success(Unit)
         } catch (e: Exception) {
             return Result.Error(e)

@@ -14,7 +14,9 @@ class HomeMainContract {
         val isLoading: Boolean = false,
         val inProgressMissions: Flow<PagingData<Mission>> = flowOf(PagingData.empty()),
         val completedMissions: Flow<PagingData<Mission>> = flowOf(PagingData.empty()),
-        val feedbackSubMittedMissions: Flow<PagingData<Mission>> = flowOf(PagingData.empty())
+        val feedbackSubMittedMissions: Flow<PagingData<Mission>> = flowOf(PagingData.empty()),
+        val showResumeTournamentDialog: Boolean = false,
+        val resumeTournamentId: Long = -1L
     ) : UiState
 
     sealed interface SideEffect : UiSideEffect {

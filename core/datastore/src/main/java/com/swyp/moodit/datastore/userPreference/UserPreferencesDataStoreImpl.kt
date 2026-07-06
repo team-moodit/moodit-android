@@ -26,6 +26,11 @@ class UserPreferencesDataStoreImpl @Inject constructor(
             preferences[PreferencesKey.Nickname] ?: ""
         }
 
+    override val onGoingTournamentId: Flow<Long>
+        get() = dataStore.data.map { preferences ->
+            preferences[PreferencesKey.OnGoingTournamentId] ?: -1L
+        }
+
     override suspend fun setOnBoardingCompleted(completed: Boolean) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.OnBoarding_Completed] = completed
@@ -41,6 +46,18 @@ class UserPreferencesDataStoreImpl @Inject constructor(
     override suspend fun setNickname(nickname: String) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.Nickname] = nickname
+        }
+    }
+
+    override suspend fun setOnGoingTournamentId(tournamentId: Long) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.OnGoingTournamentId] = tournamentId
+        }
+    }
+
+    override suspend fun clearOnGoingTournamentId() {
+        dataStore.edit { preferences ->
+            preferences.remove(PreferencesKey.OnGoingTournamentId)
         }
     }
 }

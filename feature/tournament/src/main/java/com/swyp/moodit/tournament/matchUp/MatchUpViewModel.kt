@@ -206,6 +206,7 @@ class MatchUpViewModel @Inject constructor(
         if (currentState.matchUpInfo.isCompleted) {
             getMatchUpResult()
         } else {
+            setOnGoingTournamentId(tournamentId)
             getTournamentInfo(isSilentRefresh = true)
         }
         //sendEffect(MatchUpContract.SideEffect.ShowSnackbar("진행 상황이 저장됐어요"))
@@ -213,5 +214,21 @@ class MatchUpViewModel @Inject constructor(
 
     private fun updateRetryDialogState(showRetryDialog: Boolean) {
         reduce { it.copy(showRetryDialog = showRetryDialog) }
+    }
+
+    private fun setOnGoingTournamentId(tournamentId: Long) {
+        viewModelScope.launch {
+            when (val result = tournamentRepository.setOnGoingTournamentId(tournamentId)) {
+                is Result.Success -> {}
+                is Result.Error -> {
+                    sendEffect(
+                        MatchUpContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "진행 중인 토너먼트 ID 저장에 실패했습니다.",
+                            MooditSnackbarType.ERROR
+                        )
+                    )
+                }
+            }
+        }
     }
 }
