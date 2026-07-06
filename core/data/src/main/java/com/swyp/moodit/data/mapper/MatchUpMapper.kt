@@ -99,7 +99,7 @@ fun SelectedMatchUpIds.toNetworkRequest(): SaveMatchUpRequest {
 fun MissionSuggestionResponse.toModel(): MissionSuggestion {
     return MissionSuggestion(
         id = this.id,
-        title = this.title
+        title = this.title.replace("\\n", "\n")
     )
 }
 

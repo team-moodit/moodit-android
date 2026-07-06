@@ -150,7 +150,7 @@ fun TournamentResultScreen(
             )
 
             Text(
-                text = "미션을 통해\n내가 중요하게 생각하는 기준을 알아볼까요?",
+                text = "미션을 통해 내가 중요하게\n생각하는 기준을 알아볼까요?",
                 color = MooditTheme.colors.onPrimaryContainer,
                 style = MooditTheme.typography.b1Large,
                 modifier = Modifier
@@ -195,7 +195,7 @@ fun TournamentResultScreen(
                 ) {
                     uiState.moodMatchResult.missionSuggestions.forEach { mission ->
                         MooditSelectableButton(
-                            content = mission.title,
+                            content = mission.title.replace("\n",""),
                             isSelected = mission.id == uiState.selectedMission?.id,
                             onItemClick = { onSelectMission(mission) })
                     }
