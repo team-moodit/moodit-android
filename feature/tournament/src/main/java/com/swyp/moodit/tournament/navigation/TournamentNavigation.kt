@@ -19,6 +19,7 @@ fun NavGraphBuilder.tournamentNavGraph(
     navController: NavController,
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
     navigateToMissionDetail: (Long, MissionStatus) -> Unit,
+    navigateToSetting: () -> Unit,
     popBackStack: () -> Unit,
 ) {
     composable<BottomBarRoute.Tournament> {
@@ -33,7 +34,8 @@ fun NavGraphBuilder.tournamentNavGraph(
                 navController.navigateToCompletedTournamentDetail(
                     tournamentId = id
                 )
-            }
+            },
+            navigateToSetting = navigateToSetting
         )
     }
 

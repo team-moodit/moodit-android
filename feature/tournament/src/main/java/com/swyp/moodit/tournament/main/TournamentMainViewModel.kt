@@ -1,5 +1,6 @@
 package com.swyp.moodit.tournament.main
 
+import androidx.compose.ui.test.isOn
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -24,6 +25,10 @@ class TournamentMainViewModel @Inject constructor() :
                 sendEffect(
                     TournamentMainContract.SideEffect.NavigateToCompletedTournamentDetail(intent.tournamentId)
                 )
+            }
+
+            is TournamentMainContract.Intent.OnSettingClick -> {
+                sendEffect(TournamentMainContract.SideEffect.NavigateToSetting)
             }
         }
     }

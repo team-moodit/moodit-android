@@ -50,7 +50,7 @@ fun TournamentMainScreen(
                 textAlign = TextAlign.Center,
                 title = {
                     Text(
-                        text = "리포트",
+                        text = "무드매치",
                         style = MooditTheme.typography.h2,
                         color = MooditTheme.colors.onPrimaryContainer
                     )

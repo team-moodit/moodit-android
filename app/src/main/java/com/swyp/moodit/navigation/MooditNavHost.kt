@@ -63,6 +63,7 @@ fun MooditNavHost(
                     status
                 )
             },
+            navigateToSetting = { appState.navigateToSetting() },
             popBackStack = { appState.popBackStack() }
         )
 

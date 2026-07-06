@@ -71,10 +71,12 @@ class TournamentMainContract {
         data class NavigateToCompletedTournamentDetail(
             val tournamentId: Long
         ) : SideEffect
+        data object NavigateToSetting : SideEffect
     }
 
     sealed interface Intent : UiIntent {
         data class OnInProgressTournamentClick(val tournamentId: Long) : Intent
         data class OnCompletedTournamentClick(val tournamentId: Long) : Intent
+        data object OnSettingClick: Intent
     }
 }

@@ -19,7 +19,8 @@ fun TournamentMainRoute(
     viewModel: TournamentMainViewModel = hiltViewModel(),
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
     navigateToInProgressTournamentDetail: (Long) -> Unit,
-    navigateToCompletedTournamentDetail: (Long) -> Unit
+    navigateToCompletedTournamentDetail: (Long) -> Unit,
+    navigateToSetting: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -37,6 +38,10 @@ fun TournamentMainRoute(
 
                 is TournamentMainContract.SideEffect.NavigateToCompletedTournamentDetail -> {
                     navigateToCompletedTournamentDetail(sideEffect.tournamentId)
+                }
+
+                is TournamentMainContract.SideEffect.NavigateToSetting -> {
+                    navigateToSetting()
                 }
             }
         }
@@ -70,7 +75,9 @@ fun TournamentMainRoute(
                         TournamentMainContract.Intent.OnCompletedTournamentClick(id)
                     )
                 },
-                onSettingClick = {}
+                onSettingClick = {
+                    viewModel.sendIntent(TournamentMainContract.Intent.OnSettingClick)
+                }
             )
         }
     }
