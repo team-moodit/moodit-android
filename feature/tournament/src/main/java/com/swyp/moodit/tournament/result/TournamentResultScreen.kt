@@ -106,7 +106,7 @@ fun TournamentResultScreen(
                             TextUtil.attachParticle(
                                 uiState.moodMatchResult.matchResult.matchPreferenceTypeTitle
                             )
-                        }를 가장 중요하게 생각했어요"
+                        } 가장 중요하게 생각했어요"
                     }
                 Box(
                     modifier = Modifier
