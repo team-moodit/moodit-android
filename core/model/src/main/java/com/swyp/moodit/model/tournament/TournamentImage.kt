@@ -1,6 +1,6 @@
 package com.swyp.moodit.model.tournament
 
 data class TournamentImage(
-    val id: Long,
-    val photoUri: String
+    val id: Long = -1L,
+    val photoUri: String = ""
 )
