@@ -10,9 +10,11 @@ import com.swyp.moodit.network.model.mission.MissionSatisfactionRequest
 import com.swyp.moodit.network.model.report.ReportSummaryResponse
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchRequest
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchResponse
+import com.swyp.moodit.network.model.tournament.InProgressMatchDetailResponse
 import com.swyp.moodit.network.model.tournament.MatchUpResultResponse
 import com.swyp.moodit.network.model.tournament.MissionOfferRequest
 import com.swyp.moodit.network.model.tournament.MissionOfferResponse
+import com.swyp.moodit.network.model.tournament.PagingMoodMatchesResponse
 import com.swyp.moodit.network.model.tournament.PresignedUrlResponse
 import com.swyp.moodit.network.model.tournament.UploadFileResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitRequest
@@ -76,6 +78,19 @@ interface MooditApi {
     suspend fun getMatchUpResult(
         @Path("matchId") matchId: Long
     ): Response<BaseResponse<MatchUpResultResponse>>
+
+    @GET("v1/matches/moodtab/")
+    suspend fun getPagingMoodMatches(
+        @Query("inProgressPage") inProgressPage: Int,
+        @Query("inProgressSize") inProgressSize: Int,
+        @Query("completedPage") completedPage: Int,
+        @Query("completedSize") completedSize: Int,
+    ): Response<BaseResponse<PagingResult<PagingMoodMatchesResponse>>>
+
+    @GET("v1/matches/{matchId}/progress")
+    suspend fun getMatchUpProgressDetail(
+        @Path("matchId") matchId: Long
+    ): Response<BaseResponse<InProgressMatchDetailResponse>>
 
     // User
     @GET("v1/settings/privacy/info")
