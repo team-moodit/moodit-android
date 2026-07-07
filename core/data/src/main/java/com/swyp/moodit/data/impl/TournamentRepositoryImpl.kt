@@ -12,6 +12,7 @@ import com.swyp.moodit.model.PartType
 import com.swyp.moodit.model.SelectedMatchUpIds
 import com.swyp.moodit.model.SelectedPhoto
 import com.swyp.moodit.model.UploadStatus
+import com.swyp.moodit.model.tournament.InProgressTournamentDetail
 import com.swyp.moodit.network.api.MooditApi
 import com.swyp.moodit.network.api.S3Api
 import com.swyp.moodit.network.model.getOrThrow
@@ -125,6 +126,15 @@ internal class TournamentRepositoryImpl @Inject constructor(
     override suspend fun getMatchUpResult(matchId: Long): Result<MatchUpResult> {
         try {
             val response = mooditApi.getMatchUpResult(matchId).getOrThrow()
+            return Result.Success(response.toModel())
+        } catch (e: Exception) {
+            return Result.Error(e)
+        }
+    }
+
+    override suspend fun getInProgressTournamentDetail(matchId: Long): Result<InProgressTournamentDetail> {
+        try {
+            val response = mooditApi.getMatchUpProgressDetail(matchId).getOrThrow()
             return Result.Success(response.toModel())
         } catch (e: Exception) {
             return Result.Error(e)

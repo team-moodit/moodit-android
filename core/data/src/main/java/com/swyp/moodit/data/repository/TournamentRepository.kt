@@ -6,6 +6,7 @@ import com.swyp.moodit.model.MatchUpResult
 import com.swyp.moodit.model.MoodMatchResult
 import com.swyp.moodit.model.SelectedMatchUpIds
 import com.swyp.moodit.model.SelectedPhoto
+import com.swyp.moodit.model.tournament.InProgressTournamentDetail
 import kotlinx.coroutines.flow.Flow
 
 interface TournamentRepository {
@@ -18,4 +19,5 @@ interface TournamentRepository {
     suspend fun getMatchUpResult(matchId: Long): Result<MatchUpResult>
     suspend fun setOnGoingTournamentId(tournamentId: Long): Result<Unit>
     suspend fun clearOnGoingTournamentId(): Result<Unit>
+    suspend fun getInProgressTournamentDetail(matchId: Long): Result<InProgressTournamentDetail>
 }
