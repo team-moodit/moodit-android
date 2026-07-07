@@ -1,10 +1,15 @@
 package com.swyp.moodit.model.tournament
 
-import com.swyp.moodit.model.Mission
-import com.swyp.moodit.model.MissionMatchResult
-
 data class CompletedTournamentDetail(
-    val id: Long = 0L,
-    val imageUris: List<String> = emptyList(),
-    val missionInfo: Mission = Mission()
+    val title: String = "",
+    val winnerImage: TournamentImage = TournamentImage(),
+    val imageUris: List<TournamentImage> = emptyList(),
+    val preferenceResult: PreferenceResult = PreferenceResult(),
+    val completedAt: String = "",
+
+    )
+
+data class PreferenceResult(
+    val preferenceType: String = "",
+    val preferenceDetailType: String = ""
 )
