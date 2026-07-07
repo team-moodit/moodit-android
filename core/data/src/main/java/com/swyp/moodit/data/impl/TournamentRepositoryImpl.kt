@@ -1,9 +1,13 @@
 package com.swyp.moodit.data.impl
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.swyp.moodit.common.util.ImageProcessor
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.mapper.toModel
 import com.swyp.moodit.data.mapper.toNetworkRequest
+import com.swyp.moodit.data.paging.InProgressTournamentPagingSource
 import com.swyp.moodit.data.repository.TournamentRepository
 import com.swyp.moodit.datastore.userPreference.UserPreferencesDataStore
 import com.swyp.moodit.model.MatchUpInfo
@@ -12,6 +16,7 @@ import com.swyp.moodit.model.PartType
 import com.swyp.moodit.model.SelectedMatchUpIds
 import com.swyp.moodit.model.SelectedPhoto
 import com.swyp.moodit.model.UploadStatus
+import com.swyp.moodit.model.tournament.InProgressTournament
 import com.swyp.moodit.model.tournament.InProgressTournamentDetail
 import com.swyp.moodit.network.api.MooditApi
 import com.swyp.moodit.network.api.S3Api
@@ -33,6 +38,14 @@ internal class TournamentRepositoryImpl @Inject constructor(
     private val userDataStore: UserPreferencesDataStore
 ) : TournamentRepository {
     override val onGoingTournamentId: Flow<Long> = userDataStore.onGoingTournamentId
+
+    override fun getPagingInProgressTournaments(): Flow<PagingData<InProgressTournament>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = MATCH_PAGE_SIZE, enablePlaceholders = false
+            ), pagingSourceFactory = { InProgressTournamentPagingSource(mooditApi) }
+        ).flow
+    }
 
     override suspend fun uploadImage(photo: SelectedPhoto): Result<SelectedPhoto> {
         return withContext(Dispatchers.IO) {
@@ -139,5 +152,9 @@ internal class TournamentRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             return Result.Error(e)
         }
+    }
+
+    companion object {
+        const val MATCH_PAGE_SIZE = 5
     }
 }

@@ -1,16 +1,18 @@
 package com.swyp.moodit.data.repository
 
+import androidx.paging.PagingData
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.model.MatchUpInfo
 import com.swyp.moodit.model.MatchUpResult
-import com.swyp.moodit.model.MoodMatchResult
 import com.swyp.moodit.model.SelectedMatchUpIds
 import com.swyp.moodit.model.SelectedPhoto
+import com.swyp.moodit.model.tournament.InProgressTournament
 import com.swyp.moodit.model.tournament.InProgressTournamentDetail
 import kotlinx.coroutines.flow.Flow
 
 interface TournamentRepository {
     val onGoingTournamentId: Flow<Long>
+    fun getPagingInProgressTournaments(): Flow<PagingData<InProgressTournament>>
     suspend fun uploadImage(photo: SelectedPhoto): Result<SelectedPhoto>
     suspend fun createMoodMatch(title: String, imageIds: List<Long>): Result<Long>
     suspend fun getMatchUpInitInfo(matchId: Long): Result<MatchUpInfo>
