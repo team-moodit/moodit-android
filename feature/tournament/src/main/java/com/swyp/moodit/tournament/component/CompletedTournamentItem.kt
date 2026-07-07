@@ -58,7 +58,7 @@ fun CompletedTournamentItem(
                     .aspectRatio(158f / 182f)
             ) {
                 AsyncImage(
-                    model = completedTournament.missionInfo.matchResult.imageUrl,
+                    model = completedTournament.winnerImage,
                     contentDescription = "match_result_image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -86,7 +86,7 @@ fun CompletedTournamentItem(
             }
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = completedTournament.missionInfo.matchResult.matchTitle,
+                text = completedTournament.title,
                 style = MooditTheme.typography.b2Small,
                 color = MooditTheme.colors.tertiary,
                 textAlign = TextAlign.Start
@@ -100,13 +100,7 @@ fun CompletedTournamentItem(
 fun CompletedTournamentDetailPreview() {
     MooditTheme {
         CompletedTournamentItem(
-            completedTournament = CompletedTournamentDetail(
-                missionInfo = Mission(
-                    matchResult = MissionMatchResult(
-                        matchTitle = "봄에 입고 싶은 데일리룩"
-                    )
-                )
-            ),
+            completedTournament = CompletedTournamentDetail(),
             onTournamentClick = {}
         )
     }

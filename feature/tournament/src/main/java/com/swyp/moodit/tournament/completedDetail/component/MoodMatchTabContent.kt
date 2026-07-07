@@ -71,7 +71,7 @@ fun MoodMatchTabContent(
                 contentAlignment = Alignment.BottomCenter
             ) {
                 AsyncImage(
-                    model = null,
+                    model = uiState.tournamentDetail.winnerImage,
                     contentDescription = null,
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,
@@ -114,7 +114,7 @@ fun MoodMatchTabContent(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = uiState.tournamentDetail.missionInfo.matchResult.matchTitle,
+                    text = uiState.tournamentDetail.title,
                     style = MooditTheme.typography.h2,
                     color = MooditTheme.colors.onBackground,
                     textAlign = TextAlign.Center
@@ -122,6 +122,7 @@ fun MoodMatchTabContent(
 
                 Spacer(modifier = Modifier.height(32.dp))
 
+                /*
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -179,7 +180,7 @@ fun MoodMatchTabContent(
                         color = MooditTheme.colors.tertiary,
                         style = MooditTheme.typography.b3Medium
                     )
-                }
+                } */
 
                 Spacer(modifier = Modifier.height(8.dp))
 
@@ -201,7 +202,7 @@ fun MoodMatchTabContent(
                         color = MooditTheme.colors.textSecondary
                     )
                     Text(
-                        text = uiState.tournamentDetail.missionInfo.matchResult.matchCompletedAt.toFormatDate(),
+                        text = uiState.tournamentDetail.completedAt.toFormatDate(),
                         style = MooditTheme.typography.b3Medium,
                         color = MooditTheme.colors.onPrimaryContainer
                     )
@@ -223,7 +224,7 @@ fun MoodMatchTabContent(
                     color = MooditTheme.colors.onPrimaryContainer
                 )
                 MooditTag(
-                    content = "16장",
+                    content = "${uiState.tournamentDetail.imageUris.size}장",
                     modifier = Modifier
                         .wrapContentSize()
                         .border(

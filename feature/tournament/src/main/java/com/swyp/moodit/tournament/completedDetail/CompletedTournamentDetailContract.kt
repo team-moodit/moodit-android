@@ -11,33 +11,7 @@ class CompletedTournamentDetailContract {
     data class State(
         val isLoading: Boolean = false,
         val tournamentId: Long = 0L,
-        val tournamentDetail: CompletedTournamentDetail = CompletedTournamentDetail(
-            imageUris = listOf(
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-                "6",
-                "7",
-                "8",
-                "9",
-                "10",
-                "11",
-                "12",
-                "13",
-                "14",
-                "15",
-                "16"
-            ),
-            missionInfo = Mission(
-                missionTitle = "후부와 비슷한 색감으로\n하루 코디해보기",
-                matchResult = MissionMatchResult(
-                    matchTitle = "무드매치",
-                    matchCompletedAt = "2023-01-01",
-                )
-            )
-        ),
+        val tournamentDetail: CompletedTournamentDetail = CompletedTournamentDetail(),
         val selectedTab: CompletedTournamentTab = CompletedTournamentTab.MOOD_MATCH
     ) : UiState
 

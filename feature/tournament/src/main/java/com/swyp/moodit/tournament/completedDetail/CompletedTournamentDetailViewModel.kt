@@ -3,17 +3,18 @@ package com.swyp.moodit.tournament.completedDetail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.swyp.moodit.common.util.Result
+import com.swyp.moodit.data.repository.TournamentRepository
 import com.swyp.moodit.navigation.TournamentRoute
-import com.swyp.moodit.tournament.inProgressDetail.InProgressTournamentDetailContract
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class CompletedTournamentDetailViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    private val tournamentRepository: TournamentRepository
 ) :
     BaseViewModel<CompletedTournamentDetailContract.State, CompletedTournamentDetailContract.Intent, CompletedTournamentDetailContract.SideEffect>(
         initialState = CompletedTournamentDetailContract.State(
@@ -25,7 +26,6 @@ class CompletedTournamentDetailViewModel @Inject constructor(
         savedStateHandle.toRoute<TournamentRoute.InProgressDetail>().tournamentId
 
     init {
-        Timber.d("$tournamentId")
         loadTournamentInfo()
     }
 
@@ -38,14 +38,19 @@ class CompletedTournamentDetailViewModel @Inject constructor(
     fun loadTournamentInfo() {
         viewModelScope.launch {
             reduce { it.copy(isLoading = true) }
-            val isCompletedTournament = false
+            when (val result = tournamentRepository.getCompletedTournamentDetail(tournamentId)) {
+                is Result.Success -> {
+                    reduce { it.copy(tournamentDetail = result.data) }
+                }
 
-            reduce {
-                it.copy(
-                    isLoading = false,
-                    tournamentId = tournamentId
-                )
+                is Result.Error -> {
+                    sendEffect(
+                        CompletedTournamentDetailContract.SideEffect.ShowSnackbar("완료된 무드매치 정보 조회에 실패했습니다.")
+                    )
+                }
             }
+
+            reduce { it.copy(isLoading = false) }
         }
     }
 

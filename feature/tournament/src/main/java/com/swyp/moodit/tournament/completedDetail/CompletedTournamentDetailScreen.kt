@@ -24,8 +24,8 @@ fun CompletedTournamentDetailScreen(
         CompletedTournamentTabRow(
             selectedTab = uiState.selectedTab, onTabClick = onTabClick
         )
-    }, bottomBar = {
-        if (uiState.selectedTab == CompletedTournamentTab.MISSION) {
+    }, /*bottomBar = {
+        /*if (uiState.selectedTab == CompletedTournamentTab.MISSION) {
             when (uiState.tournamentDetail.missionInfo.missionState) {
                 MissionState.IN_PROGRESS -> MooditFilledButton(
                     modifier = Modifier.padding(
@@ -40,10 +40,10 @@ fun CompletedTournamentDetailScreen(
                 )
 
                 MissionState.REVIEWED -> null
-            }
+            } */
 
-        }
-    }) { innerPadding ->
+        }}*/
+    ) { innerPadding ->
         when (uiState.selectedTab) {
             CompletedTournamentTab.MOOD_MATCH -> MoodMatchTabContent(innerPadding, uiState)
             CompletedTournamentTab.MISSION -> MissionTabContent(
