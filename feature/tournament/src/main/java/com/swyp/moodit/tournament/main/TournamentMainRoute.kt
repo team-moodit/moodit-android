@@ -11,7 +11,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 
 @Composable
@@ -23,6 +26,7 @@ fun TournamentMainRoute(
     navigateToSetting: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val inProgressTournaments = uiState.inProgressTournaments.collectAsLazyPagingItems()
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { sideEffect ->
@@ -47,6 +51,11 @@ fun TournamentMainRoute(
         }
     }
 
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        inProgressTournaments.refresh()
+    }
+
+
     when {
         uiState.isLoading -> {
             Box(
@@ -65,6 +74,7 @@ fun TournamentMainRoute(
         else -> {
             TournamentMainScreen(
                 uiState = uiState,
+                inProgressTournaments = inProgressTournaments,
                 onInProgressTournamentClick = { id ->
                     viewModel.sendIntent(
                         TournamentMainContract.Intent.OnInProgressTournamentClick(id)

@@ -8,10 +8,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -27,10 +25,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
 import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.component.MooditScaffold
 import com.swyp.moodit.designsystem.component.MooditTopBar
 import com.swyp.moodit.designsystem.theme.MooditTheme
+import com.swyp.moodit.model.tournament.InProgressTournament
 import com.swyp.moodit.tournament.component.CompletedTournamentItem
 import com.swyp.moodit.tournament.component.InProgressTournamentItem
 
@@ -38,6 +38,7 @@ import com.swyp.moodit.tournament.component.InProgressTournamentItem
 @Composable
 fun TournamentMainScreen(
     uiState: TournamentMainContract.State,
+    inProgressTournaments: LazyPagingItems<InProgressTournament>,
     onInProgressTournamentClick: (Long) -> Unit,
     onCompletedTournamentClick: (Long) -> Unit,
     onSettingClick: () -> Unit
@@ -95,14 +96,14 @@ fun TournamentMainScreen(
                         modifier = Modifier
                             .size(8.dp)
                             .background(
-                                color = if (uiState.inProgressTournaments.isEmpty()) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
+                                color = if (inProgressTournaments.itemCount == 0) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
                                 shape = CircleShape
                             )
                     )
 
                     Text(
-                        text = "${uiState.inProgressTournaments.size}개",
-                        color = if (uiState.inProgressTournaments.isEmpty()) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
+                        text = "${inProgressTournaments.itemCount}개",
+                        color = if (inProgressTournaments.itemCount == 0) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
                         style = MooditTheme.typography.caption
                     )
                 }
@@ -114,18 +115,22 @@ fun TournamentMainScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 items(
-                    count = uiState.inProgressTournaments.size,
-                    key = { index -> uiState.inProgressTournaments[index].id }
+                    count = inProgressTournaments.itemCount,
+                    key = { index ->
+                        inProgressTournaments[index]?.matchId ?: index
+                    }
                 ) { index ->
-                    val inProgressTournament = uiState.inProgressTournaments[index]
-                    InProgressTournamentItem(
-                        inProgressTournament = inProgressTournament,
-                        onTournamentClick = {
-                            onInProgressTournamentClick(
-                                inProgressTournament.id
-                            )
-                        }
-                    )
+                    val inProgressTournament = inProgressTournaments[index]
+                    if (inProgressTournament != null) {
+                        InProgressTournamentItem(
+                            inProgressTournament = inProgressTournament,
+                            onTournamentClick = {
+                                onInProgressTournamentClick(
+                                    inProgressTournament.matchId
+                                )
+                            }
+                        )
+                    }
                 }
             }
 
@@ -150,14 +155,14 @@ fun TournamentMainScreen(
                         modifier = Modifier
                             .size(8.dp)
                             .background(
-                                color = if (uiState.inProgressTournaments.isEmpty()) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
+                                color = if (inProgressTournaments.itemCount == 0) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
                                 shape = CircleShape
                             )
                     )
 
                     Text(
                         text = "${uiState.completedTournaments.size}개",
-                        color = if (uiState.inProgressTournaments.isEmpty()) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
+                        color = if (uiState.completedTournaments.isEmpty()) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
                         style = MooditTheme.typography.caption
                     )
                 }

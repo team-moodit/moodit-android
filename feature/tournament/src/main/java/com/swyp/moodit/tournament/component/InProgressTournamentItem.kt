@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
@@ -32,24 +31,19 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.swyp.moodit.designsystem.theme.MooditTheme
-import com.swyp.moodit.model.tournament.InProgressTournamentDetail
+import com.swyp.moodit.model.tournament.InProgressTournament
 
 @SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
 fun InProgressTournamentItem(
     modifier: Modifier = Modifier,
-    inProgressTournament: InProgressTournamentDetail,
+    inProgressTournament: InProgressTournament,
     onTournamentClick: () -> Unit
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val itemWidth = screenWidth * (0.75f)
-    val currentRoundNumber = when (inProgressTournament.currentRound) {
-        "준결승전" -> 4
-        "결승전" -> 2
-        else -> inProgressTournament.currentRound.dropLast(1).toInt()
-    }
     val progressRatio =
-        ((inProgressTournament.imageUris.size - currentRoundNumber) / inProgressTournament.imageUris.size.toFloat())
+        ((inProgressTournament.totalRound - inProgressTournament.currentRound) / inProgressTournament.totalRound.toFloat())
             .coerceIn(0f, 1f)
 
     Card(
@@ -89,7 +83,7 @@ fun InProgressTournamentItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = inProgressTournament.currentRound,
+                    text = "${inProgressTournament.currentRound}",
                     style = MooditTheme.typography.caption,
                     color = MooditTheme.colors.primary
                 )
@@ -132,28 +126,7 @@ fun InProgressTournamentItem(
 fun InProgressTournamentDetailPreview() {
     MooditTheme {
         InProgressTournamentItem(
-            inProgressTournament = InProgressTournamentDetail(
-                title = "출근 할 때 입을 옷",
-                currentRound = "4강",
-                imageUris = listOf(
-                    "1",
-                    "2",
-                    "3",
-                    "4",
-                    "5",
-                    "6",
-                    "7",
-                    "8",
-                    "9",
-                    "10",
-                    "11",
-                    "12",
-                    "13",
-                    "14",
-                    "15",
-                    "16"
-                )
-            ),
+            inProgressTournament = InProgressTournament(),
             onTournamentClick = {}
         )
     }

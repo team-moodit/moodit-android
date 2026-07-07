@@ -1,22 +1,20 @@
 package com.swyp.moodit.tournament.main
 
+import androidx.paging.PagingData
 import com.swyp.moodit.model.Mission
 import com.swyp.moodit.model.MissionMatchResult
 import com.swyp.moodit.model.tournament.CompletedTournamentDetail
-import com.swyp.moodit.model.tournament.InProgressTournamentDetail
+import com.swyp.moodit.model.tournament.InProgressTournament
 import com.swyp.moodit.ui.base.UiIntent
 import com.swyp.moodit.ui.base.UiSideEffect
 import com.swyp.moodit.ui.base.UiState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 class TournamentMainContract {
     data class State(
         val isLoading: Boolean = false,
-        val inProgressTournaments: List<InProgressTournamentDetail> = listOf(
-            InProgressTournamentDetail(
-                title = "출근 할 때 입을 옷",
-                currentRound = 8,
-            )
-        ),
+        val inProgressTournaments: Flow<PagingData<InProgressTournament>> = flowOf(PagingData.empty()),
         val completedTournaments: List<CompletedTournamentDetail> = listOf(
             CompletedTournamentDetail(
                 id = 1L,
