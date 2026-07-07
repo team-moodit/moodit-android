@@ -36,6 +36,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.swyp.moodit.common.util.DateUtil.toDaysAgoMessage
+import com.swyp.moodit.common.util.DateUtil.toFormatDate
 import com.swyp.moodit.designsystem.component.MooditScaffold
 import com.swyp.moodit.designsystem.component.MooditTag
 import com.swyp.moodit.designsystem.component.MooditTopBar
@@ -119,7 +121,7 @@ fun InProgressTournamentContent(
                 horizontalAlignment = Alignment.Start
             ) {
                 MooditTag(
-                    content = "7일 전 마지막 진행",
+                    content = "${uiState.tournamentDetail.matchInfo.createdAt.toDaysAgoMessage()} 마지막 진행",
                     modifier = Modifier
                         .wrapContentSize()
                         .border(
@@ -132,7 +134,7 @@ fun InProgressTournamentContent(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = "16강 중 4강까지 진행한 무드매치에요\n계속 이어서 진행할까요?",
+                    text = "${uiState.tournamentDetail.totalRound}강 중 ${uiState.tournamentDetail.currentRound}강까지 진행한 무드매치에요\n계속 이어서 진행할까요?",
                     style = MooditTheme.typography.h2,
                     color = MooditTheme.colors.onPrimaryContainer
                 )
@@ -167,12 +169,14 @@ fun InProgressTournamentContent(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
+                            modifier = Modifier.padding(vertical = 4.dp),
                             text = "무드매치 이름",
                             style = MooditTheme.typography.b2ExtraSmall,
                             color = MooditTheme.colors.textSecondary
                         )
                         Text(
-                            text = "약속날 입고 갈 옷 토너먼트",
+                            modifier = Modifier.padding(vertical = 4.dp),
+                            text = uiState.tournamentDetail.title,
                             style = MooditTheme.typography.b2ExtraSmall,
                             color = MooditTheme.colors.onPrimaryContainer
                         )
@@ -184,12 +188,14 @@ fun InProgressTournamentContent(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
+                            modifier = Modifier.padding(vertical = 4.dp),
                             text = "진행률",
                             style = MooditTheme.typography.b2ExtraSmall,
                             color = MooditTheme.colors.textSecondary
                         )
                         Text(
-                            text = "4강 / 16강",
+                            modifier = Modifier.padding(vertical = 4.dp),
+                            text = "${uiState.tournamentDetail.currentRound}강 / ${uiState.tournamentDetail.totalRound}강",
                             style = MooditTheme.typography.b2ExtraSmall,
                             color = MooditTheme.colors.onPrimaryContainer
                         )
@@ -201,12 +207,14 @@ fun InProgressTournamentContent(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
+                            modifier = Modifier.padding(vertical = 4.dp),
                             text = "마지막 진행 날짜",
                             style = MooditTheme.typography.b2ExtraSmall,
                             color = MooditTheme.colors.textSecondary
                         )
                         Text(
-                            text = "26.06.09",
+                            modifier = Modifier.padding(vertical = 4.dp),
+                            text = uiState.tournamentDetail.matchInfo.createdAt.toFormatDate(),
                             style = MooditTheme.typography.b2ExtraSmall,
                             color = MooditTheme.colors.onPrimaryContainer
                         )
@@ -229,7 +237,7 @@ fun InProgressTournamentContent(
                     color = MooditTheme.colors.onPrimaryContainer
                 )
                 MooditTag(
-                    content = "16장",
+                    content = "${uiState.tournamentDetail.matchInfo.totalImageCount}장",
                     modifier = Modifier
                         .wrapContentSize()
                         .border(
@@ -244,17 +252,17 @@ fun InProgressTournamentContent(
         }
 
         items(
-            count = uiState.tournamentDetail.imageUris.size,
-            key = { index -> uiState.tournamentDetail.imageUris[index] }
+            count = uiState.tournamentDetail.images.size,
+            key = { index -> uiState.tournamentDetail.images[index].id }
         ) { index ->
-            val imageUri = uiState.tournamentDetail.imageUris[index]
+            val imageUri = uiState.tournamentDetail.images[index]
             AsyncImage(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
                     .padding(4.dp)
                     .clip(RoundedCornerShape(12.dp)),
-                model = imageUri,
+                model = imageUri.photoUri,
                 contentScale = ContentScale.Crop,
                 contentDescription = "image",
                 error = ColorPainter(Color.Gray)

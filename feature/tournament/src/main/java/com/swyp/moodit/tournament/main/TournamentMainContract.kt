@@ -4,7 +4,6 @@ import com.swyp.moodit.model.Mission
 import com.swyp.moodit.model.MissionMatchResult
 import com.swyp.moodit.model.tournament.CompletedTournamentDetail
 import com.swyp.moodit.model.tournament.InProgressTournamentDetail
-import com.swyp.moodit.model.tournament.TournamentState
 import com.swyp.moodit.ui.base.UiIntent
 import com.swyp.moodit.ui.base.UiSideEffect
 import com.swyp.moodit.ui.base.UiState
@@ -14,29 +13,8 @@ class TournamentMainContract {
         val isLoading: Boolean = false,
         val inProgressTournaments: List<InProgressTournamentDetail> = listOf(
             InProgressTournamentDetail(
-                id = 1L,
                 title = "출근 할 때 입을 옷",
-                currentRound = "8강",
-                imageUris = listOf(
-                    "1",
-                    "1",
-                    "1",
-                    "1",
-                    "1",
-                    "1",
-                    "1",
-                    "1",
-                    "1",
-                    "1",
-                    "1",
-                    "1",
-                    "1",
-                    "1",
-                    "1",
-                    "1",
-                    "1",
-                    "1"
-                )
+                currentRound = 8,
             )
         ),
         val completedTournaments: List<CompletedTournamentDetail> = listOf(
@@ -68,15 +46,17 @@ class TournamentMainContract {
         data class NavigateToInProgressTournamentDetail(
             val tournamentId: Long
         ) : SideEffect
+
         data class NavigateToCompletedTournamentDetail(
             val tournamentId: Long
         ) : SideEffect
+
         data object NavigateToSetting : SideEffect
     }
 
     sealed interface Intent : UiIntent {
         data class OnInProgressTournamentClick(val tournamentId: Long) : Intent
         data class OnCompletedTournamentClick(val tournamentId: Long) : Intent
-        data object OnSettingClick: Intent
+        data object OnSettingClick : Intent
     }
 }

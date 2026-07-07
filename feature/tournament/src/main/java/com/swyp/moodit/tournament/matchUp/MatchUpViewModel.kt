@@ -80,7 +80,6 @@ class MatchUpViewModel @Inject constructor(
                         it.copy(
                             matchUpInfo = result.data,
                             progressFraction = progressFraction,
-                            isStarted = false,
                             selectedReason = null,
                             selectedWinner = null,
                             currentStep = TournamentStep.MATCH_UP

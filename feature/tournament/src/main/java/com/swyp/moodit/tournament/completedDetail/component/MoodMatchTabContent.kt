@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -114,8 +115,9 @@ fun MoodMatchTabContent(
             ) {
                 Text(
                     text = uiState.tournamentDetail.missionInfo.matchResult.matchTitle,
-                    style = MooditTheme.typography.h3,
-                    color = MooditTheme.colors.onBackground
+                    style = MooditTheme.typography.h2,
+                    color = MooditTheme.colors.onBackground,
+                    textAlign = TextAlign.Center
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))

@@ -21,7 +21,7 @@ fun NavGraphBuilder.tournamentNavGraph(
     navigateToMissionDetail: (Long, MissionStatus) -> Unit,
     navigateToSetting: () -> Unit,
     navigateToMatchUp: (Long, Boolean) -> Unit,
-    popBackStack: () -> Unit,
+    navigateToHome: () -> Unit,
 ) {
     composable<BottomBarRoute.Tournament> {
         TournamentMainRoute(
@@ -59,7 +59,7 @@ fun NavGraphBuilder.tournamentNavGraph(
         MatchUpRoute(
             onShowSnackbar = onShowSnackbar,
             navigateToTournamentResult = { navController.navigateToTournamentResult(it) },
-            navigateToHome = popBackStack
+            navigateToHome = navigateToHome
         )
     }
 

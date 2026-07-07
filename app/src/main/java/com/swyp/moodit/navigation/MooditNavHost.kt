@@ -76,7 +76,7 @@ fun MooditNavHost(
                     isStarted
                 )
             },
-            popBackStack = { appState.popBackStack() }
+            navigateToHome = { appState.navigateToMain() }
         )
 
         reportNavGraph(
