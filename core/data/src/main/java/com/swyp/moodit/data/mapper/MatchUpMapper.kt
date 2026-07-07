@@ -10,10 +10,26 @@ import com.swyp.moodit.model.MissionSuggestion
 import com.swyp.moodit.model.MoodMatchResult
 import com.swyp.moodit.model.PreferenceResultType
 import com.swyp.moodit.model.SelectedMatchUpIds
+import com.swyp.moodit.model.tournament.CompletedTournament
+import com.swyp.moodit.model.tournament.InProgressMatchInfo
+import com.swyp.moodit.model.tournament.InProgressTournament
+import com.swyp.moodit.model.tournament.InProgressTournamentDetail
+import com.swyp.moodit.model.tournament.PagingCompletedTournament
+import com.swyp.moodit.model.tournament.PagingInProgressTournament
+import com.swyp.moodit.model.tournament.PagingTournament
+import com.swyp.moodit.model.tournament.TournamentImage
+import com.swyp.moodit.network.model.tournament.CompletedMatchResponse
+import com.swyp.moodit.network.model.tournament.InProgressMatchDetailResponse
+import com.swyp.moodit.network.model.tournament.InProgressMatchInfoResponse
+import com.swyp.moodit.network.model.tournament.InProgressMatchResponse
+import com.swyp.moodit.network.model.tournament.MatchImageResponse
+import com.swyp.moodit.network.model.tournament.MatchListCompletedResponse
+import com.swyp.moodit.network.model.tournament.MatchListInProgressResponse
 import com.swyp.moodit.network.model.tournament.MatchUpResultResponse
 import com.swyp.moodit.network.model.tournament.MissionMatchResultResponse
 import com.swyp.moodit.network.model.tournament.MissionOfferResponse
 import com.swyp.moodit.network.model.tournament.MissionSuggestionResponse
+import com.swyp.moodit.network.model.tournament.PagingMoodMatchesResponse
 import com.swyp.moodit.network.model.tournament.matchUp.CandidateResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpProgressResponse
@@ -112,6 +128,73 @@ fun MissionMatchResultResponse.toModel(): MissionMatchResult {
         matchRoundCount = this.matchRoundCount,
         matchCompletedAt = this.matchCompletedAt,
         preferenceResultType = this.preferenceResultType.toModel()
+    )
+}
+
+fun PagingMoodMatchesResponse.toModel(): PagingTournament {
+    return PagingTournament(
+        inProgressTournaments = this.inProgressMatches.toModel(),
+        completedTournaments = this.completedMatches.toModel()
+    )
+}
+
+fun MatchListInProgressResponse.toModel(): PagingInProgressTournament {
+    return PagingInProgressTournament(
+        content = this.content.map { it.toModel() },
+        totalCount = this.totalCount,
+        hasNext = this.hasNext
+    )
+}
+
+fun MatchListCompletedResponse.toModel(): PagingCompletedTournament {
+    return PagingCompletedTournament(
+        content = this.content.map { it.toModel() },
+        totalCount = this.totalCount,
+        hasNext = this.hasNext
+    )
+}
+
+fun InProgressMatchResponse.toModel(): InProgressTournament {
+    return InProgressTournament(
+        matchId = this.matchId,
+        title = this.title,
+        currentRound = this.currentRound,
+        totalRound = this.totalRound,
+        lastPlayedAt = this.lastPlayedAt
+    )
+}
+
+fun CompletedMatchResponse.toModel(): CompletedTournament {
+    return CompletedTournament(
+        matchId = this.matchId,
+        title = this.title,
+        winnerImageId = this.winnerImageId,
+        winnerImageUri = this.winnerImageUri
+    )
+}
+
+fun InProgressMatchDetailResponse.toModel(): InProgressTournamentDetail {
+    return InProgressTournamentDetail(
+        title = this.tournamentTitle,
+        currentRound = this.currentRound,
+        totalRound = this.totalRounds,
+        currentMatchOrder = this.currentMatchOrder,
+        matchInfo = this.matchInfo.toModel(),
+        images = this.selectedImages.map { it.toModel() }
+    )
+}
+
+fun InProgressMatchInfoResponse.toModel(): InProgressMatchInfo {
+    return InProgressMatchInfo(
+        totalImageCount = this.totalImageCount,
+        createdAt = this.createdAt
+    )
+}
+
+fun MatchImageResponse.toModel(): TournamentImage {
+    return TournamentImage(
+        id = this.id,
+        photoUri = this.photoUri
     )
 }
 
