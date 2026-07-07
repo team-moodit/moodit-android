@@ -14,22 +14,16 @@ import com.swyp.moodit.model.tournament.CompletedTournament
 import com.swyp.moodit.model.tournament.InProgressMatchInfo
 import com.swyp.moodit.model.tournament.InProgressTournament
 import com.swyp.moodit.model.tournament.InProgressTournamentDetail
-import com.swyp.moodit.model.tournament.PagingCompletedTournament
-import com.swyp.moodit.model.tournament.PagingInProgressTournament
-import com.swyp.moodit.model.tournament.PagingTournament
 import com.swyp.moodit.model.tournament.TournamentImage
 import com.swyp.moodit.network.model.tournament.CompletedMatchResponse
 import com.swyp.moodit.network.model.tournament.InProgressMatchDetailResponse
 import com.swyp.moodit.network.model.tournament.InProgressMatchInfoResponse
 import com.swyp.moodit.network.model.tournament.InProgressMatchResponse
 import com.swyp.moodit.network.model.tournament.MatchImageResponse
-import com.swyp.moodit.network.model.tournament.MatchListCompletedResponse
-import com.swyp.moodit.network.model.tournament.MatchListInProgressResponse
 import com.swyp.moodit.network.model.tournament.MatchUpResultResponse
 import com.swyp.moodit.network.model.tournament.MissionMatchResultResponse
 import com.swyp.moodit.network.model.tournament.MissionOfferResponse
 import com.swyp.moodit.network.model.tournament.MissionSuggestionResponse
-import com.swyp.moodit.network.model.tournament.PagingMoodMatchesResponse
 import com.swyp.moodit.network.model.tournament.matchUp.CandidateResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpProgressResponse
@@ -128,29 +122,6 @@ fun MissionMatchResultResponse.toModel(): MissionMatchResult {
         matchRoundCount = this.matchRoundCount,
         matchCompletedAt = this.matchCompletedAt,
         preferenceResultType = this.preferenceResultType.toModel()
-    )
-}
-
-fun PagingMoodMatchesResponse.toModel(): PagingTournament {
-    return PagingTournament(
-        inProgressTournaments = this.inProgressMatches.toModel(),
-        completedTournaments = this.completedMatches.toModel()
-    )
-}
-
-fun MatchListInProgressResponse.toModel(): PagingInProgressTournament {
-    return PagingInProgressTournament(
-        content = this.content.map { it.toModel() },
-        totalCount = this.totalCount,
-        hasNext = this.hasNext
-    )
-}
-
-fun MatchListCompletedResponse.toModel(): PagingCompletedTournament {
-    return PagingCompletedTournament(
-        content = this.content.map { it.toModel() },
-        totalCount = this.totalCount,
-        hasNext = this.hasNext
     )
 }
 
