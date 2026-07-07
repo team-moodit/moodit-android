@@ -104,6 +104,15 @@ internal class TournamentRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun clearOnGoingTournamentId(): Result<Unit> {
+        try {
+            userDataStore.clearOnGoingTournamentId()
+            return Result.Success(Unit)
+        } catch (e: Exception) {
+            return Result.Error(e)
+        }
+    }
+
     override suspend fun getMatchUpProgressInfo(matchId: Long): Result<MatchUpInfo> {
         try {
             val response = mooditApi.getNextMatchUpInfo(matchId).getOrThrow()

@@ -20,6 +20,7 @@ fun NavGraphBuilder.tournamentNavGraph(
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
     navigateToMissionDetail: (Long, MissionStatus) -> Unit,
     navigateToSetting: () -> Unit,
+    navigateToMatchUp: (Long, Boolean) -> Unit,
     popBackStack: () -> Unit,
 ) {
     composable<BottomBarRoute.Tournament> {
@@ -50,12 +51,7 @@ fun NavGraphBuilder.tournamentNavGraph(
     composable<TournamentRoute.CreateTournament>() {
         CreateTournamentRoute(
             onShowSnackbar = onShowSnackbar,
-            navigateToMatchUp = { tournamentId, isStarted ->
-                navController.navigateToMatchUp(
-                    tournamentId,
-                    isStarted
-                )
-            }
+            navigateToMatchUp = navigateToMatchUp
         )
     }
 

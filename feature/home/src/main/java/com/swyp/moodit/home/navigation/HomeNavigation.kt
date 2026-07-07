@@ -23,14 +23,16 @@ fun NavGraphBuilder.homeNavGraph(
     navigateToSetting: () -> Unit,
     navigateToCreateTournament: () -> Unit,
     navigateToInputNickname: (Boolean) -> Unit,
-    navigateToMissionDetail: (Long, MissionStatus) -> Unit
+    navigateToMissionDetail: (Long, MissionStatus) -> Unit,
+    navigateToMatchUp: (Long, Boolean) -> Unit
 ) {
     composable<BottomBarRoute.Home>() {
         HomeMainRoute(
             onShowSnackbar = onShowSnackbar,
             navigateToSetting = navigateToSetting,
             navigateToCreateTournament = navigateToCreateTournament,
-            navigateToMissionDetail = navigateToMissionDetail
+            navigateToMissionDetail = navigateToMissionDetail,
+            navigateToMatchUp = navigateToMatchUp
         )
     }
 

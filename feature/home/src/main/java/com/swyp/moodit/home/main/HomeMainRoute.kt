@@ -26,6 +26,7 @@ fun HomeMainRoute(
     navigateToSetting: () -> Unit,
     navigateToCreateTournament: () -> Unit,
     navigateToMissionDetail: (Long, MissionStatus) -> Unit,
+    navigateToMatchUp: (Long, Boolean) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val inProgressMissions = uiState.inProgressMissions.collectAsLazyPagingItems()
@@ -36,6 +37,7 @@ fun HomeMainRoute(
         inProgressMissions.refresh()
         completedMissions.refresh()
         feedbackSubMittedMissions.refresh()
+        viewModel.sendIntent(HomeMainContract.Intent.CheckOnGoingTournament)
     }
 
     LaunchedEffect(Unit) {
@@ -51,6 +53,11 @@ fun HomeMainRoute(
                 is HomeMainContract.SideEffect.ShowSnackbar -> onShowSnackbar(
                     sideEffect.message,
                     null
+                )
+
+                is HomeMainContract.SideEffect.NavigateToMatchUp -> navigateToMatchUp(
+                    sideEffect.tournamentId,
+                    false
                 )
             }
         }
@@ -88,14 +95,20 @@ fun HomeMainRoute(
                     description = "마지막 선택 지점부터 다시 시작해요."
                 ) {
                     MooditFilledButton(
-                        onClick = { /* TODO */},
+                        onClick = { viewModel.sendIntent(HomeMainContract.Intent.OnDismissTournamentDialog) },
                         modifier = Modifier.weight(1f),
                         text = "나중에",
                         containerColor = MooditTheme.colors.surfaceContainer,
                         contentColor = MooditTheme.colors.textSecondary
                     )
                     MooditFilledButton(
-                        onClick = { /* TODO */ },
+                        onClick = {
+                            viewModel.sendIntent(
+                                HomeMainContract.Intent.OnResumeTournamentClick(
+                                    uiState.resumeTournamentId
+                                )
+                            )
+                        },
                         modifier = Modifier.weight(1f),
                         text = "이어하기"
                     )

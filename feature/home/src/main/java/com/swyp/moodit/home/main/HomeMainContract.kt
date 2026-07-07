@@ -22,13 +22,19 @@ class HomeMainContract {
     sealed interface SideEffect : UiSideEffect {
         object NavigateToSetting : SideEffect
         object NavigateToCreateTournament : SideEffect
-        data class NavigateToMissionDetail(val missionId: Long, val status: MissionStatus) : SideEffect
+        data class NavigateToMatchUp(val tournamentId: Long) : SideEffect
+        data class NavigateToMissionDetail(val missionId: Long, val status: MissionStatus) :
+            SideEffect
+
         data class ShowSnackbar(val message: String) : SideEffect
     }
 
     sealed interface Intent : UiIntent {
         object OnSettingClick : Intent
         object OnCreateTournamentClick : Intent
+        object OnDismissTournamentDialog : Intent
+        object CheckOnGoingTournament : Intent
+        data class OnResumeTournamentClick(val tournamentId: Long) : Intent
         data class OnMissionClick(val missionId: Long) : Intent
     }
 }

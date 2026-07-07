@@ -17,4 +17,5 @@ interface TournamentRepository {
     suspend fun getMatchUpProgressInfo(matchId: Long): Result<MatchUpInfo>
     suspend fun getMatchUpResult(matchId: Long): Result<MatchUpResult>
     suspend fun setOnGoingTournamentId(tournamentId: Long): Result<Unit>
+    suspend fun clearOnGoingTournamentId(): Result<Unit>
 }
