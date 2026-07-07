@@ -11,10 +11,13 @@ import com.swyp.moodit.model.MoodMatchResult
 import com.swyp.moodit.model.PreferenceResultType
 import com.swyp.moodit.model.SelectedMatchUpIds
 import com.swyp.moodit.model.tournament.CompletedTournament
+import com.swyp.moodit.model.tournament.CompletedTournamentDetail
 import com.swyp.moodit.model.tournament.InProgressMatchInfo
 import com.swyp.moodit.model.tournament.InProgressTournament
 import com.swyp.moodit.model.tournament.InProgressTournamentDetail
+import com.swyp.moodit.model.tournament.PreferenceResult
 import com.swyp.moodit.model.tournament.TournamentImage
+import com.swyp.moodit.network.model.tournament.CompletedMatchDetailResponse
 import com.swyp.moodit.network.model.tournament.CompletedMatchResponse
 import com.swyp.moodit.network.model.tournament.InProgressMatchDetailResponse
 import com.swyp.moodit.network.model.tournament.InProgressMatchInfoResponse
@@ -24,6 +27,7 @@ import com.swyp.moodit.network.model.tournament.MatchUpResultResponse
 import com.swyp.moodit.network.model.tournament.MissionMatchResultResponse
 import com.swyp.moodit.network.model.tournament.MissionOfferResponse
 import com.swyp.moodit.network.model.tournament.MissionSuggestionResponse
+import com.swyp.moodit.network.model.tournament.PreferenceResultResponse
 import com.swyp.moodit.network.model.tournament.matchUp.CandidateResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpProgressResponse
@@ -159,6 +163,23 @@ fun InProgressMatchInfoResponse.toModel(): InProgressMatchInfo {
     return InProgressMatchInfo(
         totalImageCount = this.totalImageCount,
         createdAt = this.createdAt
+    )
+}
+
+fun CompletedMatchDetailResponse.toModel(): CompletedTournamentDetail {
+    return CompletedTournamentDetail(
+        title = this.title,
+        winnerImage = this.winnerImage.toModel(),
+        imageUris = this.selectedImages.map { it.toModel() },
+        completedAt = this.completedAt,
+        preferenceResult = this.preferenceResult.toModel()
+    )
+}
+
+fun PreferenceResultResponse.toModel(): PreferenceResult {
+    return PreferenceResult(
+        preferenceType = this.preferenceType,
+        preferenceDetailType = this.preferenceDetailType
     )
 }
 
