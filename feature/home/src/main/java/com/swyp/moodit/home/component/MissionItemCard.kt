@@ -30,9 +30,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asComposeRenderEffect
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.Mission
 import com.swyp.moodit.model.MissionMatchResult
@@ -45,8 +47,8 @@ fun MissionItemCard(
 ) {
     Card(
         modifier = modifier
-            .width(190.dp)
-            .aspectRatio(0.6f)
+            .width(188.dp)
+            .aspectRatio(188f / 312f)
             .clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent)
@@ -63,7 +65,7 @@ fun MissionItemCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
-                    .fillMaxHeight(0.3f)
+                    .fillMaxHeight(0.24f)
                     .graphicsLayer {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                             renderEffect = android.graphics.RenderEffect.createBlurEffect(
@@ -80,7 +82,7 @@ fun MissionItemCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
-                    .padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 16.dp),
+                    .padding(start = 12.dp, end = 12.dp, top = 16.dp, bottom = 16.dp),
                 verticalArrangement = Arrangement.Bottom
             ) {
                 Text(
@@ -90,18 +92,20 @@ fun MissionItemCard(
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
+                        modifier = Modifier.padding(top = 2.dp),
                         text = mission.matchResult.matchTitle,
                         style = MooditTheme.typography.b2ExtraSmall,
                         color = MooditTheme.colors.tertiary
                     )
 
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        painter = painterResource(R.drawable.arrow_narrow_right),
                         contentDescription = "Navigate Next",
                         tint = MooditTheme.colors.primary,
                         modifier = Modifier.size(20.dp)
@@ -124,7 +128,7 @@ fun MissionItemCardPreview() {
         MissionItemCard(
             onClick = {},
             mission = Mission(
-                missionTitle = "나의 체형에 잘 어울리는지 직접 시도해보기", matchResult = MissionMatchResult(
+                missionTitle = "나의 체형에 잘 어울리는지\n직접 시도해보기", matchResult = MissionMatchResult(
                     matchTitle = "봄에 따라입고 싶은 룩"
                 )
             )

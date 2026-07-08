@@ -53,4 +53,5 @@ dependencies {
 
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.kakao.user)
+    implementation(libs.haze)
 }
