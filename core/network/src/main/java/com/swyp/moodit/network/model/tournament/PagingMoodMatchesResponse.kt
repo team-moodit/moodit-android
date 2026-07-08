@@ -24,5 +24,6 @@ data class CompletedMatchResponse(
     val matchId: Long,
     val title: String,
     val winnerImageId: Long,
-    val winnerImageUri: String
+    val winnerImageUri: String,
+    val completedAt: String
 )
