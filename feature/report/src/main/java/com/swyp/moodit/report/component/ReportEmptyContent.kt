@@ -41,6 +41,7 @@ fun ReportEmptyContent(
         )
         Spacer(modifier = Modifier.height(24.dp))
         Button(
+            modifier = Modifier.wrapContentWidth(),
             onClick = onButtonClick,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MooditTheme.colors.primary,
@@ -62,7 +63,11 @@ fun ReportEmptyContent(
 fun ReportEmptyContentPreview() {
     MooditTheme {
         ReportEmptyContent(
-            title = "아직 분석할 취향이 없어요", content = "무드매치를 시작하고 사진을 선택해보세요\n" +
-                    "선택이 쌓일수록 나만의 리포트가 만들어집니다", buttonLabel = "새 무드매치 만들기", onButtonClick = { })
+            title = "아직 분석할 취향이 없어요",
+            content = "무드매치를 시작하고 사진을 선택해보세요\n" +
+                    "선택이 쌓일수록 나만의 리포트가 만들어집니다",
+            buttonLabel = "새 무드매치 만들기",
+            onButtonClick = { }
+        )
     }
 }
