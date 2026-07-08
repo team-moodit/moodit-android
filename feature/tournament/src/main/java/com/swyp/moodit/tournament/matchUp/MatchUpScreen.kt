@@ -48,42 +48,6 @@ fun MatchUpScreen(
 ) {
     MooditScaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .windowInsetsPadding(WindowInsets.statusBars)
-                    .padding(horizontal = 16.dp, vertical = 18.dp)
-            ) {
-                LinearProgressIndicator(
-                    progress = { uiState.progressFraction },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 4.dp)
-                        .height(5.dp),
-                    color = MooditTheme.colors.primary,
-                    trackColor = MooditTheme.colors.onSurfaceContainer,
-                    strokeCap = StrokeCap.Round
-                )
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Absolute.SpaceBetween
-                ) {
-                    Text(
-                        text = "${uiState.matchUpInfo.curMatchIndex}/${uiState.matchUpInfo.totalRounds}",
-                        style = MooditTheme.typography.caption,
-                        color = MooditTheme.colors.textSecondary
-                    )
-                    Text(
-                        text = uiState.matchUpInfo.roundTitle,
-                        style = MooditTheme.typography.b2ExtraSmall,
-                        color = MooditTheme.colors.primary
-                    )
-                }
-            }
-        },
         bottomBar = {
             if (uiState.currentStep == TournamentStep.REASON) {
                 MooditFilledButton(
@@ -99,28 +63,63 @@ fun MatchUpScreen(
             }
         }
     ) { innerPadding ->
-        Box(
+        Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp)
+                .fillMaxWidth()
+                .windowInsetsPadding(WindowInsets.statusBars)
+                .padding(horizontal = 16.dp, vertical = 18.dp)
         ) {
-            Crossfade(targetState = uiState.currentStep, label = "StepTransition") { step ->
-                when (step) {
-                    TournamentStep.MATCH_UP -> {
-                        SelectPhotoContent(
-                            uiState = uiState,
-                            onSelectPhoto = onSelectCandidate
-                        )
-                    }
+            LinearProgressIndicator(
+                progress = { uiState.progressFraction },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 4.dp)
+                    .height(5.dp),
+                color = MooditTheme.colors.primary,
+                trackColor = MooditTheme.colors.onSurfaceContainer,
+                strokeCap = StrokeCap.Round
+            )
 
-                    TournamentStep.REASON -> {
-                        SelectReasonContent(
-                            uiState = uiState,
-                            onSelectReason = onReasonSelect,
-                            onExitClick = onExitClick,
-                            onRetryClick = onRetryClick
-                        )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Absolute.SpaceBetween
+            ) {
+                Text(
+                    modifier = Modifier.padding(vertical = 4.dp),
+                    text = "${uiState.matchUpInfo.curMatchIndex}/${uiState.matchUpInfo.totalRounds}",
+                    style = MooditTheme.typography.caption,
+                    color = MooditTheme.colors.textSecondary
+                )
+                Text(
+                    text = uiState.matchUpInfo.roundTitle,
+                    style = MooditTheme.typography.b2ExtraSmall,
+                    color = MooditTheme.colors.primary
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp)
+            ) {
+                Crossfade(targetState = uiState.currentStep, label = "StepTransition") { step ->
+                    when (step) {
+                        TournamentStep.MATCH_UP -> {
+                            SelectPhotoContent(
+                                uiState = uiState,
+                                onSelectPhoto = onSelectCandidate
+                            )
+                        }
+
+                        TournamentStep.REASON -> {
+                            SelectReasonContent(
+                                uiState = uiState,
+                                onSelectReason = onReasonSelect,
+                                onExitClick = onExitClick,
+                                onRetryClick = onRetryClick
+                            )
+                        }
                     }
                 }
             }
@@ -134,7 +133,9 @@ fun SelectPhotoContent(
     onSelectPhoto: (Candidate) -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(top = 5.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 5.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
