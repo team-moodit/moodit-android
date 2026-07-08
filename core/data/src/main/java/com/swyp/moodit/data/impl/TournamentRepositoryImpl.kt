@@ -7,6 +7,7 @@ import com.swyp.moodit.common.util.ImageProcessor
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.mapper.toModel
 import com.swyp.moodit.data.mapper.toNetworkRequest
+import com.swyp.moodit.data.paging.CompletedTournamentPagingSource
 import com.swyp.moodit.data.paging.InProgressTournamentPagingSource
 import com.swyp.moodit.data.repository.TournamentRepository
 import com.swyp.moodit.datastore.userPreference.UserPreferencesDataStore
@@ -16,6 +17,7 @@ import com.swyp.moodit.model.PartType
 import com.swyp.moodit.model.SelectedMatchUpIds
 import com.swyp.moodit.model.SelectedPhoto
 import com.swyp.moodit.model.UploadStatus
+import com.swyp.moodit.model.tournament.CompletedTournament
 import com.swyp.moodit.model.tournament.CompletedTournamentDetail
 import com.swyp.moodit.model.tournament.InProgressTournament
 import com.swyp.moodit.model.tournament.InProgressTournamentDetail
@@ -45,6 +47,14 @@ internal class TournamentRepositoryImpl @Inject constructor(
             config = PagingConfig(
                 pageSize = MATCH_PAGE_SIZE, enablePlaceholders = false
             ), pagingSourceFactory = { InProgressTournamentPagingSource(mooditApi) }
+        ).flow
+    }
+
+    override fun getPagingCompletedTournaments(): Flow<PagingData<CompletedTournament>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = MATCH_PAGE_SIZE, enablePlaceholders = false
+            ), pagingSourceFactory = { CompletedTournamentPagingSource(mooditApi) }
         ).flow
     }
 
