@@ -29,7 +29,7 @@ fun FeedbackBottomSheetContent(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 20.dp, end = 20.dp, top = 32.dp, bottom = 16.dp)
+            .padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 16.dp)
             .verticalScroll(rememberScrollState())
             .navigationBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
