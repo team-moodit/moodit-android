@@ -102,7 +102,7 @@ fun MissionProgressContent(
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -120,7 +120,7 @@ fun MissionProgressContent(
                 content = mission.matchResult.matchCompletedAt.toFormatDate()
             )
         }
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         Row(
             modifier = Modifier
