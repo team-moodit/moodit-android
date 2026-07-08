@@ -37,7 +37,7 @@ fun ReportReadyScreen(
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(140.dp))
+            Spacer(modifier = Modifier.height(164.dp))
             Text(
                 text = "리포트가 업데이트됐어요\n지금 확인해보세요",
                 style = MooditTheme.typography.h1,
@@ -47,7 +47,7 @@ fun ReportReadyScreen(
             Spacer(modifier = Modifier.height(110.dp))
 
             Image(
-                painter = painterResource(R.drawable.complete),
+                painter = painterResource(R.drawable.icon),
                 modifier = Modifier.size(120.dp),
                 contentDescription = "icon_check"
             )
