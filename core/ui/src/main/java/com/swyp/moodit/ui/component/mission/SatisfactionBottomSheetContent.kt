@@ -68,7 +68,7 @@ fun SatisfactionBottomSheetContent(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Icon(
-                painter = painterResource(),
+                painter = painterResource(R.draw),
                 contentDescription = "icon_info",
                 modifier = Modifier.size(16.dp),
                 tint = MooditTheme.colors.onTertiary
