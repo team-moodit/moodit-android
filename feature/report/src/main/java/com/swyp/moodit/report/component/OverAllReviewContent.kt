@@ -53,7 +53,6 @@ fun OverAllReviewContent(
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(16.dp)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -63,7 +62,9 @@ fun OverAllReviewContent(
                 verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 22.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
@@ -144,6 +145,8 @@ fun OverAllReviewContent(
                     }
                 }
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             ReportGuideDescription()
 
