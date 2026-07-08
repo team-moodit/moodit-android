@@ -26,7 +26,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.R
+import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.component.MooditSlider
 import com.swyp.moodit.designsystem.component.button.MooditFilledButton
 import com.swyp.moodit.designsystem.theme.MooditTheme
@@ -68,7 +68,7 @@ fun SatisfactionBottomSheetContent(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Icon(
-                painter = painterResource(R.draw),
+                painter = painterResource(R.drawable.info),
                 contentDescription = "icon_info",
                 modifier = Modifier.size(16.dp),
                 tint = MooditTheme.colors.onTertiary
