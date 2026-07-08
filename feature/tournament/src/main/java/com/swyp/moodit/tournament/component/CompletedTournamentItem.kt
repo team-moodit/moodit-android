@@ -33,12 +33,13 @@ import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.Mission
 import com.swyp.moodit.model.MissionMatchResult
+import com.swyp.moodit.model.tournament.CompletedTournament
 import com.swyp.moodit.model.tournament.CompletedTournamentDetail
 
 @Composable
 fun CompletedTournamentItem(
     modifier: Modifier = Modifier,
-    completedTournament: CompletedTournamentDetail,
+    completedTournament: CompletedTournament,
     onTournamentClick: () -> Unit
 ) {
     Card(
@@ -58,7 +59,7 @@ fun CompletedTournamentItem(
                     .aspectRatio(158f / 182f)
             ) {
                 AsyncImage(
-                    model = completedTournament.winnerImage,
+                    model = completedTournament.winnerImageUri,
                     contentDescription = "match_result_image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -100,7 +101,7 @@ fun CompletedTournamentItem(
 fun CompletedTournamentDetailPreview() {
     MooditTheme {
         CompletedTournamentItem(
-            completedTournament = CompletedTournamentDetail(),
+            completedTournament = CompletedTournament(),
             onTournamentClick = {}
         )
     }

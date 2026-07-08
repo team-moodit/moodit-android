@@ -3,6 +3,7 @@ package com.swyp.moodit.tournament.main
 import androidx.paging.PagingData
 import com.swyp.moodit.model.Mission
 import com.swyp.moodit.model.MissionMatchResult
+import com.swyp.moodit.model.tournament.CompletedTournament
 import com.swyp.moodit.model.tournament.CompletedTournamentDetail
 import com.swyp.moodit.model.tournament.InProgressTournament
 import com.swyp.moodit.ui.base.UiIntent
@@ -15,28 +16,7 @@ class TournamentMainContract {
     data class State(
         val isLoading: Boolean = false,
         val inProgressTournaments: Flow<PagingData<InProgressTournament>> = flowOf(PagingData.empty()),
-        val completedTournaments: List<CompletedTournamentDetail> = listOf(
-            CompletedTournamentDetail(
-                id = 1L,
-                missionInfo = Mission(matchResult = MissionMatchResult(matchTitle = "봄에 입고 싶은 데일리룩"))
-            ),
-            CompletedTournamentDetail(
-                id = 2L,
-                missionInfo = Mission(matchResult = MissionMatchResult(matchTitle = "여름철 출근룩"))
-            ),
-            CompletedTournamentDetail(
-                id = 3L,
-                missionInfo = Mission(matchResult = MissionMatchResult(matchTitle = "약속있는 날 입을 옷"))
-            ),
-            CompletedTournamentDetail(
-                id = 4L,
-                missionInfo = Mission(matchResult = MissionMatchResult(matchTitle = "패션 아이템 모음"))
-            ),
-            CompletedTournamentDetail(
-                id = 5L,
-                missionInfo = Mission(matchResult = MissionMatchResult(matchTitle = "가을에 입고 싶은 데일리룩"))
-            )
-        )
+        val completedTournaments:  Flow<PagingData<CompletedTournament>> = flowOf(PagingData.empty())
     ) : UiState
 
     sealed interface SideEffect : UiSideEffect {

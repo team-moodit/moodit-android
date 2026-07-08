@@ -30,6 +30,7 @@ import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.component.MooditScaffold
 import com.swyp.moodit.designsystem.component.MooditTopBar
 import com.swyp.moodit.designsystem.theme.MooditTheme
+import com.swyp.moodit.model.tournament.CompletedTournament
 import com.swyp.moodit.model.tournament.InProgressTournament
 import com.swyp.moodit.tournament.component.CompletedTournamentItem
 import com.swyp.moodit.tournament.component.InProgressTournamentItem
@@ -39,6 +40,7 @@ import com.swyp.moodit.tournament.component.InProgressTournamentItem
 fun TournamentMainScreen(
     uiState: TournamentMainContract.State,
     inProgressTournaments: LazyPagingItems<InProgressTournament>,
+    completedTournaments: LazyPagingItems<CompletedTournament>,
     onInProgressTournamentClick: (Long) -> Unit,
     onCompletedTournamentClick: (Long) -> Unit,
     onSettingClick: () -> Unit
@@ -161,12 +163,13 @@ fun TournamentMainScreen(
                     )
 
                     Text(
-                        text = "${uiState.completedTournaments.size}개",
-                        color = if (uiState.completedTournaments.isEmpty()) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
+                        text = "${completedTournaments.itemCount}개",
+                        color = if (completedTournaments.itemCount == 0) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
                         style = MooditTheme.typography.caption
                     )
                 }
             }
+
 
             LazyVerticalGrid(
                 modifier = Modifier
@@ -177,18 +180,22 @@ fun TournamentMainScreen(
                 verticalArrangement = Arrangement.spacedBy(20.dp),
                 columns = GridCells.Fixed(2)
             ) {
-                items(count = uiState.completedTournaments.size, key = { index ->
-                    uiState.completedTournaments[index].id
-                }) { index ->
-                    val completedTournament = uiState.completedTournaments[index]
-                    CompletedTournamentItem(
-                        completedTournament = completedTournament,
-                        onTournamentClick = {
-                            onCompletedTournamentClick(
-                                completedTournament.id,
-                            )
-                        }
-                    )
+                items(
+                    count = completedTournaments.itemCount,
+                    key = { index ->
+                        completedTournaments[index]?.matchId ?: index
+                    }) { index ->
+                    val completedTournament = completedTournaments[index]
+                    if (completedTournament != null) {
+                        CompletedTournamentItem(
+                            completedTournament = completedTournament,
+                            onTournamentClick = {
+                                onCompletedTournamentClick(
+                                    completedTournament.matchId,
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }

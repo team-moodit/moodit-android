@@ -44,7 +44,14 @@ class TournamentMainViewModel @Inject constructor(
     private fun loadTournaments() {
         val inProgressTournamentsFlow =
             tournamentRepository.getPagingInProgressTournaments().cachedIn(viewModelScope)
+        val completedTournamentFlow =
+            tournamentRepository.getPagingCompletedTournaments().cachedIn(viewModelScope)
 
-        reduce { it.copy(inProgressTournaments = inProgressTournamentsFlow) }
+        reduce {
+            it.copy(
+                inProgressTournaments = inProgressTournamentsFlow,
+                completedTournaments = completedTournamentFlow
+            )
+        }
     }
 }

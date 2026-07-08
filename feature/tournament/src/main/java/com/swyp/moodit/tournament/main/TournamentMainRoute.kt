@@ -27,6 +27,7 @@ fun TournamentMainRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val inProgressTournaments = uiState.inProgressTournaments.collectAsLazyPagingItems()
+    val completedTournaments = uiState.completedTournaments.collectAsLazyPagingItems()
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { sideEffect ->
@@ -53,6 +54,7 @@ fun TournamentMainRoute(
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         inProgressTournaments.refresh()
+        completedTournaments.refresh()
     }
 
 
@@ -75,6 +77,7 @@ fun TournamentMainRoute(
             TournamentMainScreen(
                 uiState = uiState,
                 inProgressTournaments = inProgressTournaments,
+                completedTournaments = completedTournaments,
                 onInProgressTournamentClick = { id ->
                     viewModel.sendIntent(
                         TournamentMainContract.Intent.OnInProgressTournamentClick(id)
