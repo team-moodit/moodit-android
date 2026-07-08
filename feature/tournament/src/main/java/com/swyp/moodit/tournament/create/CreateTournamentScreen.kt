@@ -182,7 +182,7 @@ fun CreateTournamentScreen(
             Text(
                 text = "${uiState.title.length}/15",
                 color = MooditTheme.colors.borderDefault,
-                style = MooditTheme.typography.b3Medium,
+                style = MooditTheme.typography.b3Small,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 4.dp, end = 4.dp),

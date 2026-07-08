@@ -110,7 +110,7 @@ fun CreateTournamentRoute(
                         color = Color.White
                     )
 
-                    Spacer(modifier = Modifier.height(30.dp))
+                    Spacer(modifier = Modifier.height(120.dp))
 
                     MooditLottie()
 
@@ -177,11 +177,11 @@ fun TestRunEventWithTestCase() {
                     color = Color.White
                 )
 
-                Spacer(modifier = Modifier.height(30.dp))
+                Spacer(modifier = Modifier.height(120.dp))
 
                 MooditLottie()
 
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.weight(2f))
             }
         }
     }
