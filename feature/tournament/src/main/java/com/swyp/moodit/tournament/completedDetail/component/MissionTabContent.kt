@@ -104,7 +104,7 @@ fun MissionTabContent(
         }
 
         Spacer(modifier = Modifier.height(32.dp))
-
+ /*
         MooditTag(content = "진행중")
         Text(
             modifier = Modifier.padding(top = 16.dp),
@@ -193,7 +193,7 @@ fun MissionTabContent(
                                 color = MooditTheme.colors.tertiary
                             )
                         }
-                    }
+                    } */
 
                     Column(
                         horizontalAlignment = Alignment.Start,
@@ -214,12 +214,13 @@ fun MissionTabContent(
                 }
             }
 
+/*
             MissionState.REVIEWED -> {
 
             }
         }
     }
-}
+} */
 
 @Preview
 @Composable
