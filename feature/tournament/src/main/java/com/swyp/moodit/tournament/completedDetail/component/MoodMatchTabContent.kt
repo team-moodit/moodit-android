@@ -71,7 +71,7 @@ fun MoodMatchTabContent(
                 contentAlignment = Alignment.BottomCenter
             ) {
                 AsyncImage(
-                    model = uiState.tournamentDetail.winnerImage,
+                    model = uiState.tournamentDetail.winnerImage.photoUri,
                     contentDescription = null,
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,
@@ -122,7 +122,6 @@ fun MoodMatchTabContent(
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                /*
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -132,20 +131,28 @@ fun MoodMatchTabContent(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
+                    val preferenceResultType =
+                        if (uiState.tournamentDetail.preferenceResult.preferenceType.isEmpty() && uiState.tournamentDetail.preferenceResult.preferenceDetailType.isEmpty()) {
+                            PreferenceResultType.TIE
+                        } else if (uiState.tournamentDetail.preferenceResult.preferenceType.isNotEmpty() && uiState.tournamentDetail.preferenceResult.preferenceDetailType.isNotEmpty()) {
+                            PreferenceResultType.TYPE_AND_DETAIL
+                        } else {
+                            PreferenceResultType.TYPE_ONLY
+                        }
                     val iconId =
-                        if (uiState.tournamentDetail.missionInfo.matchResult.preferenceResultType == PreferenceResultType.TIE) {
+                        if (preferenceResultType == PreferenceResultType.TIE) {
                             R.drawable.face_sad_tear
                         } else {
                             R.drawable.reward_stars
                         }
 
                     val findTasteMessage =
-                        if (uiState.tournamentDetail.missionInfo.matchResult.preferenceResultType == PreferenceResultType.TIE)
+                        if (preferenceResultType == PreferenceResultType.TIE)
                             "이번 무드매치는\n뚜렷한 취향의 기준이 없었어요"
                         else {
-                            "이번 무드매치는\n${uiState.tournamentDetail.missionInfo.matchResult.matchPreferenceTypeTitle}${
+                            "이번 무드매치는\n${uiState.tournamentDetail.preferenceTitle}${
                                 TextUtil.attachParticle(
-                                    uiState.tournamentDetail.missionInfo.matchResult.matchPreferenceTypeTitle
+                                    uiState.tournamentDetail.preferenceTitle
                                 )
                             } 가장 중요하게 생각했어요"
                         }
@@ -154,7 +161,7 @@ fun MoodMatchTabContent(
                             .wrapContentSize()
                             .clip(RoundedCornerShape(16.dp))
                             .background(
-                                color = if (uiState.tournamentDetail.missionInfo.matchResult.preferenceResultType == PreferenceResultType.TIE)
+                                color = if (preferenceResultType == PreferenceResultType.TIE)
                                     MooditTheme.colors.surfaceContainer
                                 else
                                     MooditTheme.colors.primary.copy(
@@ -167,7 +174,7 @@ fun MoodMatchTabContent(
                         Icon(
                             painter = painterResource(iconId),
                             contentDescription = "icon_mood_result",
-                            tint = if (uiState.tournamentDetail.missionInfo.matchResult.preferenceResultType == PreferenceResultType.TIE)
+                            tint = if (preferenceResultType == PreferenceResultType.TIE)
                                 MooditTheme.colors.onTertiary
                             else
                                 MooditTheme.colors.primary,
@@ -180,7 +187,7 @@ fun MoodMatchTabContent(
                         color = MooditTheme.colors.tertiary,
                         style = MooditTheme.typography.b3Medium
                     )
-                } */
+                }
 
                 Spacer(modifier = Modifier.height(8.dp))
 
@@ -240,16 +247,16 @@ fun MoodMatchTabContent(
 
         items(
             count = uiState.tournamentDetail.imageUris.size,
-            key = { index -> uiState.tournamentDetail.imageUris[index] }
+            key = { index -> uiState.tournamentDetail.imageUris[index].id }
         ) { index ->
-            val imageUri = uiState.tournamentDetail.imageUris[index]
+            val image = uiState.tournamentDetail.imageUris[index]
             AsyncImage(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
                     .padding(4.dp)
                     .clip(RoundedCornerShape(12.dp)),
-                model = imageUri,
+                model = image.photoUri,
                 contentScale = ContentScale.Crop,
                 contentDescription = "image",
                 error = ColorPainter(Color.Gray)

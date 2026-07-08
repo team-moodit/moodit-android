@@ -6,8 +6,8 @@ data class CompletedTournamentDetail(
     val imageUris: List<TournamentImage> = emptyList(),
     val preferenceResult: PreferenceResult = PreferenceResult(),
     val completedAt: String = "",
-
-    )
+    val preferenceTitle: String = ""
+)
 
 data class PreferenceResult(
     val preferenceType: String = "",

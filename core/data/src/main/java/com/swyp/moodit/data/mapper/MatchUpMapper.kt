@@ -172,14 +172,15 @@ fun CompletedMatchDetailResponse.toModel(): CompletedTournamentDetail {
         winnerImage = this.winnerImage.toModel(),
         imageUris = this.selectedImages.map { it.toModel() },
         completedAt = this.completedAt,
-        preferenceResult = this.preferenceResult.toModel()
+        preferenceResult = this.preferenceResult.toModel(),
+        preferenceTitle = this.preferenceTitle
     )
 }
 
 fun PreferenceResultResponse.toModel(): PreferenceResult {
     return PreferenceResult(
-        preferenceType = this.preferenceType,
-        preferenceDetailType = this.preferenceDetailType
+        preferenceType = this.preferenceType?:"",
+        preferenceDetailType = this.preferenceDetailType?:""
     )
 }
 
