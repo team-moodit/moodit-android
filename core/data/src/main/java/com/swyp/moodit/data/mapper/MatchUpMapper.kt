@@ -173,7 +173,7 @@ fun CompletedMatchDetailResponse.toModel(): CompletedTournamentDetail {
         imageUris = this.selectedImages.map { it.toModel() },
         completedAt = this.completedAt,
         preferenceResult = this.preferenceResult.toModel(),
-        preferenceTitle = this.preferenceTitle
+        preferenceTitle = this.preferenceTitle?:""
     )
 }
 

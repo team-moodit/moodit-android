@@ -6,11 +6,11 @@ data class CompletedMatchDetailResponse(
     val preferenceResult: PreferenceResultResponse,
     val completedAt: String,
     val selectedImages: List<MatchImageResponse>,
-    val preferenceTitle: String
+    val preferenceTitle: String?
 )
 
 data class PreferenceResultResponse(
-    val preferenceType: String? = "",
-    val preferenceDetailType: String? = ""
+    val preferenceType: String?,
+    val preferenceDetailType: String?
 )
 
