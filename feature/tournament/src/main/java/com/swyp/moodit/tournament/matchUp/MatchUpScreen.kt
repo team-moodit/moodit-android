@@ -91,7 +91,7 @@ fun MatchUpScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .navigationBarsPadding()
-                        .padding(16.dp),
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                     shape = RoundedCornerShape(12.dp),
                     enabled = uiState.selectedReason != null,
                     text = if (uiState.matchUpInfo.isCompleted) "결과 보러가기" else "다음"
@@ -134,7 +134,7 @@ fun SelectPhotoContent(
     onSelectPhoto: (Candidate) -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(top = 5.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -286,7 +286,7 @@ fun MatchUpScreenPreview() {
     MooditTheme {
         MatchUpScreen(
             uiState = MatchUpContract.State(
-
+                matchUpInfo = MatchUpInfo(title = "아아아앙")
             ),
             onSelectCandidate = {},
             onReasonSelect = {},
@@ -302,7 +302,7 @@ fun MatchUpScreenPreview() {
 fun SelectPhotoContentPreview() {
     MaterialTheme {
         SelectPhotoContent(
-            uiState = MatchUpContract.State(),
+            uiState = MatchUpContract.State(matchUpInfo = MatchUpInfo(title = "아아아앙")),
             onSelectPhoto = {}
         )
     }
