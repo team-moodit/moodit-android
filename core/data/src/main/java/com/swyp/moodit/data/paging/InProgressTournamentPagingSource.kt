@@ -13,11 +13,8 @@ class InProgressTournamentPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, InProgressTournament> {
         val currentPage = params.key ?: 0
         return try {
-            val response =
-                mooditApi.getPagingInProgressMoodMatches(page = currentPage, size = params.loadSize)
-                    .getOrThrow()
-            val tournaments =
-                response.content.flatMap { matchResponse -> matchResponse.content.map { it.toModel() } }
+            val response = mooditApi.getPagingInProgressMoodMatches(page = currentPage, size = params.loadSize).getOrThrow()
+            val tournaments = response.content.map { it.toModel() }
             val hasNext = response.hasNext
             LoadResult.Page(
                 data = tournaments,

@@ -170,7 +170,6 @@ fun TournamentMainScreen(
                 }
             }
 
-
             LazyVerticalGrid(
                 modifier = Modifier
                     .fillMaxWidth()

@@ -144,8 +144,7 @@ fun CompletedMatchResponse.toModel(): CompletedTournament {
         matchId = this.matchId,
         title = this.title,
         winnerImageId = this.winnerImageId,
-        winnerImageUri = this.winnerImageUri,
-        completedAt = this.completedAt
+        winnerImageUri = this.winnerImageUri
     )
 }
 

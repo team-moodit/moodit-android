@@ -16,8 +16,7 @@ class CompletedTournamentPagingSource(
             val response =
                 mooditApi.getPagingCompletedMoodMatches(page = currentPage, size = params.loadSize)
                     .getOrThrow()
-            val tournaments =
-                response.content.flatMap { matchResponse -> matchResponse.content.map { it.toModel() } }
+            val tournaments = response.content.map { it.toModel() }
             val hasNext = response.hasNext
             LoadResult.Page(
                 data = tournaments,
