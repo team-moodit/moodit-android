@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -81,7 +82,7 @@ fun ReportPreferenceCard(
                                 )
                                 .padding(horizontal = 12.dp, vertical = 4.dp),
                             content = topPreference.title,
-                            textStyle = MooditTheme.typography.b3Large
+                            textStyle = MooditTheme.typography.b1Small
                         )
                         Text(
                             text = "관련 기준이었어요",
@@ -145,6 +146,7 @@ fun PreferenceDistributionItem(
     val barColor = when {
         isTie -> MooditTheme.colors.textSecondary
         rank == 1 -> MooditTheme.colors.primary
+        rank == 2 -> MooditTheme.colors.textSecondary.copy(alpha = 0.6f)
         else -> MooditTheme.colors.textSecondary
     }
 
@@ -166,7 +168,7 @@ fun PreferenceDistributionItem(
 
         Box(
             modifier = Modifier
-                .fillMaxWidth()
+                .width(80.dp)
                 .padding(horizontal = 8.dp)
                 .weight((preference.percentage / 100f).toFloat(), fill = true)
                 .heightIn(min = 24.dp)
