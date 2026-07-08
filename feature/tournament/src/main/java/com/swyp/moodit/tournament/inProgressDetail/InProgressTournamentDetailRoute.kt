@@ -1,4 +1,4 @@
-package com.swyp.moodit.tournament.detail
+package com.swyp.moodit.tournament.inProgressDetail
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,8 +15,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 
 @Composable
-fun TournamentDetailRoute(
-    viewModel: TournamentDetailViewModel = hiltViewModel(),
+fun InProgressTournamentDetailRoute(
+    viewModel: InProgressTournamentDetailViewModel = hiltViewModel(),
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -24,7 +24,7 @@ fun TournamentDetailRoute(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
-                is TournamentDetailContract.SideEffect.ShowSnackbar -> onShowSnackbar(
+                is InProgressTournamentDetailContract.SideEffect.ShowSnackbar -> onShowSnackbar(
                     sideEffect.message,
                     null
                 )
@@ -48,9 +48,9 @@ fun TournamentDetailRoute(
         }
 
         else -> {
-            TournamentDetailScreen(
+            InProgressTournamentDetailScreen(
                 uiState = uiState,
-                onDeleteClick = { viewModel.sendIntent(TournamentDetailContract.Intent.OnDeleteTournamentClick) }
+                onDeleteClick = { viewModel.sendIntent(InProgressTournamentDetailContract.Intent.OnDeleteTournamentClick) }
             )
         }
     }

@@ -174,44 +174,81 @@ class MatchUpViewModel @Inject constructor(
                     matchUpId = currentState.matchUpInfo.nextMatchUp?.matchUpId ?: -1L
                 )
             )
+            reduce { it.copy(isLoading = false) }
             when (result) {
                 is Result.Success -> onSuccess()
                 is Result.Error -> onError(result.exception.message ?: "")
             }
-            reduce { it.copy(isLoading = false) }
         }
     }
 
-    private fun getMatchUpResult() {
-        viewModelScope.launch {
-            reduce { it.copy(isLoading = true) }
-            when (val result = tournamentRepository.getMatchUpResult(tournamentId)) {
-                is Result.Success -> {
-                    sendEffect(MatchUpContract.SideEffect.NavigateToResult(result.data.matchResultId))
-                }
+    private suspend fun getMatchUpResult(): Boolean {
+        reduce { it.copy(isLoading = true) }
+        val result = tournamentRepository.getMatchUpResult(tournamentId)
+        reduce { it.copy(isLoading = false) }
 
-                is Result.Error -> {
-                    sendEffect(
-                        MatchUpContract.SideEffect.ShowSnackbar(
-                            result.exception.message ?: "매치 결과를 조회할 수 없습니다.",
-                            MooditSnackbarType.ERROR
-                        )
+        return when (result) {
+            is Result.Success -> {
+                sendEffect(MatchUpContract.SideEffect.NavigateToResult(result.data.matchResultId))
+                true
+            }
+
+            is Result.Error -> {
+                sendEffect(
+                    MatchUpContract.SideEffect.ShowSnackbar(
+                        result.exception.message ?: "매치 결과를 조회할 수 없습니다.",
+                        MooditSnackbarType.ERROR
                     )
-                }
+                )
+                false
             }
         }
     }
 
     private fun handleSaveMatchUpSuccess() {
-        if (currentState.matchUpInfo.isCompleted) {
-            getMatchUpResult()
-        } else {
-            getTournamentInfo(isSilentRefresh = true)
+        viewModelScope.launch {
+            if (currentState.matchUpInfo.isCompleted) {
+                val hasCompleted = getMatchUpResult()
+                if (hasCompleted) {
+                    clearTournamentId()
+                }
+            } else {
+                setOnGoingTournamentId(tournamentId)
+                getTournamentInfo(isSilentRefresh = true)
+            }
+            //sendEffect(MatchUpContract.SideEffect.ShowSnackbar("진행 상황이 저장됐어요"))
         }
-        //sendEffect(MatchUpContract.SideEffect.ShowSnackbar("진행 상황이 저장됐어요"))
     }
 
     private fun updateRetryDialogState(showRetryDialog: Boolean) {
         reduce { it.copy(showRetryDialog = showRetryDialog) }
+    }
+
+    private suspend fun setOnGoingTournamentId(tournamentId: Long) {
+        when (val result = tournamentRepository.setOnGoingTournamentId(tournamentId)) {
+            is Result.Success -> {}
+            is Result.Error -> {
+                sendEffect(
+                    MatchUpContract.SideEffect.ShowSnackbar(
+                        result.exception.message ?: "진행 중인 토너먼트 ID 저장에 실패했습니다.",
+                        MooditSnackbarType.ERROR
+                    )
+                )
+            }
+        }
+    }
+
+    private suspend fun clearTournamentId() {
+        when (val result = tournamentRepository.clearOnGoingTournamentId()) {
+            is Result.Success -> {}
+            is Result.Error -> {
+                sendEffect(
+                    MatchUpContract.SideEffect.ShowSnackbar(
+                        result.exception.message ?: "저장된 토너먼트 ID를 삭제할 수 없습니다.",
+                        MooditSnackbarType.ERROR
+                    )
+                )
+            }
+        }
     }
 }

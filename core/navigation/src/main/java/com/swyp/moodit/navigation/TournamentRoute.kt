@@ -14,5 +14,8 @@ sealed interface TournamentRoute : Route {
     data class Result(val matchResultId: Long) : TournamentRoute
 
     @Serializable
-    data class Detail(val tournamentId: String) : TournamentRoute
+    data class InProgressDetail(val tournamentId: Long) : TournamentRoute
+
+    @Serializable
+    data class CompletedDetail(val tournamentId: Long) : TournamentRoute
 }

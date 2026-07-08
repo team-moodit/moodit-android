@@ -23,7 +23,7 @@ fun PreferenceDetailResponse.toModel(): PreferenceDetail {
 fun SummaryCountResponse.toModel(): SummaryCount {
     return SummaryCount(
         totalMatchCount = this.totalMatchCount,
-        reviewedMissionCount = this.reviewedMissionCount
+        reviewedMissionCount = this.completedMissionCount
     )
 }
 

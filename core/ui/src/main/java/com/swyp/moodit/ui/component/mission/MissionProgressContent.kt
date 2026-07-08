@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.approachLayout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,7 +43,8 @@ fun MissionProgressContent(
     onMissionDeleteClick: () -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.Start
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         MooditTag(content = tagContent)
         Text(
@@ -50,10 +52,12 @@ fun MissionProgressContent(
             text = mission.missionTitle,
             style = MooditTheme.typography.h2,
             color = MooditTheme.colors.onPrimaryContainer,
-            textAlign = TextAlign.Start
+            textAlign = TextAlign.Center
         )
 
         Text(
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Start,
             text = "무드매치 정보",
             style = MooditTheme.typography.b1Medium,
             color = MooditTheme.colors.onPrimaryContainer

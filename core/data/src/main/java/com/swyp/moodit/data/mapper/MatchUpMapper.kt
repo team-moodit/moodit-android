@@ -10,10 +10,24 @@ import com.swyp.moodit.model.MissionSuggestion
 import com.swyp.moodit.model.MoodMatchResult
 import com.swyp.moodit.model.PreferenceResultType
 import com.swyp.moodit.model.SelectedMatchUpIds
+import com.swyp.moodit.model.tournament.CompletedTournament
+import com.swyp.moodit.model.tournament.CompletedTournamentDetail
+import com.swyp.moodit.model.tournament.InProgressMatchInfo
+import com.swyp.moodit.model.tournament.InProgressTournament
+import com.swyp.moodit.model.tournament.InProgressTournamentDetail
+import com.swyp.moodit.model.tournament.PreferenceResult
+import com.swyp.moodit.model.tournament.TournamentImage
+import com.swyp.moodit.network.model.tournament.CompletedMatchDetailResponse
+import com.swyp.moodit.network.model.tournament.CompletedMatchResponse
+import com.swyp.moodit.network.model.tournament.InProgressMatchDetailResponse
+import com.swyp.moodit.network.model.tournament.InProgressMatchInfoResponse
+import com.swyp.moodit.network.model.tournament.InProgressMatchResponse
+import com.swyp.moodit.network.model.tournament.MatchImageResponse
 import com.swyp.moodit.network.model.tournament.MatchUpResultResponse
 import com.swyp.moodit.network.model.tournament.MissionMatchResultResponse
 import com.swyp.moodit.network.model.tournament.MissionOfferResponse
 import com.swyp.moodit.network.model.tournament.MissionSuggestionResponse
+import com.swyp.moodit.network.model.tournament.PreferenceResultResponse
 import com.swyp.moodit.network.model.tournament.matchUp.CandidateResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpProgressResponse
@@ -99,7 +113,7 @@ fun SelectedMatchUpIds.toNetworkRequest(): SaveMatchUpRequest {
 fun MissionSuggestionResponse.toModel(): MissionSuggestion {
     return MissionSuggestion(
         id = this.id,
-        title = this.title
+        title = this.title.replace("\\n", "\n")
     )
 }
 
@@ -112,6 +126,68 @@ fun MissionMatchResultResponse.toModel(): MissionMatchResult {
         matchRoundCount = this.matchRoundCount,
         matchCompletedAt = this.matchCompletedAt,
         preferenceResultType = this.preferenceResultType.toModel()
+    )
+}
+
+fun InProgressMatchResponse.toModel(): InProgressTournament {
+    return InProgressTournament(
+        matchId = this.matchId,
+        title = this.title,
+        currentRound = this.currentRound,
+        totalRound = this.totalRound,
+        lastPlayedAt = this.lastPlayedAt
+    )
+}
+
+fun CompletedMatchResponse.toModel(): CompletedTournament {
+    return CompletedTournament(
+        matchId = this.matchId,
+        title = this.title,
+        winnerImageId = this.winnerImageId,
+        winnerImageUri = this.winnerImageUri,
+        completedAt = this.completedAt
+    )
+}
+
+fun InProgressMatchDetailResponse.toModel(): InProgressTournamentDetail {
+    return InProgressTournamentDetail(
+        title = this.tournamentTitle,
+        currentRound = this.currentRound,
+        totalRound = this.totalRounds,
+        currentMatchOrder = this.currentMatchOrder,
+        matchInfo = this.matchInfo.toModel(),
+        images = this.selectedImages.map { it.toModel() }
+    )
+}
+
+fun InProgressMatchInfoResponse.toModel(): InProgressMatchInfo {
+    return InProgressMatchInfo(
+        totalImageCount = this.totalImageCount,
+        createdAt = this.createdAt
+    )
+}
+
+fun CompletedMatchDetailResponse.toModel(): CompletedTournamentDetail {
+    return CompletedTournamentDetail(
+        title = this.title,
+        winnerImage = this.winnerImage.toModel(),
+        imageUris = this.selectedImages.map { it.toModel() },
+        completedAt = this.completedAt,
+        preferenceResult = this.preferenceResult.toModel()
+    )
+}
+
+fun PreferenceResultResponse.toModel(): PreferenceResult {
+    return PreferenceResult(
+        preferenceType = this.preferenceType,
+        preferenceDetailType = this.preferenceDetailType
+    )
+}
+
+fun MatchImageResponse.toModel(): TournamentImage {
+    return TournamentImage(
+        id = this.id,
+        photoUri = this.photoUri
     )
 }
 

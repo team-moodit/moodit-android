@@ -1,10 +1,12 @@
 package com.swyp.moodit.designsystem.theme
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.swyp.moodit.designsystem.R
@@ -26,7 +28,14 @@ private val mooditTextStyle = TextStyle(
     fontWeight = FontWeight.Medium,
     fontSize = TextUnit.Unspecified,
     lineHeight = TextUnit.Unspecified,
-    letterSpacing = TextUnit.Unspecified
+    letterSpacing = TextUnit.Unspecified,
+    platformStyle = PlatformTextStyle(
+        includeFontPadding = false
+    ),
+    lineHeightStyle = LineHeightStyle(
+        alignment = LineHeightStyle.Alignment.Center,
+        trim = LineHeightStyle.Trim.None
+    )
 )
 
 @Immutable

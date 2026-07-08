@@ -38,7 +38,7 @@ fun MissionCompletedContent(tagContent: String, mission: Mission) {
     val findPreferenceType = mission.matchResult.preferenceResultType != PreferenceResultType.TIE
     Column(
         modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.Start
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         MooditTag(content = tagContent)
         Text(
@@ -46,7 +46,7 @@ fun MissionCompletedContent(tagContent: String, mission: Mission) {
             text = mission.missionTitle,
             style = MooditTheme.typography.h2,
             color = MooditTheme.colors.onPrimaryContainer,
-            textAlign = TextAlign.Start
+            textAlign = TextAlign.Center
         )
 
         Row(

@@ -8,8 +8,9 @@ import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.navigation.BottomBarRoute
 import com.swyp.moodit.navigation.TournamentRoute
+import com.swyp.moodit.tournament.completedDetail.CompletedTournamentDetailRoute
 import com.swyp.moodit.tournament.create.CreateTournamentRoute
-import com.swyp.moodit.tournament.detail.TournamentDetailRoute
+import com.swyp.moodit.tournament.inProgressDetail.InProgressTournamentDetailRoute
 import com.swyp.moodit.tournament.main.TournamentMainRoute
 import com.swyp.moodit.tournament.matchUp.MatchUpRoute
 import com.swyp.moodit.tournament.result.TournamentResultRoute
@@ -18,28 +19,39 @@ fun NavGraphBuilder.tournamentNavGraph(
     navController: NavController,
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
     navigateToMissionDetail: (Long, MissionStatus) -> Unit,
-    popBackStack: () -> Unit,
+    navigateToSetting: () -> Unit,
+    navigateToMatchUp: (Long, Boolean) -> Unit,
+    navigateToHome: () -> Unit,
 ) {
     composable<BottomBarRoute.Tournament> {
         TournamentMainRoute(
             onShowSnackbar = onShowSnackbar,
-            navigateToTournamentDetail = { navController.navigateToTournamentDetail(it) }
+            navigateToInProgressTournamentDetail = { id ->
+                navController.navigateToInProgressTournamentDetail(
+                    tournamentId = id
+                )
+            },
+            navigateToCompletedTournamentDetail = { id ->
+                navController.navigateToCompletedTournamentDetail(
+                    tournamentId = id
+                )
+            },
+            navigateToSetting = navigateToSetting
         )
     }
 
-    composable<TournamentRoute.Detail>() {
-        TournamentDetailRoute(onShowSnackbar = onShowSnackbar)
+    composable<TournamentRoute.InProgressDetail>() {
+        InProgressTournamentDetailRoute(onShowSnackbar = onShowSnackbar)
+    }
+
+    composable<TournamentRoute.CompletedDetail>() {
+        CompletedTournamentDetailRoute(onShowSnackbar = onShowSnackbar)
     }
 
     composable<TournamentRoute.CreateTournament>() {
         CreateTournamentRoute(
             onShowSnackbar = onShowSnackbar,
-            navigateToMatchUp = { tournamentId, isStarted ->
-                navController.navigateToMatchUp(
-                    tournamentId,
-                    isStarted
-                )
-            }
+            navigateToMatchUp = navigateToMatchUp
         )
     }
 
@@ -47,7 +59,7 @@ fun NavGraphBuilder.tournamentNavGraph(
         MatchUpRoute(
             onShowSnackbar = onShowSnackbar,
             navigateToTournamentResult = { navController.navigateToTournamentResult(it) },
-            navigateToHome = popBackStack
+            navigateToHome = navigateToHome
         )
     }
 
@@ -63,8 +75,12 @@ fun NavController.navigateToTournament(navOptions: NavOptions) {
     navigate(BottomBarRoute.Tournament, navOptions)
 }
 
-fun NavController.navigateToTournamentDetail(tournamentId: String) {
-    navigate(TournamentRoute.Detail(tournamentId))
+fun NavController.navigateToInProgressTournamentDetail(tournamentId: Long) {
+    navigate(TournamentRoute.InProgressDetail(tournamentId))
+}
+
+fun NavController.navigateToCompletedTournamentDetail(tournamentId: Long) {
+    navigate(TournamentRoute.CompletedDetail(tournamentId))
 }
 
 fun NavController.navigateToMatchUp(tournamentId: Long, isStarted: Boolean) {

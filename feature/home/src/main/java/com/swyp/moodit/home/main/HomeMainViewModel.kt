@@ -3,22 +3,29 @@ package com.swyp.moodit.home.main
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.swyp.moodit.data.repository.MissionRepository
+import com.swyp.moodit.data.repository.TournamentRepository
 import com.swyp.moodit.model.MissionState
 import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeMainViewModel @Inject constructor(
-    private val missionRepository: MissionRepository
+    private val missionRepository: MissionRepository,
+    private val tournamentRepository: TournamentRepository
 ) :
     BaseViewModel<HomeMainContract.State, HomeMainContract.Intent, HomeMainContract.SideEffect>(
         initialState = HomeMainContract.State()
     ) {
 
+    private var isDialogShownInThisSession = false
+
     init {
         loadMissions()
+        //observeOnGoingTournament()
     }
 
     private fun loadMissions() {
@@ -46,6 +53,7 @@ class HomeMainViewModel @Inject constructor(
             }
 
             is HomeMainContract.Intent.OnCreateTournamentClick -> {
+                isDialogShownInThisSession = false
                 sendEffect(HomeMainContract.SideEffect.NavigateToCreateTournament)
             }
 
@@ -57,6 +65,52 @@ class HomeMainViewModel @Inject constructor(
                     )
                 )
             }
+
+            is HomeMainContract.Intent.OnDismissTournamentDialog -> {
+                reduce { it.copy(showResumeTournamentDialog = false) }
+            }
+
+            is HomeMainContract.Intent.CheckOnGoingTournament -> {
+                checkOnGoingTournament()
+            }
+
+            is HomeMainContract.Intent.OnResumeTournamentClick -> {
+                isDialogShownInThisSession = false
+                reduce { it.copy(showResumeTournamentDialog = false) }
+                sendEffect(HomeMainContract.SideEffect.NavigateToMatchUp(intent.tournamentId))
+            }
         }
     }
+
+    private fun checkOnGoingTournament() {
+        if (isDialogShownInThisSession) return
+
+        viewModelScope.launch {
+            val tournamentId = tournamentRepository.onGoingTournamentId.firstOrNull() ?: -1L
+            if (tournamentId != -1L && tournamentId != 0L) {
+                isDialogShownInThisSession = true
+                reduce {
+                    it.copy(
+                        showResumeTournamentDialog = true,
+                        resumeTournamentId = tournamentId
+                    )
+                }
+            }
+        }
+    }
+
+    /*private fun observeOnGoingTournament() {
+        viewModelScope.launch {
+            tournamentRepository.onGoingTournamentId.collect { tournamentId ->
+                if (tournamentId != -1L) {
+                    reduce {
+                        it.copy(
+                            showResumeTournamentDialog = true,
+                            resumeTournamentId = tournamentId
+                        )
+                    }
+                }
+            }
+        }
+    }*/
 }

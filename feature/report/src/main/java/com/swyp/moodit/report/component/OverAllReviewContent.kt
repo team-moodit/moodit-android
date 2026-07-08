@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -22,6 +23,7 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.swyp.moodit.common.util.TextUtil
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.report.PreferenceDetail
 import com.swyp.moodit.model.report.PreferenceReport
@@ -76,7 +78,7 @@ fun OverAllReviewContent(
                         color = MooditTheme.colors.primary
                     )
                     Text(
-                        text = "를",
+                        text = TextUtil.attachParticle(uiState.reportSummary.preferenceReport.topPreference.title),
                         style = MooditTheme.typography.b1Large,
                         color = MooditTheme.colors.onPrimaryContainer
                     )
@@ -119,8 +121,8 @@ fun OverAllReviewContent(
                         )
                         Button(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 80.dp),
+                                .wrapContentWidth()
+                                .padding(horizontal = 20.dp),
                             onClick = onCheckMissionClick,
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = MooditTheme.colors.primary,

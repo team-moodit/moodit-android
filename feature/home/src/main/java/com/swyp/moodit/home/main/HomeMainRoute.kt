@@ -13,7 +13,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.swyp.moodit.designsystem.component.MooditDialog
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
+import com.swyp.moodit.designsystem.component.button.MooditFilledButton
+import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.MissionStatus
 
 @Composable
@@ -23,6 +26,7 @@ fun HomeMainRoute(
     navigateToSetting: () -> Unit,
     navigateToCreateTournament: () -> Unit,
     navigateToMissionDetail: (Long, MissionStatus) -> Unit,
+    navigateToMatchUp: (Long, Boolean) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val inProgressMissions = uiState.inProgressMissions.collectAsLazyPagingItems()
@@ -33,6 +37,7 @@ fun HomeMainRoute(
         inProgressMissions.refresh()
         completedMissions.refresh()
         feedbackSubMittedMissions.refresh()
+        viewModel.sendIntent(HomeMainContract.Intent.CheckOnGoingTournament)
     }
 
     LaunchedEffect(Unit) {
@@ -48,6 +53,11 @@ fun HomeMainRoute(
                 is HomeMainContract.SideEffect.ShowSnackbar -> onShowSnackbar(
                     sideEffect.message,
                     null
+                )
+
+                is HomeMainContract.SideEffect.NavigateToMatchUp -> navigateToMatchUp(
+                    sideEffect.tournamentId,
+                    false
                 )
             }
         }
@@ -78,6 +88,32 @@ fun HomeMainRoute(
                     )
                 }
             )
+
+            if (uiState.showResumeTournamentDialog) {
+                MooditDialog(
+                    title = "이어서 진행할 무드매치가 있어요",
+                    description = "마지막 선택 지점부터 다시 시작해요."
+                ) {
+                    MooditFilledButton(
+                        onClick = { viewModel.sendIntent(HomeMainContract.Intent.OnDismissTournamentDialog) },
+                        modifier = Modifier.weight(1f),
+                        text = "나중에",
+                        containerColor = MooditTheme.colors.surfaceContainer,
+                        contentColor = MooditTheme.colors.textSecondary
+                    )
+                    MooditFilledButton(
+                        onClick = {
+                            viewModel.sendIntent(
+                                HomeMainContract.Intent.OnResumeTournamentClick(
+                                    uiState.resumeTournamentId
+                                )
+                            )
+                        },
+                        modifier = Modifier.weight(1f),
+                        text = "이어하기"
+                    )
+                }
+            }
         }
     }
 }

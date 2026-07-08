@@ -51,6 +51,12 @@ fun MooditNavHost(
                     missionId,
                     status
                 )
+            },
+            navigateToMatchUp = { tournamentId, isStarted ->
+                appState.navigateToMatchUp(
+                    tournamentId,
+                    isStarted
+                )
             }
         )
 
@@ -63,7 +69,14 @@ fun MooditNavHost(
                     status
                 )
             },
-            popBackStack = { appState.popBackStack() }
+            navigateToSetting = { appState.navigateToSetting() },
+            navigateToMatchUp = { tournamentId, isStarted ->
+                appState.navigateToMatchUp(
+                    tournamentId,
+                    isStarted
+                )
+            },
+            navigateToHome = { appState.navigateToMain() }
         )
 
         reportNavGraph(

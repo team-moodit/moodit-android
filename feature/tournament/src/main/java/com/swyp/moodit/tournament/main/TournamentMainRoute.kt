@@ -11,16 +11,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 
 @Composable
 fun TournamentMainRoute(
     viewModel: TournamentMainViewModel = hiltViewModel(),
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
-    navigateToTournamentDetail: (String) -> Unit
+    navigateToInProgressTournamentDetail: (Long) -> Unit,
+    navigateToCompletedTournamentDetail: (Long) -> Unit,
+    navigateToSetting: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val inProgressTournaments = uiState.inProgressTournaments.collectAsLazyPagingItems()
+    val completedTournaments = uiState.completedTournaments.collectAsLazyPagingItems()
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { sideEffect ->
@@ -30,12 +37,26 @@ fun TournamentMainRoute(
                     null
                 )
 
-                is TournamentMainContract.SideEffect.NavigateToTournamentDetail -> {
-                    navigateToTournamentDetail(sideEffect.tournamentId)
+                is TournamentMainContract.SideEffect.NavigateToInProgressTournamentDetail -> {
+                    navigateToInProgressTournamentDetail(sideEffect.tournamentId)
+                }
+
+                is TournamentMainContract.SideEffect.NavigateToCompletedTournamentDetail -> {
+                    navigateToCompletedTournamentDetail(sideEffect.tournamentId)
+                }
+
+                is TournamentMainContract.SideEffect.NavigateToSetting -> {
+                    navigateToSetting()
                 }
             }
         }
     }
+
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        inProgressTournaments.refresh()
+        completedTournaments.refresh()
+    }
+
 
     when {
         uiState.isLoading -> {
@@ -54,12 +75,21 @@ fun TournamentMainRoute(
 
         else -> {
             TournamentMainScreen(
-                onTournamentClick = {
+                uiState = uiState,
+                inProgressTournaments = inProgressTournaments,
+                completedTournaments = completedTournaments,
+                onInProgressTournamentClick = { id ->
                     viewModel.sendIntent(
-                        TournamentMainContract.Intent.OnTournamentClick(
-                            it
-                        )
+                        TournamentMainContract.Intent.OnInProgressTournamentClick(id)
                     )
+                },
+                onCompletedTournamentClick = { id ->
+                    viewModel.sendIntent(
+                        TournamentMainContract.Intent.OnCompletedTournamentClick(id)
+                    )
+                },
+                onSettingClick = {
+                    viewModel.sendIntent(TournamentMainContract.Intent.OnSettingClick)
                 }
             )
         }
