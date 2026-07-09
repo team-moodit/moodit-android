@@ -9,6 +9,7 @@ import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,15 +33,30 @@ class InProgressTournamentDetailViewModel @Inject constructor(
     override fun handleIntents(intent: InProgressTournamentDetailContract.Intent) {
         when (intent) {
             is InProgressTournamentDetailContract.Intent.OnDeleteTournamentClick -> {
+                deleteTournament()
+            }
+
+            is InProgressTournamentDetailContract.Intent.OnDeleteTournamentCompleteClick -> {
                 sendEffect(
-                    InProgressTournamentDetailContract.SideEffect.ShowSnackbar("토너먼트 삭제하시겠습니까?")
+                    InProgressTournamentDetailContract.SideEffect.NavigateToTournament
                 )
             }
 
             is InProgressTournamentDetailContract.Intent.OnResumeTournamentClick -> {
                 sendEffect(
-                    InProgressTournamentDetailContract.SideEffect.NavigateToMatchUp(tournamentId, false)
+                    InProgressTournamentDetailContract.SideEffect.NavigateToMatchUp(
+                        tournamentId,
+                        false
+                    )
                 )
+            }
+
+            is InProgressTournamentDetailContract.Intent.OnDeleteDialogShowChange -> {
+                updateDeleteDialogShow(intent.show)
+            }
+
+            is InProgressTournamentDetailContract.Intent.OnDeleteCompleteDialogShowChange -> {
+                updateDeleteCompleteDialogShow(intent.show)
             }
         }
     }
@@ -63,5 +79,34 @@ class InProgressTournamentDetailViewModel @Inject constructor(
             }
             reduce { it.copy(isLoading = false) }
         }
+    }
+
+    private fun deleteTournament() {
+        viewModelScope.launch {
+            reduce { it.copy(isLoading = true) }
+            when (val result = tournamentRepository.deleteTournament(tournamentId)) {
+                is Result.Success -> {
+                    updateDeleteCompleteDialogShow(true)
+                }
+
+                is Result.Error -> {
+                    Timber.d(result.exception)
+                    sendEffect(
+                        InProgressTournamentDetailContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "토너먼트 삭제에 실패했습니다."
+                        )
+                    )
+                }
+            }
+            reduce { it.copy(isLoading = false) }
+        }
+    }
+
+    private fun updateDeleteDialogShow(show: Boolean) {
+        reduce { it.copy(showDeleteDialog = show) }
+    }
+
+    private fun updateDeleteCompleteDialogShow(show: Boolean) {
+        reduce { it.copy(showDeleteCompleteDialog = show) }
     }
 }

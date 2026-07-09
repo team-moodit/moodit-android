@@ -9,16 +9,22 @@ class InProgressTournamentDetailContract {
     data class State(
         val isLoading: Boolean = false,
         val tournamentId: Long = 0L,
-        val tournamentDetail: InProgressTournamentDetail = InProgressTournamentDetail()
+        val tournamentDetail: InProgressTournamentDetail = InProgressTournamentDetail(),
+        val showDeleteDialog: Boolean = false,
+        val showDeleteCompleteDialog: Boolean = false
     ) : UiState
 
     sealed interface SideEffect : UiSideEffect {
         data class ShowSnackbar(val message: String) : SideEffect
         data class NavigateToMatchUp(val tournamentId: Long, val isStarted: Boolean) : SideEffect
+        data object NavigateToTournament: SideEffect
     }
 
     sealed interface Intent : UiIntent {
         data object OnDeleteTournamentClick : Intent
         data object OnResumeTournamentClick : Intent
+        data object OnDeleteTournamentCompleteClick : Intent
+        data class OnDeleteDialogShowChange(val show: Boolean) : Intent
+        data class OnDeleteCompleteDialogShowChange(val show: Boolean) : Intent
     }
 }
