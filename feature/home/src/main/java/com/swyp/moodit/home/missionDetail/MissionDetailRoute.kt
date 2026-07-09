@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.swyp.moodit.designsystem.R
+import com.swyp.moodit.designsystem.component.MooditLottie
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.designsystem.theme.MooditTheme
 
@@ -109,10 +110,8 @@ fun MissionDetailRoute(
                     )
                     Spacer(modifier = Modifier.weight(1f))
 
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(80.dp),
-                        color = MooditTheme.colors.primary,
-                        strokeWidth = 12.dp
+                    MooditLottie(
+                        modifier = Modifier.size(80.dp)
                     )
                     Spacer(modifier = Modifier.weight(2.5f))
                 }

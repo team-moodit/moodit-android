@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,24 +26,19 @@ import com.swyp.moodit.designsystem.theme.MooditTheme
 
 @Composable
 fun MooditSelectableButton(content: String, isSelected: Boolean, onItemClick: () -> Unit) {
-    val baseModifier = Modifier
-        .fillMaxWidth()
-        .clip(RoundedCornerShape(12.dp))
-        .clickable { onItemClick() }
 
-    val borderModifier = if (isSelected) {
-        Modifier
-            .background(MooditTheme.colors.primary.copy(alpha = 0.1f))
-            .border(1.dp, MooditTheme.colors.primary, RoundedCornerShape(12.dp))
-    } else {
-        Modifier
-            .background(MooditTheme.colors.primaryContainer)
-            .border(1.dp, MooditTheme.colors.surfaceContainer, RoundedCornerShape(12.dp))
-    }
+    val backgroundColor = if (isSelected) MooditTheme.colors.primary.copy(alpha = 0.1f) else MooditTheme.colors.primaryContainer
+    val borderColor = if (isSelected) MooditTheme.colors.primary else MooditTheme.colors.surfaceContainer
+    val shape = RoundedCornerShape(12.dp)
 
     Row(
-        modifier = baseModifier
-            .then(borderModifier)
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 52.dp)
+            .clip(shape)
+            .background(backgroundColor)
+            .border(1.dp, borderColor, shape)
+            .clickable { onItemClick() }
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -56,7 +53,7 @@ fun MooditSelectableButton(content: String, isSelected: Boolean, onItemClick: ()
                 imageVector = Icons.Filled.CheckCircle,
                 contentDescription = "icon_check_reason",
                 tint = MooditTheme.colors.primary,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(20.dp)
             )
         }
     }

@@ -97,19 +97,23 @@ fun ReportMainScreen(
                 MissionInfoCard(
                     modifier = Modifier.weight(1f),
                     title = "무드매치 총 횟수",
-                    content = "${uiState.reportSummary.summary.totalMatchCount}회"
+                    content = "${uiState.reportSummary.summary.totalMatchCount}회",
+                    titleTextStyle = MooditTheme.typography.caption,
+                    contentTextStyle = MooditTheme.typography.b2Large
                 )
                 MissionInfoCard(
                     modifier = Modifier.weight(1f),
                     title = "완료한 미션",
-                    content = "${uiState.reportSummary.summary.reviewedMissionCount}회"
+                    content = "${uiState.reportSummary.summary.reviewedMissionCount}회",
+                    titleTextStyle = MooditTheme.typography.caption,
+                    contentTextStyle = MooditTheme.typography.b2Large
                 )
             }
 
             PrimaryTabRow(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp),
+                    .padding(top = 12.dp),
                 selectedTabIndex = uiState.selectedTab.ordinal,
                 containerColor = MooditTheme.colors.background,
                 contentColor = MooditTheme.colors.onPrimaryContainer,

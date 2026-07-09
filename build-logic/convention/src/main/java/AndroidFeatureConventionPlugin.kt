@@ -30,6 +30,7 @@ class AndroidFeatureConventionPlugin: Plugin<Project> {
                 implementation(libs.getBundle("test"))
 
                 implementation(libs.getLibrary("timber"))
+                implementation(libs.getLibrary("haze"))
             }
         }
     }

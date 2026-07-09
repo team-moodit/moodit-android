@@ -97,21 +97,24 @@ fun CreateTournamentRoute(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ) {
-                MooditLottie()
-
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.Center)
-                        .padding(bottom = 150.dp),
+                    modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Spacer(modifier = Modifier.weight(1f))
+
                     Text(
                         text = "내 취향을 찾기 위한\n무드매치를 준비하고 있어요",
                         textAlign = TextAlign.Center,
                         style = MooditTheme.typography.h2,
                         color = Color.White
                     )
+
+                    Spacer(modifier = Modifier.height(120.dp))
+
+                    MooditLottie()
+
+                    Spacer(modifier = Modifier.weight(1f))
                 }
             }
         }
@@ -161,20 +164,24 @@ fun TestRunEventWithTestCase() {
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
-            MooditLottie()
-
             Column(
-                modifier = Modifier
-                    .fillMaxWidth().padding(bottom = 450.dp)
-                    .align(Alignment.Center),
+                modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Spacer(modifier = Modifier.weight(1f))
+
                 Text(
                     text = "내 취향을 찾기 위한\n무드매치를 준비하고 있어요",
                     textAlign = TextAlign.Center,
                     style = MooditTheme.typography.h2,
                     color = Color.White
                 )
+
+                Spacer(modifier = Modifier.height(120.dp))
+
+                MooditLottie()
+
+                Spacer(modifier = Modifier.weight(2f))
             }
         }
     }

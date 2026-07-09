@@ -154,6 +154,7 @@ fun MissionCompletedContent(tagContent: String, mission: Mission) {
         Spacer(modifier = Modifier.height(32.dp))
 
         Text(
+            modifier = Modifier.fillMaxWidth(),
             text = "무드매치 정보",
             style = MooditTheme.typography.b1Medium,
             color = MooditTheme.colors.onPrimaryContainer

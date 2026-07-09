@@ -113,6 +113,8 @@ fun MissionDetailContent(
                 tagContent, missionInfo, onMissionDeleteClick = { onDeleteDialogShowChange(true) }
             )
         }
+
+        Spacer(modifier = Modifier.height(20.dp))
     }
 
     if (showSatisfactionBottomSheet) {

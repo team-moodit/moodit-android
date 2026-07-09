@@ -53,7 +53,6 @@ fun OverAllReviewContent(
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(16.dp)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -63,7 +62,9 @@ fun OverAllReviewContent(
                 verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 22.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
@@ -120,30 +121,28 @@ fun OverAllReviewContent(
                             color = MooditTheme.colors.onPrimaryContainer
                         )
                         Button(
-                            modifier = Modifier
-                                .wrapContentWidth()
-                                .padding(horizontal = 20.dp),
+                            modifier = Modifier.wrapContentWidth(),
                             onClick = onCheckMissionClick,
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = MooditTheme.colors.primary,
                                 contentColor = MooditTheme.colors.onPrimary
                             ),
-                            contentPadding = PaddingValues(horizontal = 57.dp, vertical = 12.dp),
-                            shape = RoundedCornerShape(12.dp)
+                            shape = RoundedCornerShape(12.dp),
+                            contentPadding = PaddingValues(horizontal = 40.dp, vertical = 12.dp)
                         ) {
                             Text(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(),
+                                modifier = Modifier.wrapContentWidth(),
                                 text = "미션 확인하기",
                                 color = MooditTheme.colors.onPrimary,
                                 style = MooditTheme.typography.b1Medium,
-                                textAlign = TextAlign.Center
+                                textAlign = TextAlign.Center,
                             )
                         }
                     }
                 }
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             ReportGuideDescription()
 
