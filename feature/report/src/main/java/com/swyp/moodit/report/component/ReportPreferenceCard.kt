@@ -29,18 +29,32 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.swyp.moodit.common.util.TextUtil
 import com.swyp.moodit.designsystem.component.MooditTag
 import com.swyp.moodit.designsystem.theme.MooditTheme
+import com.swyp.moodit.model.report.Distribution
 import com.swyp.moodit.model.report.PreferenceDetail
+import com.swyp.moodit.model.report.PreferenceReport
+import com.swyp.moodit.model.report.ResultType
 
 @Composable
 fun ReportPreferenceCard(
     modifier: Modifier = Modifier,
     totalMatchCount: Long,
-    topPreference: PreferenceDetail,
-    preferenceDistributions: List<PreferenceDetail>,
+    preferenceReport: PreferenceReport,
 ) {
-    val isTie = preferenceDistributions.distinctBy { it.percentage }.size == 1
+    val top3Distributions: List<Distribution> = preferenceReport.distributions
+        .sortedBy {
+            if (preferenceReport.resultType == ResultType.PREFERENCE_DETAIL) {
+                it.percentage
+            } else {
+                it.percentage
+            }
+        }
+        .takeLast(3)
+
+    val isTieResult = preferenceReport.resultType == ResultType.PREFERENCE_TIE
+
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
@@ -61,52 +75,105 @@ fun ReportPreferenceCard(
                     modifier = Modifier.wrapContentHeight(),
                     horizontalAlignment = Alignment.Start
                 ) {
-                    Text(
-                        text = "전체 선택 중 ${if (topPreference.percentage % 1.0 == 0.0) topPreference.percentage.toInt() else topPreference.percentage}%가",
-                        style = MooditTheme.typography.b3Large,
-                        color = MooditTheme.colors.onPrimaryContainer
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Row(
-                        modifier = Modifier.wrapContentWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        MooditTag(
-                            modifier = Modifier
-                                .wrapContentSize()
-                                .border(
-                                    width = 1.dp,
-                                    color = Color(0xFF536F21),
-                                    shape = RoundedCornerShape(100.dp)
+                    when (preferenceReport.resultType) {
+                        ResultType.PREFERENCE_DETAIL -> {
+                            Text(
+                                text = "그 중에서도",
+                                style = MooditTheme.typography.b3Large,
+                                color = MooditTheme.colors.onPrimaryContainer
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Row(
+                                modifier = Modifier.wrapContentWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                MooditTag(
+                                    modifier = Modifier
+                                        .wrapContentSize()
+                                        .border(
+                                            width = 1.dp,
+                                            color = Color(0xFF536F21),
+                                            shape = RoundedCornerShape(100.dp)
+                                        )
+                                        .padding(horizontal = 12.dp, vertical = 4.dp),
+                                    content = preferenceReport.topPreferenceDetail.title,
+                                    textStyle = MooditTheme.typography.b1Small
                                 )
-                                .padding(horizontal = 12.dp, vertical = 4.dp),
-                            content = topPreference.title,
-                            textStyle = MooditTheme.typography.b1Small
-                        )
-                        Text(
-                            text = "관련 기준이었어요",
-                            style = MooditTheme.typography.b3Large,
-                            color = MooditTheme.colors.onPrimaryContainer
-                        )
+                                Text(
+                                    text = "${TextUtil.attachSecondParticle(preferenceReport.topPreferenceDetail.title)} 가장 중요한 척도에요",
+                                    style = MooditTheme.typography.b3Large,
+                                    color = MooditTheme.colors.onPrimaryContainer
+                                )
+                            }
+                        }
+
+                        ResultType.PREFERENCE_ONLY -> {
+                            val percentageText =
+                                if (preferenceReport.topPreference.percentage % 1.0 == 0.0) {
+                                    preferenceReport.topPreference.percentage.toInt().toString()
+                                } else {
+                                    preferenceReport.topPreference.percentage.toString()
+                                }
+
+                            Text(
+                                text = "전체 선택 중 ${percentageText}%가",
+                                style = MooditTheme.typography.b3Large,
+                                color = MooditTheme.colors.onPrimaryContainer
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Row(
+                                modifier = Modifier.wrapContentWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                MooditTag(
+                                    modifier = Modifier
+                                        .wrapContentSize()
+                                        .border(
+                                            width = 1.dp,
+                                            color = Color(0xFF536F21),
+                                            shape = RoundedCornerShape(100.dp)
+                                        )
+                                        .padding(horizontal = 12.dp, vertical = 4.dp),
+                                    content = preferenceReport.topPreference.title,
+                                    textStyle = MooditTheme.typography.b1Small
+                                )
+                                Text(
+                                    text = "관련 기준이었어요",
+                                    style = MooditTheme.typography.b3Large,
+                                    color = MooditTheme.colors.onPrimaryContainer
+                                )
+                            }
+                        }
+
+                        ResultType.PREFERENCE_TIE -> {
+                            Text(
+                                text = "여러가지 기준을 참고해서\n신중히 판단하고 있어요",
+                                style = MooditTheme.typography.b1Small,
+                                color = MooditTheme.colors.onPrimaryContainer
+                            )
+                        }
+
+                        ResultType.NONE -> null
                     }
                 }
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
+                    val countColor =
+                        if (totalMatchCount == 0L) MooditTheme.colors.onSurface else MooditTheme.colors.primary
+
                     Box(
                         modifier = Modifier
                             .size(8.dp)
-                            .background(
-                                color = if (totalMatchCount == 0L) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
-                                shape = CircleShape
-                            )
+                            .background(color = countColor, shape = CircleShape)
                     )
-
                     Text(
                         text = "${totalMatchCount}개",
-                        color = if (totalMatchCount == 0L) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
+                        color = countColor,
                         style = MooditTheme.typography.caption
                     )
                 }
@@ -122,12 +189,18 @@ fun ReportPreferenceCard(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.Bottom
             ) {
-                preferenceDistributions.forEachIndexed { index, detail ->
+                top3Distributions.forEachIndexed { index, detail ->
+                    val labelText = when (preferenceReport.resultType) {
+                        ResultType.PREFERENCE_DETAIL -> detail.detailType
+                        ResultType.PREFERENCE_ONLY -> detail.title
+                        else -> detail.title
+                    }
+                    val rank = 3 - index
                     PreferenceDistributionItem(
                         modifier = Modifier.weight(1f),
                         preference = detail,
-                        isTie = isTie,
-                        rank = preferenceDistributions.size - index
+                        isTie = isTieResult,
+                        rank = rank
                     )
                 }
             }
@@ -138,11 +211,12 @@ fun ReportPreferenceCard(
 @Composable
 fun PreferenceDistributionItem(
     modifier: Modifier = Modifier,
-    preference: PreferenceDetail,
+    preference: Distribution,
     isTie: Boolean,
     rank: Int
 ) {
-    val weightValue = (preference.percentage / 100.0).toFloat().coerceAtLeast(0.01f)
+    val weightValue = (preference.percentage / 100.0).toFloat().coerceIn(0.01f, 1f)
+    val spacerWeight = (1f - weightValue).coerceAtLeast(0.01f)
     val barColor = when {
         isTie -> MooditTheme.colors.textSecondary
         rank == 1 -> MooditTheme.colors.primary
@@ -155,7 +229,7 @@ fun PreferenceDistributionItem(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(
-            modifier = Modifier.weight((1f - weightValue).coerceAtLeast(0.01f))
+            modifier = Modifier.weight(spacerWeight)
         )
 
         Text(
@@ -170,7 +244,7 @@ fun PreferenceDistributionItem(
             modifier = Modifier
                 .width(80.dp)
                 .padding(horizontal = 8.dp)
-                .weight((preference.percentage / 100f).toFloat(), fill = true)
+                .weight(weightValue, fill = true)
                 .heightIn(min = 24.dp)
                 .clip(
                     RoundedCornerShape(
@@ -199,30 +273,32 @@ fun ReportPreferenceCardPreview() {
     MooditTheme {
         ReportPreferenceCard(
             totalMatchCount = 10,
-            topPreference = PreferenceDetail(
-                type = "123",
-                title = "나와의 적합도",
-                selectedCount = 10L,
-                percentage = 50.0
-            ),
-            preferenceDistributions = listOf(
-                PreferenceDetail(
-                    type = "123",
-                    title = "지속성",
-                    selectedCount = 10L,
-                    percentage = 20.0
-                ), PreferenceDetail(
-                    type = "123",
-                    title = "심미성",
-                    selectedCount = 10L,
-                    percentage = 24.0
-                ), PreferenceDetail(
+            preferenceReport = PreferenceReport(
+                topPreference = PreferenceDetail(
                     type = "123",
                     title = "나와의 적합도",
                     selectedCount = 10L,
                     percentage = 50.0
+                ),
+                distributions = listOf(
+                    Distribution(
+                        type = "123",
+                        title = "지속성",
+                        selectedCount = 10,
+                        percentage = 20.0
+                    ), Distribution(
+                        type = "123",
+                        title = "심미성",
+                        selectedCount = 10,
+                        percentage = 24.0
+                    ), Distribution(
+                        type = "123",
+                        title = "나와의 적합도",
+                        selectedCount = 10,
+                        percentage = 50.0
+                    )
                 )
-            )
+            ),
         )
     }
 }
