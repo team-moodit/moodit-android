@@ -24,9 +24,9 @@ fun CompletedTournamentDetailScreen(
         CompletedTournamentTabRow(
             selectedTab = uiState.selectedTab, onTabClick = onTabClick
         )
-    }, /*bottomBar = {
-        /*if (uiState.selectedTab == CompletedTournamentTab.MISSION) {
-            when (uiState.tournamentDetail.missionInfo.missionState) {
+    }, bottomBar = {
+        if (uiState.selectedTab == CompletedTournamentTab.MISSION) {
+            when (uiState.mission.missionState) {
                 MissionState.IN_PROGRESS -> MooditFilledButton(
                     modifier = Modifier.padding(
                         horizontal = 16.dp
@@ -39,10 +39,10 @@ fun CompletedTournamentDetailScreen(
                     text = "만족도 입력하기"
                 )
 
-                MissionState.REVIEWED -> null
-            } */
-
-        }}*/
+                else -> null
+            }
+        }
+    }
     ) { innerPadding ->
         when (uiState.selectedTab) {
             CompletedTournamentTab.MOOD_MATCH -> MoodMatchTabContent(innerPadding, uiState)
