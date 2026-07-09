@@ -24,6 +24,7 @@ import com.swyp.moodit.model.tournament.InProgressTournamentDetail
 import com.swyp.moodit.network.api.MooditApi
 import com.swyp.moodit.network.api.S3Api
 import com.swyp.moodit.network.model.getOrThrow
+import com.swyp.moodit.network.model.getOrThrowUnit
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchRequest
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitRequest
 import kotlinx.coroutines.Dispatchers
@@ -169,6 +170,15 @@ internal class TournamentRepositoryImpl @Inject constructor(
         try {
             val response = mooditApi.getMatchUpCompletedDetail(matchId).getOrThrow()
             return Result.Success(response.toModel())
+        } catch (e: Exception) {
+            return Result.Error(e)
+        }
+    }
+
+    override suspend fun deleteTournament(matchId: Long): Result<Unit> {
+        try {
+            mooditApi.deleteMatch(matchId).getOrThrow()
+            return Result.Success(Unit)
         } catch (e: Exception) {
             return Result.Error(e)
         }
