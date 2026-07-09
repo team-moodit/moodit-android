@@ -121,25 +121,21 @@ fun OverAllReviewContent(
                             color = MooditTheme.colors.onPrimaryContainer
                         )
                         Button(
-                            modifier = Modifier
-                                .wrapContentWidth()
-                                .padding(horizontal = 20.dp),
+                            modifier = Modifier.wrapContentWidth(),
                             onClick = onCheckMissionClick,
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = MooditTheme.colors.primary,
                                 contentColor = MooditTheme.colors.onPrimary
                             ),
-                            contentPadding = PaddingValues(horizontal = 57.dp, vertical = 12.dp),
-                            shape = RoundedCornerShape(12.dp)
+                            shape = RoundedCornerShape(12.dp),
+                            contentPadding = PaddingValues(horizontal = 40.dp, vertical = 12.dp)
                         ) {
                             Text(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(),
+                                modifier = Modifier.wrapContentWidth(),
                                 text = "미션 확인하기",
                                 color = MooditTheme.colors.onPrimary,
                                 style = MooditTheme.typography.b1Medium,
-                                textAlign = TextAlign.Center
+                                textAlign = TextAlign.Center,
                             )
                         }
                     }
