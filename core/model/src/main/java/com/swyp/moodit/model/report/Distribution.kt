@@ -1,9 +1,9 @@
 package com.swyp.moodit.model.report
 
-data class PreferenceDetail(
+data class Distribution(
     val type: String = "",
     val detailType: String = "",
-    val title: String = "",
-    val selectedCount: Long = 0L,
+    val title : String = "",
+    val selectedCount: Int = 0,
     val percentage: Double = 0.0
 )

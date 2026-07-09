@@ -9,7 +9,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.swyp.moodit.home.main.HomeMainRoute
 import com.swyp.moodit.home.navigation.navigateToHome
 import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.navigation.AuthRoute
@@ -19,7 +18,6 @@ import com.swyp.moodit.navigation.MainBottomBarTab
 import com.swyp.moodit.navigation.OnBoardingRoute
 import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.report.navigation.navigateToReport
-import com.swyp.moodit.tournament.navigation.navigateToMatchUp
 import com.swyp.moodit.tournament.navigation.navigateToTournament
 
 @Composable
@@ -88,6 +86,13 @@ class MooditAppState(
     fun navigateToMain() {
         navController.navigate(BottomBarRoute.Home) {
             popUpTo(navController.graph.id) { inclusive = true }
+            launchSingleTop = true
+        }
+    }
+
+    fun navigateToTournamentMain() {
+        navController.navigate(BottomBarRoute.Tournament) {
+            popUpTo(BottomBarRoute.Home) { inclusive = false }
             launchSingleTop = true
         }
     }

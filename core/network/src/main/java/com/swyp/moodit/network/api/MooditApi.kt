@@ -1,6 +1,5 @@
 package com.swyp.moodit.network.api
 
-import com.swyp.moodit.model.tournament.CompletedTournamentDetail
 import com.swyp.moodit.network.model.BaseResponse
 import com.swyp.moodit.network.model.PagingResult
 import com.swyp.moodit.network.model.mission.MissionAcceptRequest
@@ -10,14 +9,14 @@ import com.swyp.moodit.network.model.mission.MissionDetailResponse
 import com.swyp.moodit.network.model.mission.MissionSatisfactionRequest
 import com.swyp.moodit.network.model.report.ReportSummaryResponse
 import com.swyp.moodit.network.model.tournament.CompletedMatchDetailResponse
+import com.swyp.moodit.network.model.tournament.CompletedMatchResponse
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchRequest
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchResponse
 import com.swyp.moodit.network.model.tournament.InProgressMatchDetailResponse
+import com.swyp.moodit.network.model.tournament.InProgressMatchResponse
 import com.swyp.moodit.network.model.tournament.MatchUpResultResponse
 import com.swyp.moodit.network.model.tournament.MissionOfferRequest
 import com.swyp.moodit.network.model.tournament.MissionOfferResponse
-import com.swyp.moodit.network.model.tournament.PagingCompletedMatchResponse
-import com.swyp.moodit.network.model.tournament.PagingInProgressMatchResponse
 import com.swyp.moodit.network.model.tournament.PresignedUrlResponse
 import com.swyp.moodit.network.model.tournament.UploadFileResponse
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitRequest
@@ -86,13 +85,13 @@ interface MooditApi {
     suspend fun getPagingInProgressMoodMatches(
         @Query("page") page: Int,
         @Query("size") size: Int,
-    ): Response<BaseResponse<PagingResult<PagingInProgressMatchResponse>>>
+    ): Response<BaseResponse<PagingResult<InProgressMatchResponse>>>
 
     @GET("v1/matches/moodtab/completed")
     suspend fun getPagingCompletedMoodMatches(
         @Query("page") page: Int,
         @Query("size") size: Int,
-    ): Response<BaseResponse<PagingResult<PagingCompletedMatchResponse>>>
+    ): Response<BaseResponse<PagingResult<CompletedMatchResponse>>>
 
     @GET("v1/matches/{matchId}/progress")
     suspend fun getMatchUpProgressDetail(
@@ -103,6 +102,11 @@ interface MooditApi {
     suspend fun getMatchUpCompletedDetail(
         @Path("matchId") matchId: Long
     ): Response<BaseResponse<CompletedMatchDetailResponse>>
+
+    @DELETE("v1/matches/{matchId}")
+    suspend fun deleteMatch(
+        @Path("matchId") matchId: Long
+    ): Response<BaseResponse<String>>
 
     // User
     @GET("v1/settings/privacy/info")

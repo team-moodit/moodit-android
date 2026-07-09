@@ -2,6 +2,7 @@ package com.swyp.moodit.home.main
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.MissionRepository
 import com.swyp.moodit.data.repository.TournamentRepository
 import com.swyp.moodit.model.MissionState
@@ -25,7 +26,6 @@ class HomeMainViewModel @Inject constructor(
 
     init {
         loadMissions()
-        //observeOnGoingTournament()
     }
 
     private fun loadMissions() {
@@ -67,7 +67,7 @@ class HomeMainViewModel @Inject constructor(
             }
 
             is HomeMainContract.Intent.OnDismissTournamentDialog -> {
-                reduce { it.copy(showResumeTournamentDialog = false) }
+                clearOnGoingTournamentId()
             }
 
             is HomeMainContract.Intent.CheckOnGoingTournament -> {
@@ -99,18 +99,24 @@ class HomeMainViewModel @Inject constructor(
         }
     }
 
-    /*private fun observeOnGoingTournament() {
+    private fun clearOnGoingTournamentId() {
+        reduce { it.copy(isLoading = true) }
         viewModelScope.launch {
-            tournamentRepository.onGoingTournamentId.collect { tournamentId ->
-                if (tournamentId != -1L) {
-                    reduce {
-                        it.copy(
-                            showResumeTournamentDialog = true,
-                            resumeTournamentId = tournamentId
+            when (val result = tournamentRepository.clearOnGoingTournamentId()) {
+                is Result.Success -> {
+                    clearOnGoingTournamentId()
+                    reduce { it.copy(showResumeTournamentDialog = false) }
+                }
+
+                is Result.Error -> {
+                    sendEffect(
+                        HomeMainContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "DataStore에 저장된 ID 삭제에 실패했어요."
                         )
-                    }
+                    )
                 }
             }
+            reduce { it.copy(isLoading = false) }
         }
-    }*/
+    }
 }

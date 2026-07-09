@@ -26,4 +26,5 @@ interface TournamentRepository {
     suspend fun clearOnGoingTournamentId(): Result<Unit>
     suspend fun getInProgressTournamentDetail(matchId: Long): Result<InProgressTournamentDetail>
     suspend fun getCompletedTournamentDetail(matchId: Long): Result<CompletedTournamentDetail>
+    suspend fun deleteTournament(matchId: Long): Result<Unit>
 }

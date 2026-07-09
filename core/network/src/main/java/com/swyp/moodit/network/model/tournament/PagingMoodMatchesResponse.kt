@@ -1,17 +1,5 @@
 package com.swyp.moodit.network.model.tournament
 
-data class PagingInProgressMatchResponse(
-    val content: List<InProgressMatchResponse>,
-    val totalCount: Long,
-    val hasNext: Boolean
-)
-
-data class PagingCompletedMatchResponse(
-    val content: List<CompletedMatchResponse>,
-    val totalCount: Int,
-    val hasNext: Boolean
-)
-
 data class InProgressMatchResponse(
     val matchId: Long,
     val title: String,
@@ -21,6 +9,7 @@ data class InProgressMatchResponse(
 )
 
 data class CompletedMatchResponse(
+    val userMissionId: Long,
     val matchId: Long,
     val title: String,
     val winnerImageId: Long,

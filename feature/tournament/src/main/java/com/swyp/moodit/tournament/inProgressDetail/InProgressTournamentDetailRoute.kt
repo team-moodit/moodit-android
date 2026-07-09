@@ -13,10 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
+import org.junit.matchers.JUnitMatchers
 
 @Composable
 fun InProgressTournamentDetailRoute(
     viewModel: InProgressTournamentDetailViewModel = hiltViewModel(),
+    navigateToMatchUp: (Long, Boolean) -> Unit,
+    navigateToTournamentMain: () -> Unit,
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -28,6 +31,14 @@ fun InProgressTournamentDetailRoute(
                     sideEffect.message,
                     null
                 )
+
+                is InProgressTournamentDetailContract.SideEffect.NavigateToMatchUp -> {
+                    navigateToMatchUp(sideEffect.tournamentId, sideEffect.isStarted)
+                }
+
+                is InProgressTournamentDetailContract.SideEffect.NavigateToTournament -> {
+                    navigateToTournamentMain()
+                }
             }
         }
     }
@@ -50,7 +61,23 @@ fun InProgressTournamentDetailRoute(
         else -> {
             InProgressTournamentDetailScreen(
                 uiState = uiState,
-                onDeleteClick = { viewModel.sendIntent(InProgressTournamentDetailContract.Intent.OnDeleteTournamentClick) }
+                onResumeClick = { viewModel.sendIntent(InProgressTournamentDetailContract.Intent.OnResumeTournamentClick) },
+                onDeleteClick = { viewModel.sendIntent(InProgressTournamentDetailContract.Intent.OnDeleteTournamentClick) },
+                onDeleteCompleteClick = { viewModel.sendIntent(InProgressTournamentDetailContract.Intent.OnDeleteTournamentCompleteClick) },
+                onDeleteDialogShowChange = {
+                    viewModel.sendIntent(
+                        InProgressTournamentDetailContract.Intent.OnDeleteDialogShowChange(
+                            it
+                        )
+                    )
+                },
+                onDeleteCompleteDialogShowChange = {
+                    viewModel.sendIntent(
+                        InProgressTournamentDetailContract.Intent.OnDeleteCompleteDialogShowChange(
+                            it
+                        )
+                    )
+                }
             )
         }
     }

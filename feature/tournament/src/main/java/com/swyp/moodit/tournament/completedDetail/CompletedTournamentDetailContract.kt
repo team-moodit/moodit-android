@@ -11,7 +11,9 @@ class CompletedTournamentDetailContract {
     data class State(
         val isLoading: Boolean = false,
         val tournamentId: Long = 0L,
+        val userMissionId: Long = 0L,
         val tournamentDetail: CompletedTournamentDetail = CompletedTournamentDetail(),
+        val mission: Mission = Mission(),
         val selectedTab: CompletedTournamentTab = CompletedTournamentTab.MOOD_MATCH
     ) : UiState
 
@@ -21,6 +23,7 @@ class CompletedTournamentDetailContract {
 
     sealed interface Intent : UiIntent {
         data class SelectTab(val tab: CompletedTournamentTab) : Intent
+        data object LoadMissionInfo : Intent
     }
 }
 

@@ -13,9 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
-import com.swyp.moodit.tournament.inProgressDetail.InProgressTournamentDetailContract
-import com.swyp.moodit.tournament.inProgressDetail.InProgressTournamentDetailScreen
-import com.swyp.moodit.tournament.inProgressDetail.InProgressTournamentDetailViewModel
 
 @Composable
 fun CompletedTournamentDetailRoute(
@@ -33,6 +30,10 @@ fun CompletedTournamentDetailRoute(
                 )
             }
         }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.sendIntent(CompletedTournamentDetailContract.Intent.LoadMissionInfo)
     }
 
     when {
@@ -53,7 +54,13 @@ fun CompletedTournamentDetailRoute(
         else -> {
             CompletedTournamentDetailScreen(
                 uiState = uiState,
-                onTabClick = { viewModel.sendIntent(CompletedTournamentDetailContract.Intent.SelectTab(it)) },
+                onTabClick = {
+                    viewModel.sendIntent(
+                        CompletedTournamentDetailContract.Intent.SelectTab(
+                            it
+                        )
+                    )
+                },
                 onMissionDeleteClick = {}
             )
         }

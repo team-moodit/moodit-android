@@ -49,7 +49,7 @@ fun TournamentMainScreen(
     inProgressTournaments: LazyPagingItems<InProgressTournament>,
     completedTournaments: LazyPagingItems<CompletedTournament>,
     onInProgressTournamentClick: (Long) -> Unit,
-    onCompletedTournamentClick: (Long) -> Unit,
+    onCompletedTournamentClick: (Long, Long) -> Unit,
     onSettingClick: () -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
@@ -199,6 +199,7 @@ fun TournamentMainScreen(
                         onTournamentClick = {
                             onCompletedTournamentClick(
                                 completedTournament.matchId,
+                                completedTournament.userMissionId
                             )
                         }
                     )

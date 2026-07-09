@@ -1,5 +1,6 @@
 package com.swyp.moodit.tournament.inProgressDetail
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -32,12 +34,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.swyp.moodit.common.util.DateUtil.toDaysAgoMessage
 import com.swyp.moodit.common.util.DateUtil.toFormatDate
+import com.swyp.moodit.designsystem.R
+import com.swyp.moodit.designsystem.component.MooditDialog
 import com.swyp.moodit.designsystem.component.MooditScaffold
 import com.swyp.moodit.designsystem.component.MooditTag
 import com.swyp.moodit.designsystem.component.MooditTopBar
@@ -48,7 +53,11 @@ import com.swyp.moodit.designsystem.theme.MooditTheme
 @Composable
 fun InProgressTournamentDetailScreen(
     uiState: InProgressTournamentDetailContract.State,
+    onResumeClick: () -> Unit,
     onDeleteClick: () -> Unit,
+    onDeleteCompleteClick: () -> Unit,
+    onDeleteDialogShowChange: (Boolean) -> Unit,
+    onDeleteCompleteDialogShowChange: (Boolean) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     MooditScaffold(
@@ -83,17 +92,24 @@ fun InProgressTournamentDetailScreen(
                 MooditFilledButton(
                     modifier = Modifier.weight(1f),
                     text = "삭제하기",
-                    onClick = onDeleteClick,
+                    onClick = { onDeleteDialogShowChange(true) },
                     containerColor = MooditTheme.colors.surfaceContainer,
                     contentColor = MooditTheme.colors.textSecondary
                 )
-                MooditFilledButton(modifier = Modifier.weight(1f), text = "이어서 진행하기")
+                MooditFilledButton(
+                    modifier = Modifier.weight(1f),
+                    text = "이어서 진행하기",
+                    onClick = { onResumeClick() })
             }
         }
     ) { innerPadding ->
         InProgressTournamentContent(
             innerPadding = innerPadding,
-            uiState = uiState
+            uiState = uiState,
+            onDeleteDialogShowChange = onDeleteDialogShowChange,
+            onDeleteCompleteDialogShowChange = onDeleteCompleteDialogShowChange,
+            onDeleteClick = onDeleteClick,
+            onDeleteCompleteClick = onDeleteCompleteClick
         )
     }
 }
@@ -101,7 +117,11 @@ fun InProgressTournamentDetailScreen(
 @Composable
 fun InProgressTournamentContent(
     innerPadding: PaddingValues,
-    uiState: InProgressTournamentDetailContract.State
+    uiState: InProgressTournamentDetailContract.State,
+    onDeleteDialogShowChange: (Boolean) -> Unit,
+    onDeleteCompleteDialogShowChange: (Boolean) -> Unit,
+    onDeleteClick: () -> Unit,
+    onDeleteCompleteClick: () -> Unit
 ) {
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
@@ -270,6 +290,57 @@ fun InProgressTournamentContent(
         }
         item(span = { GridItemSpan(maxLineSpan) }) {
             Spacer(modifier = Modifier.height(20.dp))
+        }
+    }
+
+    if (uiState.showDeleteDialog) {
+        MooditDialog(
+            title = "정말 무드매치를을 삭제하시겠어요?",
+            description = "무드매치를 삭제하면 진행중이던 과정이 삭제돼요",
+            onClickCancel = { onDeleteDialogShowChange(false) }
+        ) {
+            MooditFilledButton(
+                onClick = { onDeleteDialogShowChange(false) },
+                modifier = Modifier.weight(1f),
+                text = "취소",
+                containerColor = MooditTheme.colors.primary.copy(alpha = 0.1f),
+                contentColor = MooditTheme.colors.primary
+            )
+            MooditFilledButton(
+                onClick = {
+                    onDeleteDialogShowChange(false)
+                    onDeleteClick()
+                    onDeleteCompleteDialogShowChange(true)
+                },
+                modifier = Modifier.weight(1f),
+                text = "확인"
+            )
+        }
+    }
+
+    if (uiState.showDeleteCompleteDialog) {
+        MooditDialog(
+            title = "무드매치를 삭제했어요",
+            description = "삭제할 무드매치는 다시 볼 수 없어요",
+            onClickCancel = { onDeleteCompleteDialogShowChange(false) },
+            icon = {
+                Image(
+                    modifier = Modifier.size(80.dp),
+                    painter = painterResource(R.drawable.icon),
+                    contentDescription = "icon_delete_account_complete"
+                )
+            }
+        ) {
+            MooditFilledButton(
+                onClick = {
+                    onDeleteCompleteDialogShowChange(false)
+                    onDeleteCompleteClick()
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                text = "확인"
+            )
         }
     }
 }

@@ -28,6 +28,7 @@ import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.report.PreferenceDetail
 import com.swyp.moodit.model.report.PreferenceReport
 import com.swyp.moodit.model.report.ReportSummary
+import com.swyp.moodit.model.report.ResultType
 import com.swyp.moodit.model.report.SummaryCount
 import com.swyp.moodit.report.main.ReportMainContract
 
@@ -38,7 +39,7 @@ fun OverAllReviewContent(
     onCheckMissionClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (uiState.reportSummary.summary.totalMatchCount == 0L) {
+    if (uiState.reportSummary.preferenceReport.resultType == ResultType.NONE) {
         ReportEmptyContent(
             modifier = modifier
                 .fillMaxWidth()
@@ -53,50 +54,67 @@ fun OverAllReviewContent(
         Column(
             modifier = modifier
                 .fillMaxWidth()
+                .padding(top = 22.dp)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.spacedBy(6.dp)
+            if (uiState.reportSummary.preferenceReport.resultType == ResultType.PREFERENCE_DETAIL ||
+                uiState.reportSummary.preferenceReport.resultType == ResultType.PREFERENCE_ONLY
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 22.dp),
-                    verticalAlignment = Alignment.CenterVertically,
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 22.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(end = 6.dp),
+                            text = "당신은",
+                            style = MooditTheme.typography.b1Large,
+                            color = MooditTheme.colors.onPrimaryContainer
+                        )
+                        Text(
+                            text = "‘${uiState.reportSummary.preferenceReport.topPreference.title}‘",
+                            style = MooditTheme.typography.b1Large,
+                            color = MooditTheme.colors.primary
+                        )
+                        Text(
+                            text = TextUtil.attachParticle(uiState.reportSummary.preferenceReport.topPreference.title),
+                            style = MooditTheme.typography.b1Large,
+                            color = MooditTheme.colors.onPrimaryContainer
+                        )
+                    }
                     Text(
-                        modifier = Modifier.padding(end = 6.dp),
-                        text = "당신은",
-                        style = MooditTheme.typography.b1Large,
-                        color = MooditTheme.colors.onPrimaryContainer
-                    )
-                    Text(
-                        text = "‘${uiState.reportSummary.preferenceReport.topPreference.title}‘",
-                        style = MooditTheme.typography.b1Large,
-                        color = MooditTheme.colors.primary
-                    )
-                    Text(
-                        text = TextUtil.attachParticle(uiState.reportSummary.preferenceReport.topPreference.title),
+                        text = "가장 중요하게 봐요",
                         style = MooditTheme.typography.b1Large,
                         color = MooditTheme.colors.onPrimaryContainer
                     )
                 }
-                Text(
-                    text = "가장 중요하게 봐요",
-                    style = MooditTheme.typography.b1Large,
-                    color = MooditTheme.colors.onPrimaryContainer
-                )
+            } else if (uiState.reportSummary.preferenceReport.resultType == ResultType.PREFERENCE_TIE) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    Text(
+                        text = "당신은 아직 취향을 찾아가고 있어요\n무드매치를 더 진행해보세요",
+                        style = MooditTheme.typography.b1Large,
+                        color = MooditTheme.colors.onPrimaryContainer
+                    )
+                }
             }
+
 
             Spacer(modifier = Modifier.height(24.dp))
 
             ReportPreferenceCard(
                 totalMatchCount = uiState.reportSummary.preferenceReport.totalSelectionCount,
-                topPreference = uiState.reportSummary.preferenceReport.topPreference,
-                preferenceDistributions = uiState.top3Distributions
+                preferenceReport = uiState.reportSummary.preferenceReport
             )
 
             Box(

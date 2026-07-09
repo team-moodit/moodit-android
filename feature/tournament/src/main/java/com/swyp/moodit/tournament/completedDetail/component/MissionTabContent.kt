@@ -19,8 +19,6 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -67,7 +65,7 @@ fun MissionTabContent(
             contentAlignment = Alignment.BottomCenter
         ) {
             AsyncImage(
-                model = null,
+                model = uiState.mission.matchResult.imageUrl,
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop,
@@ -104,11 +102,17 @@ fun MissionTabContent(
         }
 
         Spacer(modifier = Modifier.height(32.dp))
- /*
-        MooditTag(content = "진행중")
+
+        MooditTag(
+            content = when (uiState.mission.missionState) {
+                MissionState.IN_PROGRESS -> "진행중"
+                MissionState.COMPLETED -> "완료"
+                MissionState.REVIEWED -> "완료"
+            }
+        )
         Text(
             modifier = Modifier.padding(top = 16.dp),
-            text = uiState.tournamentDetail.missionInfo.missionTitle,
+            text = uiState.mission.missionTitle,
             textAlign = TextAlign.Center,
             style = MooditTheme.typography.h3,
             color = MooditTheme.colors.onBackground
@@ -124,16 +128,17 @@ fun MissionTabContent(
             MissionInfoCard(
                 modifier = Modifier.weight(1f),
                 title = "무드매치 완료 날짜",
-                content = uiState.tournamentDetail.missionInfo.matchResult.matchCompletedAt.toFormatDate()
+                content = uiState.mission.matchResult.matchCompletedAt.toFormatDate()
             )
+            val missionCompletedAt = uiState.mission.missionCompletedAt.toFormatDate()
             MissionInfoCard(
                 modifier = Modifier.weight(1f),
                 title = "미션 완료 날짜",
-                content = uiState.tournamentDetail.missionInfo.missionCompletedAt.toFormatDate()
+                content = missionCompletedAt.ifEmpty { "-" }
             )
         }
 
-        when (uiState.tournamentDetail.missionInfo.missionState) {
+        when (uiState.mission.missionState) {
             MissionState.IN_PROGRESS -> {
                 Row(
                     modifier = Modifier
@@ -150,8 +155,8 @@ fun MissionTabContent(
                         style = MooditTheme.typography.b3Medium
                     )
                     Icon(
-                        imageVector = Icons.Default.ChevronRight,
-                        contentDescription = "icon_click",
+                        painter = painterResource(R.drawable.chevron_right),
+                        contentDescription = "icon_chevron_right",
                         modifier = Modifier.size(20.dp),
                         tint = MooditTheme.colors.onSurface
                     )
@@ -160,6 +165,12 @@ fun MissionTabContent(
             }
 
             MissionState.COMPLETED -> {
+                Text(
+                    text = "만족도 평가",
+                    style = MooditTheme.typography.b2Medium,
+                    color = MooditTheme.colors.onPrimaryContainer
+                )
+                Spacer(modifier = Modifier.height(16.dp))
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -195,7 +206,7 @@ fun MissionTabContent(
                                 color = MooditTheme.colors.tertiary
                             )
                         }
-                    } */
+                    }
 
                     Column(
                         horizontalAlignment = Alignment.Start,
@@ -216,13 +227,41 @@ fun MissionTabContent(
                 }
             }
 
-/*
             MissionState.REVIEWED -> {
+                Text(
+                    text = "만족도 평가",
+                    style = MooditTheme.typography.b2Medium,
+                    color = MooditTheme.colors.onPrimaryContainer
+                )
+                Spacer(modifier = Modifier.height(16.dp))
 
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MooditTheme.colors.onPrimary, shape = RoundedCornerShape(16.dp))
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.star_filled),
+                        contentDescription = "icon_mission_satisfaction",
+                        tint = MooditTheme.colors.primary,
+                        modifier = Modifier
+                            .size(20.dp)
+                            .padding(end = 8.dp)
+                    )
+                    Text(
+                        text = "${uiState.mission.satisfactionScore}점",
+                        color = MooditTheme.colors.primary,
+                        style = MooditTheme.typography.b3Medium
+                    )
+                }
             }
         }
     }
-} */
+}
+
 
 @Preview
 @Composable

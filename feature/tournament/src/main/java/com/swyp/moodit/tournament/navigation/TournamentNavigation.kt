@@ -22,6 +22,7 @@ fun NavGraphBuilder.tournamentNavGraph(
     navigateToSetting: () -> Unit,
     navigateToMatchUp: (Long, Boolean) -> Unit,
     navigateToHome: () -> Unit,
+    navigateToTournamentMain: () -> Unit,
 ) {
     composable<BottomBarRoute.Tournament> {
         TournamentMainRoute(
@@ -31,9 +32,10 @@ fun NavGraphBuilder.tournamentNavGraph(
                     tournamentId = id
                 )
             },
-            navigateToCompletedTournamentDetail = { id ->
+            navigateToCompletedTournamentDetail = { id, userMissionId ->
                 navController.navigateToCompletedTournamentDetail(
-                    tournamentId = id
+                    tournamentId = id,
+                    userMissionId = userMissionId
                 )
             },
             navigateToSetting = navigateToSetting
@@ -41,7 +43,11 @@ fun NavGraphBuilder.tournamentNavGraph(
     }
 
     composable<TournamentRoute.InProgressDetail>() {
-        InProgressTournamentDetailRoute(onShowSnackbar = onShowSnackbar)
+        InProgressTournamentDetailRoute(
+            onShowSnackbar = onShowSnackbar,
+            navigateToMatchUp = navigateToMatchUp,
+            navigateToTournamentMain = navigateToTournamentMain
+        )
     }
 
     composable<TournamentRoute.CompletedDetail>() {
@@ -79,8 +85,8 @@ fun NavController.navigateToInProgressTournamentDetail(tournamentId: Long) {
     navigate(TournamentRoute.InProgressDetail(tournamentId))
 }
 
-fun NavController.navigateToCompletedTournamentDetail(tournamentId: Long) {
-    navigate(TournamentRoute.CompletedDetail(tournamentId))
+fun NavController.navigateToCompletedTournamentDetail(tournamentId: Long, userMissionId: Long) {
+    navigate(TournamentRoute.CompletedDetail(tournamentId, userMissionId))
 }
 
 fun NavController.navigateToMatchUp(tournamentId: Long, isStarted: Boolean) {

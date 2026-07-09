@@ -31,7 +31,7 @@ class TournamentMainViewModel @Inject constructor(
 
             is TournamentMainContract.Intent.OnCompletedTournamentClick -> {
                 sendEffect(
-                    TournamentMainContract.SideEffect.NavigateToCompletedTournamentDetail(intent.tournamentId)
+                    TournamentMainContract.SideEffect.NavigateToCompletedTournamentDetail(intent.tournamentId, intent.userMissionId)
                 )
             }
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.swyp.moodit.common.util.Result
+import com.swyp.moodit.data.repository.MissionRepository
 import com.swyp.moodit.data.repository.TournamentRepository
 import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.ui.base.BaseViewModel
@@ -14,11 +15,13 @@ import javax.inject.Inject
 @HiltViewModel
 class CompletedTournamentDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val tournamentRepository: TournamentRepository
+    private val tournamentRepository: TournamentRepository,
+    private val missionRepository: MissionRepository
 ) :
     BaseViewModel<CompletedTournamentDetailContract.State, CompletedTournamentDetailContract.Intent, CompletedTournamentDetailContract.SideEffect>(
         initialState = CompletedTournamentDetailContract.State(
-            tournamentId = savedStateHandle.toRoute<TournamentRoute.InProgressDetail>().tournamentId
+            tournamentId = savedStateHandle.toRoute<TournamentRoute.CompletedDetail>().tournamentId,
+            userMissionId = savedStateHandle.toRoute<TournamentRoute.CompletedDetail>().userMissionId
         )
     ) {
 
@@ -32,6 +35,7 @@ class CompletedTournamentDetailViewModel @Inject constructor(
     override fun handleIntents(intent: CompletedTournamentDetailContract.Intent) {
         when (intent) {
             is CompletedTournamentDetailContract.Intent.SelectTab -> updateTab(intent.tab)
+            is CompletedTournamentDetailContract.Intent.LoadMissionInfo -> loadMissionInfo()
         }
     }
 
@@ -50,6 +54,22 @@ class CompletedTournamentDetailViewModel @Inject constructor(
                 }
             }
 
+            reduce { it.copy(isLoading = false) }
+        }
+    }
+
+    private fun loadMissionInfo() {
+        viewModelScope.launch {
+            reduce { it.copy(isLoading = true) }
+            when (val result = missionRepository.getMissionDetail(currentState.userMissionId)) {
+                is Result.Success -> {
+                    reduce { it.copy(mission = result.data) }
+                }
+
+                is Result.Error -> {
+                    sendEffect(CompletedTournamentDetailContract.SideEffect.ShowSnackbar("미션 정보 조회에 실패했습니다."))
+                }
+            }
             reduce { it.copy(isLoading = false) }
         }
     }

@@ -5,11 +5,12 @@ data class CompletedMatchDetailResponse(
     val winnerImage: MatchImageResponse,
     val preferenceResult: PreferenceResultResponse,
     val completedAt: String,
-    val selectedImages: List<MatchImageResponse>
+    val selectedImages: List<MatchImageResponse>,
+    val preferenceTitle: String?
 )
 
 data class PreferenceResultResponse(
-    val preferenceType: String,
-    val preferenceDetailType: String
+    val preferenceType: String?,
+    val preferenceDetailType: String?
 )
 
