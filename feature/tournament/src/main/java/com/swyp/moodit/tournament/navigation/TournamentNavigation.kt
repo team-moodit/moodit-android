@@ -32,9 +32,10 @@ fun NavGraphBuilder.tournamentNavGraph(
                     tournamentId = id
                 )
             },
-            navigateToCompletedTournamentDetail = { id ->
+            navigateToCompletedTournamentDetail = { id, userMissionId ->
                 navController.navigateToCompletedTournamentDetail(
-                    tournamentId = id
+                    tournamentId = id,
+                    userMissionId = userMissionId
                 )
             },
             navigateToSetting = navigateToSetting
@@ -84,8 +85,8 @@ fun NavController.navigateToInProgressTournamentDetail(tournamentId: Long) {
     navigate(TournamentRoute.InProgressDetail(tournamentId))
 }
 
-fun NavController.navigateToCompletedTournamentDetail(tournamentId: Long) {
-    navigate(TournamentRoute.CompletedDetail(tournamentId))
+fun NavController.navigateToCompletedTournamentDetail(tournamentId: Long, userMissionId: Long) {
+    navigate(TournamentRoute.CompletedDetail(tournamentId, userMissionId))
 }
 
 fun NavController.navigateToMatchUp(tournamentId: Long, isStarted: Boolean) {
