@@ -14,16 +14,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,6 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,8 +42,8 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.component.MooditScaffold
-import com.swyp.moodit.designsystem.component.MooditTopBar
 import com.swyp.moodit.designsystem.theme.MooditTheme
+import com.swyp.moodit.home.component.EmptyImageRow
 import com.swyp.moodit.home.component.MissionEmptyMessageCard
 import com.swyp.moodit.home.component.MissionItemCard
 import com.swyp.moodit.model.Mission
@@ -63,17 +63,27 @@ fun HomeMainScreen(
 ) {
     MooditScaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = {
-            MooditTopBar(
-                modifier = Modifier.padding(end = 8.dp),
-                title = {
+    ) { innerPadding ->
+        LazyVerticalGrid(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = innerPadding,
+            columns = GridCells.Fixed(2)
+        ) {
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .statusBarsPadding()
+                        .padding(top = 20.dp, start = 16.dp, end = 16.dp),
+                    verticalAlignment = Alignment.Top,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     Text(
                         text = "비비님,\n오늘의 취향을 찾아볼까요?",
                         style = MooditTheme.typography.h1,
                         color = MooditTheme.colors.onBackground
                     )
-                },
-                actionIcon = {
+
                     Image(
                         painter = painterResource(R.drawable.setting),
                         modifier = Modifier
@@ -82,14 +92,7 @@ fun HomeMainScreen(
                         contentDescription = "icon_setting"
                     )
                 }
-            )
-        },
-    ) { innerPadding ->
-        LazyVerticalGrid(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = innerPadding,
-            columns = GridCells.Fixed(2)
-        ) {
+            }
             item(span = { GridItemSpan(maxLineSpan) }) {
                 Button(
                     onClick = onCreateTournamentClick,
@@ -104,12 +107,9 @@ fun HomeMainScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Absolute.SpaceBetween
                     ) {
-                        Column(
-                            modifier = Modifier.wrapContentHeight(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
+                        Column {
                             Row(
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier.wrapContentWidth(),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.Start
                             ) {
@@ -120,7 +120,7 @@ fun HomeMainScreen(
                                 )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Icon(
-                                    imageVector = Icons.Filled.ChevronRight,
+                                    painter = painterResource(R.drawable.chevron_right),
                                     contentDescription = "icon_chevron_right",
                                     modifier = Modifier.size(20.dp),
                                     tint = MooditTheme.colors.onSurfaceContainer
@@ -128,17 +128,18 @@ fun HomeMainScreen(
                             }
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
-                                modifier = Modifier.fillMaxWidth(),
                                 text = "이미지를 고르며 내 취향을 찾아봐요",
                                 style = MooditTheme.typography.b3Small,
                                 color = MooditTheme.colors.onPrimary,
                                 textAlign = TextAlign.Start
                             )
                         }
-                        Image(
+
+                        Icon(
                             painter = painterResource(R.drawable.subtract),
                             contentDescription = "icon_subtract",
                             modifier = Modifier.size(80.dp),
+                            tint = Color.White
                         )
                     }
                 }
@@ -183,10 +184,13 @@ fun HomeMainScreen(
 
             item(span = { GridItemSpan(maxLineSpan) }) {
                 if (inProgressMissions.itemCount == 0) {
-                    MissionEmptyMessageCard(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        missionState = MissionState.IN_PROGRESS
-                    )
+                    Column(verticalArrangement = Arrangement.spacedBy(18.dp)) {
+                        EmptyImageRow()
+                        MissionEmptyMessageCard(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            missionState = MissionState.IN_PROGRESS
+                        )
+                    }
                 } else {
                     LazyRow(
                         modifier = Modifier.fillMaxWidth(),
@@ -247,10 +251,13 @@ fun HomeMainScreen(
 
             item(span = { GridItemSpan(maxLineSpan) }) {
                 if (completedMissions.itemCount == 0) {
-                    MissionEmptyMessageCard(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        missionState = MissionState.COMPLETED
-                    )
+                    Column(verticalArrangement = Arrangement.spacedBy(18.dp)) {
+                        EmptyImageRow()
+                        MissionEmptyMessageCard(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            missionState = MissionState.COMPLETED
+                        )
+                    }
                 } else {
                     LazyRow(
                         modifier = Modifier.fillMaxWidth(),
@@ -336,6 +343,10 @@ fun HomeMainScreen(
                             mission = mission,
                             onClick = { onMissionClick(mission.userMissionId) })
                 }
+            }
+
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Spacer(modifier = Modifier.height(120.dp))
             }
         }
     }

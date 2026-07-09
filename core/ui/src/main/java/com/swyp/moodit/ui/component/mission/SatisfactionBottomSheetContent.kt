@@ -20,11 +20,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.component.MooditSlider
 import com.swyp.moodit.designsystem.component.button.MooditFilledButton
 import com.swyp.moodit.designsystem.theme.MooditTheme
@@ -38,7 +40,7 @@ fun SatisfactionBottomSheetContent(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 20.dp, end = 20.dp, top = 32.dp, bottom = 16.dp)
+            .padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 16.dp)
             .verticalScroll(rememberScrollState())
             .navigationBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -66,7 +68,7 @@ fun SatisfactionBottomSheetContent(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Icon(
-                imageVector = Icons.Default.Info,
+                painter = painterResource(R.drawable.info),
                 contentDescription = "icon_info",
                 modifier = Modifier.size(16.dp),
                 tint = MooditTheme.colors.onTertiary
@@ -78,7 +80,7 @@ fun SatisfactionBottomSheetContent(
             )
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(30.dp))
 
         MooditSlider(
             value = currentSliderRating,
@@ -91,7 +93,7 @@ fun SatisfactionBottomSheetContent(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp),
+                .padding(horizontal = 26.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {

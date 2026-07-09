@@ -8,4 +8,5 @@ android {
 
 dependencies {
     implementation(libs.bundles.coil)
+    implementation(libs.haze)
 }

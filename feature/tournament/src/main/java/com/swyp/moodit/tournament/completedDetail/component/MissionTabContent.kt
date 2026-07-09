@@ -53,15 +53,15 @@ fun MissionTabContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(innerPadding)
-            .padding(start = 16.dp, end = 16.dp, top = 24.dp)
-            .verticalScroll(rememberScrollState()),
+            .padding(start = 16.dp, end = 16.dp, top = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 32.dp, end = 32.dp, bottom = 16.dp)
+                .padding(start = 32.dp, end = 32.dp)
                 .aspectRatio(0.82f)
                 .clip(RoundedCornerShape(16.dp)),
             contentAlignment = Alignment.BottomCenter
@@ -77,13 +77,13 @@ fun MissionTabContent(
                 modifier = Modifier
                     .wrapContentWidth()
                     .padding(bottom = 16.dp),
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(100.dp),
                 color = Color.Black.copy(alpha = 0.5f)
             ) {
                 Row(
                     modifier = Modifier
                         .padding(horizontal = 12.dp, vertical = 9.dp)
-                        .clip(RoundedCornerShape(16.dp)),
+                        .clip(RoundedCornerShape(100.dp)),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
@@ -138,11 +138,12 @@ fun MissionTabContent(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 32.dp)
+                        .padding(top = 12.dp)
                         .clickable { onMissionDeleteClick() }
                         .padding(vertical = 20.dp, horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center) {
+
                     Text(
                         text = "미션 삭제하기",
                         color = MooditTheme.colors.borderDefault,
@@ -155,6 +156,7 @@ fun MissionTabContent(
                         tint = MooditTheme.colors.onSurface
                     )
                 }
+                Spacer(modifier = Modifier.height(12.dp))
             }
 
             MissionState.COMPLETED -> {

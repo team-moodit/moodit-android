@@ -2,10 +2,10 @@ package com.swyp.moodit.ui
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult.ActionPerformed
@@ -21,7 +21,7 @@ import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.navigation.MainBottomBarTab
 import com.swyp.moodit.navigation.MainBottomBarTab.Companion.toItemData
 import com.swyp.moodit.navigation.MooditNavHost
-import kotlin.reflect.typeOf
+import dev.chrisbanes.haze.HazeState
 
 @Composable
 internal fun MooditApp(
@@ -42,15 +42,18 @@ internal fun MooditAppContent(
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState
 ) {
+    val hazeState = remember { HazeState() }
+
     Scaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = MooditTheme.colors.background,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         bottomBar = {
             MainBottomBar(
-                modifier = Modifier
+                modifier = Modifier.fillMaxWidth()
                     .navigationBarsPadding()
                     .padding(start = 40.dp, end = 40.dp, bottom = 20.dp),
+                hazeState = hazeState,
                 visible = appState.showBottomBar(),
                 mainNavTabs = MainBottomBarTab.entries.map { it.toItemData() },
                 currentTab = appState.currentTab?.toItemData(),

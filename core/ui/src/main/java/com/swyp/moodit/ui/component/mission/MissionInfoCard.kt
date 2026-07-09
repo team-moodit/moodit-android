@@ -10,6 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.swyp.moodit.designsystem.theme.MooditTheme
@@ -18,7 +19,9 @@ import com.swyp.moodit.designsystem.theme.MooditTheme
 fun MissionInfoCard(
     modifier: Modifier = Modifier,
     title: String,
-    content: String
+    content: String,
+    titleTextStyle: TextStyle = MooditTheme.typography.b3Medium,
+    contentTextStyle: TextStyle = MooditTheme.typography.b2Medium
 ) {
     Surface(
         modifier = modifier.wrapContentHeight(),
@@ -33,12 +36,12 @@ fun MissionInfoCard(
         ) {
             Text(
                 text = title,
-                style = MooditTheme.typography.b3Medium,
+                style = titleTextStyle,
                 color = MooditTheme.colors.textSecondary
             )
             Text(
                 text = content,
-                style = MooditTheme.typography.b2Medium,
+                style = contentTextStyle,
                 color = MooditTheme.colors.onPrimaryContainer
             )
         }

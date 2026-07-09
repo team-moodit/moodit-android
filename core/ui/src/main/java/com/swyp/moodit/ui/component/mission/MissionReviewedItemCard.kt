@@ -61,7 +61,9 @@ fun MissionReviewedItemCard(
             Spacer(modifier = Modifier.height(12.dp))
 
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(16.dp))
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),

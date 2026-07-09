@@ -10,9 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,7 +44,7 @@ fun MainBottomBarItem(
 
     Column(
         modifier = modifier
-            .padding(8.dp)
+            .size(width = 78.dp, height = 50.dp)
             .clip(RoundedCornerShape(100.dp))
             .background(
                 color = if (isSelected) MooditTheme.colors.primary else Color.Transparent
