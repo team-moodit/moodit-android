@@ -103,6 +103,11 @@ interface MooditApi {
         @Path("matchId") matchId: Long
     ): Response<BaseResponse<CompletedMatchDetailResponse>>
 
+    @DELETE("v1/matches/{matchId}")
+    suspend fun deleteMatch(
+        @Path("matchId") matchId: Long
+    ): Response<BaseResponse<String>>
+
     // User
     @GET("v1/settings/privacy/info")
     suspend fun getUserPrivacyInfo(): Response<BaseResponse<UserPrivacyInfoResponse>>
