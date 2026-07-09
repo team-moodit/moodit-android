@@ -20,29 +20,32 @@ fun CompletedTournamentDetailScreen(
     onTabClick: (CompletedTournamentTab) -> Unit,
     onMissionDeleteClick: () -> Unit
 ) {
-    MooditScaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        CompletedTournamentTabRow(
-            selectedTab = uiState.selectedTab, onTabClick = onTabClick
-        )
-    }, bottomBar = {
-        if (uiState.selectedTab == CompletedTournamentTab.MISSION) {
-            when (uiState.mission.missionState) {
-                MissionState.IN_PROGRESS -> MooditFilledButton(
-                    modifier = Modifier.padding(
-                        horizontal = 16.dp
-                    ), onClick = {}, text = "미션을 완료했어요"
-                )
+    MooditScaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            CompletedTournamentTabRow(
+                selectedTab = uiState.selectedTab, onTabClick = onTabClick
+            )
+        },
+        bottomBar = {
+            if (uiState.selectedTab == CompletedTournamentTab.MISSION) {
+                when (uiState.mission.missionState) {
+                    MissionState.IN_PROGRESS -> MooditFilledButton(
+                        modifier = Modifier.padding(
+                            horizontal = 16.dp
+                        ), onClick = {}, text = "미션을 완료했어요"
+                    )
 
-                MissionState.COMPLETED -> MooditFilledButton(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    onClick = {},
-                    text = "만족도 입력하기"
-                )
+                    MissionState.COMPLETED -> MooditFilledButton(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        onClick = {},
+                        text = "만족도 입력하기"
+                    )
 
-                else -> null
+                    else -> null
+                }
             }
         }
-    }
     ) { innerPadding ->
         when (uiState.selectedTab) {
             CompletedTournamentTab.MOOD_MATCH -> MoodMatchTabContent(innerPadding, uiState)

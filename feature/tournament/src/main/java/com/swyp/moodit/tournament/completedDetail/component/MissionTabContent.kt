@@ -100,163 +100,163 @@ fun MissionTabContent(
                 }
             }
         }
-    }
 
-    Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
-
-    MooditTag(
-        content = when (uiState.mission.missionState) {
-            MissionState.IN_PROGRESS -> "진행중"
-            MissionState.COMPLETED -> "완료"
-            MissionState.REVIEWED -> "완료"
-        }
-    )
-    Text(
-        modifier = Modifier.padding(top = 16.dp),
-        text = uiState.mission.missionTitle,
-        textAlign = TextAlign.Center,
-        style = MooditTheme.typography.h3,
-        color = MooditTheme.colors.onBackground
-    )
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 32.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        MissionInfoCard(
-            modifier = Modifier.weight(1f),
-            title = "무드매치 완료 날짜",
-            content = uiState.mission.matchResult.matchCompletedAt.toFormatDate()
-        )
-        MissionInfoCard(
-            modifier = Modifier.weight(1f),
-            title = "미션 완료 날짜",
-            content = uiState.mission.missionCompletedAt.toFormatDate()
-        )
-    }
-
-    when (uiState.mission.missionState) {
-        MissionState.IN_PROGRESS -> {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp)
-                    .clickable { onMissionDeleteClick() }
-                    .padding(vertical = 20.dp, horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center) {
-
-                Text(
-                    text = "미션 삭제하기",
-                    color = MooditTheme.colors.borderDefault,
-                    style = MooditTheme.typography.b3Medium
-                )
-                Icon(
-                    painter = painterResource(R.drawable.chevron_right),
-                    contentDescription = "icon_chevron_right",
-                    modifier = Modifier.size(20.dp),
-                    tint = MooditTheme.colors.onSurface
-                )
+        MooditTag(
+            content = when (uiState.mission.missionState) {
+                MissionState.IN_PROGRESS -> "진행중"
+                MissionState.COMPLETED -> "완료"
+                MissionState.REVIEWED -> "완료"
             }
-            Spacer(modifier = Modifier.height(12.dp))
+        )
+        Text(
+            modifier = Modifier.padding(top = 16.dp),
+            text = uiState.mission.missionTitle,
+            textAlign = TextAlign.Center,
+            style = MooditTheme.typography.h3,
+            color = MooditTheme.colors.onBackground
+        )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            MissionInfoCard(
+                modifier = Modifier.weight(1f),
+                title = "무드매치 완료 날짜",
+                content = uiState.mission.matchResult.matchCompletedAt.toFormatDate()
+            )
+            val missionCompletedAt = uiState.mission.missionCompletedAt.toFormatDate()
+            MissionInfoCard(
+                modifier = Modifier.weight(1f),
+                title = "미션 완료 날짜",
+                content = missionCompletedAt.ifEmpty { "-" }
+            )
         }
 
-        MissionState.COMPLETED -> {
-            Text(
-                text = "만족도 평가",
-                style = MooditTheme.typography.b2Medium,
-                color = MooditTheme.colors.onPrimaryContainer
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        color = MooditTheme.colors.onPrimary,
-                        shape = RoundedCornerShape(16.dp)
-                    )
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Box(
+        when (uiState.mission.missionState) {
+            MissionState.IN_PROGRESS -> {
+                Row(
                     modifier = Modifier
-                        .wrapContentSize()
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(MooditTheme.colors.surfaceContainer)
-                        .padding(8.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.bomb),
-                            contentDescription = "icon_mood_result",
-                            tint = MooditTheme.colors.onTertiary,
-                            modifier = Modifier.size(24.dp)
+                        .fillMaxWidth()
+                        .padding(top = 12.dp)
+                        .clickable { onMissionDeleteClick() }
+                        .padding(vertical = 20.dp, horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center) {
+
+                    Text(
+                        text = "미션 삭제하기",
+                        color = MooditTheme.colors.borderDefault,
+                        style = MooditTheme.typography.b3Medium
+                    )
+                    Icon(
+                        painter = painterResource(R.drawable.chevron_right),
+                        contentDescription = "icon_chevron_right",
+                        modifier = Modifier.size(20.dp),
+                        tint = MooditTheme.colors.onSurface
+                    )
+                }
+                Spacer(modifier = Modifier.height(12.dp))
+            }
+
+            MissionState.COMPLETED -> {
+                Text(
+                    text = "만족도 평가",
+                    style = MooditTheme.typography.b2Medium,
+                    color = MooditTheme.colors.onPrimaryContainer
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            color = MooditTheme.colors.onPrimary,
+                            shape = RoundedCornerShape(16.dp)
                         )
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(MooditTheme.colors.surfaceContainer)
+                            .padding(8.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.bomb),
+                                contentDescription = "icon_mood_result",
+                                tint = MooditTheme.colors.onTertiary,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Text(
+                                text = "평가 전",
+                                style = MooditTheme.typography.b3Medium,
+                                color = MooditTheme.colors.tertiary
+                            )
+                        }
+                    }
+
+                    Column(
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
                         Text(
-                            text = "평가 전",
-                            style = MooditTheme.typography.b3Medium,
-                            color = MooditTheme.colors.tertiary
+                            text = "직접 해보니 어땠나요?",
+                            color = MooditTheme.colors.onBackground,
+                            style = MooditTheme.typography.b2Medium
+                        )
+
+                        Text(
+                            text = "경험을 남기면 취향의 기준이 뚜렷해져요",
+                            color = MooditTheme.colors.textSecondary,
+                            style = MooditTheme.typography.b3Medium
                         )
                     }
                 }
+            }
 
-                Column(
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.spacedBy(6.dp)
+            MissionState.REVIEWED -> {
+                Text(
+                    text = "만족도 평가",
+                    style = MooditTheme.typography.b2Medium,
+                    color = MooditTheme.colors.onPrimaryContainer
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MooditTheme.colors.onPrimary, shape = RoundedCornerShape(16.dp))
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
                 ) {
-                    Text(
-                        text = "직접 해보니 어땠나요?",
-                        color = MooditTheme.colors.onBackground,
-                        style = MooditTheme.typography.b2Medium
+                    Icon(
+                        painter = painterResource(R.drawable.star_filled),
+                        contentDescription = "icon_mission_satisfaction",
+                        tint = MooditTheme.colors.primary,
+                        modifier = Modifier
+                            .size(20.dp)
+                            .padding(end = 8.dp)
                     )
-
                     Text(
-                        text = "경험을 남기면 취향의 기준이 뚜렷해져요",
-                        color = MooditTheme.colors.textSecondary,
+                        text = "${uiState.mission.satisfactionScore}점",
+                        color = MooditTheme.colors.primary,
                         style = MooditTheme.typography.b3Medium
                     )
                 }
-            }
-        }
-
-        MissionState.REVIEWED -> {
-            Text(
-                text = "만족도 평가",
-                style = MooditTheme.typography.b2Medium,
-                color = MooditTheme.colors.onPrimaryContainer
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MooditTheme.colors.onPrimary, shape = RoundedCornerShape(16.dp))
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.star_filled),
-                    contentDescription = "icon_mission_satisfaction",
-                    tint = MooditTheme.colors.primary,
-                    modifier = Modifier
-                        .size(20.dp)
-                        .padding(end = 8.dp)
-                )
-                Text(
-                    text = "${uiState.mission.satisfactionScore}점",
-                    color = MooditTheme.colors.primary,
-                    style = MooditTheme.typography.b3Medium
-                )
             }
         }
     }
