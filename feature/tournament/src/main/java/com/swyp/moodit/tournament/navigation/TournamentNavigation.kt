@@ -41,7 +41,10 @@ fun NavGraphBuilder.tournamentNavGraph(
     }
 
     composable<TournamentRoute.InProgressDetail>() {
-        InProgressTournamentDetailRoute(onShowSnackbar = onShowSnackbar)
+        InProgressTournamentDetailRoute(
+            onShowSnackbar = onShowSnackbar,
+            navigateToMatchUp = navigateToMatchUp
+        )
     }
 
     composable<TournamentRoute.CompletedDetail>() {

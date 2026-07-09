@@ -36,6 +36,12 @@ class InProgressTournamentDetailViewModel @Inject constructor(
                     InProgressTournamentDetailContract.SideEffect.ShowSnackbar("토너먼트 삭제하시겠습니까?")
                 )
             }
+
+            is InProgressTournamentDetailContract.Intent.OnResumeTournamentClick -> {
+                sendEffect(
+                    InProgressTournamentDetailContract.SideEffect.NavigateToMatchUp(tournamentId, false)
+                )
+            }
         }
     }
 

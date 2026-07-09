@@ -48,6 +48,7 @@ import com.swyp.moodit.designsystem.theme.MooditTheme
 @Composable
 fun InProgressTournamentDetailScreen(
     uiState: InProgressTournamentDetailContract.State,
+    onResumeClick: () -> Unit,
     onDeleteClick: () -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
@@ -87,7 +88,10 @@ fun InProgressTournamentDetailScreen(
                     containerColor = MooditTheme.colors.surfaceContainer,
                     contentColor = MooditTheme.colors.textSecondary
                 )
-                MooditFilledButton(modifier = Modifier.weight(1f), text = "이어서 진행하기")
+                MooditFilledButton(
+                    modifier = Modifier.weight(1f),
+                    text = "이어서 진행하기",
+                    onClick = { onResumeClick() })
             }
         }
     ) { innerPadding ->

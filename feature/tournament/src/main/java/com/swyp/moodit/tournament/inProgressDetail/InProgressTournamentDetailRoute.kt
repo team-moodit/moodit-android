@@ -17,6 +17,7 @@ import com.swyp.moodit.designsystem.component.MooditSnackbarType
 @Composable
 fun InProgressTournamentDetailRoute(
     viewModel: InProgressTournamentDetailViewModel = hiltViewModel(),
+    navigateToMatchUp: (Long, Boolean) -> Unit,
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -28,6 +29,10 @@ fun InProgressTournamentDetailRoute(
                     sideEffect.message,
                     null
                 )
+
+                is InProgressTournamentDetailContract.SideEffect.NavigateToMatchUp -> {
+                    navigateToMatchUp(sideEffect.tournamentId, sideEffect.isStarted)
+                }
             }
         }
     }
@@ -50,6 +55,7 @@ fun InProgressTournamentDetailRoute(
         else -> {
             InProgressTournamentDetailScreen(
                 uiState = uiState,
+                onResumeClick = { viewModel.sendIntent(InProgressTournamentDetailContract.Intent.OnResumeTournamentClick) },
                 onDeleteClick = { viewModel.sendIntent(InProgressTournamentDetailContract.Intent.OnDeleteTournamentClick) }
             )
         }
