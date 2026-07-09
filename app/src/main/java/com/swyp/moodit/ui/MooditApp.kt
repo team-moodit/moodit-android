@@ -2,6 +2,7 @@ package com.swyp.moodit.ui
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -49,7 +50,7 @@ internal fun MooditAppContent(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         bottomBar = {
             MainBottomBar(
-                modifier = Modifier
+                modifier = Modifier.fillMaxWidth()
                     .navigationBarsPadding()
                     .padding(start = 40.dp, end = 40.dp, bottom = 20.dp),
                 hazeState = hazeState,
