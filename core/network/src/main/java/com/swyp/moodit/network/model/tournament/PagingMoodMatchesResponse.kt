@@ -9,6 +9,7 @@ data class InProgressMatchResponse(
 )
 
 data class CompletedMatchResponse(
+    val userMissionId: Long,
     val matchId: Long,
     val title: String,
     val winnerImageId: Long,

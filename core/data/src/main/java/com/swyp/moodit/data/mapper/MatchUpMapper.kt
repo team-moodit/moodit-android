@@ -141,6 +141,7 @@ fun InProgressMatchResponse.toModel(): InProgressTournament {
 
 fun CompletedMatchResponse.toModel(): CompletedTournament {
     return CompletedTournament(
+        userMissionId = this.userMissionId,
         matchId = this.matchId,
         title = this.title,
         winnerImageId = this.winnerImageId,
