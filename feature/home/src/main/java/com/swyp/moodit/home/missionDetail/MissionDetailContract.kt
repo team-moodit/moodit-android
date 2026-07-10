@@ -3,6 +3,7 @@ package com.swyp.moodit.home.missionDetail
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.model.FeedbackOption
 import com.swyp.moodit.model.Mission
+import com.swyp.moodit.model.MissionDetailLoadingType
 import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.ui.base.UiIntent
 import com.swyp.moodit.ui.base.UiSideEffect
@@ -45,10 +46,4 @@ class MissionDetailContract {
         data class OnSliderRatingChange(val rating: Float) : Intent
         data class ToggleFeedbackOption(val option: FeedbackOption) : Intent
     }
-}
-
-enum class MissionDetailLoadingType {
-    NONE,
-    DEFAULT,
-    REPORT
 }

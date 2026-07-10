@@ -77,7 +77,8 @@ fun MooditNavHost(
                 )
             },
             navigateToHome = { appState.navigateToMain() },
-            navigateToTournamentMain = { appState.navigateToTournamentMain() }
+            navigateToTournamentMain = { appState.navigateToTournamentMain() },
+            navigateToReportReady = { appState.navigateToReportReady() }
         )
 
         reportNavGraph(

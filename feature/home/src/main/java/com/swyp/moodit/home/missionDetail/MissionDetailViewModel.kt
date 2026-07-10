@@ -9,6 +9,7 @@ import com.swyp.moodit.data.repository.UserRepository
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.model.FeedbackOption
 import com.swyp.moodit.model.Mission
+import com.swyp.moodit.model.MissionDetailLoadingType
 import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.navigation.HomeRoute
 import com.swyp.moodit.ui.base.BaseViewModel

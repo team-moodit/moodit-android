@@ -30,6 +30,7 @@ import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.component.MooditLottie
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.designsystem.theme.MooditTheme
+import com.swyp.moodit.model.MissionDetailLoadingType
 
 @Composable
 fun MissionDetailRoute(

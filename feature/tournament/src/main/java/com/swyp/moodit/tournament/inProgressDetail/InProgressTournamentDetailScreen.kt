@@ -234,7 +234,7 @@ fun InProgressTournamentContent(
                         )
                         Text(
                             modifier = Modifier.padding(vertical = 4.dp),
-                            text = uiState.tournamentDetail.matchInfo.createdAt.toFormatDate(),
+                            text = uiState.tournamentDetail.matchInfo.createdAt,
                             style = MooditTheme.typography.b2ExtraSmall,
                             color = MooditTheme.colors.onPrimaryContainer
                         )
