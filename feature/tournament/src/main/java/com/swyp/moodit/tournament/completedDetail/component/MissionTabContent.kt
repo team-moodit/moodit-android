@@ -114,7 +114,7 @@ fun MissionTabContent(
             modifier = Modifier.padding(top = 16.dp),
             text = uiState.mission.missionTitle,
             textAlign = TextAlign.Center,
-            style = MooditTheme.typography.h3,
+            style = MooditTheme.typography.h2,
             color = MooditTheme.colors.onBackground
         )
 
