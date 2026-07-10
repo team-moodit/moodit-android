@@ -25,8 +25,7 @@ object DateUtil {
             val today = LocalDate.now()
             val daysAgo = ChronoUnit.DAYS.between(parsedDate, today)
             when {
-                daysAgo < 0 -> "방금 전"
-                daysAgo == 0L -> "오늘"
+                daysAgo <= 0L -> "오늘"
                 daysAgo == 1L -> "어제"
                 else -> "${daysAgo}일 전"
             }

@@ -23,6 +23,8 @@ fun TournamentMainRoute(
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
     navigateToInProgressTournamentDetail: (Long) -> Unit,
     navigateToCompletedTournamentDetail: (Long, Long) -> Unit,
+    navigateToTournamentResult: (Long) -> Unit,
+    navigateToMatchUp: (Long, Boolean) -> Unit,
     navigateToSetting: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -39,6 +41,14 @@ fun TournamentMainRoute(
 
                 is TournamentMainContract.SideEffect.NavigateToInProgressTournamentDetail -> {
                     navigateToInProgressTournamentDetail(sideEffect.tournamentId)
+                }
+
+                is TournamentMainContract.SideEffect.NavigateToMoodMatchResult -> {
+                    navigateToTournamentResult(sideEffect.matchResultId)
+                }
+
+                is TournamentMainContract.SideEffect.NavigateToMatchUp -> {
+                    navigateToMatchUp(sideEffect.tournamentId, sideEffect.isStarted)
                 }
 
                 is TournamentMainContract.SideEffect.NavigateToCompletedTournamentDetail -> {
@@ -78,9 +88,9 @@ fun TournamentMainRoute(
                 uiState = uiState,
                 inProgressTournaments = inProgressTournaments,
                 completedTournaments = completedTournaments,
-                onInProgressTournamentClick = { id ->
+                onInProgressTournamentClick = { tournamentId, matchResultId, matchState ->
                     viewModel.sendIntent(
-                        TournamentMainContract.Intent.OnInProgressTournamentClick(id)
+                        TournamentMainContract.Intent.OnInProgressTournamentClick(tournamentId, matchResultId, matchState)
                     )
                 },
                 onCompletedTournamentClick = { id, userMissionId ->
