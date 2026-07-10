@@ -95,14 +95,11 @@ fun CreateTournamentRoute(
         uiState.isLoading -> {
             Box(
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
+                contentAlignment = Alignment.Center, // 전체를 화면 중앙에 배치
             ) {
                 Column(
-                    modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Spacer(modifier = Modifier.weight(1f))
-
                     Text(
                         text = "내 취향을 찾기 위한\n무드매치를 준비하고 있어요",
                         textAlign = TextAlign.Center,
@@ -110,11 +107,11 @@ fun CreateTournamentRoute(
                         color = Color.White
                     )
 
-                    Spacer(modifier = Modifier.height(120.dp))
+                    Spacer(modifier = Modifier.height(150.dp))
 
                     MooditLottie()
 
-                    Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.height(110.dp))
                 }
             }
         }
