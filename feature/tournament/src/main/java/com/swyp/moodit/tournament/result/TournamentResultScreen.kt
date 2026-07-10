@@ -54,7 +54,7 @@ fun TournamentResultScreen(
             MooditFilledButton(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
                 onClick = { onMissionDetailClick() },
-                enabled = uiState.moodMatchResult.preferenceResultType == PreferenceResultType.TYPE_AND_DETAIL || uiState.selectedMission != null,
+                enabled = uiState.moodMatchResult.preferenceResultType == PreferenceResultType.TYPE_AND_DETAIL || uiState.moodMatchResult.missionSuggestions.size == 1 || uiState.selectedMission != null,
                 text = "미션 확인하러 가기"
             )
         }) { innerPadding ->
@@ -70,7 +70,7 @@ fun TournamentResultScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 48.dp, end = 48.dp, top = 32.dp, bottom = 16.dp)
-                    .aspectRatio(264f/352f)
+                    .aspectRatio(264f / 352f)
                     .clip(RoundedCornerShape(16.dp)),
                 contentAlignment = Alignment.BottomCenter
             ) {
@@ -219,7 +219,7 @@ fun TournamentResultScreen(
                 )
             }
 
-            if (uiState.moodMatchResult.preferenceResultType != PreferenceResultType.TYPE_AND_DETAIL) {
+            if (uiState.moodMatchResult.preferenceResultType != PreferenceResultType.TYPE_AND_DETAIL || uiState.moodMatchResult.missionSuggestions.size == 1) {
                 Spacer(modifier = Modifier.height(40.dp))
 
                 Column(
@@ -231,7 +231,7 @@ fun TournamentResultScreen(
                 ) {
                     uiState.moodMatchResult.missionSuggestions.forEach { mission ->
                         MooditSelectableButton(
-                            content = mission.title.replace("\n"," "),
+                            content = mission.title.replace("\n", ""),
                             isSelected = mission.id == uiState.selectedMission?.id,
                             onItemClick = { onSelectMission(mission) })
                     }
