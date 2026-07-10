@@ -72,7 +72,7 @@ class SettingViewModel @Inject constructor(
             when (val result = userRepository.getUserPrivacyInfo()) {
                 is Result.Success -> {
                     reduce { it.copy(
-                        name = result.data.name,
+                        name = result.data.name.replace("\"", ""),
                         email = result.data.email
                     ) }
                 }

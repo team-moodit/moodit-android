@@ -33,7 +33,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun postNickname(nickname: String): Result<Unit> {
         return try {
-            mooditApi.postNickname(request = nickname).getOrThrowUnit()
+            mooditApi.postNickname(name = nickname).getOrThrowUnit()
             userPreferencesDataStore.setNickname(nickname)
             Result.Success(Unit)
         } catch (e: Exception) {
