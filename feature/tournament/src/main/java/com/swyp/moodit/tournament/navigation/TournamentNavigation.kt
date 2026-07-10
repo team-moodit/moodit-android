@@ -80,7 +80,8 @@ fun NavGraphBuilder.tournamentNavGraph(
     composable<TournamentRoute.Result>() {
         TournamentResultRoute(
             onShowSnackbar = onShowSnackbar,
-            navigateToMissionDetail = navigateToMissionDetail
+            navigateToMissionDetail = navigateToMissionDetail,
+            navigateToHome = navigateToHome
         )
     }
 }

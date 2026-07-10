@@ -8,6 +8,7 @@ import com.swyp.moodit.data.repository.MissionRepository
 import com.swyp.moodit.data.repository.UserRepository
 import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.navigation.TournamentRoute
+import com.swyp.moodit.tournament.matchUp.MatchUpContract
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -54,6 +55,10 @@ class TournamentResultViewModel @Inject constructor(
 
             is TournamentResultContract.Intent.LoadResult -> {
                 loadMatchResult()
+            }
+
+            is TournamentResultContract.Intent.OnExitClick -> {
+                handleExitClick()
             }
         }
     }
@@ -120,5 +125,9 @@ class TournamentResultViewModel @Inject constructor(
                 MissionStatus.CREATED
             )
         )
+    }
+
+    private fun handleExitClick() {
+        sendEffect(TournamentResultContract.SideEffect.NavigateToHome)
     }
 }

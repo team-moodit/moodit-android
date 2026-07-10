@@ -41,5 +41,7 @@ class TournamentMainContract {
             Intent
 
         data object OnSettingClick : Intent
+
+        data object OnExitClick : Intent
     }
 }

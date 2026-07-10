@@ -1,5 +1,6 @@
 package com.swyp.moodit.tournament.result
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,12 +15,15 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.model.MissionStatus
+import com.swyp.moodit.tournament.main.TournamentMainContract
+import com.swyp.moodit.tournament.matchUp.MatchUpContract
 
 @Composable
 fun TournamentResultRoute(
     viewModel: TournamentResultViewModel = hiltViewModel(),
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
-    navigateToMissionDetail: (Long, MissionStatus) -> Unit
+    navigateToMissionDetail: (Long, MissionStatus) -> Unit,
+    navigateToHome: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -35,12 +39,18 @@ fun TournamentResultRoute(
                     sideEffect.missionId,
                     sideEffect.status
                 )
+
+                is TournamentResultContract.SideEffect.NavigateToHome -> navigateToHome()
             }
         }
     }
 
     LaunchedEffect(Unit) {
         viewModel.sendIntent(TournamentResultContract.Intent.LoadResult)
+    }
+
+    BackHandler {
+        viewModel.sendIntent(TournamentResultContract.Intent.OnExitClick)
     }
 
     when {

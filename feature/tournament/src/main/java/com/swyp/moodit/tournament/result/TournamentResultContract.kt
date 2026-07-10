@@ -20,11 +20,13 @@ class TournamentResultContract {
         data class ShowSnackbar(val message: String) : SideEffect
         data class NavigateToMissionDetail(val missionId: Long, val status: MissionStatus) :
             SideEffect
+        data object NavigateToHome : SideEffect
     }
 
     sealed interface Intent : UiIntent {
         data class OnMissionSelect(val mission: MissionSuggestion) : Intent
         data object OnMissionDetailClick : Intent
         data object LoadResult : Intent
+        data object OnExitClick : Intent
     }
 }
