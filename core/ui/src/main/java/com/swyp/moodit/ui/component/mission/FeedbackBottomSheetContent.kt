@@ -44,7 +44,7 @@ fun FeedbackBottomSheetContent(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "더 나은 경험을 제공할 수 있도록 노력할게요",
+            text = "느낀 점에 가까운 이유를 모두 골라주세요",
             style = MooditTheme.typography.b3Medium,
             color = MooditTheme.colors.textSecondary
         )

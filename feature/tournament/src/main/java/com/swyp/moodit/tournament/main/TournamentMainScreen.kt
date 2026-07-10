@@ -38,6 +38,7 @@ import com.swyp.moodit.designsystem.component.MooditScaffold
 import com.swyp.moodit.designsystem.component.MooditTopBar
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.tournament.CompletedTournament
+import com.swyp.moodit.model.tournament.InProgressMatchState
 import com.swyp.moodit.model.tournament.InProgressTournament
 import com.swyp.moodit.tournament.component.CompletedTournamentItem
 import com.swyp.moodit.tournament.component.InProgressTournamentItem
@@ -48,7 +49,7 @@ fun TournamentMainScreen(
     uiState: TournamentMainContract.State,
     inProgressTournaments: LazyPagingItems<InProgressTournament>,
     completedTournaments: LazyPagingItems<CompletedTournament>,
-    onInProgressTournamentClick: (Long) -> Unit,
+    onInProgressTournamentClick: (Long, Long, InProgressMatchState) -> Unit,
     onCompletedTournamentClick: (Long, Long) -> Unit,
     onSettingClick: () -> Unit
 ) {
@@ -143,7 +144,9 @@ fun TournamentMainScreen(
                                     inProgressTournament = inProgressTournament,
                                     onTournamentClick = {
                                         onInProgressTournamentClick(
-                                            inProgressTournament.matchId
+                                            inProgressTournament.matchId,
+                                            inProgressTournament.matchResultId,
+                                            inProgressTournament.matchState
                                         )
                                     }
                                 )

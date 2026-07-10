@@ -38,6 +38,14 @@ fun NavGraphBuilder.tournamentNavGraph(
                     userMissionId = userMissionId
                 )
             },
+            navigateToTournamentResult = { matchResultId ->
+                navController.navigateToTournamentResult(
+                    matchResultId
+                )
+            },
+            navigateToMatchUp = { tournamentId, isStarted ->
+                navController.navigateToMatchUp(tournamentId, isStarted)
+            },
             navigateToSetting = navigateToSetting
         )
     }

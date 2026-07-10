@@ -3,6 +3,7 @@ package com.swyp.moodit.tournament.main
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.swyp.moodit.data.repository.TournamentRepository
+import com.swyp.moodit.model.tournament.InProgressMatchState
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -22,16 +23,30 @@ class TournamentMainViewModel @Inject constructor(
     override fun handleIntents(intent: TournamentMainContract.Intent) {
         when (intent) {
             is TournamentMainContract.Intent.OnInProgressTournamentClick -> {
-                sendEffect(
-                    TournamentMainContract.SideEffect.NavigateToInProgressTournamentDetail(
-                        intent.tournamentId,
+                if (intent.matchResultId == -1L) {
+                    sendEffect(
+                        TournamentMainContract.SideEffect.NavigateToMatchUp(
+                            intent.tournamentId,
+                            false
+                        )
                     )
-                )
+                } else if (intent.matchState == InProgressMatchState.DONE) {
+                    sendEffect(
+                        TournamentMainContract.SideEffect.NavigateToInProgressTournamentDetail(
+                            intent.tournamentId,
+                        )
+                    )
+                } else {
+                    sendEffect(TournamentMainContract.SideEffect.NavigateToMoodMatchResult(intent.matchResultId))
+                }
             }
 
             is TournamentMainContract.Intent.OnCompletedTournamentClick -> {
                 sendEffect(
-                    TournamentMainContract.SideEffect.NavigateToCompletedTournamentDetail(intent.tournamentId, intent.userMissionId)
+                    TournamentMainContract.SideEffect.NavigateToCompletedTournamentDetail(
+                        intent.tournamentId,
+                        intent.userMissionId
+                    )
                 )
             }
 
