@@ -2,8 +2,11 @@ package com.swyp.moodit.ui.component.mission
 
 import android.os.Build
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,17 +15,22 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
@@ -42,6 +50,7 @@ import com.swyp.moodit.model.MissionStatus
 @Composable
 fun MissionDetailContent(
     modifier: Modifier = Modifier,
+    nickname: String,
     missionInfo: Mission,
     missionStatus: MissionStatus,
     contentPadding: PaddingValues = PaddingValues(0.dp),
@@ -81,16 +90,51 @@ fun MissionDetailContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(32.dp))
-        AsyncImage(
-            model = missionInfo.matchResult.imageUrl,
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 48.dp)
+                .padding(start = 32.dp, end = 32.dp)
                 .aspectRatio(232f / 309f)
                 .clip(RoundedCornerShape(16.dp)),
-            contentDescription = "img_result",
-            contentScale = ContentScale.Crop,
-        )
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            AsyncImage(
+                model = missionInfo.matchResult.imageUrl,
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop,
+                error = ColorPainter(Color.Gray)
+            )
+            Surface(
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .padding(bottom = 16.dp),
+                shape = RoundedCornerShape(100.dp),
+                color = Color.Black.copy(alpha = 0.5f)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = 12.dp, vertical = 9.dp)
+                        .clip(RoundedCornerShape(100.dp)),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Icon(
+                        modifier = Modifier.size(14.dp),
+                        painter = painterResource(R.drawable.star_filled),
+                        contentDescription = "icon_tag",
+                        tint = Color.White
+                    )
+
+                    Text(
+                        text = "${nickname}님이 픽한 취향",
+                        color = MooditTheme.colors.onPrimaryContainer,
+                        style = MooditTheme.typography.caption
+                    )
+                }
+            }
+        }
+
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = missionInfo.matchResult.matchTitle,
@@ -201,7 +245,10 @@ fun MissionDetailContent(
         MooditDialog(
             title = "미션을 삭제했어요",
             description = "삭제할 미션은 다시 볼 수 없어요",
-            onClickCancel = { onDeleteCompleteDialogShowChange(false) },
+            onClickCancel = {
+                onDeleteCompleteDialogShowChange(false)
+                onDeleteCompleteClick()
+            },
             icon = {
                 Image(
                     modifier = Modifier.size(80.dp),

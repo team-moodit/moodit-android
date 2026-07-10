@@ -3,6 +3,7 @@ package com.swyp.moodit.home.missionDetail
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.model.FeedbackOption
 import com.swyp.moodit.model.Mission
+import com.swyp.moodit.model.MissionDetailLoadingType
 import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.ui.base.UiIntent
 import com.swyp.moodit.ui.base.UiSideEffect
@@ -11,6 +12,7 @@ import com.swyp.moodit.ui.base.UiState
 class MissionDetailContract {
     data class State(
         val isLoading: MissionDetailLoadingType = MissionDetailLoadingType.NONE,
+        val nickname: String = "",
         val status: MissionStatus = MissionStatus.DEFAULT,
         val missionInfo: Mission = Mission(),
         val selectedFeedback: List<FeedbackOption> = emptyList(),
@@ -44,10 +46,4 @@ class MissionDetailContract {
         data class OnSliderRatingChange(val rating: Float) : Intent
         data class ToggleFeedbackOption(val option: FeedbackOption) : Intent
     }
-}
-
-enum class MissionDetailLoadingType {
-    NONE,
-    DEFAULT,
-    REPORT
 }

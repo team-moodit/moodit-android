@@ -234,7 +234,7 @@ fun InProgressTournamentContent(
                         )
                         Text(
                             modifier = Modifier.padding(vertical = 4.dp),
-                            text = uiState.tournamentDetail.matchInfo.createdAt.toFormatDate(),
+                            text = uiState.tournamentDetail.matchInfo.createdAt,
                             style = MooditTheme.typography.b2ExtraSmall,
                             color = MooditTheme.colors.onPrimaryContainer
                         )
@@ -322,7 +322,10 @@ fun InProgressTournamentContent(
         MooditDialog(
             title = "무드매치를 삭제했어요",
             description = "삭제할 무드매치는 다시 볼 수 없어요",
-            onClickCancel = { onDeleteCompleteDialogShowChange(false) },
+            onClickCancel = {
+                onDeleteCompleteDialogShowChange(false)
+                onDeleteCompleteClick()
+            },
             icon = {
                 Image(
                     modifier = Modifier.size(80.dp),

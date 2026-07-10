@@ -21,9 +21,11 @@ object DateUtil {
     fun String.toDaysAgoMessage(): String {
         if (this.isBlank()) return ""
         return try {
-            val parsedDate = LocalDateTime.parse(this, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+            val completedDate = LocalDate.parse(this, formatter)
             val today = LocalDate.now()
-            val daysAgo = ChronoUnit.DAYS.between(parsedDate, today)
+            val daysAgo = ChronoUnit.DAYS.between(completedDate, today)
+
             when {
                 daysAgo <= 0L -> "오늘"
                 daysAgo == 1L -> "어제"

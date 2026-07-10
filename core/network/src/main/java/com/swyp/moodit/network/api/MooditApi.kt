@@ -114,7 +114,7 @@ interface MooditApi {
 
     @POST("v1/settings/privacy/name")
     suspend fun postNickname(
-        @Body request: String
+        @Body name: String
     ): Response<BaseResponse<Unit>>
 
     // Mission

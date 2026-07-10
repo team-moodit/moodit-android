@@ -17,6 +17,7 @@ import com.swyp.moodit.navigation.HomeRoute
 import com.swyp.moodit.navigation.MainBottomBarTab
 import com.swyp.moodit.navigation.OnBoardingRoute
 import com.swyp.moodit.navigation.TournamentRoute
+import com.swyp.moodit.onboard.report.ReportRoute
 import com.swyp.moodit.report.navigation.navigateToReport
 import com.swyp.moodit.tournament.navigation.navigateToTournament
 
@@ -45,11 +46,11 @@ class MooditAppState(
 
     fun navigateToMainBottomBarTab(navTab: MainBottomBarTab) {
         val bottomTabNavOptions = navOptions {
-            popUpTo(navController.graph.findStartDestination().id) {
+            popUpTo(navController.graph.id) {
                 saveState = true
             }
             launchSingleTop = true
-            restoreState = true
+            restoreState = false
         }
         when (navTab) {
             MainBottomBarTab.HOME -> navController.navigateToHome(bottomTabNavOptions)
@@ -118,6 +119,10 @@ class MooditAppState(
 
     fun navigateToMissionDetail(missionId: Long, status: MissionStatus) {
         navController.navigate(HomeRoute.MissionDetail(missionId, status.name))
+    }
+
+    fun navigateToReportReady() {
+        navController.navigate(HomeRoute.ReportReady)
     }
 
     fun popBackStack() {

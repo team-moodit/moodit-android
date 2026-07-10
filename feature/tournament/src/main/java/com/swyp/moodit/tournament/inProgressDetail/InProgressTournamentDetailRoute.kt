@@ -13,12 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
-import org.junit.matchers.JUnitMatchers
 
 @Composable
 fun InProgressTournamentDetailRoute(
     viewModel: InProgressTournamentDetailViewModel = hiltViewModel(),
     navigateToMatchUp: (Long, Boolean) -> Unit,
+    navigateToMoodMatchResult: (Long) -> Unit,
     navigateToTournamentMain: () -> Unit,
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean
 ) {
@@ -34,6 +34,10 @@ fun InProgressTournamentDetailRoute(
 
                 is InProgressTournamentDetailContract.SideEffect.NavigateToMatchUp -> {
                     navigateToMatchUp(sideEffect.tournamentId, sideEffect.isStarted)
+                }
+
+                is InProgressTournamentDetailContract.SideEffect.NavigateToMoodMatchResult -> {
+                    navigateToMoodMatchResult(sideEffect.matchResultId)
                 }
 
                 is InProgressTournamentDetailContract.SideEffect.NavigateToTournament -> {

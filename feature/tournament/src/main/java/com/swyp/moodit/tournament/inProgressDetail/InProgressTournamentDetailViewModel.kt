@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.TournamentRepository
+import com.swyp.moodit.model.tournament.InProgressMatchState
 import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +20,9 @@ class InProgressTournamentDetailViewModel @Inject constructor(
 ) :
     BaseViewModel<InProgressTournamentDetailContract.State, InProgressTournamentDetailContract.Intent, InProgressTournamentDetailContract.SideEffect>(
         initialState = InProgressTournamentDetailContract.State(
-            tournamentId = savedStateHandle.toRoute<TournamentRoute.InProgressDetail>().tournamentId
+            tournamentId = savedStateHandle.toRoute<TournamentRoute.InProgressDetail>().tournamentId,
+            matchResultId = savedStateHandle.toRoute<TournamentRoute.InProgressDetail>().matchResultId,
+            matchState = savedStateHandle.toRoute<TournamentRoute.InProgressDetail>().matchState
         )
     ) {
 
@@ -43,12 +46,20 @@ class InProgressTournamentDetailViewModel @Inject constructor(
             }
 
             is InProgressTournamentDetailContract.Intent.OnResumeTournamentClick -> {
-                sendEffect(
-                    InProgressTournamentDetailContract.SideEffect.NavigateToMatchUp(
-                        tournamentId,
-                        false
+                if (currentState.matchResultId == -1L) {
+                    sendEffect(
+                        InProgressTournamentDetailContract.SideEffect.NavigateToMatchUp(
+                            currentState.tournamentId,
+                            false
+                        )
                     )
-                )
+                } else {
+                    sendEffect(
+                        InProgressTournamentDetailContract.SideEffect.NavigateToMoodMatchResult(
+                            currentState.matchResultId
+                        )
+                    )
+                }
             }
 
             is InProgressTournamentDetailContract.Intent.OnDeleteDialogShowChange -> {

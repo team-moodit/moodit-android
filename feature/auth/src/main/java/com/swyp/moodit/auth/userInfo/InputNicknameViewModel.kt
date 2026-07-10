@@ -19,6 +19,10 @@ class InputNicknameViewModel @Inject constructor(
 ) : BaseViewModel<InputNicknameContract.State, InputNicknameContract.Intent, InputNicknameContract.SideEffect>(
     initialState = InputNicknameContract.State(isEditMode = savedStateHandle.toRoute<AuthRoute.InputNickname>().isEditMode)
 ) {
+    init {
+        if (currentState.isEditMode) getUserPrivacyInfo()
+    }
+
     override fun handleIntents(intent: InputNicknameContract.Intent) {
         when (intent) {
             is InputNicknameContract.Intent.OnNicknameChange -> {
@@ -55,8 +59,29 @@ class InputNicknameViewModel @Inject constructor(
         }
     }
 
+    private fun getUserPrivacyInfo() {
+        viewModelScope.launch {
+            reduce { it.copy(isLoading = true) }
+            when (val result = userRepository.getUserPrivacyInfo()) {
+                is Result.Success -> {
+                    reduce { it.copy(nickname = result.data.name.replace("\"", "")) }
+                    checkNicknameCondition()
+                }
+
+                is Result.Error -> {
+                    sendEffect(
+                        InputNicknameContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "닉네임 조회에 실패했습니다.", MooditSnackbarType.ERROR
+                        )
+                    )
+                }
+            }
+            reduce { it.copy(isLoading = false) }
+        }
+    }
+
     private fun updateNickname(nickname: String) {
-        if (nickname.length <= MAX_NICKNAME_LENGTH) {
+        if (nickname.length <= MAX_NICKNAME_LENGTH && nickname.matches(INPUT_NICKNAME_REGEX.toRegex())) {
             reduce { it.copy(nickname = nickname) }
             checkNicknameCondition()
         }
@@ -75,5 +100,6 @@ class InputNicknameViewModel @Inject constructor(
         const val MIN_NICKNAME_LENGTH = 1
         const val MAX_NICKNAME_LENGTH = 6
         const val NICKNAME_REGEX = "^[가-힣]+$"
+        const val INPUT_NICKNAME_REGEX = "^[ㄱ-ㅎㅏ-ㅣ가-힣]*$"
     }
 }

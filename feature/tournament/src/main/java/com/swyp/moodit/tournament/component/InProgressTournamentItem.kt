@@ -46,6 +46,12 @@ fun InProgressTournamentItem(
         ((inProgressTournament.totalRound - inProgressTournament.currentRound) / inProgressTournament.totalRound.toFloat())
             .coerceIn(0f, 1f)
 
+    val currentRoundLabel = when(inProgressTournament.currentRound) {
+        2 -> "결승전"
+        4 -> "준결승전"
+        else -> "${inProgressTournament.currentRound}강"
+    }
+
     Card(
         modifier = modifier
             .width(itemWidth)
@@ -83,7 +89,7 @@ fun InProgressTournamentItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "${inProgressTournament.currentRound}",
+                    text = currentRoundLabel,
                     style = MooditTheme.typography.caption,
                     color = MooditTheme.colors.primary
                 )

@@ -5,21 +5,24 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.MissionRepository
+import com.swyp.moodit.data.repository.UserRepository
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.model.FeedbackOption
 import com.swyp.moodit.model.Mission
+import com.swyp.moodit.model.MissionDetailLoadingType
 import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.navigation.HomeRoute
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class MissionDetailViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle, private val missionRepository: MissionRepository
+    savedStateHandle: SavedStateHandle,
+    private val missionRepository: MissionRepository,
+    private val userRepository: UserRepository
 ) : BaseViewModel<MissionDetailContract.State, MissionDetailContract.Intent, MissionDetailContract.SideEffect>(
     initialState = MissionDetailContract.State(
         status = savedStateHandle.toRoute<HomeRoute.MissionDetail>().status,
@@ -28,8 +31,7 @@ class MissionDetailViewModel @Inject constructor(
     )
 ) {
     init {
-        Timber.d("missionId: ${currentState.missionInfo.userMissionId}")
-        Timber.d("status: ${currentState.status}")
+        observeNickname()
     }
 
     override fun handleIntents(intent: MissionDetailContract.Intent) {
@@ -86,6 +88,14 @@ class MissionDetailViewModel @Inject constructor(
                 }
             }
             reduce { it.copy(isLoading = MissionDetailLoadingType.NONE) }
+        }
+    }
+
+    private fun observeNickname() {
+        viewModelScope.launch {
+            userRepository.nickname.collect { nickname ->
+                reduce { it.copy(nickname = nickname) }
+            }
         }
     }
 

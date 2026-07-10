@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.flowOf
 class ReportMainContract {
     data class State(
         val isLoading: Boolean = false,
+        val nickname: String = "",
         val selectedTab: ReportTab = ReportTab.REPORT,
         val reportSummary: ReportSummary = ReportSummary(),
         val top3Distributions: List<PreferenceDetail> = emptyList(),

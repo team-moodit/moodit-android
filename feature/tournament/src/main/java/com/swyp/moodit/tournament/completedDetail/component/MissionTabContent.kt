@@ -93,7 +93,7 @@ fun MissionTabContent(
                     )
 
                     Text(
-                        text = "김비비님이 픽한 취향",
+                        text = "${uiState.nickname}님이 픽한 취향",
                         color = MooditTheme.colors.onPrimaryContainer,
                         style = MooditTheme.typography.caption
                     )
@@ -270,7 +270,7 @@ fun MissionTabContentPreview() {
         MissionTabContent(
             onMissionDeleteClick = {},
             innerPadding = PaddingValues(),
-            uiState = CompletedTournamentDetailContract.State()
+            uiState = CompletedTournamentDetailContract.State(nickname = "비비")
         )
     }
 }

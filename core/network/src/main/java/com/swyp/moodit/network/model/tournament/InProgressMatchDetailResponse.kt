@@ -11,7 +11,7 @@ data class InProgressMatchDetailResponse(
 
 data class InProgressMatchInfoResponse(
     val totalImageCount: Int,
-    val createdAt: String
+    val LastPlayedAt: String
 )
 
 data class MatchImageResponse(

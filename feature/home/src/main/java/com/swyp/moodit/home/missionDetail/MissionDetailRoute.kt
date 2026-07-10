@@ -30,6 +30,7 @@ import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.component.MooditLottie
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.designsystem.theme.MooditTheme
+import com.swyp.moodit.model.MissionDetailLoadingType
 
 @Composable
 fun MissionDetailRoute(
@@ -102,7 +103,7 @@ fun MissionDetailRoute(
                     }
 
                     Text(
-                        text = "비비님의 취향을\n더 선명하게 정리하고 있어요",
+                        text = "${uiState.nickname}님의 취향을\n더 선명하게 정리하고 있어요",
                         style = MooditTheme.typography.h1,
                         color = MooditTheme.colors.onPrimaryContainer,
                         textAlign = TextAlign.Center,

@@ -15,16 +15,20 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,7 +54,7 @@ fun TournamentResultScreen(
             MooditFilledButton(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
                 onClick = { onMissionDetailClick() },
-                enabled = uiState.moodMatchResult.preferenceResultType == PreferenceResultType.TYPE_AND_DETAIL || uiState.selectedMission != null,
+                enabled = uiState.moodMatchResult.preferenceResultType == PreferenceResultType.TYPE_AND_DETAIL || uiState.moodMatchResult.missionSuggestions.size == 1 || uiState.selectedMission != null,
                 text = "미션 확인하러 가기"
             )
         }) { innerPadding ->
@@ -62,25 +66,57 @@ fun TournamentResultScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(32.dp))
-            AsyncImage(
-                model = uiState.moodMatchResult.matchResult.imageUrl,
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 48.dp)
-                    .aspectRatio(0.82f)
+                    .padding(start = 48.dp, end = 48.dp, top = 32.dp, bottom = 16.dp)
+                    .aspectRatio(264f / 352f)
                     .clip(RoundedCornerShape(16.dp)),
-                contentDescription = "img_result",
-                contentScale = ContentScale.Crop,
-            )
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                AsyncImage(
+                    model = uiState.moodMatchResult.matchResult.imageUrl,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                    error = ColorPainter(Color.Gray)
+                )
+                Surface(
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .padding(bottom = 16.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    color = Color.Black.copy(alpha = 0.5f)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .padding(horizontal = 12.dp, vertical = 9.dp)
+                            .clip(RoundedCornerShape(16.dp)),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(14.dp),
+                            painter = painterResource(R.drawable.star_filled),
+                            contentDescription = "icon_tag",
+                            tint = Color.White
+                        )
+
+                        Text(
+                            text = "${uiState.nickname}님이 픽한 취향",
+                            color = MooditTheme.colors.onPrimaryContainer,
+                            style = MooditTheme.typography.caption
+                        )
+                    }
+                }
+            }
+
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = uiState.moodMatchResult.matchResult.matchTitle,
                 style = MooditTheme.typography.h3, color = MooditTheme.colors.onBackground
             )
-
-            Spacer(modifier = Modifier.height(30.dp))
 
             Row(
                 modifier = Modifier
@@ -183,7 +219,7 @@ fun TournamentResultScreen(
                 )
             }
 
-            if (uiState.moodMatchResult.preferenceResultType != PreferenceResultType.TYPE_AND_DETAIL) {
+            if (uiState.moodMatchResult.preferenceResultType != PreferenceResultType.TYPE_AND_DETAIL || uiState.moodMatchResult.missionSuggestions.size == 1) {
                 Spacer(modifier = Modifier.height(40.dp))
 
                 Column(
@@ -195,7 +231,7 @@ fun TournamentResultScreen(
                 ) {
                     uiState.moodMatchResult.missionSuggestions.forEach { mission ->
                         MooditSelectableButton(
-                            content = mission.title.replace("\n"," "),
+                            content = mission.title.replace("\n", ""),
                             isSelected = mission.id == uiState.selectedMission?.id,
                             onItemClick = { onSelectMission(mission) })
                     }

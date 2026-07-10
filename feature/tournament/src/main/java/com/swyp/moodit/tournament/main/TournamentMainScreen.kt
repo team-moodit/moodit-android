@@ -175,7 +175,7 @@ fun TournamentMainScreen(
                                 modifier = Modifier
                                     .size(8.dp)
                                     .background(
-                                        color = if (inProgressTournaments.itemCount == 0) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
+                                        color = if (completedTournaments.itemCount == 0) MooditTheme.colors.onSurface else MooditTheme.colors.primary,
                                         shape = CircleShape
                                     )
                             )

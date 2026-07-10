@@ -16,6 +16,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -28,12 +29,15 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.swyp.moodit.designsystem.component.MooditScaffold
+import com.swyp.moodit.designsystem.component.MooditTopBar
 import com.swyp.moodit.designsystem.component.button.MooditFilledButton
 import com.swyp.moodit.designsystem.theme.MooditTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputNicknameScreen(
     uiState: InputNicknameContract.State,
@@ -45,12 +49,26 @@ fun InputNicknameScreen(
 
     MooditScaffold(
         modifier = Modifier.fillMaxSize(),
+        topBar = {
+            if (uiState.isEditMode) {
+                MooditTopBar(
+                    title = {
+                        Text(
+                            text = "닉네임",
+                            style = MooditTheme.typography.h2,
+                            color = MooditTheme.colors.onBackground
+                        )
+                    },
+                    textAlign = TextAlign.Center
+                )
+            }
+        },
         bottomBar = {
             MooditFilledButton(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 onClick = { onConfirmClick() },
                 enabled = uiState.isNicknameValid,
-                text = "시작하기"
+                text = "확인"
             )
         }
     ) { innerPadding ->
@@ -65,16 +83,20 @@ fun InputNicknameScreen(
                     })
                 }
         ) {
-            Spacer(modifier = Modifier.height(64.dp))
-            Text(
-                text = "어떻게 불러드리는 게\n좋을까요?",
-                style = MooditTheme.typography.h1,
-                color = MooditTheme.colors.onPrimaryContainer
-            )
-            Spacer(modifier = Modifier.height(32.dp))
+            if (uiState.isEditMode) {
+                Spacer(modifier = Modifier.height(16.dp))
+            } else {
+                Spacer(modifier = Modifier.height(64.dp))
+                Text(
+                    text = "어떻게 불러드리는 게\n좋을까요?",
+                    style = MooditTheme.typography.h1,
+                    color = MooditTheme.colors.onPrimaryContainer
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+            }
             Text(
                 modifier = Modifier.padding(horizontal = 4.dp),
-                text = "닉네임",
+                text = if (uiState.isEditMode) "새로운 닉네임을 입력해주세요" else "닉네임",
                 style = MooditTheme.typography.b2Small,
                 color = MooditTheme.colors.onPrimaryContainer
             )

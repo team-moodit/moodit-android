@@ -310,7 +310,7 @@ fun SettingScreen(
                             icon = {
                                 Image(
                                     modifier = Modifier.size(80.dp),
-                                    painter = painterResource(R.drawable.complete),
+                                    painter = painterResource(R.drawable.icon),
                                     contentDescription = "icon_delete_account_complete"
                                 )
                             }

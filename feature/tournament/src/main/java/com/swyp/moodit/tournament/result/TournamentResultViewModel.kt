@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.MissionRepository
+import com.swyp.moodit.data.repository.UserRepository
 import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.navigation.TournamentRoute
+import com.swyp.moodit.tournament.matchUp.MatchUpContract
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TournamentResultViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val missionRepository: MissionRepository
+    private val missionRepository: MissionRepository,
+    private val userRepository: UserRepository
 ) :
     BaseViewModel<TournamentResultContract.State, TournamentResultContract.Intent, TournamentResultContract.SideEffect>(
         initialState = TournamentResultContract.State()
@@ -23,6 +26,10 @@ class TournamentResultViewModel @Inject constructor(
 
     private val matchResultId =
         savedStateHandle.toRoute<TournamentRoute.Result>().matchResultId
+
+    init {
+        observeNickname()
+    }
 
     override fun handleIntents(intent: TournamentResultContract.Intent) {
         when (intent) {
@@ -48,6 +55,18 @@ class TournamentResultViewModel @Inject constructor(
 
             is TournamentResultContract.Intent.LoadResult -> {
                 loadMatchResult()
+            }
+
+            is TournamentResultContract.Intent.OnExitClick -> {
+                handleExitClick()
+            }
+        }
+    }
+
+    private fun observeNickname() {
+        viewModelScope.launch {
+            userRepository.nickname.collect { nickname ->
+                reduce { it.copy(nickname = nickname) }
             }
         }
     }
@@ -106,5 +125,9 @@ class TournamentResultViewModel @Inject constructor(
                 MissionStatus.CREATED
             )
         )
+    }
+
+    private fun handleExitClick() {
+        sendEffect(TournamentResultContract.SideEffect.NavigateToHome)
     }
 }

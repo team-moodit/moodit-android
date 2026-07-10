@@ -222,7 +222,7 @@ fun CreateTournamentScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             Image(
-                                painter = painterResource(R.drawable.gallery_button),
+                                painter = painterResource(if (uiState.selectedPhotos.size == 32) R.drawable.galley_button_disabled else R.drawable.gallery_button),
                                 contentDescription = "icon_insert_photo",
                                 modifier = Modifier.size(40.dp)
                             )
