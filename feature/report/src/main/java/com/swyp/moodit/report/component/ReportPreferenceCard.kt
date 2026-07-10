@@ -97,11 +97,11 @@ fun ReportPreferenceCard(
                                             shape = RoundedCornerShape(100.dp)
                                         )
                                         .padding(horizontal = 12.dp, vertical = 4.dp),
-                                    content = preferenceReport.topPreferenceDetail.title,
+                                    content = preferenceReport.topPreferenceDetail.insightTitle,
                                     textStyle = MooditTheme.typography.b1Small
                                 )
                                 Text(
-                                    text = "${TextUtil.attachSecondParticle(preferenceReport.topPreferenceDetail.title)} 가장 중요한 척도에요",
+                                    text = "${TextUtil.attachSecondParticle(preferenceReport.topPreferenceDetail.insightTitle)} 가장 중요한 척도에요",
                                     style = MooditTheme.typography.b3Large,
                                     color = MooditTheme.colors.onPrimaryContainer
                                 )
