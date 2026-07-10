@@ -20,19 +20,14 @@ class TournamentMainContract {
     sealed interface SideEffect : UiSideEffect {
         data class ShowSnackbar(val message: String) : SideEffect
         data class NavigateToInProgressTournamentDetail(
-            val tournamentId: Long
+            val tournamentId: Long,
+            val matchResultId: Long,
+            val matchState: InProgressMatchState
         ) : SideEffect
-
-        data class NavigateToMoodMatchResult(val matchResultId: Long) : SideEffect
 
         data class NavigateToCompletedTournamentDetail(
             val tournamentId: Long,
             val userMissionId: Long
-        ) : SideEffect
-
-        data class NavigateToMatchUp(
-            val tournamentId: Long,
-            val isStarted: Boolean
         ) : SideEffect
 
         data object NavigateToSetting : SideEffect

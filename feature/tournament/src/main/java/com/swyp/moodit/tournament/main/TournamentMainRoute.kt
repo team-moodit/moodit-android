@@ -16,15 +16,14 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
+import com.swyp.moodit.model.tournament.InProgressMatchState
 
 @Composable
 fun TournamentMainRoute(
     viewModel: TournamentMainViewModel = hiltViewModel(),
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
-    navigateToInProgressTournamentDetail: (Long) -> Unit,
+    navigateToInProgressTournamentDetail: (Long, Long, InProgressMatchState) -> Unit,
     navigateToCompletedTournamentDetail: (Long, Long) -> Unit,
-    navigateToTournamentResult: (Long) -> Unit,
-    navigateToMatchUp: (Long, Boolean) -> Unit,
     navigateToSetting: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -40,15 +39,7 @@ fun TournamentMainRoute(
                 )
 
                 is TournamentMainContract.SideEffect.NavigateToInProgressTournamentDetail -> {
-                    navigateToInProgressTournamentDetail(sideEffect.tournamentId)
-                }
-
-                is TournamentMainContract.SideEffect.NavigateToMoodMatchResult -> {
-                    navigateToTournamentResult(sideEffect.matchResultId)
-                }
-
-                is TournamentMainContract.SideEffect.NavigateToMatchUp -> {
-                    navigateToMatchUp(sideEffect.tournamentId, sideEffect.isStarted)
+                    navigateToInProgressTournamentDetail(sideEffect.tournamentId, sideEffect.matchResultId, sideEffect.matchState)
                 }
 
                 is TournamentMainContract.SideEffect.NavigateToCompletedTournamentDetail -> {

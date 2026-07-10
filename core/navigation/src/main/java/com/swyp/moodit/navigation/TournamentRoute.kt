@@ -1,5 +1,6 @@
 package com.swyp.moodit.navigation
 
+import com.swyp.moodit.model.tournament.InProgressMatchState
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -14,7 +15,7 @@ sealed interface TournamentRoute : Route {
     data class Result(val matchResultId: Long) : TournamentRoute
 
     @Serializable
-    data class InProgressDetail(val tournamentId: Long) : TournamentRoute
+    data class InProgressDetail(val tournamentId: Long, val matchResultId: Long, val matchState: InProgressMatchState) : TournamentRoute
 
     @Serializable
     data class CompletedDetail(val tournamentId: Long, val userMissionId: Long) : TournamentRoute

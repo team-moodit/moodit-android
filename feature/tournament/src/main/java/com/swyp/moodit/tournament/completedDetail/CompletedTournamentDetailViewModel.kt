@@ -25,9 +25,6 @@ class CompletedTournamentDetailViewModel @Inject constructor(
         )
     ) {
 
-    private val tournamentId =
-        savedStateHandle.toRoute<TournamentRoute.InProgressDetail>().tournamentId
-
     init {
         loadTournamentInfo()
     }
@@ -42,7 +39,7 @@ class CompletedTournamentDetailViewModel @Inject constructor(
     fun loadTournamentInfo() {
         viewModelScope.launch {
             reduce { it.copy(isLoading = true) }
-            when (val result = tournamentRepository.getCompletedTournamentDetail(tournamentId)) {
+            when (val result = tournamentRepository.getCompletedTournamentDetail(currentState.tournamentId)) {
                 is Result.Success -> {
                     reduce { it.copy(tournamentDetail = result.data) }
                 }

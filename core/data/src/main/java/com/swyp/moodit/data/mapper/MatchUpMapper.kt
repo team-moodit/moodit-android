@@ -166,7 +166,7 @@ fun InProgressMatchDetailResponse.toModel(): InProgressTournamentDetail {
 fun InProgressMatchInfoResponse.toModel(): InProgressMatchInfo {
     return InProgressMatchInfo(
         totalImageCount = this.totalImageCount,
-        createdAt = this.createdAt
+        createdAt = this.LastPlayedAt
     )
 }
 
