@@ -46,11 +46,11 @@ class MooditAppState(
 
     fun navigateToMainBottomBarTab(navTab: MainBottomBarTab) {
         val bottomTabNavOptions = navOptions {
-            popUpTo(navController.graph.findStartDestination().id) {
+            popUpTo(navController.graph.id) {
                 saveState = true
             }
             launchSingleTop = true
-            restoreState = true
+            restoreState = false
         }
         when (navTab) {
             MainBottomBarTab.HOME -> navController.navigateToHome(bottomTabNavOptions)
