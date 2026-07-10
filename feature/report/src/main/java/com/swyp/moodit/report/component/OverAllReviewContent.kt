@@ -74,7 +74,7 @@ fun OverAllReviewContent(
                     ) {
                         Text(
                             modifier = Modifier.padding(end = 6.dp),
-                            text = "당신은",
+                            text = "${uiState.nickname}님은",
                             style = MooditTheme.typography.b1Large,
                             color = MooditTheme.colors.onPrimaryContainer
                         )
@@ -102,7 +102,7 @@ fun OverAllReviewContent(
                     verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     Text(
-                        text = "당신은 아직 취향을 찾아가고 있어요\n무드매치를 더 진행해보세요",
+                        text = "${uiState.nickname}님은 아직 취향을 찾아가고 있어요\n무드매치를 더 진행해보세요",
                         style = MooditTheme.typography.b1Large,
                         color = MooditTheme.colors.onPrimaryContainer
                     )

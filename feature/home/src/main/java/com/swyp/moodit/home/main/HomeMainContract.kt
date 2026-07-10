@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.flowOf
 class HomeMainContract {
     data class State(
         val isLoading: Boolean = false,
+        val nickname: String = "",
         val inProgressMissions: Flow<PagingData<Mission>> = flowOf(PagingData.empty()),
         val completedMissions: Flow<PagingData<Mission>> = flowOf(PagingData.empty()),
         val feedbackSubMittedMissions: Flow<PagingData<Mission>> = flowOf(PagingData.empty()),

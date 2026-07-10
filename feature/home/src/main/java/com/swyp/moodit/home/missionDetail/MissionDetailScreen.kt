@@ -69,6 +69,7 @@ fun MissionDetailScreen(
         }
     ) { innerPadding ->
         MissionDetailContent(
+            nickname = uiState.nickname,
             missionInfo = uiState.missionInfo,
             missionStatus = uiState.status,
             contentPadding = innerPadding,

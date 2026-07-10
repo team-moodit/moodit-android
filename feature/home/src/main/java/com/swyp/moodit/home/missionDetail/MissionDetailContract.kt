@@ -11,6 +11,7 @@ import com.swyp.moodit.ui.base.UiState
 class MissionDetailContract {
     data class State(
         val isLoading: MissionDetailLoadingType = MissionDetailLoadingType.NONE,
+        val nickname: String = "",
         val status: MissionStatus = MissionStatus.DEFAULT,
         val missionInfo: Mission = Mission(),
         val selectedFeedback: List<FeedbackOption> = emptyList(),

@@ -5,6 +5,7 @@ import androidx.paging.cachedIn
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.MissionRepository
 import com.swyp.moodit.data.repository.TournamentRepository
+import com.swyp.moodit.data.repository.UserRepository
 import com.swyp.moodit.model.MissionState
 import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.ui.base.BaseViewModel
@@ -16,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeMainViewModel @Inject constructor(
     private val missionRepository: MissionRepository,
-    private val tournamentRepository: TournamentRepository
+    private val tournamentRepository: TournamentRepository,
+    private val userRepository: UserRepository
 ) :
     BaseViewModel<HomeMainContract.State, HomeMainContract.Intent, HomeMainContract.SideEffect>(
         initialState = HomeMainContract.State()
@@ -26,6 +28,7 @@ class HomeMainViewModel @Inject constructor(
 
     init {
         loadMissions()
+        observeNickname()
     }
 
     private fun loadMissions() {
@@ -78,6 +81,14 @@ class HomeMainViewModel @Inject constructor(
                 isDialogShownInThisSession = false
                 reduce { it.copy(showResumeTournamentDialog = false) }
                 sendEffect(HomeMainContract.SideEffect.NavigateToMatchUp(intent.tournamentId))
+            }
+        }
+    }
+
+    private fun observeNickname() {
+        viewModelScope.launch {
+            userRepository.nickname.collect { nickname ->
+                reduce { it.copy(nickname = nickname) }
             }
         }
     }

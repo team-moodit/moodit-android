@@ -57,6 +57,7 @@ fun HomeMainScreen(
     onSettingClick: () -> Unit,
     onCreateTournamentClick: () -> Unit,
     onMissionClick: (Long) -> Unit,
+    nickname: String,
     inProgressMissions: LazyPagingItems<Mission>,
     completedMissions: LazyPagingItems<Mission>,
     feedbackSubMittedMissions: LazyPagingItems<Mission>
@@ -79,7 +80,7 @@ fun HomeMainScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "비비님,\n오늘의 취향을 찾아볼까요?",
+                        text = "${nickname}님,\n오늘의 취향을 찾아볼까요?",
                         style = MooditTheme.typography.h1,
                         color = MooditTheme.colors.onBackground
                     )
@@ -363,6 +364,7 @@ fun HomeMainScreenPreview() {
             onMissionClick = {},
             onSettingClick = {},
             onCreateTournamentClick = {},
+            nickname = "비비",
             completedMissions = emptyMissionsFlow.collectAsLazyPagingItems(),
             inProgressMissions = emptyMissionsFlow.collectAsLazyPagingItems(),
             feedbackSubMittedMissions = emptyMissionsFlow.collectAsLazyPagingItems()

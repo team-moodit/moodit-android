@@ -5,6 +5,7 @@ import androidx.paging.cachedIn
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.MissionRepository
 import com.swyp.moodit.data.repository.ReportRepository
+import com.swyp.moodit.data.repository.UserRepository
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.model.MissionState
 import com.swyp.moodit.ui.base.BaseViewModel
@@ -15,13 +16,15 @@ import javax.inject.Inject
 @HiltViewModel
 class ReportMainViewModel @Inject constructor(
     private val reportRepository: ReportRepository,
-    private val missionRepository: MissionRepository
+    private val missionRepository: MissionRepository,
+    private val userRepository: UserRepository
 ) :
     BaseViewModel<ReportMainContract.State, ReportMainContract.Intent, ReportMainContract.SideEffect>(
         initialState = ReportMainContract.State()
     ) {
     init {
         getPagedReviewedMissions()
+        observeNickname()
     }
 
     override fun handleIntents(intent: ReportMainContract.Intent) {
@@ -44,6 +47,14 @@ class ReportMainViewModel @Inject constructor(
 
             is ReportMainContract.Intent.OnCheckMissionClick -> sendEffect(ReportMainContract.SideEffect.NavigateToHome)
             is ReportMainContract.Intent.OnCreateMoodMatchClick -> sendEffect(ReportMainContract.SideEffect.NavigateToCreateMoodMatch)
+        }
+    }
+
+    private fun observeNickname() {
+        viewModelScope.launch {
+            userRepository.nickname.collect { nickname ->
+                reduce { it.copy(nickname = nickname) }
+            }
         }
     }
 

@@ -75,6 +75,7 @@ fun HomeMainRoute(
 
         else -> {
             HomeMainScreen(
+                nickname = uiState.nickname,
                 inProgressMissions = inProgressMissions,
                 completedMissions = completedMissions,
                 feedbackSubMittedMissions = feedbackSubMittedMissions,

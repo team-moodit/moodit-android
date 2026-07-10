@@ -10,6 +10,7 @@ import com.swyp.moodit.ui.base.UiState
 class TournamentResultContract {
     data class State(
         val isLoading: Boolean = false,
+        val nickname: String = "",
         val moodMatchResult: MoodMatchResult = MoodMatchResult(),
         val selectedMission: MissionSuggestion? = null,
         val userMissionId: Long = 0L
