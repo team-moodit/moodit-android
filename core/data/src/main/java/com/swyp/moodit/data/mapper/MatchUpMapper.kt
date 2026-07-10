@@ -13,6 +13,7 @@ import com.swyp.moodit.model.SelectedMatchUpIds
 import com.swyp.moodit.model.tournament.CompletedTournament
 import com.swyp.moodit.model.tournament.CompletedTournamentDetail
 import com.swyp.moodit.model.tournament.InProgressMatchInfo
+import com.swyp.moodit.model.tournament.InProgressMatchState
 import com.swyp.moodit.model.tournament.InProgressTournament
 import com.swyp.moodit.model.tournament.InProgressTournamentDetail
 import com.swyp.moodit.model.tournament.PreferenceResult
@@ -132,6 +133,8 @@ fun MissionMatchResultResponse.toModel(): MissionMatchResult {
 fun InProgressMatchResponse.toModel(): InProgressTournament {
     return InProgressTournament(
         matchId = this.matchId,
+        matchResultId = this.matchResultId ?: -1L,
+        matchState = this.matchState.toInProgressMatchStateModel(),
         title = this.title,
         currentRound = this.currentRound,
         totalRound = this.totalRound,
@@ -174,14 +177,14 @@ fun CompletedMatchDetailResponse.toModel(): CompletedTournamentDetail {
         imageUris = this.selectedImages.map { it.toModel() },
         completedAt = this.completedAt,
         preferenceResult = this.preferenceResult.toModel(),
-        preferenceTitle = this.preferenceTitle?:""
+        preferenceTitle = this.preferenceTitle ?: ""
     )
 }
 
 fun PreferenceResultResponse.toModel(): PreferenceResult {
     return PreferenceResult(
-        preferenceType = this.preferenceType?:"",
-        preferenceDetailType = this.preferenceDetailType?:""
+        preferenceType = this.preferenceType ?: "",
+        preferenceDetailType = this.preferenceDetailType ?: ""
     )
 }
 
@@ -194,4 +197,8 @@ fun MatchImageResponse.toModel(): TournamentImage {
 
 fun String.toModel(): PreferenceResultType {
     return PreferenceResultType.entries.find { it.name == this } ?: PreferenceResultType.TIE
+}
+
+fun String.toInProgressMatchStateModel(): InProgressMatchState {
+    return InProgressMatchState.entries.find { it.name == this } ?: InProgressMatchState.ING
 }

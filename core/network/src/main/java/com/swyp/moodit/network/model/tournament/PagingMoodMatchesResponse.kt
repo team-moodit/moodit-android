@@ -2,6 +2,8 @@ package com.swyp.moodit.network.model.tournament
 
 data class InProgressMatchResponse(
     val matchId: Long,
+    val matchResultId: Long?,
+    val matchState: String,
     val title: String,
     val currentRound: Int,
     val totalRound: Int,
