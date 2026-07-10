@@ -245,7 +245,10 @@ fun MissionDetailContent(
         MooditDialog(
             title = "미션을 삭제했어요",
             description = "삭제할 미션은 다시 볼 수 없어요",
-            onClickCancel = { onDeleteCompleteDialogShowChange(false) },
+            onClickCancel = {
+                onDeleteCompleteDialogShowChange(false)
+                onDeleteCompleteClick()
+            },
             icon = {
                 Image(
                     modifier = Modifier.size(80.dp),
