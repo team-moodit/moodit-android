@@ -29,6 +29,7 @@ fun TopPreferenceDetailResponse.toModel(): TopPreferenceDetail {
     return TopPreferenceDetail(
         detailType = this.detailType ?: "",
         title = this.title,
+        insightTitle = this.insightTitle,
         selectedCount = this.selectedCount,
         percentage = this.percentage
     )
