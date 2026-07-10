@@ -65,6 +65,7 @@ class InputNicknameViewModel @Inject constructor(
             when (val result = userRepository.getUserPrivacyInfo()) {
                 is Result.Success -> {
                     reduce { it.copy(nickname = result.data.name.replace("\"", "")) }
+                    checkNicknameCondition()
                 }
 
                 is Result.Error -> {

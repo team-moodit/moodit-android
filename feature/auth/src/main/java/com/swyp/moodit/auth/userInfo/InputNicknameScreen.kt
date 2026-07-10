@@ -68,7 +68,7 @@ fun InputNicknameScreen(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 onClick = { onConfirmClick() },
                 enabled = uiState.isNicknameValid,
-                text = "시작하기"
+                text = "확인"
             )
         }
     ) { innerPadding ->
