@@ -45,7 +45,7 @@ fun CompletedTournamentItem(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onTournamentClick() },
+            .clickable { onTournamentClick() }.padding(6.dp),
         shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
