@@ -2,10 +2,12 @@ package com.swyp.moodit.tournament.completedDetail
 
 import android.os.Build
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -49,9 +51,7 @@ fun CompletedTournamentDetailScreen(
     MooditScaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            CompletedTournamentTabRow(
-                selectedTab = uiState.selectedTab, onTabClick = onTabClick
-            )
+
         },
         bottomBar = {
             if (uiState.selectedTab == CompletedTournamentTab.MISSION) {
@@ -59,12 +59,12 @@ fun CompletedTournamentDetailScreen(
                     MissionState.IN_PROGRESS -> MooditFilledButton(
                         modifier = Modifier.padding(
                             horizontal = 16.dp
-                        ), onClick = { onCompleteClick()}, text = "미션을 완료했어요"
+                        ), onClick = { onCompleteClick() }, text = "미션을 완료했어요"
                     )
 
                     MissionState.COMPLETED -> MooditFilledButton(
                         modifier = Modifier.padding(horizontal = 16.dp),
-                        onClick = { onSatisfactionShowChange(true)},
+                        onClick = { onSatisfactionShowChange(true) },
                         text = "만족도 입력하기"
                     )
 
@@ -73,13 +73,20 @@ fun CompletedTournamentDetailScreen(
             }
         }
     ) { innerPadding ->
-        when (uiState.selectedTab) {
-            CompletedTournamentTab.MOOD_MATCH -> MoodMatchTabContent(innerPadding, uiState)
-            CompletedTournamentTab.MISSION -> MissionTabContent(
-                onMissionDeleteClick = { onDeleteDialogShowChange(true)},
-                innerPadding,
-                uiState
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .systemBarsPadding()) {
+            CompletedTournamentTabRow(
+                selectedTab = uiState.selectedTab, onTabClick = onTabClick
             )
+            when (uiState.selectedTab) {
+                CompletedTournamentTab.MOOD_MATCH -> MoodMatchTabContent(innerPadding, uiState)
+                CompletedTournamentTab.MISSION -> MissionTabContent(
+                    onMissionDeleteClick = { onDeleteDialogShowChange(true) },
+                    innerPadding,
+                    uiState
+                )
+            }
         }
 
         if (uiState.showSatisfactionBottomSheet) {

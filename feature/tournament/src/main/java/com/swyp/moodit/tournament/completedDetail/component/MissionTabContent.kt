@@ -110,11 +110,12 @@ fun MissionTabContent(
                 MissionState.REVIEWED -> "완료"
             }
         )
+        val missionTitle = uiState.mission.missionTitle.split("\n")
         Text(
             modifier = Modifier.padding(top = 16.dp),
-            text = uiState.mission.missionTitle,
+            text = "${missionTitle.first()}\n${missionTitle.last()}",
             textAlign = TextAlign.Center,
-            style = MooditTheme.typography.h3,
+            style = MooditTheme.typography.h2,
             color = MooditTheme.colors.onBackground
         )
 
@@ -165,7 +166,9 @@ fun MissionTabContent(
             }
 
             MissionState.COMPLETED -> {
+                Spacer(modifier = Modifier.height(32.dp))
                 Text(
+                    modifier = Modifier.fillMaxWidth(),
                     text = "만족도 평가",
                     style = MooditTheme.typography.b2Medium,
                     color = MooditTheme.colors.onPrimaryContainer

@@ -1,7 +1,9 @@
 package com.swyp.moodit.report.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -55,7 +57,7 @@ fun SatisfactionResultContent(
         LazyVerticalGrid(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 22.dp),
+                .padding(vertical = 22.dp),
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
@@ -73,6 +75,7 @@ fun SatisfactionResultContent(
             }
         }
     }
+    Spacer(modifier = Modifier.height(100.dp))
 }
 
 

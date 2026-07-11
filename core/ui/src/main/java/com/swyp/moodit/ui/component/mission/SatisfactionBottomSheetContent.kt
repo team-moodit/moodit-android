@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -40,7 +42,7 @@ fun SatisfactionBottomSheetContent(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 16.dp)
+            .padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 16.dp)
             .verticalScroll(rememberScrollState())
             .navigationBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -56,16 +58,16 @@ fun SatisfactionBottomSheetContent(
 
         Row(
             modifier = Modifier
-                .fillMaxWidth()
+                .wrapContentWidth()
                 .padding(horizontal = 20.dp)
                 .border(
                     1.dp,
                     MooditTheme.colors.onSurfaceContainer,
                     RoundedCornerShape(999.dp)
                 )
-                .padding(horizontal = 12.dp, vertical = 10.dp),
+                .padding(horizontal = 14.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            horizontalArrangement = Arrangement.Absolute.Center,
         ) {
             Icon(
                 painter = painterResource(R.drawable.info),
@@ -73,6 +75,7 @@ fun SatisfactionBottomSheetContent(
                 modifier = Modifier.size(16.dp),
                 tint = MooditTheme.colors.onTertiary
             )
+            Spacer(modifier = Modifier.width(4.dp))
             Text(
                 text = "탭하거나 드래그해서 0.5점까지 선택할 수 있어요",
                 style = MooditTheme.typography.b3Small,
@@ -80,7 +83,7 @@ fun SatisfactionBottomSheetContent(
             )
         }
 
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(44.dp))
 
         MooditSlider(
             value = currentSliderRating,
@@ -93,7 +96,7 @@ fun SatisfactionBottomSheetContent(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 26.dp),
+                .padding(horizontal = 23.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {

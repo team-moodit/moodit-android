@@ -1,6 +1,7 @@
 package com.swyp.moodit.home.reportReady
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,48 +29,50 @@ fun ReportReadyScreen(
     onNavigateHomeClick: () -> Unit
 ) {
     MooditScaffold { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .statusBarsPadding()
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(164.dp))
-            Text(
-                text = "리포트가 업데이트됐어요\n지금 확인해보세요",
-                style = MooditTheme.typography.h1,
-                color = MooditTheme.colors.onPrimaryContainer,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(110.dp))
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .statusBarsPadding()
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(164.dp))
+                Text(
+                    text = "리포트가 업데이트됐어요\n지금 확인해보세요",
+                    style = MooditTheme.typography.h1,
+                    color = MooditTheme.colors.onPrimaryContainer,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(110.dp))
 
-            Image(
-                painter = painterResource(R.drawable.icon),
-                modifier = Modifier.size(120.dp),
-                contentDescription = "icon_check"
-            )
+                Image(
+                    painter = painterResource(R.drawable.icon),
+                    modifier = Modifier.size(120.dp),
+                    contentDescription = "icon_check"
+                )
 
-            Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.height(150.dp))
 
-            MooditFilledButton(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = { onNavigateReportClick() },
-                text = "리포트 보러가기"
-            )
+                MooditFilledButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { onNavigateReportClick() },
+                    text = "리포트 보러가기"
+                )
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-            MooditFilledButton(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = { onNavigateHomeClick() },
-                text = "홈으로 가기",
-                containerColor = MooditTheme.colors.surfaceContainer,
-                contentColor = MooditTheme.colors.onPrimaryContainer
-            )
+                MooditFilledButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { onNavigateHomeClick() },
+                    text = "홈으로 가기",
+                    containerColor = MooditTheme.colors.surfaceContainer,
+                    contentColor = MooditTheme.colors.onPrimaryContainer
+                )
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
+            }
         }
     }
 }

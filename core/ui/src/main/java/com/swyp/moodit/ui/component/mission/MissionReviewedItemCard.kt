@@ -44,7 +44,7 @@ fun MissionReviewedItemCard(
             .fillMaxWidth()
             .aspectRatio(158f / 254f)
             .clickable { onClick() },
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -61,9 +61,7 @@ fun MissionReviewedItemCard(
             Spacer(modifier = Modifier.height(12.dp))
 
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),

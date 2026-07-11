@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -31,10 +30,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.theme.MooditTheme
-import com.swyp.moodit.model.Mission
-import com.swyp.moodit.model.MissionMatchResult
 import com.swyp.moodit.model.tournament.CompletedTournament
-import com.swyp.moodit.model.tournament.CompletedTournamentDetail
 
 @Composable
 fun CompletedTournamentItem(
@@ -45,7 +41,8 @@ fun CompletedTournamentItem(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onTournamentClick() },
+            .clickable { onTournamentClick() }
+            .padding(vertical = 10.dp),
         shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
@@ -71,7 +68,7 @@ fun CompletedTournamentItem(
                 Box(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
-                        .padding(bottom = 16.dp, end = 16.dp)
+                        .padding(bottom = 10.dp, end = 10.dp)
                         .size(40.dp)
                         .clip(CircleShape)
                         .background(Color.Black.copy(alpha = 0.5f))

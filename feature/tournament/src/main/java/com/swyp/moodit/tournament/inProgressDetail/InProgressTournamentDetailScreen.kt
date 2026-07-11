@@ -263,7 +263,7 @@ fun InProgressTournamentContent(
                         .border(
                             width = 1.dp,
                             color = MooditTheme.colors.onSurfaceContainer,
-                            shape = RoundedCornerShape(12.dp)
+                            shape = RoundedCornerShape(100.dp)
                         )
                         .padding(horizontal = 8.dp, vertical = 6.dp),
                     textColor = MooditTheme.colors.tertiary

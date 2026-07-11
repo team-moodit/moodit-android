@@ -186,7 +186,7 @@ fun ReportPreferenceCard(
                     .fillMaxWidth()
                     .height(200.dp)
                     .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
+                horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.Bottom
             ) {
                 top3Distributions.forEachIndexed { index, detail ->
@@ -197,7 +197,7 @@ fun ReportPreferenceCard(
                     }
                     val rank = 3 - index
                     PreferenceDistributionItem(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.padding(start = if (index == 0) 0.dp else 16.dp),
                         preference = detail,
                         isTie = isTieResult,
                         rank = rank
@@ -220,8 +220,8 @@ fun PreferenceDistributionItem(
     val barColor = when {
         isTie -> MooditTheme.colors.textSecondary
         rank == 1 -> MooditTheme.colors.primary
-        rank == 2 -> MooditTheme.colors.textSecondary.copy(alpha = 0.6f)
-        else -> MooditTheme.colors.textSecondary
+        rank == 2 -> MooditTheme.colors.textSecondary
+        else -> MooditTheme.colors.textSecondary.copy(alpha = 0.6f)
     }
 
     Column(
@@ -243,7 +243,6 @@ fun PreferenceDistributionItem(
         Box(
             modifier = Modifier
                 .width(80.dp)
-                .padding(horizontal = 8.dp)
                 .weight(weightValue, fill = true)
                 .heightIn(min = 24.dp)
                 .clip(

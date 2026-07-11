@@ -1,11 +1,13 @@
 package com.swyp.moodit.report.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,16 +21,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.swyp.moodit.common.util.TextUtil
+import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.report.PreferenceDetail
 import com.swyp.moodit.model.report.PreferenceReport
 import com.swyp.moodit.model.report.ReportSummary
 import com.swyp.moodit.model.report.ResultType
+import com.swyp.moodit.model.report.SatisfactionSummary
 import com.swyp.moodit.model.report.SummaryCount
 import com.swyp.moodit.report.main.ReportMainContract
 
@@ -54,7 +59,6 @@ fun OverAllReviewContent(
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(top = 22.dp)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -62,14 +66,15 @@ fun OverAllReviewContent(
                 uiState.reportSummary.preferenceReport.resultType == ResultType.PREFERENCE_ONLY
             ) {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 22.dp),
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 22.dp),
+                            .fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
@@ -97,7 +102,9 @@ fun OverAllReviewContent(
                 }
             } else if (uiState.reportSummary.preferenceReport.resultType == ResultType.PREFERENCE_TIE) {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 22.dp),
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
@@ -109,7 +116,6 @@ fun OverAllReviewContent(
                 }
             }
 
-
             Spacer(modifier = Modifier.height(24.dp))
 
             ReportPreferenceCard(
@@ -117,19 +123,25 @@ fun OverAllReviewContent(
                 preferenceReport = uiState.reportSummary.preferenceReport
             )
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 24.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                SatisfactionCard(
-                    modifier = Modifier.blur(if (uiState.reportSummary.rateSummary.count == 0L) 6.dp else 0.dp),
-                    satisfactionSummary = uiState.reportSummary.rateSummary
-                )
-                if (uiState.reportSummary.rateSummary.count == 0L) {
+            Spacer(modifier = Modifier.height(24.dp))
+
+            if (uiState.reportSummary.rateSummary.count == 0L) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(328f / 150f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.empty_report),
+                        contentDescription = "image_empty_report",
+                        modifier = Modifier.matchParentSize(),
+                        contentScale = ContentScale.FillBounds
+                    )
                     Column(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 32.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
@@ -158,13 +170,16 @@ fun OverAllReviewContent(
                         }
                     }
                 }
+            } else {
+                SatisfactionCard(
+                    satisfactionSummary = uiState.reportSummary.rateSummary
+                )
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             ReportGuideDescription()
 
-            Spacer(modifier = Modifier.height(100.dp))
+            Spacer(modifier = Modifier.height(200.dp))
         }
     }
 }
@@ -182,7 +197,10 @@ fun OverAllReviewContentPreview() {
                     preferenceReport = PreferenceReport(
                         topPreference = PreferenceDetail(
                             title = "나와의 적합도"
-                        )
+                        ),
+                    ),
+                    rateSummary = SatisfactionSummary(
+                        count = 0L
                     )
                 )
             ),

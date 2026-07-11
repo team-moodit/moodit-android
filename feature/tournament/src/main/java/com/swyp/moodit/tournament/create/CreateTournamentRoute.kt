@@ -98,23 +98,20 @@ fun CreateTournamentRoute(
                 contentAlignment = Alignment.Center,
             ) {
                 Column(
-                    modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Spacer(modifier = Modifier.weight(1f))
-
                     Text(
                         text = "내 취향을 찾기 위한\n무드매치를 준비하고 있어요",
                         textAlign = TextAlign.Center,
-                        style = MooditTheme.typography.h2,
+                        style = MooditTheme.typography.h1,
                         color = Color.White
                     )
 
-                    Spacer(modifier = Modifier.height(120.dp))
+                    Spacer(modifier = Modifier.height(150.dp))
 
                     MooditLottie()
 
-                    Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.height(110.dp))
                 }
             }
         }
