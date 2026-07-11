@@ -12,8 +12,6 @@ import com.swyp.moodit.network.api.MooditApi
 import com.swyp.moodit.network.model.auth.LoginRequest
 import com.swyp.moodit.network.model.getOrThrow
 import com.swyp.moodit.network.model.getOrThrowUnit
-import kotlinx.coroutines.flow.first
-import timber.log.Timber
 import javax.inject.Inject
 
 internal class AuthRepositoryImpl @Inject constructor(
@@ -55,6 +53,17 @@ internal class AuthRepositoryImpl @Inject constructor(
             mooditApi.logout().getOrThrowUnit()
             authDataStore.clearToken()
             userPreferencesDataStore.setAutoLoginEnabled(false)
+            Result.Success(Unit)
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
+    override suspend fun withdraw(): Result<Unit> {
+        return try {
+            mooditApi.withdraw().getOrThrowUnit()
+            authDataStore.clearToken()
+            userPreferencesDataStore.clearUserPreference()
             Result.Success(Unit)
         } catch (e: Exception) {
             Result.Error(e)
