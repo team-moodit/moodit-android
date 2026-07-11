@@ -7,6 +7,7 @@ import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.MissionRepository
 import com.swyp.moodit.data.repository.UserRepository
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
+import com.swyp.moodit.home.main.HomeMainContract
 import com.swyp.moodit.model.FeedbackOption
 import com.swyp.moodit.model.Mission
 import com.swyp.moodit.model.MissionDetailLoadingType
@@ -67,6 +68,7 @@ class MissionDetailViewModel @Inject constructor(
             is MissionDetailContract.Intent.ToggleFeedbackOption -> toggleFeedbackOption(intent.option)
             is MissionDetailContract.Intent.SubmitSatisfaction -> submitSatisfaction()
             is MissionDetailContract.Intent.ClearFeedbackOption -> clearFeedbackOption()
+            is MissionDetailContract.Intent.LoadUserPrivacyInfo -> loadUserInfo()
         }
     }
 
@@ -95,6 +97,24 @@ class MissionDetailViewModel @Inject constructor(
         viewModelScope.launch {
             userRepository.nickname.collect { nickname ->
                 reduce { it.copy(nickname = nickname) }
+            }
+        }
+    }
+
+    private fun loadUserInfo() {
+        viewModelScope.launch {
+            when (val result = userRepository.getUserPrivacyInfo()) {
+                is Result.Success -> {
+                    reduce { it.copy(nickname = result.data.name) }
+                }
+
+                is Result.Error -> {
+                    sendEffect(
+                        MissionDetailContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "유저 정보 조회에 실패하였습니다."
+                        )
+                    )
+                }
             }
         }
     }

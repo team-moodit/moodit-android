@@ -57,6 +57,7 @@ fun MissionDetailRoute(
 
     LaunchedEffect(Unit) {
         viewModel.sendIntent(MissionDetailContract.Intent.LoadMissionDetail)
+        viewModel.sendIntent(MissionDetailContract.Intent.LoadUserInfo)
     }
 
     when (uiState.isLoading) {

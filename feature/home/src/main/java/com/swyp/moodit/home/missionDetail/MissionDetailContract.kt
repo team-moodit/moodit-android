@@ -39,6 +39,7 @@ class MissionDetailContract {
         data object LoadMissionDetail : Intent
         data object SubmitSatisfaction : Intent
         data object ClearFeedbackOption : Intent
+        data object LoadUserInfo : Intent
         data class OnDeleteCompleteDialogShowChange(val show: Boolean) : Intent
         data class OnDeleteDialogShowChange(val show: Boolean) : Intent
         data class OnSatisfactionShowChange(val show: Boolean) : Intent
