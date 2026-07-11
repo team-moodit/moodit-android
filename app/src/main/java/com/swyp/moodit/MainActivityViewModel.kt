@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.swyp.moodit.datastore.userPreference.UserPreferencesDataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -34,6 +35,7 @@ class MainActivityViewModel @Inject constructor(
             _state.update { it.copy(isLoading = true) }
             val isOnBoardingCompleted = userPreferencesDataStore.isOnBoardingCompleted.first()
             val isAutoLoginEnabled = userPreferencesDataStore.isAutoLoginEnabled.first()
+            delay(2000L)
             _state.update { it.copy(isLoading = false) }
             when {
                 isAutoLoginEnabled -> _sideEffect.send(MainSideEffect.NavigateToHome)
