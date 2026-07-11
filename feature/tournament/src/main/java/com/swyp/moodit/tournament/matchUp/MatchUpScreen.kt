@@ -101,7 +101,6 @@ fun MatchUpScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
-                    .padding(horizontal = 16.dp)
             ) {
                 Crossfade(targetState = uiState.currentStep, label = "StepTransition") { step ->
                     when (step) {
@@ -135,7 +134,8 @@ fun SelectPhotoContent(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 5.dp),
+            .padding(top = 5.dp)
+            .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
