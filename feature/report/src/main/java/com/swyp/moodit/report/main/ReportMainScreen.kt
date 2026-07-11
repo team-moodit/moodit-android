@@ -187,8 +187,6 @@ fun ReportMainScreen(
                         }
                     }
                 }
-
-                Spacer(modifier = Modifier.height(100.dp))
             }
         }
     }
