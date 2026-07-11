@@ -6,10 +6,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,8 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -65,51 +63,56 @@ fun MissionItemCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
-                    .fillMaxHeight(0.24f)
-                    .graphicsLayer {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                            renderEffect = android.graphics.RenderEffect.createBlurEffect(
-                                8.dp.toPx(),
-                                8.dp.toPx(),
-                                android.graphics.Shader.TileMode.CLAMP
-                            ).asComposeRenderEffect()
-                        }
-                    }
-                    .background(Color.Black.copy(alpha = 0.5f))
-            )
-
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
-                    .padding(start = 12.dp, end = 12.dp, top = 16.dp, bottom = 16.dp),
-                verticalArrangement = Arrangement.Bottom
+                    .height(IntrinsicSize.Min)
             ) {
-                Text(
-                    text = mission.missionTitle,
-                    style = MooditTheme.typography.b2Small,
-                    color = MooditTheme.colors.onPrimaryContainer
-                )
-                Spacer(modifier = Modifier.height(2.dp))
-                Row(
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                        .fillMaxWidth()
+                        .graphicsLayer {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                renderEffect = android.graphics.RenderEffect.createBlurEffect(
+                                    8.dp.toPx(),
+                                    8.dp.toPx(),
+                                    android.graphics.Shader.TileMode.CLAMP
+                                ).asComposeRenderEffect()
+                            }
+                        }
+                        .background(Color.Black.copy(alpha = 0.5f))
+                )
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
+                        .padding(start = 12.dp, end = 12.dp, top = 16.dp, bottom = 16.dp),
+                    verticalArrangement = Arrangement.Bottom
                 ) {
                     Text(
-                        modifier = Modifier.padding(top = 2.dp),
-                        text = mission.matchResult.matchTitle,
-                        style = MooditTheme.typography.b2ExtraSmall,
-                        color = MooditTheme.colors.tertiary
+                        text = mission.missionTitle,
+                        style = MooditTheme.typography.b2Small,
+                        color = MooditTheme.colors.onPrimaryContainer
                     )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(top = 2.dp),
+                            text = mission.matchResult.matchTitle,
+                            style = MooditTheme.typography.b2ExtraSmall,
+                            color = MooditTheme.colors.tertiary
+                        )
 
-                    Icon(
-                        painter = painterResource(R.drawable.arrow_narrow_right),
-                        contentDescription = "Navigate Next",
-                        tint = MooditTheme.colors.primary,
-                        modifier = Modifier.size(20.dp)
-                    )
+                        Icon(
+                            painter = painterResource(R.drawable.arrow_narrow_right),
+                            contentDescription = "Navigate Next",
+                            tint = MooditTheme.colors.primary,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
                 }
             }
         }

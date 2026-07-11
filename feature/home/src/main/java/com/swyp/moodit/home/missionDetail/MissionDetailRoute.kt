@@ -106,15 +106,12 @@ fun MissionDetailRoute(
                         text = "${uiState.nickname}님의 취향을\n더 선명하게 정리하고 있어요",
                         style = MooditTheme.typography.h1,
                         color = MooditTheme.colors.onPrimaryContainer,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(bottom = 64.dp)
+                        textAlign = TextAlign.Center
                     )
-                    Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.height(150.dp))
 
-                    MooditLottie(
-                        modifier = Modifier.size(80.dp)
-                    )
-                    Spacer(modifier = Modifier.weight(2.5f))
+                    MooditLottie()
+                    Spacer(modifier = Modifier.height(110.dp))
                 }
             }
         }
@@ -215,17 +212,12 @@ fun MissionDetailRoutePreview() {
                     text = "비비님의 취향을\n더 선명하게 정리하고 있어요",
                     style = MooditTheme.typography.h1,
                     color = MooditTheme.colors.onPrimaryContainer,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(bottom = 64.dp)
+                    textAlign = TextAlign.Center
                 )
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.height(150.dp))
 
-                CircularProgressIndicator(
-                    modifier = Modifier.size(80.dp),
-                    color = MooditTheme.colors.primary,
-                    strokeWidth = 12.dp
-                )
-                Spacer(modifier = Modifier.weight(2.5f))
+                MooditLottie()
+                Spacer(modifier = Modifier.height(110.dp))
             }
         }
     }

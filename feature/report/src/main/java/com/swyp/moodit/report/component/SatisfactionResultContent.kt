@@ -55,7 +55,7 @@ fun SatisfactionResultContent(
         LazyVerticalGrid(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 22.dp),
+                .padding(vertical = 22.dp),
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
