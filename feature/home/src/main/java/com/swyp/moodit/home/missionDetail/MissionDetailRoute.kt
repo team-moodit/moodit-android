@@ -1,5 +1,6 @@
 package com.swyp.moodit.home.missionDetail
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -58,6 +59,10 @@ fun MissionDetailRoute(
     LaunchedEffect(Unit) {
         viewModel.sendIntent(MissionDetailContract.Intent.LoadMissionDetail)
         viewModel.sendIntent(MissionDetailContract.Intent.LoadUserInfo)
+    }
+
+    BackHandler {
+        viewModel.sendIntent(MissionDetailContract.Intent.OnExitClick)
     }
 
     when (uiState.isLoading) {

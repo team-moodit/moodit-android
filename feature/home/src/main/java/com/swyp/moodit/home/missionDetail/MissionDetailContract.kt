@@ -32,6 +32,7 @@ class MissionDetailContract {
     }
 
     sealed interface Intent : UiIntent {
+        data object OnExitClick : Intent
         data object OnTryButtonClick : Intent
         data object OnCompleteClick : Intent
         data object OnDeleteClick : Intent

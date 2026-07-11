@@ -154,11 +154,11 @@ fun InProgressTournamentContent(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = "${formatRound(uiState.tournamentDetail.totalRound)}강 중 ${
+                    text = "${formatRound(uiState.tournamentDetail.totalRound)} 중 ${
                         formatRound(
                             uiState.tournamentDetail.currentRound
                         )
-                    }강까지 진행한 무드매치에요\n계속 이어서 진행할까요?",
+                    }까지 진행한 무드매치에요\n계속 이어서 진행할까요?",
                     style = MooditTheme.typography.h2,
                     color = MooditTheme.colors.onPrimaryContainer
                 )
@@ -219,8 +219,8 @@ fun InProgressTournamentContent(
                         )
                         Text(
                             modifier = Modifier.padding(vertical = 4.dp),
-                            text = "${formatRound(uiState.tournamentDetail.currentRound)}강 / " +
-                                    "${formatRound(uiState.tournamentDetail.totalRound)}강",
+                            text = "${formatRound(uiState.tournamentDetail.currentRound)} / " +
+                                    formatRound(uiState.tournamentDetail.totalRound),
                             style = MooditTheme.typography.b2ExtraSmall,
                             color = MooditTheme.colors.onPrimaryContainer
                         )

@@ -69,6 +69,7 @@ class MissionDetailViewModel @Inject constructor(
             is MissionDetailContract.Intent.SubmitSatisfaction -> submitSatisfaction()
             is MissionDetailContract.Intent.ClearFeedbackOption -> clearFeedbackOption()
             is MissionDetailContract.Intent.LoadUserInfo -> loadUserInfo()
+            is MissionDetailContract.Intent.OnExitClick -> sendEffect(MissionDetailContract.SideEffect.NavigateToHome)
         }
     }
 
