@@ -16,7 +16,7 @@ class CompletedTournamentDetailContract {
         val tournamentId: Long = 0L,
         val userMissionId: Long = 0L,
         val tournamentDetail: CompletedTournamentDetail = CompletedTournamentDetail(),
-        val mission: Mission = Mission(),
+        val mission: Mission? = null,
         val selectedTab: CompletedTournamentTab = CompletedTournamentTab.MOOD_MATCH,
         val showSatisfactionBottomSheet: Boolean = false,
         val showFeedbackBottomSheet: Boolean = false,

@@ -65,7 +65,7 @@ fun MissionTabContent(
             contentAlignment = Alignment.BottomCenter
         ) {
             AsyncImage(
-                model = uiState.mission.matchResult.imageUrl,
+                model = uiState.mission?.matchResult?.imageUrl,
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop,
@@ -104,16 +104,17 @@ fun MissionTabContent(
         Spacer(modifier = Modifier.height(32.dp))
 
         MooditTag(
-            content = when (uiState.mission.missionState) {
+            content = when (uiState.mission?.missionState) {
                 MissionState.IN_PROGRESS -> "진행중"
                 MissionState.COMPLETED -> "완료"
                 MissionState.REVIEWED -> "완료"
+                else -> "완료"
             }
         )
-        val missionTitle = uiState.mission.missionTitle.split("\n")
+        val missionTitle = uiState.mission?.missionTitle?.split("\n")
         Text(
             modifier = Modifier.padding(top = 16.dp),
-            text = "${missionTitle.first()}\n${missionTitle.last()}",
+            text = "${missionTitle?.first()}\n${missionTitle?.last()}",
             textAlign = TextAlign.Center,
             style = MooditTheme.typography.h2,
             color = MooditTheme.colors.onBackground
@@ -129,9 +130,9 @@ fun MissionTabContent(
             MissionInfoCard(
                 modifier = Modifier.weight(1f),
                 title = "무드매치 완료 날짜",
-                content = uiState.mission.matchResult.matchCompletedAt.toFormatDate()
+                content = uiState.mission?.matchResult?.matchCompletedAt?:"".toFormatDate()
             )
-            val missionCompletedAt = uiState.mission.missionCompletedAt.toFormatDate()
+            val missionCompletedAt = uiState.mission?.missionCompletedAt?:"".toFormatDate()
             MissionInfoCard(
                 modifier = Modifier.weight(1f),
                 title = "미션 완료 날짜",
@@ -139,7 +140,7 @@ fun MissionTabContent(
             )
         }
 
-        when (uiState.mission.missionState) {
+        when (uiState.mission?.missionState) {
             MissionState.IN_PROGRESS -> {
                 Row(
                     modifier = Modifier
@@ -260,6 +261,9 @@ fun MissionTabContent(
                         style = MooditTheme.typography.b3Medium
                     )
                 }
+            }
+            else -> {
+
             }
         }
     }

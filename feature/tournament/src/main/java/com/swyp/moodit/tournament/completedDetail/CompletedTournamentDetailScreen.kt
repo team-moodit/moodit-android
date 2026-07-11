@@ -26,6 +26,7 @@ import com.swyp.moodit.model.FeedbackOption
 import com.swyp.moodit.model.MissionState
 import com.swyp.moodit.tournament.completedDetail.component.CompletedTournamentTabRow
 import com.swyp.moodit.tournament.completedDetail.component.MissionTabContent
+import com.swyp.moodit.tournament.completedDetail.component.MissionTabEmptyContent
 import com.swyp.moodit.tournament.completedDetail.component.MoodMatchTabContent
 import com.swyp.moodit.ui.component.mission.FeedbackBottomSheetContent
 import com.swyp.moodit.ui.component.mission.SatisfactionBottomSheetContent
@@ -55,7 +56,7 @@ fun CompletedTournamentDetailScreen(
         },
         bottomBar = {
             if (uiState.selectedTab == CompletedTournamentTab.MISSION) {
-                when (uiState.mission.missionState) {
+                when (uiState.mission?.missionState) {
                     MissionState.IN_PROGRESS -> MooditFilledButton(
                         modifier = Modifier.padding(
                             horizontal = 16.dp
@@ -73,19 +74,26 @@ fun CompletedTournamentDetailScreen(
             }
         }
     ) { innerPadding ->
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .systemBarsPadding()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .systemBarsPadding()
+        ) {
             CompletedTournamentTabRow(
                 selectedTab = uiState.selectedTab, onTabClick = onTabClick
             )
             when (uiState.selectedTab) {
                 CompletedTournamentTab.MOOD_MATCH -> MoodMatchTabContent(innerPadding, uiState)
-                CompletedTournamentTab.MISSION -> MissionTabContent(
-                    onMissionDeleteClick = { onDeleteDialogShowChange(true) },
-                    innerPadding,
-                    uiState
-                )
+                CompletedTournamentTab.MISSION ->
+                    if (uiState.mission != null) {
+                        MissionTabEmptyContent(innerPadding, uiState)
+                    } else {
+                        MissionTabContent(
+                            onMissionDeleteClick = { onDeleteDialogShowChange(true) },
+                            innerPadding,
+                            uiState
+                        )
+                    }
             }
         }
 

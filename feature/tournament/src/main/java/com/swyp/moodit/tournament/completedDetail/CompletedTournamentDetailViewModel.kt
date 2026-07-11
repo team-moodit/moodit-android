@@ -98,7 +98,7 @@ class CompletedTournamentDetailViewModel @Inject constructor(
                 }
 
                 is Result.Error -> {
-                    sendEffect(CompletedTournamentDetailContract.SideEffect.ShowSnackbar("미션 정보 조회에 실패했습니다."))
+                    reduce { it.copy(mission = null) }
                 }
             }
             reduce { it.copy(isLoading = MissionDetailLoadingType.NONE) }
@@ -113,7 +113,7 @@ class CompletedTournamentDetailViewModel @Inject constructor(
         reduce { it.copy(isLoading = MissionDetailLoadingType.DEFAULT) }
         viewModelScope.launch {
             when (val result =
-                missionRepository.completeMission(currentState.mission.userMissionId)) {
+                missionRepository.completeMission(currentState.mission?.userMissionId?:-1L)) {
                 is Result.Success -> {
                     reduce { it.copy(mission = result.data) }
                     updateSatisfactionShow(true)
@@ -135,7 +135,7 @@ class CompletedTournamentDetailViewModel @Inject constructor(
         reduce { it.copy(isLoading = MissionDetailLoadingType.DEFAULT) }
         viewModelScope.launch {
             when (val result =
-                missionRepository.deleteMission(currentState.mission.userMissionId)) {
+                missionRepository.deleteMission(currentState.mission?.userMissionId?:-1L)) {
                 is Result.Success -> {
                     updateDeleteCompleteDialogShow(true)
                 }
@@ -156,7 +156,7 @@ class CompletedTournamentDetailViewModel @Inject constructor(
         reduce { it.copy(isLoading = MissionDetailLoadingType.DEFAULT) }
         viewModelScope.launch {
             when (val result = missionRepository.submitSatisfaction(
-                currentState.mission.userMissionId,
+                currentState.mission?.userMissionId?:-1L,
                 currentState.slidingRating,
                 currentState.selectedFeedback.map { it.content }
             )) {
