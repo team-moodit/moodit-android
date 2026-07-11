@@ -12,4 +12,5 @@ interface UserPreferencesDataStore {
     suspend fun setNickname(nickname: String)
     suspend fun setOnGoingTournamentId(tournamentId: Long)
     suspend fun clearOnGoingTournamentId()
+    suspend fun clearUserPreference()
 }

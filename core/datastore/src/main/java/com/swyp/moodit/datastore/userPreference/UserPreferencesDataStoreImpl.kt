@@ -60,4 +60,8 @@ class UserPreferencesDataStoreImpl @Inject constructor(
             preferences.remove(PreferencesKey.OnGoingTournamentId)
         }
     }
+
+    override suspend fun clearUserPreference() {
+        dataStore.edit { preferences -> preferences.clear() }
+    }
 }
