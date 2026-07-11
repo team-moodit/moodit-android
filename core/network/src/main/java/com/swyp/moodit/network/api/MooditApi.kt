@@ -41,6 +41,9 @@ interface MooditApi {
     @POST("v1/auth/logout")
     suspend fun logout(): Response<BaseResponse<Unit>>
 
+    @POST("v1/settings/withdraw")
+    suspend fun withdraw(): Response<BaseResponse<Unit>>
+
     // Tournament
     @Multipart
     @POST("v1/files/upload")
