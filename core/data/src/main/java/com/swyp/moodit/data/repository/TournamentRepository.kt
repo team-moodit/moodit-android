@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface TournamentRepository {
     val onGoingTournamentId: Flow<Long>
+    val onGoingMatchUpResultId: Flow<Long>
     fun getPagingInProgressTournaments(): Flow<PagingData<InProgressTournament>>
     fun getPagingCompletedTournaments(): Flow<PagingData<CompletedTournament>>
     suspend fun uploadImage(photo: SelectedPhoto): Result<SelectedPhoto>
@@ -23,7 +24,9 @@ interface TournamentRepository {
     suspend fun getMatchUpProgressInfo(matchId: Long): Result<MatchUpInfo>
     suspend fun getMatchUpResult(matchId: Long): Result<MatchUpResult>
     suspend fun setOnGoingTournamentId(tournamentId: Long): Result<Unit>
+    suspend fun setOnGoingMatchUpResultId(matchUpResultId: Long): Result<Unit>
     suspend fun clearOnGoingTournamentId(): Result<Unit>
+    suspend fun clearOnGoingMatchUpResultId(): Result<Unit>
     suspend fun getInProgressTournamentDetail(matchId: Long): Result<InProgressTournamentDetail>
     suspend fun getCompletedTournamentDetail(matchId: Long): Result<CompletedTournamentDetail>
     suspend fun deleteTournament(matchId: Long): Result<Unit>
