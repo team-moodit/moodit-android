@@ -95,7 +95,7 @@ fun CreateTournamentRoute(
         uiState.isLoading -> {
             Box(
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center, // 전체를 화면 중앙에 배치
+                contentAlignment = Alignment.Center,
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -103,7 +103,7 @@ fun CreateTournamentRoute(
                     Text(
                         text = "내 취향을 찾기 위한\n무드매치를 준비하고 있어요",
                         textAlign = TextAlign.Center,
-                        style = MooditTheme.typography.h2,
+                        style = MooditTheme.typography.h1,
                         color = Color.White
                     )
 
