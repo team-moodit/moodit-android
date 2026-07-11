@@ -82,6 +82,10 @@ class HomeMainViewModel @Inject constructor(
                 reduce { it.copy(showResumeTournamentDialog = false) }
                 sendEffect(HomeMainContract.SideEffect.NavigateToMatchUp(intent.tournamentId))
             }
+
+            is HomeMainContract.Intent.LoadUserInfo -> {
+                loadUserInfo()
+            }
         }
     }
 
@@ -89,6 +93,24 @@ class HomeMainViewModel @Inject constructor(
         viewModelScope.launch {
             userRepository.nickname.collect { nickname ->
                 reduce { it.copy(nickname = nickname) }
+            }
+        }
+    }
+
+    private fun loadUserInfo() {
+        viewModelScope.launch {
+            when (val result = userRepository.getUserPrivacyInfo()) {
+                is Result.Success -> {
+                    reduce { it.copy(nickname = result.data.name) }
+                }
+
+                is Result.Error -> {
+                    sendEffect(
+                        HomeMainContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "유저 정보 조회에 실패하였습니다."
+                        )
+                    )
+                }
             }
         }
     }

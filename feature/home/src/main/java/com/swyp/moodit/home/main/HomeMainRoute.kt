@@ -38,6 +38,7 @@ fun HomeMainRoute(
         completedMissions.refresh()
         feedbackSubMittedMissions.refresh()
         viewModel.sendIntent(HomeMainContract.Intent.CheckOnGoingTournament)
+        viewModel.sendIntent(HomeMainContract.Intent.LoadUserInfo)
     }
 
     LaunchedEffect(Unit) {

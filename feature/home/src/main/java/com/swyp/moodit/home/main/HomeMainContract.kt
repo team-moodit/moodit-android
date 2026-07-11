@@ -35,6 +35,7 @@ class HomeMainContract {
         object OnCreateTournamentClick : Intent
         object OnDismissTournamentDialog : Intent
         object CheckOnGoingTournament : Intent
+        object LoadUserInfo : Intent
         data class OnResumeTournamentClick(val tournamentId: Long) : Intent
         data class OnMissionClick(val missionId: Long) : Intent
     }
