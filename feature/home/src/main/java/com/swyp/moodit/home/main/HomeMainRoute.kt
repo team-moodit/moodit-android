@@ -26,7 +26,8 @@ fun HomeMainRoute(
     navigateToSetting: () -> Unit,
     navigateToCreateTournament: () -> Unit,
     navigateToMissionDetail: (Long, MissionStatus) -> Unit,
-    navigateToMatchUp: (Long, Boolean) -> Unit
+    navigateToMatchUp: (Long, Boolean) -> Unit,
+    navigateToMatchResult: (Long) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val inProgressMissions = uiState.inProgressMissions.collectAsLazyPagingItems()
@@ -50,6 +51,7 @@ fun HomeMainRoute(
                     sideEffect.missionId,
                     sideEffect.status
                 )
+                is HomeMainContract.SideEffect.NavigateToMatchResult -> navigateToMatchResult(sideEffect.matchResultId)
 
                 is HomeMainContract.SideEffect.ShowSnackbar -> onShowSnackbar(
                     sideEffect.message,
@@ -107,7 +109,8 @@ fun HomeMainRoute(
                         onClick = {
                             viewModel.sendIntent(
                                 HomeMainContract.Intent.OnResumeTournamentClick(
-                                    uiState.resumeTournamentId
+                                    uiState.resumeTournamentId,
+                                    uiState.resumeMatchUpResultId
                                 )
                             )
                         },

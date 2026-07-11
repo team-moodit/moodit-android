@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.MissionRepository
+import com.swyp.moodit.data.repository.TournamentRepository
 import com.swyp.moodit.data.repository.UserRepository
 import com.swyp.moodit.model.MissionStatus
 import com.swyp.moodit.navigation.TournamentRoute
@@ -18,7 +19,8 @@ import javax.inject.Inject
 class TournamentResultViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val missionRepository: MissionRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val tournamentRepository: TournamentRepository
 ) :
     BaseViewModel<TournamentResultContract.State, TournamentResultContract.Intent, TournamentResultContract.SideEffect>(
         initialState = TournamentResultContract.State()
@@ -103,6 +105,7 @@ class TournamentResultViewModel @Inject constructor(
             )) {
                 is Result.Success -> {
                     reduce { it.copy(userMissionId = result.data) }
+                    tournamentRepository.clearOnGoingMatchUpResultId()
                     navigateToMissionDetail()
                 }
 

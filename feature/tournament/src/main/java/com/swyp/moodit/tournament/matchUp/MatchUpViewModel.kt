@@ -189,6 +189,7 @@ class MatchUpViewModel @Inject constructor(
 
         return when (result) {
             is Result.Success -> {
+                tournamentRepository.setOnGoingMatchUpResultId(result.data.matchResultId)
                 sendEffect(MatchUpContract.SideEffect.NavigateToResult(result.data.matchResultId))
                 true
             }
@@ -211,6 +212,7 @@ class MatchUpViewModel @Inject constructor(
                 val hasCompleted = getMatchUpResult()
                 if (hasCompleted) {
                     clearTournamentId()
+
                 }
             } else {
                 setOnGoingTournamentId(tournamentId)
