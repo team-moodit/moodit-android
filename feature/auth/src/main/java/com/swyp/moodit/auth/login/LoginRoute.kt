@@ -45,7 +45,7 @@ fun LoginRoute(
 
         else -> {
             LoginScreen(
-                onLoginClick = { viewModel.sendIntent(LoginContract.Intent.OnLoginClick(context)) }
+                onKakaoLoginClick = { viewModel.sendIntent(LoginContract.Intent.OnLoginClick(context)) }
             )
         }
     }

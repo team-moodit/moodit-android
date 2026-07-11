@@ -20,7 +20,6 @@ fun ReportRoute(
     }
 
     ReportScreen(
-        onShowSnackbar = onShowSnackbar,
         onStartClick = { viewModel.sendIntent(ReportContract.Intent.OnStartClick) }
     )
 }
