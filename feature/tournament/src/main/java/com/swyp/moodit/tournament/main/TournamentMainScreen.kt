@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -29,7 +32,6 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -56,56 +58,53 @@ fun TournamentMainScreen(
     onCompletedTournamentClick: (Long, Long) -> Unit,
     onSettingClick: () -> Unit
 ) {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     MooditScaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            MooditTopBar(
-                modifier = Modifier.padding(end = 8.dp),
-                textAlign = TextAlign.Center,
-                scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MooditTheme.colors.background,
-                    titleContentColor = MooditTheme.colors.onBackground,
-                    scrolledContainerColor = MooditTheme.colors.background
-                ),
-                title = {
-                    Text(
-                        text = "무드매치",
-                        style = MooditTheme.typography.h2,
-                        color = MooditTheme.colors.onPrimaryContainer
-                    )
-                },
-                actionIcon = {
-                    Image(
-                        painter = painterResource(R.drawable.setting),
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clickable { onSettingClick() },
-                        contentDescription = "icon_setting"
-                    )
-                }
-            )
-        }
+        modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         LazyVerticalGrid(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(
-                start = innerPadding.calculateStartPadding(LayoutDirection.Ltr) + 16.dp,
-                end = innerPadding.calculateEndPadding(LayoutDirection.Rtl) + 16.dp,
+                start = innerPadding.calculateStartPadding(LayoutDirection.Ltr),
+                end = innerPadding.calculateEndPadding(LayoutDirection.Rtl),
                 top = innerPadding.calculateTopPadding(),
                 bottom = innerPadding.calculateBottomPadding()
             ),
             columns = GridCells.Fixed(2)
         ) {
             item(span = { GridItemSpan(maxLineSpan) }) {
+                MooditTopBar(
+                    modifier = Modifier.padding(end = 8.dp),
+                    textAlign = TextAlign.Center,
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MooditTheme.colors.background,
+                        titleContentColor = MooditTheme.colors.onBackground,
+                        scrolledContainerColor = MooditTheme.colors.background
+                    ),
+                    title = {
+                        Text(
+                            text = "무드매치",
+                            style = MooditTheme.typography.h2,
+                            color = MooditTheme.colors.onPrimaryContainer
+                        )
+                    },
+                    actionIcon = {
+                        Image(
+                            painter = painterResource(R.drawable.setting),
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clickable { onSettingClick() },
+                            contentDescription = "icon_setting"
+                        )
+                    }
+                )
+            }
+
+            item(span = { GridItemSpan(maxLineSpan) }) {
                 Column {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 20.dp, bottom = 16.dp),
+                            .padding(top = 20.dp, bottom = 16.dp, start = 16.dp, end = 16.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
@@ -144,7 +143,8 @@ fun TournamentMainScreen(
                         modifier = Modifier
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        contentPadding = PaddingValues(horizontal = 16.dp)
                     ) {
                         items(
                             count = inProgressTournaments.itemCount,
@@ -171,7 +171,7 @@ fun TournamentMainScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 32.dp, bottom = 20.dp),
+                            .padding(top = 32.dp, bottom = 20.dp, start = 16.dp, end = 16.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
@@ -210,22 +210,36 @@ fun TournamentMainScreen(
                     completedTournaments[index]?.matchId ?: index
                 }) { index ->
                 val completedTournament = completedTournaments[index]
+                val isLeft = index % 2 == 0
                 if (completedTournament != null) {
-                    CompletedTournamentItem(
-                        completedTournament = completedTournament,
-                        onTournamentClick = {
-                            onCompletedTournamentClick(
-                                completedTournament.matchId,
-                                completedTournament.userMissionId
-                            )
-                        }
-                    )
+                    Box(
+                        modifier = Modifier.padding(
+                            start = if (isLeft) 16.dp else 6.dp,
+                            end = if (isLeft) 6.dp else 16.dp
+                        )
+                    ) {
+                        CompletedTournamentItem(
+                            completedTournament = completedTournament,
+                            onTournamentClick = {
+                                onCompletedTournamentClick(
+                                    completedTournament.matchId,
+                                    completedTournament.userMissionId
+                                )
+                            }
+                        )
+                    }
                 }
             }
 
             item {
-                Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(100.dp))
             }
         }
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .windowInsetsTopHeight(WindowInsets.statusBars)
+                .background(MooditTheme.colors.background)
+        )
     }
 }
