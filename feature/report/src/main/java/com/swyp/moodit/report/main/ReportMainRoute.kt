@@ -29,6 +29,7 @@ fun ReportMainRoute(
 
     LaunchedEffect(Unit) {
         viewModel.sendIntent(ReportMainContract.Intent.LoadPreferenceReport)
+        viewModel.sendIntent(ReportMainContract.Intent.LoadUserInfo)
     }
 
     LaunchedEffect(Unit) {

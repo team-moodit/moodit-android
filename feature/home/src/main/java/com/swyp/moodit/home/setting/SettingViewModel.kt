@@ -73,7 +73,7 @@ class SettingViewModel @Inject constructor(
                 is Result.Success -> {
                     reduce {
                         it.copy(
-                            name = result.data.name.replace("\"", ""),
+                            name = result.data.name,
                             email = result.data.email
                         )
                     }
