@@ -125,7 +125,6 @@ fun MoodMatchTabContent(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
                         .background(MooditTheme.colors.onPrimary, shape = RoundedCornerShape(16.dp))
                         .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically,
@@ -194,7 +193,6 @@ fun MoodMatchTabContent(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
                         .background(
                             color = MooditTheme.colors.onPrimary,
                             shape = RoundedCornerShape(16.dp)

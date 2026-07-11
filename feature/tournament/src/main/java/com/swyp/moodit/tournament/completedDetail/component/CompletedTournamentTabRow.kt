@@ -3,6 +3,7 @@ package com.swyp.moodit.tournament.completedDetail.component
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Surface
@@ -22,13 +23,13 @@ fun CompletedTournamentTabRow(
     selectedTab: CompletedTournamentTab, onTabClick: (CompletedTournamentTab) -> Unit
 ) {
     Surface(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
         color = MooditTheme.colors.background
     ) {
         PrimaryTabRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .systemBarsPadding(),
+            modifier = Modifier.fillMaxWidth(),
             selectedTabIndex = selectedTab.ordinal,
             containerColor = MooditTheme.colors.background,
             contentColor = MooditTheme.colors.onPrimaryContainer,

@@ -1,5 +1,6 @@
 package com.swyp.moodit.report.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,15 +21,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.swyp.moodit.common.util.TextUtil
+import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.report.PreferenceDetail
 import com.swyp.moodit.model.report.PreferenceReport
 import com.swyp.moodit.model.report.ReportSummary
 import com.swyp.moodit.model.report.ResultType
+import com.swyp.moodit.model.report.SatisfactionSummary
 import com.swyp.moodit.model.report.SummaryCount
 import com.swyp.moodit.report.main.ReportMainContract
 
@@ -54,7 +58,6 @@ fun OverAllReviewContent(
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(top = 22.dp)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -128,33 +131,41 @@ fun OverAllReviewContent(
                     satisfactionSummary = uiState.reportSummary.rateSummary
                 )
                 if (uiState.reportSummary.rateSummary.count == 0L) {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        Text(
-                            text = "직접 미션을 해보니 어땠나요?",
-                            style = MooditTheme.typography.b1Large,
-                            color = MooditTheme.colors.onPrimaryContainer
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)) {
+                        Image(
+                            painter = painterResource(R.drawable.empty_report),
+                            contentDescription = "image_empty_report"
                         )
-                        Button(
-                            modifier = Modifier.wrapContentWidth(),
-                            onClick = onCheckMissionClick,
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MooditTheme.colors.primary,
-                                contentColor = MooditTheme.colors.onPrimary
-                            ),
-                            shape = RoundedCornerShape(12.dp),
-                            contentPadding = PaddingValues(horizontal = 40.dp, vertical = 12.dp)
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             Text(
-                                modifier = Modifier.wrapContentWidth(),
-                                text = "미션 확인하기",
-                                color = MooditTheme.colors.onPrimary,
-                                style = MooditTheme.typography.b1Medium,
-                                textAlign = TextAlign.Center,
+                                text = "직접 미션을 해보니 어땠나요?",
+                                style = MooditTheme.typography.b1Large,
+                                color = MooditTheme.colors.onPrimaryContainer
                             )
+                            Button(
+                                modifier = Modifier.wrapContentWidth(),
+                                onClick = onCheckMissionClick,
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MooditTheme.colors.primary,
+                                    contentColor = MooditTheme.colors.onPrimary
+                                ),
+                                shape = RoundedCornerShape(12.dp),
+                                contentPadding = PaddingValues(horizontal = 40.dp, vertical = 12.dp)
+                            ) {
+                                Text(
+                                    modifier = Modifier.wrapContentWidth(),
+                                    text = "미션 확인하기",
+                                    color = MooditTheme.colors.onPrimary,
+                                    style = MooditTheme.typography.b1Medium,
+                                    textAlign = TextAlign.Center,
+                                )
+                            }
                         }
                     }
                 }
@@ -182,7 +193,10 @@ fun OverAllReviewContentPreview() {
                     preferenceReport = PreferenceReport(
                         topPreference = PreferenceDetail(
                             title = "나와의 적합도"
-                        )
+                        ),
+                    ),
+                    rateSummary = SatisfactionSummary(
+                        count = 0L
                     )
                 )
             ),

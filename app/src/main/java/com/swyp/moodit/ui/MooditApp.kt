@@ -53,7 +53,6 @@ internal fun MooditAppContent(
                 modifier = Modifier.fillMaxWidth()
                     .navigationBarsPadding()
                     .padding(start = 40.dp, end = 40.dp, bottom = 20.dp),
-                hazeState = hazeState,
                 visible = appState.showBottomBar(),
                 mainNavTabs = MainBottomBarTab.entries.map { it.toItemData() },
                 currentTab = appState.currentTab?.toItemData(),
