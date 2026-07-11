@@ -44,7 +44,7 @@ fun MainBottomBarItem(
 
     Column(
         modifier = modifier
-            .size(width = 78.dp, height = 50.dp)
+            .size(width = 78.dp, height = 54.dp)
             .clip(RoundedCornerShape(100.dp))
             .background(
                 color = if (isSelected) MooditTheme.colors.primary else Color.Transparent
