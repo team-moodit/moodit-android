@@ -40,6 +40,7 @@ class CompletedTournamentDetailContract {
         data object OnDeleteClick : Intent
         data object SubmitSatisfaction : Intent
         data object ClearFeedbackOption: Intent
+        data object LoadUserInfo: Intent
         data class OnDeleteDialogShowChange(val show: Boolean) : Intent
         data class OnDeleteCompleteDialogShowChange(val show: Boolean) : Intent
         data class OnSatisfactionBottomSheetShowChange(val show: Boolean) : Intent

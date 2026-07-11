@@ -22,7 +22,7 @@ class UserRepositoryImpl @Inject constructor(
 
             Result.Success(
                 UserPrivacy(
-                    name = result.name ?: "",
+                    name = result.name?.replace("\"","") ?: "",
                     email = result.email
                 )
             )
