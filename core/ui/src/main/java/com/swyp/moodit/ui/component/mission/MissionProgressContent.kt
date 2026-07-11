@@ -47,9 +47,10 @@ fun MissionProgressContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         MooditTag(content = tagContent)
+        val missionTitle = mission.missionTitle.split("\n")
         Text(
             modifier = Modifier.padding(top = 12.dp, bottom = 32.dp),
-            text = mission.missionTitle,
+            text = "${missionTitle.first()}\n${missionTitle.last()}",
             style = MooditTheme.typography.h2,
             color = MooditTheme.colors.onPrimaryContainer,
             textAlign = TextAlign.Center
