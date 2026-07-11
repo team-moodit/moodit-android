@@ -31,6 +31,11 @@ class UserPreferencesDataStoreImpl @Inject constructor(
             preferences[PreferencesKey.OnGoingTournamentId] ?: -1L
         }
 
+    override val onGoingMatchResultId: Flow<Long>
+        get() = dataStore.data.map { preferences ->
+            preferences[PreferencesKey.OnGoingMatchResultId] ?: -1L
+        }
+
     override suspend fun setOnBoardingCompleted(completed: Boolean) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.OnBoarding_Completed] = completed
@@ -55,9 +60,21 @@ class UserPreferencesDataStoreImpl @Inject constructor(
         }
     }
 
+    override suspend fun setOnGoingMatchResultId(matchResultId: Long) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.OnGoingMatchResultId] = matchResultId
+        }
+    }
+
     override suspend fun clearOnGoingTournamentId() {
         dataStore.edit { preferences ->
             preferences.remove(PreferencesKey.OnGoingTournamentId)
+        }
+    }
+
+    override suspend fun clearOnGoingMatchResultId() {
+        dataStore.edit { preferences ->
+            preferences.remove(PreferencesKey.OnGoingMatchResultId)
         }
     }
 
