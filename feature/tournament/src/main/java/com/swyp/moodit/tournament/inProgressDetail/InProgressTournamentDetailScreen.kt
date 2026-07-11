@@ -295,7 +295,7 @@ fun InProgressTournamentContent(
 
     if (uiState.showDeleteDialog) {
         MooditDialog(
-            title = "정말 무드매치를을 삭제하시겠어요?",
+            title = "정말 무드매치를 삭제하시겠어요?",
             description = "무드매치를 삭제하면 진행중이던 과정이 삭제돼요",
             onClickCancel = { onDeleteDialogShowChange(false) }
         ) {
