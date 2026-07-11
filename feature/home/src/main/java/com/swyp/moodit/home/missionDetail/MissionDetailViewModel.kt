@@ -68,7 +68,7 @@ class MissionDetailViewModel @Inject constructor(
             is MissionDetailContract.Intent.ToggleFeedbackOption -> toggleFeedbackOption(intent.option)
             is MissionDetailContract.Intent.SubmitSatisfaction -> submitSatisfaction()
             is MissionDetailContract.Intent.ClearFeedbackOption -> clearFeedbackOption()
-            is MissionDetailContract.Intent.LoadUserPrivacyInfo -> loadUserInfo()
+            is MissionDetailContract.Intent.LoadUserInfo -> loadUserInfo()
         }
     }
 
