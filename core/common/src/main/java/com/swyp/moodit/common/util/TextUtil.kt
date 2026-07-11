@@ -22,4 +22,12 @@ object TextUtil {
             ""
         }
     }
+
+    fun formatRound(round: Int): String {
+        return when(round) {
+            2 -> "결승전"
+            4 -> "준결승전"
+            else -> "${round}강"
+        }
+    }
 }

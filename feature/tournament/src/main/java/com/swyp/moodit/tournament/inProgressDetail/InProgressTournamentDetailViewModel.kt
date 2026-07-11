@@ -77,6 +77,7 @@ class InProgressTournamentDetailViewModel @Inject constructor(
             reduce { it.copy(isLoading = true) }
             when (val result = tournamentRepository.getInProgressTournamentDetail(tournamentId)) {
                 is Result.Success -> {
+
                     reduce { it.copy(tournamentDetail = result.data) }
                 }
 
