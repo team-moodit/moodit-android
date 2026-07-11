@@ -25,7 +25,7 @@ class SettingViewModel @Inject constructor(
             }
 
             is SettingContract.Intent.OnTermsClick -> {
-                sendEffect(SettingContract.SideEffect.ShowSnackbar("이용약관 출력하기"))
+                sendEffect(SettingContract.SideEffect.NavigateToUrl(TERMS_OF_USE_URL))
             }
 
             is SettingContract.Intent.OnNicknameClick -> {
@@ -33,11 +33,11 @@ class SettingViewModel @Inject constructor(
             }
 
             is SettingContract.Intent.OnPrivacyPolicyClick -> {
-                sendEffect(SettingContract.SideEffect.ShowSnackbar("개인정보 처리방침 출력하기"))
+                sendEffect(SettingContract.SideEffect.NavigateToUrl(PRIVACY_POLICY_URL))
             }
 
             is SettingContract.Intent.OnFeedbackClick -> {
-                sendEffect(SettingContract.SideEffect.ShowSnackbar("피드백 사이트 이동하기"))
+                sendEffect(SettingContract.SideEffect.NavigateToUrl(FEEDBACK_URL))
             }
 
             is SettingContract.Intent.ShowLogOutDialog -> {
@@ -135,5 +135,14 @@ class SettingViewModel @Inject constructor(
 
     private fun updateDialogType(dialogType: SettingContract.DialogType?) {
         reduce { it.copy(dialogType = dialogType) }
+    }
+
+    companion object {
+        const val PRIVACY_POLICY_URL =
+            "https://app.notion.com/p/moodit-38946481fa1180bd8967dc8494bf97c1"
+        const val TERMS_OF_USE_URL =
+            "https://app.notion.com/p/moodit-38946481fa1180548122e37b17d5c981"
+        const val FEEDBACK_URL =
+            "https://docs.google.com/forms/d/e/1FAIpQLSeoOAJv_mK8RnV3s2UNf2sLDtiP917fz7nTfZk76TsPJ0sOow/viewform"
     }
 }
