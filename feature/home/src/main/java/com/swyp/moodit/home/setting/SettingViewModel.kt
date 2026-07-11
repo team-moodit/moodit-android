@@ -71,10 +71,12 @@ class SettingViewModel @Inject constructor(
             reduce { it.copy(isLoading = true) }
             when (val result = userRepository.getUserPrivacyInfo()) {
                 is Result.Success -> {
-                    reduce { it.copy(
-                        name = result.data.name.replace("\"", ""),
-                        email = result.data.email
-                    ) }
+                    reduce {
+                        it.copy(
+                            name = result.data.name.replace("\"", ""),
+                            email = result.data.email
+                        )
+                    }
                 }
 
                 is Result.Error -> {
@@ -112,14 +114,21 @@ class SettingViewModel @Inject constructor(
     private fun deleteAccount() {
         viewModelScope.launch {
             reduce { it.copy(isLoading = true) }
-            val deleteAccountResult = true
-            if (deleteAccountResult) {
-                reduce { it.copy(isLoading = false) }
-                updateDialogType(SettingContract.DialogType.COMPLETE_DELETE_ACCOUNT)
-            } else {
-                reduce { it.copy(isLoading = false) }
-                updateDialogType(null)
-                sendEffect(SettingContract.SideEffect.ShowSnackbar("계정 삭제에 실패했습니다."))
+            when (val result = authRepository.withdraw()) {
+                is Result.Success -> {
+                    reduce { it.copy(isLoading = false) }
+                    updateDialogType(SettingContract.DialogType.COMPLETE_DELETE_ACCOUNT)
+                }
+
+                is Result.Error -> {
+                    reduce { it.copy(isLoading = false) }
+                    updateDialogType(null)
+                    sendEffect(
+                        SettingContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "계정 삭제에 실패했습니다."
+                        )
+                    )
+                }
             }
         }
     }
