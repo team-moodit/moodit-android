@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,6 +54,7 @@ fun ReportMainScreen(
     onMissionClick: (Long) -> Unit,
     feedbackSubMittedMissions: LazyPagingItems<Mission>
 ) {
+    val layoutDirection = LocalLayoutDirection.current
     MooditScaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -79,123 +83,132 @@ fun ReportMainScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(
+                    top = innerPadding.calculateTopPadding(),
+                    start = innerPadding.calculateStartPadding(layoutDirection),
+                    end = innerPadding.calculateEndPadding(layoutDirection)
+                )
         ) {
-            Text(
-                text = "분석에 반영된 기록",
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 18.dp, bottom = 12.dp),
-                color = MooditTheme.colors.onPrimaryContainer,
-                style = MooditTheme.typography.b1Medium
-            )
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    .padding(horizontal = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                MissionInfoCard(
-                    modifier = Modifier.weight(1f),
-                    title = "무드매치 총 횟수",
-                    content = "${uiState.reportSummary.summary.totalMatchCount}회",
-                    titleTextStyle = MooditTheme.typography.caption,
-                    contentTextStyle = MooditTheme.typography.b2Large
+                Text(
+                    text = "분석에 반영된 기록",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 18.dp, bottom = 12.dp),
+                    color = MooditTheme.colors.onPrimaryContainer,
+                    style = MooditTheme.typography.b1Medium
                 )
-                MissionInfoCard(
-                    modifier = Modifier.weight(1f),
-                    title = "완료한 미션",
-                    content = "${uiState.reportSummary.summary.reviewedMissionCount}회",
-                    titleTextStyle = MooditTheme.typography.caption,
-                    contentTextStyle = MooditTheme.typography.b2Large
-                )
-            }
 
-            PrimaryTabRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp),
-                selectedTabIndex = uiState.selectedTab.ordinal,
-                containerColor = MooditTheme.colors.background,
-                contentColor = MooditTheme.colors.onPrimaryContainer,
-                divider = {
-                    HorizontalDivider(
-                        thickness = 1.dp,
-                        color = MooditTheme.colors.onPrimary
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    MissionInfoCard(
+                        modifier = Modifier.weight(1f),
+                        title = "무드매치 총 횟수",
+                        content = "${uiState.reportSummary.summary.totalMatchCount}회",
+                        titleTextStyle = MooditTheme.typography.caption,
+                        contentTextStyle = MooditTheme.typography.b2Large
                     )
-                },
-                indicator = {
-                    TabRowDefaults.PrimaryIndicator(
-                        modifier = Modifier
-                            .tabIndicatorOffset(uiState.selectedTab.ordinal)
-                            .padding(horizontal = 56.dp),
-                        width = Dp.Unspecified,
-                        height = 2.dp,
-                        color = MooditTheme.colors.primary
+                    MissionInfoCard(
+                        modifier = Modifier.weight(1f),
+                        title = "완료한 미션",
+                        content = "${uiState.reportSummary.summary.reviewedMissionCount}회",
+                        titleTextStyle = MooditTheme.typography.caption,
+                        contentTextStyle = MooditTheme.typography.b2Large
                     )
                 }
-            ) {
-                ReportTab.entries.forEachIndexed { index, tab ->
-                    Tab(
-                        selected = uiState.selectedTab.ordinal == index,
-                        onClick = { onTabClick(tab) },
-                        text = {
-                            Text(text = tab.tabName, style = MooditTheme.typography.h4)
-                        },
-                        selectedContentColor = MooditTheme.colors.onPrimaryContainer,
-                        unselectedContentColor = MooditTheme.colors.borderDefault,
-                    )
-                }
-            }
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            ) {
-                when (uiState.selectedTab) {
-                    ReportTab.REPORT -> {
-                        OverAllReviewContent(
-                            uiState = uiState,
-                            onCreateMoodMatchClick = onCreateMoodMatchClick,
-                            onCheckMissionClick = onCheckMissionClick
+                PrimaryTabRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 12.dp),
+                    selectedTabIndex = uiState.selectedTab.ordinal,
+                    containerColor = MooditTheme.colors.background,
+                    contentColor = MooditTheme.colors.onPrimaryContainer,
+                    divider = {
+                        HorizontalDivider(
+                            thickness = 1.dp,
+                            color = MooditTheme.colors.onPrimary
+                        )
+                    },
+                    indicator = {
+                        TabRowDefaults.PrimaryIndicator(
+                            modifier = Modifier
+                                .tabIndicatorOffset(uiState.selectedTab.ordinal)
+                                .padding(horizontal = 56.dp),
+                            width = Dp.Unspecified,
+                            height = 2.dp,
+                            color = MooditTheme.colors.primary
                         )
                     }
-
-                    ReportTab.SATISFACTION -> {
-                        SatisfactionResultContent(
-                            uiState = uiState,
-                            onCreateMoodMatchClick = onCreateMoodMatchClick,
-                            onCheckMissionClick = onCheckMissionClick,
-                            onMissionClick = onMissionClick,
-                            feedbackSubMittedMissions = feedbackSubMittedMissions
+                ) {
+                    ReportTab.entries.forEachIndexed { index, tab ->
+                        Tab(
+                            selected = uiState.selectedTab.ordinal == index,
+                            onClick = { onTabClick(tab) },
+                            text = {
+                                Text(text = tab.tabName, style = MooditTheme.typography.h4)
+                            },
+                            selectedContentColor = MooditTheme.colors.onPrimaryContainer,
+                            unselectedContentColor = MooditTheme.colors.borderDefault,
                         )
                     }
                 }
-            }
 
-            Spacer(modifier = Modifier.height(100.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) {
+                    when (uiState.selectedTab) {
+                        ReportTab.REPORT -> {
+                            OverAllReviewContent(
+                                uiState = uiState,
+                                onCreateMoodMatchClick = onCreateMoodMatchClick,
+                                onCheckMissionClick = onCheckMissionClick
+                            )
+                        }
+
+                        ReportTab.SATISFACTION -> {
+                            SatisfactionResultContent(
+                                uiState = uiState,
+                                onCreateMoodMatchClick = onCreateMoodMatchClick,
+                                onCheckMissionClick = onCheckMissionClick,
+                                onMissionClick = onMissionClick,
+                                feedbackSubMittedMissions = feedbackSubMittedMissions
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(100.dp))
+            }
         }
     }
 }
 
-@Preview
-@Composable
-fun ReportMainScreenPreview() {
-    val emptyMissionsFlow = remember {
-        flowOf(PagingData.from(emptyList<Mission>()))
+    @Preview
+    @Composable
+    fun ReportMainScreenPreview() {
+        val emptyMissionsFlow = remember {
+            flowOf(PagingData.from(emptyList<Mission>()))
+        }
+        MooditTheme {
+            ReportMainScreen(
+                uiState = ReportMainContract.State(),
+                onTabClick = {},
+                onSettingClick = {},
+                onMissionClick = {},
+                onCheckMissionClick = {},
+                onCreateMoodMatchClick = {},
+                feedbackSubMittedMissions = emptyMissionsFlow.collectAsLazyPagingItems()
+            )
+        }
     }
-    MooditTheme {
-        ReportMainScreen(
-            uiState = ReportMainContract.State(),
-            onTabClick = {},
-            onSettingClick = {},
-            onMissionClick = {},
-            onCheckMissionClick = {},
-            onCreateMoodMatchClick = {},
-            feedbackSubMittedMissions = emptyMissionsFlow.collectAsLazyPagingItems()
-        )
-    }
-}

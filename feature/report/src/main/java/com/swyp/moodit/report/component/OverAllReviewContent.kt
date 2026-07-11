@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,7 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -65,14 +66,15 @@ fun OverAllReviewContent(
                 uiState.reportSummary.preferenceReport.resultType == ResultType.PREFERENCE_ONLY
             ) {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 22.dp),
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 22.dp),
+                            .fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
@@ -100,7 +102,9 @@ fun OverAllReviewContent(
                 }
             } else if (uiState.reportSummary.preferenceReport.resultType == ResultType.PREFERENCE_TIE) {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 22.dp),
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
@@ -112,7 +116,6 @@ fun OverAllReviewContent(
                 }
             }
 
-
             Spacer(modifier = Modifier.height(24.dp))
 
             ReportPreferenceCard(
@@ -120,58 +123,59 @@ fun OverAllReviewContent(
                 preferenceReport = uiState.reportSummary.preferenceReport
             )
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 24.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                SatisfactionCard(
-                    modifier = Modifier.blur(if (uiState.reportSummary.rateSummary.count == 0L) 6.dp else 0.dp),
-                    satisfactionSummary = uiState.reportSummary.rateSummary
-                )
-                if (uiState.reportSummary.rateSummary.count == 0L) {
-                    Box(modifier = Modifier
+            Spacer(modifier = Modifier.height(24.dp))
+
+            if (uiState.reportSummary.rateSummary.count == 0L) {
+                Box(
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp)) {
-                        Image(
-                            painter = painterResource(R.drawable.empty_report),
-                            contentDescription = "image_empty_report"
+                        .aspectRatio(328f / 150f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.empty_report),
+                        contentDescription = "image_empty_report",
+                        modifier = Modifier.matchParentSize(),
+                        contentScale = ContentScale.FillBounds
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 32.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        Text(
+                            text = "직접 미션을 해보니 어땠나요?",
+                            style = MooditTheme.typography.b1Large,
+                            color = MooditTheme.colors.onPrimaryContainer
                         )
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        Button(
+                            modifier = Modifier.wrapContentWidth(),
+                            onClick = onCheckMissionClick,
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MooditTheme.colors.primary,
+                                contentColor = MooditTheme.colors.onPrimary
+                            ),
+                            shape = RoundedCornerShape(12.dp),
+                            contentPadding = PaddingValues(horizontal = 40.dp, vertical = 12.dp)
                         ) {
                             Text(
-                                text = "직접 미션을 해보니 어땠나요?",
-                                style = MooditTheme.typography.b1Large,
-                                color = MooditTheme.colors.onPrimaryContainer
-                            )
-                            Button(
                                 modifier = Modifier.wrapContentWidth(),
-                                onClick = onCheckMissionClick,
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = MooditTheme.colors.primary,
-                                    contentColor = MooditTheme.colors.onPrimary
-                                ),
-                                shape = RoundedCornerShape(12.dp),
-                                contentPadding = PaddingValues(horizontal = 40.dp, vertical = 12.dp)
-                            ) {
-                                Text(
-                                    modifier = Modifier.wrapContentWidth(),
-                                    text = "미션 확인하기",
-                                    color = MooditTheme.colors.onPrimary,
-                                    style = MooditTheme.typography.b1Medium,
-                                    textAlign = TextAlign.Center,
-                                )
-                            }
+                                text = "미션 확인하기",
+                                color = MooditTheme.colors.onPrimary,
+                                style = MooditTheme.typography.b1Medium,
+                                textAlign = TextAlign.Center,
+                            )
                         }
                     }
                 }
+            } else {
+                SatisfactionCard(
+                    satisfactionSummary = uiState.reportSummary.rateSummary
+                )
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             ReportGuideDescription()
 
