@@ -24,6 +24,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.BlurredEdgeTreatment
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asComposeRenderEffect
 import androidx.compose.ui.graphics.graphicsLayer
@@ -63,27 +66,30 @@ fun MissionItemCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
-                    .height(IntrinsicSize.Min)
+                    .clip(RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
             ) {
+                AsyncImage(
+                    model = mission.matchResult.imageUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    alignment = Alignment.BottomCenter,
+                    modifier = Modifier
+                        .matchParentSize()
+                        .blur(
+                            radiusX = 20.dp,
+                            radiusY = 20.dp,
+                            edgeTreatment = BlurredEdgeTreatment.Unbounded
+                        )
+                )
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .graphicsLayer {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                                renderEffect = android.graphics.RenderEffect.createBlurEffect(
-                                    8.dp.toPx(),
-                                    8.dp.toPx(),
-                                    android.graphics.Shader.TileMode.CLAMP
-                                ).asComposeRenderEffect()
-                            }
-                        }
-                        .background(Color.Black.copy(alpha = 0.5f))
+                        .matchParentSize()
+                        .background(Color.Black.copy(alpha = 0.45f))
                 )
 
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .align(Alignment.BottomCenter)
                         .padding(start = 12.dp, end = 12.dp, top = 16.dp, bottom = 16.dp),
                     verticalArrangement = Arrangement.Bottom
                 ) {
@@ -94,8 +100,7 @@ fun MissionItemCard(
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -108,7 +113,7 @@ fun MissionItemCard(
 
                         Icon(
                             painter = painterResource(R.drawable.arrow_narrow_right),
-                            contentDescription = "Navigate Next",
+                            contentDescription = "icon_arrow_narrow_right",
                             tint = MooditTheme.colors.primary,
                             modifier = Modifier.size(20.dp)
                         )
