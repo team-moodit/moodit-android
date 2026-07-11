@@ -118,6 +118,8 @@ fun TournamentResultScreen(
                 style = MooditTheme.typography.h3, color = MooditTheme.colors.onBackground
             )
 
+            Spacer(modifier = Modifier.height(40.dp))
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
