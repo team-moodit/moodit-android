@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.swyp.moodit.common.util.TextUtil
@@ -150,7 +151,7 @@ fun ReportPreferenceCard(
                         ResultType.PREFERENCE_TIE -> {
                             Text(
                                 text = "여러가지 기준을 참고해서\n신중히 판단하고 있어요",
-                                style = MooditTheme.typography.b1Small,
+                                style = MooditTheme.typography.b1Medium,
                                 color = MooditTheme.colors.onPrimaryContainer
                             )
                         }
