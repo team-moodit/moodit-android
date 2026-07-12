@@ -98,7 +98,6 @@ fun MissionOfferResponse.toModel(): MoodMatchResult {
         preferenceResultType = this.preferenceResultType.toModel(),
         missionSuggestions = this.items.map { it.toModel() },
         state = this.state,
-        assignedMissionId = this.assignedMissionId ?: 0L,
         matchResult = this.matchResult.toModel()
     )
 }

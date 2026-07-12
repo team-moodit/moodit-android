@@ -1,5 +1,6 @@
 package com.swyp.moodit.tournament.result
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
@@ -100,9 +101,8 @@ class TournamentResultViewModel @Inject constructor(
             reduce { it.copy(isLoading = true) }
             when (val result = missionRepository.getMissionOffers(matchId)) {
                 is Result.Success -> {
-                    val assignedMissionId = result.data.assignedMissionId
-                    if (assignedMissionId != 0L) reduce { it.copy(userMissionId = assignedMissionId) }
-                    reduce { it.copy(moodMatchResult = result.data) }
+                    val autoSetMission = result.data.missionSuggestions[0]
+                    reduce { it.copy(moodMatchResult = result.data, selectedMission = autoSetMission) }
                 }
 
                 is Result.Error -> {
