@@ -59,6 +59,10 @@ class MainActivity : ComponentActivity() {
                             is MainSideEffect.NavigateToOnBoarding -> {
                                 appState.navigateToOnBoarding()
                             }
+
+                            is MainSideEffect.NavigateToInputNickname -> {
+                                appState.navigateToInputNickname(false)
+                            }
                         }
                     }
                 }
