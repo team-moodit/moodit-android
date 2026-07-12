@@ -33,9 +33,9 @@ fun Modifier.shimmerEffect(): Modifier = composed {
     background(
         brush = Brush.linearGradient(
             colors = listOf(
-                MooditTheme.colors.onTertiary,
-                MooditTheme.colors.textSecondary,
-                MooditTheme.colors.onTertiary,
+                MooditTheme.colors.primaryContainer,
+                MooditTheme.colors.surfaceContainer,
+                MooditTheme.colors.primaryContainer,
             ),
             start = Offset(startOffsetX, 0f),
             end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat())
