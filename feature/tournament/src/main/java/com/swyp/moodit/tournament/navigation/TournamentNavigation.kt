@@ -110,8 +110,8 @@ fun NavController.navigateToMatchUp(tournamentId: Long, isStarted: Boolean) {
     }
 }
 
-fun NavController.navigateToTournamentResult(winnerCandidateId: Long) {
-    navigate(TournamentRoute.Result(winnerCandidateId)) {
+fun NavController.navigateToTournamentResult(matchId: Long) {
+    navigate(TournamentRoute.Result(matchId)) {
         popUpTo(BottomBarRoute.Home) {
             inclusive = false
         }

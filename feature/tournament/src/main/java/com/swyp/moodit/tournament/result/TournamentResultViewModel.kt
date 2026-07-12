@@ -26,8 +26,8 @@ class TournamentResultViewModel @Inject constructor(
         initialState = TournamentResultContract.State()
     ) {
 
-    private val matchResultId =
-        savedStateHandle.toRoute<TournamentRoute.Result>().matchResultId
+    private val matchId =
+        savedStateHandle.toRoute<TournamentRoute.Result>().matchId
 
     init {
         observeNickname()
@@ -98,7 +98,7 @@ class TournamentResultViewModel @Inject constructor(
     fun loadMatchResult() {
         viewModelScope.launch {
             reduce { it.copy(isLoading = true) }
-            when (val result = missionRepository.getMissionOffers(matchResultId)) {
+            when (val result = missionRepository.getMissionOffers(matchId)) {
                 is Result.Success -> {
                     val assignedMissionId = result.data.assignedMissionId
                     if (assignedMissionId != 0L) reduce { it.copy(userMissionId = assignedMissionId) }

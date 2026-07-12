@@ -26,7 +26,7 @@ class MatchUpContract {
             val snackbarType: MooditSnackbarType = MooditSnackbarType.SUCCESS
         ) : SideEffect
 
-        data class NavigateToResult(val matchResultId: Long) : SideEffect
+        data class NavigateToResult(val tournamentId: Long) : SideEffect
         object NavigateBack : SideEffect
     }
 

@@ -72,10 +72,10 @@ internal class MissionRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getMissionOffers(matchResultId: Long): Result<MoodMatchResult> {
+    override suspend fun getMissionOffers(matchId: Long): Result<MoodMatchResult> {
         try {
             val response =
-                mooditApi.getMissionOffers(MissionOfferRequest(matchResultId)).getOrThrow()
+                mooditApi.getMissionOffers(MissionOfferRequest(matchId)).getOrThrow()
             return Result.Success(response.toModel())
         } catch (e: Exception) {
             return Result.Error(e)
