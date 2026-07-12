@@ -15,8 +15,6 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.model.MissionStatus
-import com.swyp.moodit.tournament.main.TournamentMainContract
-import com.swyp.moodit.tournament.matchUp.MatchUpContract
 
 @Composable
 fun TournamentResultRoute(
@@ -47,6 +45,7 @@ fun TournamentResultRoute(
 
     LaunchedEffect(Unit) {
         viewModel.sendIntent(TournamentResultContract.Intent.LoadResult)
+        viewModel.sendIntent(TournamentResultContract.Intent.LoadUserInfo)
     }
 
     BackHandler {

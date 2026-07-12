@@ -25,6 +25,7 @@ class TournamentResultContract {
 
     sealed interface Intent : UiIntent {
         data class OnMissionSelect(val mission: MissionSuggestion) : Intent
+        data object LoadUserInfo : Intent
         data object OnMissionDetailClick : Intent
         data object LoadResult : Intent
         data object OnExitClick : Intent
