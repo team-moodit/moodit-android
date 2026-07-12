@@ -130,9 +130,9 @@ fun MissionTabContent(
             MissionInfoCard(
                 modifier = Modifier.weight(1f),
                 title = "무드매치 완료 날짜",
-                content = uiState.mission?.matchResult?.matchCompletedAt?:"".toFormatDate()
+                content = uiState.mission?.matchResult?.matchCompletedAt ?: "".toFormatDate()
             )
-            val missionCompletedAt = uiState.mission?.missionCompletedAt?:"".toFormatDate()
+            val missionCompletedAt = uiState.mission?.missionCompletedAt ?: "".toFormatDate()
             MissionInfoCard(
                 modifier = Modifier.weight(1f),
                 title = "미션 완료 날짜",
@@ -168,65 +168,69 @@ fun MissionTabContent(
 
             MissionState.COMPLETED -> {
                 Spacer(modifier = Modifier.height(32.dp))
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = "만족도 평가",
-                    style = MooditTheme.typography.b2Medium,
-                    color = MooditTheme.colors.onPrimaryContainer
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            color = MooditTheme.colors.onPrimary,
-                            shape = RoundedCornerShape(16.dp)
-                        )
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    Box(
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(
                         modifier = Modifier
-                            .wrapContentSize()
-                            .clip(RoundedCornerShape(16.dp))
-                            .background(MooditTheme.colors.surfaceContainer)
-                            .padding(8.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(4.dp)
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.bomb),
-                                contentDescription = "icon_mood_result",
-                                tint = MooditTheme.colors.onTertiary,
-                                modifier = Modifier.size(24.dp)
+                            .fillMaxWidth()
+                            .align(Alignment.Start),
+                        text = "만족도 평가",
+                        style = MooditTheme.typography.b2Medium,
+                        color = MooditTheme.colors.onPrimaryContainer
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                color = MooditTheme.colors.onPrimary,
+                                shape = RoundedCornerShape(16.dp)
                             )
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .clip(RoundedCornerShape(16.dp))
+                                .background(MooditTheme.colors.surfaceContainer)
+                                .padding(8.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.bomb),
+                                    contentDescription = "icon_mood_result",
+                                    tint = MooditTheme.colors.onTertiary,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                                Text(
+                                    text = "평가 전",
+                                    style = MooditTheme.typography.b3Medium,
+                                    color = MooditTheme.colors.tertiary
+                                )
+                            }
+                        }
+
+                        Column(
+                            horizontalAlignment = Alignment.Start,
+                            verticalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
                             Text(
-                                text = "평가 전",
-                                style = MooditTheme.typography.b3Medium,
-                                color = MooditTheme.colors.tertiary
+                                text = "직접 해보니 어땠나요?",
+                                color = MooditTheme.colors.onBackground,
+                                style = MooditTheme.typography.b2Medium
+                            )
+
+                            Text(
+                                text = "경험을 남기면 취향의 기준이 뚜렷해져요",
+                                color = MooditTheme.colors.textSecondary,
+                                style = MooditTheme.typography.b3Medium
                             )
                         }
-                    }
-
-                    Column(
-                        horizontalAlignment = Alignment.Start,
-                        verticalArrangement = Arrangement.spacedBy(6.dp)
-                    ) {
-                        Text(
-                            text = "직접 해보니 어땠나요?",
-                            color = MooditTheme.colors.onBackground,
-                            style = MooditTheme.typography.b2Medium
-                        )
-
-                        Text(
-                            text = "경험을 남기면 취향의 기준이 뚜렷해져요",
-                            color = MooditTheme.colors.textSecondary,
-                            style = MooditTheme.typography.b3Medium
-                        )
                     }
                 }
             }
@@ -262,6 +266,7 @@ fun MissionTabContent(
                     )
                 }
             }
+
             else -> {
 
             }
