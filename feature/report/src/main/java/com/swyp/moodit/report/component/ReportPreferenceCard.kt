@@ -27,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.swyp.moodit.common.util.TextUtil
@@ -184,10 +183,9 @@ fun ReportPreferenceCard(
 
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.Center,
+                    .wrapContentWidth()
+                    .height(200.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.Bottom
             ) {
                 top3Distributions.forEachIndexed { index, detail ->
@@ -198,7 +196,7 @@ fun ReportPreferenceCard(
                     }
                     val rank = 3 - index
                     PreferenceDistributionItem(
-                        modifier = Modifier.padding(start = if (index == 0) 0.dp else 16.dp),
+                        modifier = Modifier.weight(1f),
                         preference = detail,
                         isTie = isTieResult,
                         rank = rank

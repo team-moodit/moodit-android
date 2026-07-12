@@ -69,7 +69,7 @@ fun TournamentResultScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 48.dp, end = 48.dp, top = 32.dp, bottom = 16.dp)
+                    .padding(start = 48.dp, end = 48.dp, top = 32.dp)
                     .aspectRatio(264f / 352f)
                     .clip(RoundedCornerShape(16.dp)),
                 contentAlignment = Alignment.BottomCenter
