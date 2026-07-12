@@ -137,7 +137,9 @@ fun InProgressMatchResponse.toModel(): InProgressTournament {
         title = this.title,
         currentRound = this.currentRound,
         totalRound = this.totalRound,
-        lastPlayedAt = this.lastPlayedAt
+        lastPlayedAt = this.lastPlayedAt,
+        currentMatchProgress = this.currentMatchProgress,
+        finalMatchProgress = this.finalMatchProgress
     )
 }
 

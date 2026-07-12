@@ -7,7 +7,9 @@ data class InProgressTournament(
     val title: String = "",
     val currentRound: Int = 0,
     val totalRound: Int = 0,
-    val lastPlayedAt: String = ""
+    val lastPlayedAt: String = "",
+    val currentMatchProgress: Int = 0,
+    val finalMatchProgress: Int = 0
 )
 
 enum class InProgressMatchState {
