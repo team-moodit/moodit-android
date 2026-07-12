@@ -35,7 +35,7 @@ class MainActivityViewModel @Inject constructor(
             _state.update { it.copy(isLoading = true) }
             val isOnBoardingCompleted = userPreferencesDataStore.isOnBoardingCompleted.first()
             val isAutoLoginEnabled = userPreferencesDataStore.isAutoLoginEnabled.first()
-            val isNicknameSet = userPreferencesDataStore.nickname.first().isNotEmpty()
+            val isNicknameSet = userPreferencesDataStore.nickname.first().isNotBlank()
             delay(2000L)
             _state.update { it.copy(isLoading = false) }
             when {
