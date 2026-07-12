@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -107,10 +108,9 @@ fun MissionTabEmptyContent(
                 painter = painterResource(R.drawable.empty_mission),
                 contentDescription = "icon_mission_satisfaction",
                 tint = MooditTheme.colors.onTertiary,
-                modifier = Modifier
-                    .size(20.dp)
-                    .padding(end = 8.dp)
+                modifier = Modifier.size(20.dp)
             )
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = "이번 미션은 패스했어요",
                 color = MooditTheme.colors.textSecondary,
