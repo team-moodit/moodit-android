@@ -84,7 +84,7 @@ class HomeMainViewModel @Inject constructor(
                 if (intent.tournamentId != -1L)
                     sendEffect(HomeMainContract.SideEffect.NavigateToMatchUp(intent.tournamentId))
                 if (intent.matchUpResultId != -1L)
-                    sendEffect(HomeMainContract.SideEffect.NavigateToMatchResult(intent.matchUpResultId))
+                    sendEffect(HomeMainContract.SideEffect.NavigateToMatchResult(intent.tournamentId))
             }
 
             is HomeMainContract.Intent.LoadUserInfo -> {

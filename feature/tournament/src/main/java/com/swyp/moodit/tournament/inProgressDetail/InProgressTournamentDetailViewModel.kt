@@ -56,7 +56,7 @@ class InProgressTournamentDetailViewModel @Inject constructor(
                 } else {
                     sendEffect(
                         InProgressTournamentDetailContract.SideEffect.NavigateToMoodMatchResult(
-                            currentState.matchResultId
+                            currentState.tournamentId
                         )
                     )
                 }

@@ -51,7 +51,7 @@ fun HomeMainRoute(
                     sideEffect.missionId,
                     sideEffect.status
                 )
-                is HomeMainContract.SideEffect.NavigateToMatchResult -> navigateToMatchResult(sideEffect.matchResultId)
+                is HomeMainContract.SideEffect.NavigateToMatchResult -> navigateToMatchResult(sideEffect.tournamentId)
 
                 is HomeMainContract.SideEffect.ShowSnackbar -> onShowSnackbar(
                     sideEffect.message,

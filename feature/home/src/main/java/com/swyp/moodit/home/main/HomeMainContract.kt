@@ -25,7 +25,7 @@ class HomeMainContract {
         object NavigateToSetting : SideEffect
         object NavigateToCreateTournament : SideEffect
         data class NavigateToMatchUp(val tournamentId: Long) : SideEffect
-        data class NavigateToMatchResult(val matchResultId: Long): SideEffect
+        data class NavigateToMatchResult(val tournamentId: Long): SideEffect
         data class NavigateToMissionDetail(val missionId: Long, val status: MissionStatus) :
             SideEffect
 
