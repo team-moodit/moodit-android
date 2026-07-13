@@ -99,7 +99,7 @@ class InputNicknameViewModel @Inject constructor(
     companion object {
         const val MIN_NICKNAME_LENGTH = 1
         const val MAX_NICKNAME_LENGTH = 6
-        const val NICKNAME_REGEX = "^[ㄱ-ㅎㅏ-ㅣ가-힣]+$"
+        const val NICKNAME_REGEX = "^[가-힣]+$"
         const val INPUT_NICKNAME_REGEX = "^[ㄱ-ㅎㅏ-ㅣ가-힣\\u318D\\u119E\\u11A2\\u2022\\u2024\\u00B7\\u2219.]*$"
     }
 }

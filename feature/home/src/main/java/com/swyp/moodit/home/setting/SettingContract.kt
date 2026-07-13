@@ -15,6 +15,7 @@ class SettingContract {
     sealed interface SideEffect : UiSideEffect {
         data object NavigateToLogin : SideEffect
         data class NavigateToInputNickname(val isEditMode: Boolean) : SideEffect
+        data class NavigateToUrl(val url: String): SideEffect
         data class ShowSnackbar(val message: String) : SideEffect
     }
 

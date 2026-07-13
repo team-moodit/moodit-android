@@ -109,10 +109,22 @@ fun OverAllReviewContent(
                     verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     Text(
-                        text = "${uiState.nickname}님은 아직 취향을 찾아가고 있어요\n무드매치를 더 진행해보세요",
+                        text = "${uiState.nickname}님은 아직 취향을 찾아가고 있어요",
                         style = MooditTheme.typography.b1Large,
                         color = MooditTheme.colors.onPrimaryContainer
                     )
+                    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = "무드매치",
+                            style = MooditTheme.typography.b1Large,
+                            color = MooditTheme.colors.primary
+                        )
+                        Text(
+                            text = "를 더 진행해보세요",
+                            style = MooditTheme.typography.b1Large,
+                            color = MooditTheme.colors.onPrimaryContainer
+                        )
+                    }
                 }
             }
 

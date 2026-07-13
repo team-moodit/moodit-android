@@ -35,13 +35,15 @@ class MainActivityViewModel @Inject constructor(
             _state.update { it.copy(isLoading = true) }
             val isOnBoardingCompleted = userPreferencesDataStore.isOnBoardingCompleted.first()
             val isAutoLoginEnabled = userPreferencesDataStore.isAutoLoginEnabled.first()
+            val isNicknameSet = userPreferencesDataStore.nickname.first().isNotBlank()
             delay(2000L)
-            _state.update { it.copy(isLoading = false) }
             when {
-                isAutoLoginEnabled -> _sideEffect.send(MainSideEffect.NavigateToHome)
-                isOnBoardingCompleted -> _sideEffect.send(MainSideEffect.NavigateToLogin)
-                else -> _sideEffect.send(MainSideEffect.NavigateToOnBoarding)
+                !isOnBoardingCompleted -> _sideEffect.send(MainSideEffect.NavigateToOnBoarding)
+                !isAutoLoginEnabled -> _sideEffect.send(MainSideEffect.NavigateToLogin)
+                !isNicknameSet -> _sideEffect.send(MainSideEffect.NavigateToInputNickname)
+                else -> _sideEffect.send(MainSideEffect.NavigateToHome)
             }
+            _state.update { it.copy(isLoading = false) }
         }
     }
 }
@@ -54,4 +56,5 @@ sealed interface MainSideEffect {
     data object NavigateToLogin : MainSideEffect
     data object NavigateToHome : MainSideEffect
     data object NavigateToOnBoarding : MainSideEffect
+    data object NavigateToInputNickname : MainSideEffect
 }

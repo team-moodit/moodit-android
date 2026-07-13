@@ -47,6 +47,7 @@ class ReportMainViewModel @Inject constructor(
 
             is ReportMainContract.Intent.OnCheckMissionClick -> sendEffect(ReportMainContract.SideEffect.NavigateToHome)
             is ReportMainContract.Intent.OnCreateMoodMatchClick -> sendEffect(ReportMainContract.SideEffect.NavigateToCreateMoodMatch)
+            is ReportMainContract.Intent.LoadUserInfo -> loadUserInfo()
         }
     }
 
@@ -54,6 +55,24 @@ class ReportMainViewModel @Inject constructor(
         viewModelScope.launch {
             userRepository.nickname.collect { nickname ->
                 reduce { it.copy(nickname = nickname) }
+            }
+        }
+    }
+
+    private fun loadUserInfo() {
+        viewModelScope.launch {
+            when (val result = userRepository.getUserPrivacyInfo()) {
+                is Result.Success -> {
+                    reduce { it.copy(nickname = result.data.name) }
+                }
+
+                is Result.Error -> {
+                    sendEffect(
+                        ReportMainContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "유저 정보 조회에 실패하였습니다."
+                        )
+                    )
+                }
             }
         }
     }

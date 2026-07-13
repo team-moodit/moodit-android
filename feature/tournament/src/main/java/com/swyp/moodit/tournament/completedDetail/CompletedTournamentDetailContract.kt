@@ -16,7 +16,7 @@ class CompletedTournamentDetailContract {
         val tournamentId: Long = 0L,
         val userMissionId: Long = 0L,
         val tournamentDetail: CompletedTournamentDetail = CompletedTournamentDetail(),
-        val mission: Mission = Mission(),
+        val mission: Mission? = null,
         val selectedTab: CompletedTournamentTab = CompletedTournamentTab.MOOD_MATCH,
         val showSatisfactionBottomSheet: Boolean = false,
         val showFeedbackBottomSheet: Boolean = false,
@@ -40,6 +40,7 @@ class CompletedTournamentDetailContract {
         data object OnDeleteClick : Intent
         data object SubmitSatisfaction : Intent
         data object ClearFeedbackOption: Intent
+        data object LoadUserInfo: Intent
         data class OnDeleteDialogShowChange(val show: Boolean) : Intent
         data class OnDeleteCompleteDialogShowChange(val show: Boolean) : Intent
         data class OnSatisfactionBottomSheetShowChange(val show: Boolean) : Intent

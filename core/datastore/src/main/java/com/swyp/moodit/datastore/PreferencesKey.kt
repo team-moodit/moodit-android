@@ -12,4 +12,5 @@ internal object PreferencesKey {
     val AutoLogin_Enabled = booleanPreferencesKey("moodit_auto_login_enabled")
     val Nickname = stringPreferencesKey("moodit_nickname")
     val OnGoingTournamentId = longPreferencesKey("moodit_onGoing_tournament_id")
+    val OnGoingMatchResultId = longPreferencesKey("moodit_onGoing_match_result_id")
 }

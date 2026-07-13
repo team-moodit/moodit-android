@@ -40,6 +40,7 @@ class ReportMainContract {
         data object LoadPreferenceReport : Intent
         data object OnCheckMissionClick: Intent
         data object OnCreateMoodMatchClick: Intent
+        data object LoadUserInfo: Intent
     }
 }
 

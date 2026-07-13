@@ -17,7 +17,6 @@ import com.swyp.moodit.navigation.HomeRoute
 import com.swyp.moodit.navigation.MainBottomBarTab
 import com.swyp.moodit.navigation.OnBoardingRoute
 import com.swyp.moodit.navigation.TournamentRoute
-import com.swyp.moodit.onboard.report.ReportRoute
 import com.swyp.moodit.report.navigation.navigateToReport
 import com.swyp.moodit.tournament.navigation.navigateToTournament
 
@@ -103,6 +102,10 @@ class MooditAppState(
             popUpTo(BottomBarRoute.Home) { inclusive = false }
             launchSingleTop = true
         }
+    }
+
+    fun navigateToMatchResult(matchResultId: Long) {
+        navController.navigate(TournamentRoute.Result(matchResultId))
     }
 
     fun navigateToMatchUp(tournamentId: Long, isStarted: Boolean) {

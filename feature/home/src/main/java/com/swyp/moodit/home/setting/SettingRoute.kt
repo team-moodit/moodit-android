@@ -9,6 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 
@@ -20,6 +21,7 @@ fun SettingRoute(
     navigateToInputNickname: (Boolean) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val uriHandler = LocalUriHandler.current
 
     LaunchedEffect(Unit) {
         viewModel.sendIntent(SettingContract.Intent.LoadUserInfo)
@@ -34,6 +36,7 @@ fun SettingRoute(
                     sideEffect.message,
                     null
                 )
+                is SettingContract.SideEffect.NavigateToUrl -> uriHandler.openUri(sideEffect.url)
             }
         }
     }

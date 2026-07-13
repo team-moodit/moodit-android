@@ -17,13 +17,15 @@ class HomeMainContract {
         val completedMissions: Flow<PagingData<Mission>> = flowOf(PagingData.empty()),
         val feedbackSubMittedMissions: Flow<PagingData<Mission>> = flowOf(PagingData.empty()),
         val showResumeTournamentDialog: Boolean = false,
-        val resumeTournamentId: Long = -1L
+        val resumeTournamentId: Long = -1L,
+        val resumeMatchUpResultId: Long = -1L
     ) : UiState
 
     sealed interface SideEffect : UiSideEffect {
         object NavigateToSetting : SideEffect
         object NavigateToCreateTournament : SideEffect
         data class NavigateToMatchUp(val tournamentId: Long) : SideEffect
+        data class NavigateToMatchResult(val tournamentId: Long): SideEffect
         data class NavigateToMissionDetail(val missionId: Long, val status: MissionStatus) :
             SideEffect
 
@@ -35,7 +37,8 @@ class HomeMainContract {
         object OnCreateTournamentClick : Intent
         object OnDismissTournamentDialog : Intent
         object CheckOnGoingTournament : Intent
-        data class OnResumeTournamentClick(val tournamentId: Long) : Intent
+        object LoadUserInfo : Intent
+        data class OnResumeTournamentClick(val tournamentId: Long, val matchUpResultId: Long) : Intent
         data class OnMissionClick(val missionId: Long) : Intent
     }
 }

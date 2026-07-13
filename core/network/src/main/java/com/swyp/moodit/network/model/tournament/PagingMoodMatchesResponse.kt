@@ -7,7 +7,9 @@ data class InProgressMatchResponse(
     val title: String,
     val currentRound: Int,
     val totalRound: Int,
-    val lastPlayedAt: String
+    val lastPlayedAt: String,
+    val currentMatchProgress: Int,
+    val finalMatchProgress: Int
 )
 
 data class CompletedMatchResponse(

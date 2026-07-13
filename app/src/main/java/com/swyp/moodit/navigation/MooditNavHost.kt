@@ -57,6 +57,9 @@ fun MooditNavHost(
                     tournamentId,
                     isStarted
                 )
+            },
+            navigateToMatchResult = { matchResultId ->
+                appState.navigateToMatchResult(matchResultId)
             }
         )
 

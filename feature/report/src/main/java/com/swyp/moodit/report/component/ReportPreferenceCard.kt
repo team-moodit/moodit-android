@@ -150,7 +150,7 @@ fun ReportPreferenceCard(
                         ResultType.PREFERENCE_TIE -> {
                             Text(
                                 text = "여러가지 기준을 참고해서\n신중히 판단하고 있어요",
-                                style = MooditTheme.typography.b1Small,
+                                style = MooditTheme.typography.b1Medium,
                                 color = MooditTheme.colors.onPrimaryContainer
                             )
                         }
@@ -183,10 +183,9 @@ fun ReportPreferenceCard(
 
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.Center,
+                    .wrapContentWidth()
+                    .height(200.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.Bottom
             ) {
                 top3Distributions.forEachIndexed { index, detail ->
@@ -197,7 +196,7 @@ fun ReportPreferenceCard(
                     }
                     val rank = 3 - index
                     PreferenceDistributionItem(
-                        modifier = Modifier.padding(start = if (index == 0) 0.dp else 16.dp),
+                        modifier = Modifier.weight(1f),
                         preference = detail,
                         isTie = isTieResult,
                         rank = rank

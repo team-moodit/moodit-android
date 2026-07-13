@@ -98,7 +98,6 @@ fun MissionOfferResponse.toModel(): MoodMatchResult {
         preferenceResultType = this.preferenceResultType.toModel(),
         missionSuggestions = this.items.map { it.toModel() },
         state = this.state,
-        assignedMissionId = this.assignedMissionId ?: 0L,
         matchResult = this.matchResult.toModel()
     )
 }
@@ -138,7 +137,9 @@ fun InProgressMatchResponse.toModel(): InProgressTournament {
         title = this.title,
         currentRound = this.currentRound,
         totalRound = this.totalRound,
-        lastPlayedAt = this.lastPlayedAt
+        lastPlayedAt = this.lastPlayedAt,
+        currentMatchProgress = this.currentMatchProgress,
+        finalMatchProgress = this.finalMatchProgress
     )
 }
 

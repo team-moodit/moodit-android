@@ -69,7 +69,7 @@ fun TournamentResultScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 48.dp, end = 48.dp, top = 32.dp, bottom = 16.dp)
+                    .padding(start = 48.dp, end = 48.dp, top = 32.dp)
                     .aspectRatio(264f / 352f)
                     .clip(RoundedCornerShape(16.dp)),
                 contentAlignment = Alignment.BottomCenter
@@ -221,7 +221,7 @@ fun TournamentResultScreen(
                 )
             }
 
-            if (uiState.moodMatchResult.preferenceResultType != PreferenceResultType.TYPE_AND_DETAIL || uiState.moodMatchResult.missionSuggestions.size == 1) {
+            if (uiState.moodMatchResult.preferenceResultType != PreferenceResultType.TYPE_AND_DETAIL && uiState.moodMatchResult.missionSuggestions.size != 1) {
                 Spacer(modifier = Modifier.height(40.dp))
 
                 Column(
@@ -233,7 +233,7 @@ fun TournamentResultScreen(
                 ) {
                     uiState.moodMatchResult.missionSuggestions.forEach { mission ->
                         MooditSelectableButton(
-                            content = mission.title.replace("\n", ""),
+                            content = mission.title.replace("\n", " "),
                             isSelected = mission.id == uiState.selectedMission?.id,
                             onItemClick = { onSelectMission(mission) })
                     }

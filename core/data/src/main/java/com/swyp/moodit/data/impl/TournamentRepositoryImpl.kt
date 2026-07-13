@@ -24,7 +24,6 @@ import com.swyp.moodit.model.tournament.InProgressTournamentDetail
 import com.swyp.moodit.network.api.MooditApi
 import com.swyp.moodit.network.api.S3Api
 import com.swyp.moodit.network.model.getOrThrow
-import com.swyp.moodit.network.model.getOrThrowUnit
 import com.swyp.moodit.network.model.tournament.CreateMoodMatchRequest
 import com.swyp.moodit.network.model.tournament.matchUp.MatchUpInitRequest
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +41,7 @@ internal class TournamentRepositoryImpl @Inject constructor(
     private val userDataStore: UserPreferencesDataStore
 ) : TournamentRepository {
     override val onGoingTournamentId: Flow<Long> = userDataStore.onGoingTournamentId
+    override val onGoingMatchUpResultId: Flow<Long> = userDataStore.onGoingMatchResultId
 
     override fun getPagingInProgressTournaments(): Flow<PagingData<InProgressTournament>> {
         return Pager(
@@ -130,9 +130,27 @@ internal class TournamentRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun setOnGoingMatchUpResultId(matchUpResultId: Long): Result<Unit> {
+        try {
+            userDataStore.setOnGoingMatchResultId(matchUpResultId)
+            return Result.Success(Unit)
+        } catch (e: Exception) {
+            return Result.Error(e)
+        }
+    }
+
     override suspend fun clearOnGoingTournamentId(): Result<Unit> {
         try {
             userDataStore.clearOnGoingTournamentId()
+            return Result.Success(Unit)
+        } catch (e: Exception) {
+            return Result.Error(e)
+        }
+    }
+
+    override suspend fun clearOnGoingMatchUpResultId(): Result<Unit> {
+        try {
+            userDataStore.clearOnGoingMatchResultId()
             return Result.Success(Unit)
         } catch (e: Exception) {
             return Result.Error(e)

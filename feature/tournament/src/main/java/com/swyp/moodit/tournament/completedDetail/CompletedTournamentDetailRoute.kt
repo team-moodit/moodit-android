@@ -56,6 +56,7 @@ fun CompletedTournamentDetailRoute(
 
     LaunchedEffect(Unit) {
         viewModel.sendIntent(CompletedTournamentDetailContract.Intent.LoadMissionInfo)
+        viewModel.sendIntent(CompletedTournamentDetailContract.Intent.LoadUserInfo)
     }
 
     when (uiState.isLoading) {

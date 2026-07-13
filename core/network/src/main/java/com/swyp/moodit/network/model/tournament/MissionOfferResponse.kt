@@ -5,7 +5,6 @@ data class MissionOfferResponse(
     val preferenceResultType: String,
     val items: List<MissionSuggestionResponse>,
     val state: String,
-    val assignedMissionId: Long? = null,
     val matchResult: MissionMatchResultResponse
 )
 

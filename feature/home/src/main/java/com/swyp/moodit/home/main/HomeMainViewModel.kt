@@ -71,6 +71,7 @@ class HomeMainViewModel @Inject constructor(
 
             is HomeMainContract.Intent.OnDismissTournamentDialog -> {
                 clearOnGoingTournamentId()
+                clearMatchUpResultId()
             }
 
             is HomeMainContract.Intent.CheckOnGoingTournament -> {
@@ -80,7 +81,14 @@ class HomeMainViewModel @Inject constructor(
             is HomeMainContract.Intent.OnResumeTournamentClick -> {
                 isDialogShownInThisSession = false
                 reduce { it.copy(showResumeTournamentDialog = false) }
-                sendEffect(HomeMainContract.SideEffect.NavigateToMatchUp(intent.tournamentId))
+                if (intent.tournamentId != -1L)
+                    sendEffect(HomeMainContract.SideEffect.NavigateToMatchUp(intent.tournamentId))
+                if (intent.matchUpResultId != -1L)
+                    sendEffect(HomeMainContract.SideEffect.NavigateToMatchResult(intent.tournamentId))
+            }
+
+            is HomeMainContract.Intent.LoadUserInfo -> {
+                loadUserInfo()
             }
         }
     }
@@ -93,17 +101,37 @@ class HomeMainViewModel @Inject constructor(
         }
     }
 
+    private fun loadUserInfo() {
+        viewModelScope.launch {
+            when (val result = userRepository.getUserPrivacyInfo()) {
+                is Result.Success -> {
+                    reduce { it.copy(nickname = result.data.name) }
+                }
+
+                is Result.Error -> {
+                    sendEffect(
+                        HomeMainContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "유저 정보 조회에 실패하였습니다."
+                        )
+                    )
+                }
+            }
+        }
+    }
+
     private fun checkOnGoingTournament() {
         if (isDialogShownInThisSession) return
 
         viewModelScope.launch {
             val tournamentId = tournamentRepository.onGoingTournamentId.firstOrNull() ?: -1L
-            if (tournamentId != -1L && tournamentId != 0L) {
+            val matchUpResultId = tournamentRepository.onGoingMatchUpResultId.firstOrNull() ?: -1L
+            if (tournamentId != -1L || matchUpResultId != -1L) {
                 isDialogShownInThisSession = true
                 reduce {
                     it.copy(
                         showResumeTournamentDialog = true,
-                        resumeTournamentId = tournamentId
+                        resumeTournamentId = tournamentId,
+                        resumeMatchUpResultId = matchUpResultId
                     )
                 }
             }
@@ -115,7 +143,6 @@ class HomeMainViewModel @Inject constructor(
         viewModelScope.launch {
             when (val result = tournamentRepository.clearOnGoingTournamentId()) {
                 is Result.Success -> {
-                    clearOnGoingTournamentId()
                     reduce { it.copy(showResumeTournamentDialog = false) }
                 }
 
@@ -123,6 +150,26 @@ class HomeMainViewModel @Inject constructor(
                     sendEffect(
                         HomeMainContract.SideEffect.ShowSnackbar(
                             result.exception.message ?: "DataStore에 저장된 ID 삭제에 실패했어요."
+                        )
+                    )
+                }
+            }
+            reduce { it.copy(isLoading = false) }
+        }
+    }
+
+    private fun clearMatchUpResultId() {
+        reduce { it.copy(isLoading = true) }
+        viewModelScope.launch {
+            when (val result = tournamentRepository.clearOnGoingMatchUpResultId()) {
+                is Result.Success -> {
+                    reduce { it.copy(showResumeTournamentDialog = false) }
+                }
+
+                is Result.Error -> {
+                    sendEffect(
+                        HomeMainContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "DataStore에 저장된 매치 결과 ID 삭제에 실패했어요."
                         )
                     )
                 }

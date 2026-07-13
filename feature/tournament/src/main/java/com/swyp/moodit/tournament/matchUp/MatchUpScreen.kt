@@ -1,7 +1,6 @@
 package com.swyp.moodit.tournament.matchUp
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -159,12 +158,12 @@ fun SelectPhotoContent(
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = 24.dp)
-                    .aspectRatio(1f)
-                    .clickable(uiState.selectedWinner == null && !uiState.isLoading) {
-                        onSelectPhoto(
-                            candidateA
-                        )
-                    },
+                    .aspectRatio(1f),
+                onItemClick = {
+                    if (uiState.selectedWinner == null && !uiState.isLoading) {
+                        onSelectPhoto(candidateA)
+                    }
+                },
                 isSelected = uiState.selectedWinner == candidateA,
                 anyPhotoSelected = uiState.selectedWinner != null,
                 moodCandidate = candidateA
@@ -176,12 +175,12 @@ fun SelectPhotoContent(
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = 24.dp)
-                    .aspectRatio(1f)
-                    .clickable(uiState.selectedWinner == null && !uiState.isLoading) {
-                        onSelectPhoto(
-                            candidateB
-                        )
-                    },
+                    .aspectRatio(1f),
+                onItemClick = {
+                    if (uiState.selectedWinner == null && !uiState.isLoading) {
+                        onSelectPhoto(candidateB)
+                    }
+                },
                 isSelected = uiState.selectedWinner == candidateB,
                 anyPhotoSelected = uiState.selectedWinner != null,
                 moodCandidate = candidateB

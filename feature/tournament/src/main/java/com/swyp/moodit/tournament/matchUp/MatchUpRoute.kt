@@ -21,7 +21,7 @@ fun MatchUpRoute(
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
                 is MatchUpContract.SideEffect.NavigateToResult -> {
-                    navigateToTournamentResult(sideEffect.matchResultId)
+                    navigateToTournamentResult(sideEffect.tournamentId)
                 }
 
                 is MatchUpContract.SideEffect.NavigateBack -> {

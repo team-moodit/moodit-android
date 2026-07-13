@@ -6,6 +6,7 @@ import androidx.navigation.toRoute
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.MissionRepository
 import com.swyp.moodit.data.repository.TournamentRepository
+import com.swyp.moodit.data.repository.UserRepository
 import com.swyp.moodit.model.FeedbackOption
 import com.swyp.moodit.model.MissionDetailLoadingType
 import com.swyp.moodit.navigation.TournamentRoute
@@ -19,7 +20,8 @@ import javax.inject.Inject
 class CompletedTournamentDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val tournamentRepository: TournamentRepository,
-    private val missionRepository: MissionRepository
+    private val missionRepository: MissionRepository,
+    private val userRepository: UserRepository
 ) :
     BaseViewModel<CompletedTournamentDetailContract.State, CompletedTournamentDetailContract.Intent, CompletedTournamentDetailContract.SideEffect>(
         initialState = CompletedTournamentDetailContract.State(
@@ -47,6 +49,7 @@ class CompletedTournamentDetailViewModel @Inject constructor(
             is CompletedTournamentDetailContract.Intent.ToggleFeedbackOption -> toggleFeedbackOption(intent.option)
             is CompletedTournamentDetailContract.Intent.ClearFeedbackOption -> clearFeedbackOption()
             is CompletedTournamentDetailContract.Intent.SubmitSatisfaction -> submitSatisfaction()
+            is CompletedTournamentDetailContract.Intent.LoadUserInfo -> loadUserInfo()
         }
     }
 
@@ -68,6 +71,24 @@ class CompletedTournamentDetailViewModel @Inject constructor(
         }
     }
 
+    private fun loadUserInfo() {
+        viewModelScope.launch {
+            when (val result = userRepository.getUserPrivacyInfo()) {
+                is Result.Success -> {
+                    reduce { it.copy(nickname = result.data.name) }
+                }
+
+                is Result.Error -> {
+                    sendEffect(
+                        CompletedTournamentDetailContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "유저 정보 조회에 실패하였습니다."
+                        )
+                    )
+                }
+            }
+        }
+    }
+
     private fun loadMissionInfo() {
         viewModelScope.launch {
             reduce { it.copy(isLoading = MissionDetailLoadingType.DEFAULT) }
@@ -77,7 +98,7 @@ class CompletedTournamentDetailViewModel @Inject constructor(
                 }
 
                 is Result.Error -> {
-                    sendEffect(CompletedTournamentDetailContract.SideEffect.ShowSnackbar("미션 정보 조회에 실패했습니다."))
+                    reduce { it.copy(mission = null) }
                 }
             }
             reduce { it.copy(isLoading = MissionDetailLoadingType.NONE) }
@@ -92,7 +113,7 @@ class CompletedTournamentDetailViewModel @Inject constructor(
         reduce { it.copy(isLoading = MissionDetailLoadingType.DEFAULT) }
         viewModelScope.launch {
             when (val result =
-                missionRepository.completeMission(currentState.mission.userMissionId)) {
+                missionRepository.completeMission(currentState.mission?.userMissionId?:-1L)) {
                 is Result.Success -> {
                     reduce { it.copy(mission = result.data) }
                     updateSatisfactionShow(true)
@@ -114,7 +135,7 @@ class CompletedTournamentDetailViewModel @Inject constructor(
         reduce { it.copy(isLoading = MissionDetailLoadingType.DEFAULT) }
         viewModelScope.launch {
             when (val result =
-                missionRepository.deleteMission(currentState.mission.userMissionId)) {
+                missionRepository.deleteMission(currentState.mission?.userMissionId?:-1L)) {
                 is Result.Success -> {
                     updateDeleteCompleteDialogShow(true)
                 }
@@ -135,7 +156,7 @@ class CompletedTournamentDetailViewModel @Inject constructor(
         reduce { it.copy(isLoading = MissionDetailLoadingType.DEFAULT) }
         viewModelScope.launch {
             when (val result = missionRepository.submitSatisfaction(
-                currentState.mission.userMissionId,
+                currentState.mission?.userMissionId?:-1L,
                 currentState.slidingRating,
                 currentState.selectedFeedback.map { it.content }
             )) {

@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.swyp.moodit.common.util.DateUtil.toDaysAgoMessage
-import com.swyp.moodit.common.util.DateUtil.toFormatDate
+import com.swyp.moodit.common.util.TextUtil.formatRound
 import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.component.MooditDialog
 import com.swyp.moodit.designsystem.component.MooditScaffold
@@ -154,7 +154,11 @@ fun InProgressTournamentContent(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = "${uiState.tournamentDetail.totalRound}강 중 ${uiState.tournamentDetail.currentRound}강까지 진행한 무드매치에요\n계속 이어서 진행할까요?",
+                    text = "${formatRound(uiState.tournamentDetail.totalRound)} 중 ${
+                        formatRound(
+                            uiState.tournamentDetail.currentRound
+                        )
+                    }까지 진행한 무드매치에요\n계속 이어서 진행할까요?",
                     style = MooditTheme.typography.h2,
                     color = MooditTheme.colors.onPrimaryContainer
                 )
@@ -215,7 +219,8 @@ fun InProgressTournamentContent(
                         )
                         Text(
                             modifier = Modifier.padding(vertical = 4.dp),
-                            text = "${uiState.tournamentDetail.currentRound}강 / ${uiState.tournamentDetail.totalRound}강",
+                            text = "${formatRound(uiState.tournamentDetail.currentRound)} / " +
+                                    formatRound(uiState.tournamentDetail.totalRound),
                             style = MooditTheme.typography.b2ExtraSmall,
                             color = MooditTheme.colors.onPrimaryContainer
                         )
@@ -295,7 +300,7 @@ fun InProgressTournamentContent(
 
     if (uiState.showDeleteDialog) {
         MooditDialog(
-            title = "정말 무드매치를을 삭제하시겠어요?",
+            title = "정말 무드매치를 삭제하시겠어요?",
             description = "무드매치를 삭제하면 진행중이던 과정이 삭제돼요",
             onClickCancel = { onDeleteDialogShowChange(false) }
         ) {

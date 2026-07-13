@@ -43,7 +43,7 @@ fun InProgressTournamentItem(
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val itemWidth = screenWidth * (0.75f)
     val progressRatio =
-        ((inProgressTournament.totalRound - inProgressTournament.currentRound) / inProgressTournament.totalRound.toFloat())
+        (inProgressTournament.currentMatchProgress / inProgressTournament.finalMatchProgress.toFloat())
             .coerceIn(0f, 1f)
 
     val currentRoundLabel = when(inProgressTournament.currentRound) {
