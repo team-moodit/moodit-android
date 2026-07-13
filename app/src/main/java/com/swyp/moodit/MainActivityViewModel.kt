@@ -37,13 +37,13 @@ class MainActivityViewModel @Inject constructor(
             val isAutoLoginEnabled = userPreferencesDataStore.isAutoLoginEnabled.first()
             val isNicknameSet = userPreferencesDataStore.nickname.first().isNotBlank()
             delay(2000L)
-            _state.update { it.copy(isLoading = false) }
             when {
-                isAutoLoginEnabled -> _sideEffect.send(MainSideEffect.NavigateToHome)
-                isOnBoardingCompleted -> _sideEffect.send(MainSideEffect.NavigateToLogin)
+                !isOnBoardingCompleted -> _sideEffect.send(MainSideEffect.NavigateToOnBoarding)
+                !isAutoLoginEnabled -> _sideEffect.send(MainSideEffect.NavigateToLogin)
                 !isNicknameSet -> _sideEffect.send(MainSideEffect.NavigateToInputNickname)
-                else -> _sideEffect.send(MainSideEffect.NavigateToOnBoarding)
+                else -> _sideEffect.send(MainSideEffect.NavigateToHome)
             }
+            _state.update { it.copy(isLoading = false) }
         }
     }
 }
