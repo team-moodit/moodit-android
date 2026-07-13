@@ -130,9 +130,9 @@ fun MissionTabContent(
             MissionInfoCard(
                 modifier = Modifier.weight(1f),
                 title = "무드매치 완료 날짜",
-                content = uiState.mission?.matchResult?.matchCompletedAt ?: "".toFormatDate()
+                content = uiState.mission?.matchResult?.matchCompletedAt?.toFormatDate() ?: ""
             )
-            val missionCompletedAt = uiState.mission?.missionCompletedAt ?: "".toFormatDate()
+            val missionCompletedAt = uiState.mission?.missionCompletedAt?.toFormatDate() ?: ""
             MissionInfoCard(
                 modifier = Modifier.weight(1f),
                 title = "미션 완료 날짜",

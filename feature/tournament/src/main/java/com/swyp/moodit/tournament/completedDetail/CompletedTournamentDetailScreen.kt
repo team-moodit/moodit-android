@@ -85,7 +85,7 @@ fun CompletedTournamentDetailScreen(
             when (uiState.selectedTab) {
                 CompletedTournamentTab.MOOD_MATCH -> MoodMatchTabContent(innerPadding, uiState)
                 CompletedTournamentTab.MISSION ->
-                    if (uiState.mission != null) {
+                    if (uiState.mission == null) {
                         MissionTabEmptyContent(innerPadding, uiState)
                     } else {
                         MissionTabContent(
