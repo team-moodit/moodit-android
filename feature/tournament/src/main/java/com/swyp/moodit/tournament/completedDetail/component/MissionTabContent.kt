@@ -111,14 +111,43 @@ fun MissionTabContent(
                 else -> "완료"
             }
         )
-        val missionTitle = uiState.mission?.missionTitle?.split("\n")
+        /*val missionTitle = uiState.mission?.missionTitle?:""
         Text(
             modifier = Modifier.padding(top = 16.dp),
-            text = "${missionTitle?.first()}\n${missionTitle?.last()}",
+            text = missionTitle,
             textAlign = TextAlign.Center,
             style = MooditTheme.typography.h2,
             color = MooditTheme.colors.onBackground
-        )
+        ) */
+        val titleLines = (uiState.mission?.missionTitle ?: "").split("\n")
+        Column(
+            modifier = Modifier.padding(top = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (titleLines.size >= 2) {
+                // 2줄 이상 분리되었을 때 각각의 라인을 순서대로 출력
+                Text(
+                    text = titleLines.first(),
+                    textAlign = TextAlign.Center,
+                    style = MooditTheme.typography.h2,
+                    color = MooditTheme.colors.onBackground
+                )
+                Text(
+                    text = titleLines.last(),
+                    textAlign = TextAlign.Center,
+                    style = MooditTheme.typography.h2,
+                    color = MooditTheme.colors.onBackground
+                )
+            } else {
+                // 만약 \n 파싱이 깨져서 1줄로 들어왔더라도 안전하게 그 1줄만 출력 (중복 노출 방지)
+                Text(
+                    text = titleLines.firstOrNull() ?: "",
+                    textAlign = TextAlign.Center,
+                    style = MooditTheme.typography.h2,
+                    color = MooditTheme.colors.onBackground
+                )
+            }
+        }
 
         Row(
             modifier = Modifier

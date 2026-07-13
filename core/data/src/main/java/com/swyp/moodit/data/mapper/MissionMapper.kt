@@ -25,7 +25,7 @@ fun MissionCompleteResponse.toModel(): Mission {
 
     return Mission(
         userMissionId = this.userMissionId,
-        missionTitle = this.missionTitle,
+        missionTitle = this.missionTitle.replace("\\n", "\n"),
         missionState = missionState,
         missionCompletedAt = this.missionCompletedAt ?: "",
         matchResult = this.matchResult.toModel(),
