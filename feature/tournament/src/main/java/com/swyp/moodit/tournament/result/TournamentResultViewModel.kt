@@ -128,6 +128,7 @@ class TournamentResultViewModel @Inject constructor(
                 is Result.Success -> {
                     reduce { it.copy(userMissionId = result.data) }
                     tournamentRepository.clearOnGoingMatchUpResultId()
+                    tournamentRepository.clearOnGoingTournamentId()
                     navigateToMissionDetail()
                 }
 
