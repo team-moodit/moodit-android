@@ -68,17 +68,6 @@ class MatchUpViewModel @Inject constructor(
                 reduce { it.copy(isLoading = true) }
             }
             val result = if (currentState.isStarted) {
-                val currentTimeStamp = System.currentTimeMillis()
-                analyticsHelper.logEvent(
-                    AnalyticsEvent(
-                        type = "tournament_start",
-                        extras = listOf(
-                            Param("tournament_id", tournamentId.toString()),
-                            Param("started_at", currentTimeStamp.toString()),
-                            Param("is_first_tournament", true.toString())
-                        )
-                    )
-                )
                 tournamentRepository.getMatchUpInitInfo(tournamentId)
             } else {
                 tournamentRepository.getMatchUpProgressInfo(tournamentId)
@@ -90,6 +79,33 @@ class MatchUpViewModel @Inject constructor(
                         data.curMatchIndex.toFloat() / data.totalRounds
                     } else {
                         0f
+                    }
+                    val currentTimeStamp = System.currentTimeMillis()
+                    if (currentState.isStarted) {
+                        analyticsHelper.logEvent(
+                            AnalyticsEvent(
+                                type = "tournament_start",
+                                extras = listOf(
+                                    Param("tournament_id", tournamentId.toString()),
+                                    Param("started_at", currentTimeStamp.toString()),
+                                    Param("is_first_tournament", true.toString())
+                                )
+                            )
+                        )
+                    } else {
+                        analyticsHelper.logEvent(
+                            AnalyticsEvent(
+                                type = "tournament_round_complete",
+                                extras = listOf(
+                                    Param("tournament_id", tournamentId.toString()),
+                                    Param("progressed_at", currentTimeStamp.toString()),
+                                    Param(
+                                        "round_number",
+                                        data.roundTitle + "-" + data.curMatchIndex.toString() + "경기"
+                                    ),
+                                )
+                            )
+                        )
                     }
                     reduce {
                         it.copy(
