@@ -49,6 +49,28 @@ class InProgressTournamentDetailViewModel @Inject constructor(
 
             is InProgressTournamentDetailContract.Intent.OnResumeTournamentClick -> {
                 if (currentState.matchResultId == -1L) {
+                    val currentTimeStamp = System.currentTimeMillis()
+                    val lastPlayedAt = currentState.tournamentDetail.matchInfo.createdAt
+                    val lastPlayedMillis = runCatching {
+                        java.time.Instant.parse(lastPlayedAt).toEpochMilli()
+                    }.getOrNull()
+                    val daysSinceLastProgress =
+                        if (lastPlayedMillis != null && lastPlayedMillis > 0) {
+                            val diffMillis = currentTimeStamp - lastPlayedMillis
+                            (diffMillis / (24 * 60 * 60 * 1000)).toInt()
+                        } else {
+                            0
+                        }
+                    analyticsHelper.logEvent(
+                        AnalyticsEvent(
+                            type = "tournament_resume",
+                            extras = listOf(
+                                Param("tournament_id", tournamentId.toString()),
+                                Param("resumed_at", currentTimeStamp.toString()),
+                                Param("days_since_last_progress", daysSinceLastProgress.toString())
+                            )
+                        )
+                    )
                     sendEffect(
                         InProgressTournamentDetailContract.SideEffect.NavigateToMatchUp(
                             currentState.tournamentId,
