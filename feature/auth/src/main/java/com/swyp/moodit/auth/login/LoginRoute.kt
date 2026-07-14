@@ -34,7 +34,7 @@ fun LoginRoute(
                     val clickTimeStamp = System.currentTimeMillis()
                     analyticsHelper.logEvent(
                         AnalyticsEvent(
-                            type = "login_success",
+                            type = "exist_user_login_success",
                             extras = listOf(
                                 Param("user_type", "exist_user"),
                                 Param("attempted_at", clickTimeStamp.toString()),

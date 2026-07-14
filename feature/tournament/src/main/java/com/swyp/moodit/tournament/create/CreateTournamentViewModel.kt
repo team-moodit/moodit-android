@@ -1,6 +1,9 @@
 package com.swyp.moodit.tournament.create
 
 import androidx.lifecycle.viewModelScope
+import com.swyp.moodit.analytics.AnalyticsEvent
+import com.swyp.moodit.analytics.AnalyticsHelper
+import com.swyp.moodit.analytics.Param
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.TournamentRepository
 import com.swyp.moodit.model.SelectedPhoto
@@ -13,10 +16,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateTournamentViewModel @Inject constructor(
-    private val tournamentRepository: TournamentRepository
+    private val tournamentRepository: TournamentRepository,
+    private val analyticsHelper: AnalyticsHelper
 ) : BaseViewModel<CreateTournamentContract.State, CreateTournamentContract.Intent, CreateTournamentContract.SideEffect>(
     initialState = CreateTournamentContract.State()
 ) {
+
     override fun handleIntents(intent: CreateTournamentContract.Intent) {
         when (intent) {
             is CreateTournamentContract.Intent.OnCreateTournamentClick -> {
@@ -69,7 +74,22 @@ class CreateTournamentViewModel @Inject constructor(
             when (val result =
                 tournamentRepository.createMoodMatch(currentState.title, serverIds)) {
                 is Result.Success -> {
-                    sendEffect(CreateTournamentContract.SideEffect.NavigateToMatchUp(result.data, true))
+                    val currentTimeStamp = System.currentTimeMillis()
+                    analyticsHelper.logEvent(
+                        AnalyticsEvent(
+                            type = "tournament_create_tap",
+                            extras = listOf(
+                                Param("photo_count", currentState.selectedPhotos.size.toString()),
+                                Param("tapped_at", currentTimeStamp.toString())
+                            )
+                        )
+                    )
+                    sendEffect(
+                        CreateTournamentContract.SideEffect.NavigateToMatchUp(
+                            result.data,
+                            true
+                        )
+                    )
                     delay(2000L)
                 }
 
