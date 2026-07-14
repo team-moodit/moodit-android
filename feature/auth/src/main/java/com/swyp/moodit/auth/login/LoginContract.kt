@@ -7,7 +7,8 @@ import com.swyp.moodit.ui.base.UiState
 
 class LoginContract {
     data class State(
-        val isLoading: Boolean = false
+        val isLoading: Boolean = false,
+        val email: String = ""
     ) : UiState
 
     sealed interface SideEffect : UiSideEffect {

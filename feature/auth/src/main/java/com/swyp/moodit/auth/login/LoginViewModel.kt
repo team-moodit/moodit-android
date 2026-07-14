@@ -23,7 +23,6 @@ class LoginViewModel @Inject constructor(
         when (intent) {
             is LoginContract.Intent.OnLoginClick -> {
                 loginOperation(intent.context)
-                //sendEffect(LoginContract.SideEffect.NavigateToInputNickname(false))
             }
         }
     }
@@ -39,6 +38,7 @@ class LoginViewModel @Inject constructor(
                             is Result.Success -> {
                                 when(val userInfoResult = userRepository.getUserPrivacyInfo()) {
                                     is Result.Success -> {
+                                        reduce { it.copy(email = userInfoResult.data.email) }
                                         if (userInfoResult.data.name.isEmpty()) {
                                             sendEffect(
                                                 LoginContract.SideEffect.NavigateToInputNickname(

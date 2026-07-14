@@ -37,7 +37,8 @@ fun LoginRoute(
                             type = "login_success",
                             extras = listOf(
                                 Param("user_type", "exist_user"),
-                                Param("attempted_at", clickTimeStamp.toString())
+                                Param("attempted_at", clickTimeStamp.toString()),
+                                Param("email", uiState.email)
                             )
                         )
                     )
