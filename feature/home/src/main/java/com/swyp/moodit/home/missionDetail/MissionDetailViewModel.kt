@@ -186,6 +186,18 @@ class MissionDetailViewModel @Inject constructor(
                 currentState.selectedFeedback.map { it.content }
             )) {
                 is Result.Success -> {
+                    val clickTimeStamp = System.currentTimeMillis()
+                    analyticsHelper.logEvent(
+                        AnalyticsEvent(
+                            type = "satisfaction_submit",
+                            extras = listOf(
+                                Param("mission_id", currentState.missionInfo.userMissionId.toString()),
+                                Param("satisfaction_score", currentState.currentSliderRating.toString()),
+                                Param("submitted_at", clickTimeStamp.toString()),
+                                Param("feedback", currentState.selectedFeedback.joinToString(", ") { it.content })
+                            )
+                        )
+                    )
                     makeReport()
                     sendEffect(MissionDetailContract.SideEffect.NavigateToReportReady)
                 }
