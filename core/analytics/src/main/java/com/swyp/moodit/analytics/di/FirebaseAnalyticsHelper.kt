@@ -19,4 +19,8 @@ class FirebaseAnalyticsHelper @Inject constructor(
             }
         }
     }
+
+    override fun setUserEmail(email: String) {
+        firebaseAnalytics.setUserId(email)
+    }
 }

@@ -37,11 +37,11 @@ fun LoginRoute(
                             type = "exist_user_login_success",
                             extras = listOf(
                                 Param("user_type", "exist_user"),
-                                Param("attempted_at", clickTimeStamp.toString()),
-                                Param("email", uiState.email)
+                                Param("attempted_at", clickTimeStamp.toString())
                             )
                         )
                     )
+                    analyticsHelper.setUserEmail(uiState.email)
                     navigateToMain()
                 }
 
@@ -56,6 +56,7 @@ fun LoginRoute(
                             )
                         )
                     )
+                    analyticsHelper.setUserEmail(uiState.email)
                     navigateToInputNickname(sideEffect.isEditMode)
                 }
 

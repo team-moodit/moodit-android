@@ -3,6 +3,9 @@ package com.swyp.moodit.tournament.matchUp
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.swyp.moodit.analytics.AnalyticsEvent
+import com.swyp.moodit.analytics.AnalyticsHelper
+import com.swyp.moodit.analytics.Param
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.TournamentRepository
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
@@ -17,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MatchUpViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val tournamentRepository: TournamentRepository
+    private val tournamentRepository: TournamentRepository,
+    private val analyticsHelper: AnalyticsHelper
 ) :
     BaseViewModel<MatchUpContract.State, MatchUpContract.Intent, MatchUpContract.SideEffect>(
         initialState = MatchUpContract.State(
@@ -64,6 +68,17 @@ class MatchUpViewModel @Inject constructor(
                 reduce { it.copy(isLoading = true) }
             }
             val result = if (currentState.isStarted) {
+                val currentTimeStamp = System.currentTimeMillis()
+                analyticsHelper.logEvent(
+                    AnalyticsEvent(
+                        type = "tournament_start",
+                        extras = listOf(
+                            Param("tournament_id", tournamentId.toString()),
+                            Param("started_at", currentTimeStamp.toString()),
+                            Param("is_first_tournament", true.toString())
+                        )
+                    )
+                )
                 tournamentRepository.getMatchUpInitInfo(tournamentId)
             } else {
                 tournamentRepository.getMatchUpProgressInfo(tournamentId)
