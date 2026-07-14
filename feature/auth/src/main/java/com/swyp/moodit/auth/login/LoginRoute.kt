@@ -11,6 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.swyp.moodit.analytics.AnalyticsEvent
+import com.swyp.moodit.analytics.LocalAnalyticsHelper
+import com.swyp.moodit.analytics.Param
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 
 @Composable
@@ -22,15 +25,43 @@ fun LoginRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val analyticsHelper = LocalAnalyticsHelper.current
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
-                is LoginContract.SideEffect.NavigateToMain -> navigateToMain()
-                is LoginContract.SideEffect.NavigateToInputNickname -> navigateToInputNickname(sideEffect.isEditMode)
+                is LoginContract.SideEffect.NavigateToMain -> {
+                    analyticsHelper.logEvent(
+                        AnalyticsEvent(
+                            type = "login_success",
+                            extras = listOf(Param("user_type", "exist_user"))
+                        )
+                    )
+                    navigateToMain()
+                }
+
+                is LoginContract.SideEffect.NavigateToInputNickname -> {
+                    analyticsHelper.logEvent(
+                        AnalyticsEvent(
+                            type = "signUp_success",
+                            extras = listOf(Param("user_type", "new_user"))
+                        )
+                    )
+                    navigateToInputNickname(sideEffect.isEditMode)
+                }
+
                 is LoginContract.SideEffect.ShowSnackbar -> onShowSnackbar(sideEffect.message, null)
             }
         }
+    }
+
+    LaunchedEffect(Unit) {
+        analyticsHelper.logEvent(
+            AnalyticsEvent(
+                type = AnalyticsEvent.Types.SCREEN_VIEW,
+                extras = listOf(Param(Param.Keys.SCREEN_NAME, "LoginScreen"))
+            )
+        )
     }
 
     when {
