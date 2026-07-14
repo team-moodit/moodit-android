@@ -3,6 +3,9 @@ package com.swyp.moodit.home.missionDetail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.swyp.moodit.analytics.AnalyticsEvent
+import com.swyp.moodit.analytics.AnalyticsHelper
+import com.swyp.moodit.analytics.Param
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.MissionRepository
 import com.swyp.moodit.data.repository.UserRepository
@@ -23,7 +26,8 @@ import javax.inject.Inject
 class MissionDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val missionRepository: MissionRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val analyticsHelper: AnalyticsHelper
 ) : BaseViewModel<MissionDetailContract.State, MissionDetailContract.Intent, MissionDetailContract.SideEffect>(
     initialState = MissionDetailContract.State(
         status = savedStateHandle.toRoute<HomeRoute.MissionDetail>().status,
@@ -127,6 +131,16 @@ class MissionDetailViewModel @Inject constructor(
                 missionRepository.completeMission(currentState.missionInfo.userMissionId)) {
                 is Result.Success -> {
                     reduce { it.copy(missionInfo = result.data) }
+                    val clickTimeStamp = System.currentTimeMillis()
+                    analyticsHelper.logEvent(
+                        AnalyticsEvent(
+                            type = "mission_complete",
+                            extras = listOf(
+                                Param("mission_id", currentState.missionInfo.userMissionId.toString()),
+                                Param("completed_at", clickTimeStamp.toString()),
+                            )
+                        )
+                    )
                     updateSatisfactionShow(true)
                 }
 
