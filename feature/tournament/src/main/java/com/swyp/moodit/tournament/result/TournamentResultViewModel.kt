@@ -4,6 +4,9 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.swyp.moodit.analytics.AnalyticsEvent
+import com.swyp.moodit.analytics.AnalyticsHelper
+import com.swyp.moodit.analytics.Param
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.MissionRepository
 import com.swyp.moodit.data.repository.TournamentRepository
@@ -21,7 +24,8 @@ class TournamentResultViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val missionRepository: MissionRepository,
     private val userRepository: UserRepository,
-    private val tournamentRepository: TournamentRepository
+    private val tournamentRepository: TournamentRepository,
+    private val analyticsHelper: AnalyticsHelper
 ) :
     BaseViewModel<TournamentResultContract.State, TournamentResultContract.Intent, TournamentResultContract.SideEffect>(
         initialState = TournamentResultContract.State()
@@ -41,6 +45,11 @@ class TournamentResultViewModel @Inject constructor(
                 if (userMissionId == 0L) {
                     approveMission()
                 } else {
+                    logTournamentComplete(
+                        missionId = currentState.userMissionId,
+                        tournamentId = matchId,
+                        selectionType = "auto"
+                    )
                     navigateToMissionDetail()
                 }
             }
@@ -127,6 +136,11 @@ class TournamentResultViewModel @Inject constructor(
             )) {
                 is Result.Success -> {
                     reduce { it.copy(userMissionId = result.data) }
+                    logTournamentComplete(
+                        missionId = currentState.userMissionId,
+                        tournamentId = matchId,
+                        selectionType = "user_selected"
+                    )
                     tournamentRepository.clearOnGoingMatchUpResultId()
                     tournamentRepository.clearOnGoingTournamentId()
                     navigateToMissionDetail()
@@ -149,6 +163,26 @@ class TournamentResultViewModel @Inject constructor(
             TournamentResultContract.SideEffect.NavigateToMissionDetail(
                 currentState.userMissionId,
                 MissionStatus.CREATED
+            )
+        )
+    }
+
+    private fun logTournamentComplete(
+        missionId: Long,
+        tournamentId: Long,
+        selectionType: String
+    ) {
+        val assignedAtTimestamp = System.currentTimeMillis()
+
+        analyticsHelper.logEvent(
+            AnalyticsEvent(
+                type = "mission_assigned",
+                extras = listOf(
+                    Param("mission_id", missionId.toString()),
+                    Param("tournament_id", tournamentId.toString()),
+                    Param("assigned_at", assignedAtTimestamp.toString()),
+                    Param("mission_selection_type", selectionType)
+                )
             )
         )
     }
