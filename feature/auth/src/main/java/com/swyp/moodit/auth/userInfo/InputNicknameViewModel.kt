@@ -3,6 +3,9 @@ package com.swyp.moodit.auth.userInfo
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.swyp.moodit.analytics.AnalyticsEvent
+import com.swyp.moodit.analytics.AnalyticsHelper
+import com.swyp.moodit.analytics.Param
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.UserRepository
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
@@ -15,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class InputNicknameViewModel @Inject constructor(
     private val userRepository: UserRepository,
+    private val analyticsHelper: AnalyticsHelper,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel<InputNicknameContract.State, InputNicknameContract.Intent, InputNicknameContract.SideEffect>(
     initialState = InputNicknameContract.State(isEditMode = savedStateHandle.toRoute<AuthRoute.InputNickname>().isEditMode)
@@ -43,7 +47,7 @@ class InputNicknameViewModel @Inject constructor(
                     if (currentState.isEditMode) {
                         sendEffect(InputNicknameContract.SideEffect.NavigateToSetting)
                     } else {
-                        sendEffect(InputNicknameContract.SideEffect.NavigateToMain)
+                        fetchPrivacyInfoAndNavigate()
                     }
                 }
 
@@ -51,6 +55,37 @@ class InputNicknameViewModel @Inject constructor(
                     sendEffect(
                         InputNicknameContract.SideEffect.ShowSnackbar(
                             result.exception.message ?: "닉네임 등록에 실패했습니다.", MooditSnackbarType.ERROR
+                        )
+                    )
+                }
+            }
+            reduce { it.copy(isLoading = false) }
+        }
+    }
+
+    private fun fetchPrivacyInfoAndNavigate() {
+        viewModelScope.launch {
+            when (val result = userRepository.getUserPrivacyInfo()) {
+                is Result.Success -> {
+                    val clickTimeStamp = System.currentTimeMillis()
+                    analyticsHelper.logEvent(
+                        AnalyticsEvent(
+                            type = "login_success",
+                            extras = listOf(
+                                Param("user_type", "new_user"),
+                                Param("signup_at", clickTimeStamp.toString()),
+                                Param("email", result.data.email)
+                            )
+                        )
+                    )
+                    sendEffect(InputNicknameContract.SideEffect.NavigateToMain)
+                }
+
+                is Result.Error -> {
+                    sendEffect(
+                        InputNicknameContract.SideEffect.ShowSnackbar(
+                            result.exception.message ?: "사용자 정보를 가져오는 데 실패했습니다.",
+                            MooditSnackbarType.ERROR
                         )
                     )
                 }
@@ -100,6 +135,7 @@ class InputNicknameViewModel @Inject constructor(
         const val MIN_NICKNAME_LENGTH = 1
         const val MAX_NICKNAME_LENGTH = 6
         const val NICKNAME_REGEX = "^[가-힣]+$"
-        const val INPUT_NICKNAME_REGEX = "^[ㄱ-ㅎㅏ-ㅣ가-힣\\u318D\\u119E\\u11A2\\u2022\\u2024\\u00B7\\u2219.]*$"
+        const val INPUT_NICKNAME_REGEX =
+            "^[ㄱ-ㅎㅏ-ㅣ가-힣\\u318D\\u119E\\u11A2\\u2022\\u2024\\u00B7\\u2219.]*$"
     }
 }

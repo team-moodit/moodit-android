@@ -31,20 +31,28 @@ fun LoginRoute(
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
                 is LoginContract.SideEffect.NavigateToMain -> {
+                    val clickTimeStamp = System.currentTimeMillis()
                     analyticsHelper.logEvent(
                         AnalyticsEvent(
                             type = "login_success",
-                            extras = listOf(Param("user_type", "exist_user"))
+                            extras = listOf(
+                                Param("user_type", "exist_user"),
+                                Param("attempted_at", clickTimeStamp.toString())
+                            )
                         )
                     )
                     navigateToMain()
                 }
 
                 is LoginContract.SideEffect.NavigateToInputNickname -> {
+                    val clickTimeStamp = System.currentTimeMillis()
                     analyticsHelper.logEvent(
                         AnalyticsEvent(
                             type = "signUp_success",
-                            extras = listOf(Param("user_type", "new_user"))
+                            extras = listOf(
+                                Param("user_type", "new_user"),
+                                Param("attempted_at", clickTimeStamp.toString())
+                            )
                         )
                     )
                     navigateToInputNickname(sideEffect.isEditMode)
