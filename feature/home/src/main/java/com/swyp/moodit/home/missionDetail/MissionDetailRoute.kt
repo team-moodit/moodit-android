@@ -27,11 +27,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.swyp.moodit.analytics.AnalyticsEvent
+import com.swyp.moodit.analytics.LocalAnalyticsHelper
+import com.swyp.moodit.analytics.Param
 import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.component.MooditLottie
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.model.MissionDetailLoadingType
+import com.swyp.moodit.model.MissionStatus
 
 @Composable
 fun MissionDetailRoute(
@@ -40,6 +44,7 @@ fun MissionDetailRoute(
     navigateToReportReady: () -> Unit,
     navigateToHome: () -> Unit
 ) {
+    val analyticsHelper = LocalAnalyticsHelper.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
@@ -53,6 +58,24 @@ fun MissionDetailRoute(
                 is MissionDetailContract.SideEffect.NavigateToReportReady -> navigateToReportReady()
                 is MissionDetailContract.SideEffect.NavigateToHome -> navigateToHome()
             }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        if (uiState.status == MissionStatus.CREATED) {
+            analyticsHelper.logEvent(
+                AnalyticsEvent(
+                    type = AnalyticsEvent.Types.SCREEN_VIEW,
+                    extras = listOf(Param(Param.Keys.SCREEN_NAME, "MatchMissionScreen"))
+                )
+            )
+        } else {
+            analyticsHelper.logEvent(
+                AnalyticsEvent(
+                    type = AnalyticsEvent.Types.SCREEN_VIEW,
+                    extras = listOf(Param(Param.Keys.SCREEN_NAME, "MissionDetailScreen"))
+                )
+            )
         }
     }
 
