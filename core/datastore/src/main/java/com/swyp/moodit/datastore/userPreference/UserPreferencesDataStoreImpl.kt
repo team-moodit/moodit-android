@@ -11,6 +11,11 @@ import javax.inject.Inject
 class UserPreferencesDataStoreImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : UserPreferencesDataStore {
+    override val isCreatedMatchBefore: Flow<Boolean>
+        get() = dataStore.data.map { preferences ->
+            preferences[PreferencesKey.Created_Match_Before] ?: false
+        }
+
     override val isOnBoardingCompleted: Flow<Boolean>
         get() = dataStore.data.map { preferences ->
             preferences[PreferencesKey.OnBoarding_Completed] ?: false
@@ -80,5 +85,11 @@ class UserPreferencesDataStoreImpl @Inject constructor(
 
     override suspend fun clearUserPreference() {
         dataStore.edit { preferences -> preferences.clear() }
+    }
+
+    override suspend fun setIsCreatedMatchBefore(created: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.Created_Match_Before] = created
+        }
     }
 }

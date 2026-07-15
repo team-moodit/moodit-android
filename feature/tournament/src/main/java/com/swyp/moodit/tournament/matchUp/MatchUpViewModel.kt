@@ -14,6 +14,7 @@ import com.swyp.moodit.model.SelectedMatchUpIds
 import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -74,6 +75,8 @@ class MatchUpViewModel @Inject constructor(
             }
             when (result) {
                 is Result.Success -> {
+                    val isCreatedMatchBefore = tournamentRepository.isCreatedMatchBefore.first()
+                    val isFirstCreation = !isCreatedMatchBefore
                     val data = result.data
                     val progressFraction = if (data.totalRounds > 0) {
                         data.curMatchIndex.toFloat() / data.totalRounds
@@ -88,10 +91,14 @@ class MatchUpViewModel @Inject constructor(
                                 extras = listOf(
                                     Param("tournament_id", tournamentId.toString()),
                                     Param("started_at", currentTimeStamp.toString()),
-                                    Param("is_first_tournament", true.toString())
+                                    Param("is_first_tournament", isFirstCreation.toString())
                                 )
                             )
                         )
+
+                        if (isFirstCreation) {
+                            tournamentRepository.setIsCreatedMatchBefore(true)
+                        }
                     } else {
                         analyticsHelper.logEvent(
                             AnalyticsEvent(
