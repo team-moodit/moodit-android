@@ -11,6 +11,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.swyp.moodit.analytics.AnalyticsEvent
+import com.swyp.moodit.analytics.LocalAnalyticsHelper
+import com.swyp.moodit.analytics.Param
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 
 @Composable
@@ -20,11 +23,21 @@ fun SettingRoute(
     navigateToLogin: () -> Unit,
     navigateToInputNickname: (Boolean) -> Unit
 ) {
+    val analyticsHelper = LocalAnalyticsHelper.current
     val uiState by viewModel.uiState.collectAsState()
     val uriHandler = LocalUriHandler.current
 
     LaunchedEffect(Unit) {
         viewModel.sendIntent(SettingContract.Intent.LoadUserInfo)
+    }
+
+    LaunchedEffect(Unit) {
+        analyticsHelper.logEvent(
+            AnalyticsEvent(
+                type = AnalyticsEvent.Types.SCREEN_VIEW,
+                extras = listOf(Param(Param.Keys.SCREEN_NAME, "SettingScreen"))
+            )
+        )
     }
 
     LaunchedEffect(Unit) {
