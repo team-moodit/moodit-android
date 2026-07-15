@@ -101,7 +101,7 @@ fun CreateTournamentRoute(
         analyticsHelper.logEvent(
             AnalyticsEvent(
                 type = AnalyticsEvent.Types.SCREEN_VIEW,
-                extras = listOf(Param(Param.Keys.SCREEN_NAME, "CreateTournamentScreen"))
+                extras = listOf(Param(Param.Keys.SCREEN_NAME, "CreateMatchScreen"))
             )
         )
     }
