@@ -53,7 +53,7 @@ fun InputNicknameRoute(
         analyticsHelper.logEvent(
             AnalyticsEvent(
                 type = AnalyticsEvent.Types.SCREEN_VIEW,
-                extras = listOf(Param(Param.Keys.SCREEN_NAME, "InputNicknameScreen"))
+                extras = listOf(Param(Param.Keys.SCREEN_NAME, "CreateNameScreen"))
             )
         )
     }
