@@ -15,6 +15,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.swyp.moodit.analytics.AnalyticsEvent
+import com.swyp.moodit.analytics.LocalAnalyticsHelper
+import com.swyp.moodit.analytics.Param
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.model.tournament.InProgressMatchState
 
@@ -26,6 +29,7 @@ fun TournamentMainRoute(
     navigateToCompletedTournamentDetail: (Long, Long) -> Unit,
     navigateToSetting: () -> Unit
 ) {
+    val analyticsHelper = LocalAnalyticsHelper.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val inProgressTournaments = uiState.inProgressTournaments.collectAsLazyPagingItems()
     val completedTournaments = uiState.completedTournaments.collectAsLazyPagingItems()
@@ -51,6 +55,15 @@ fun TournamentMainRoute(
                 }
             }
         }
+    }
+
+    LaunchedEffect(Unit) {
+        analyticsHelper.logEvent(
+            AnalyticsEvent(
+                type = AnalyticsEvent.Types.SCREEN_VIEW,
+                extras = listOf(Param(Param.Keys.SCREEN_NAME, "TapMatchScreen"))
+            )
+        )
     }
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {

@@ -2,6 +2,9 @@ package com.swyp.moodit.home.main
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.swyp.moodit.analytics.AnalyticsEvent
+import com.swyp.moodit.analytics.AnalyticsHelper
+import com.swyp.moodit.analytics.Param
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.MissionRepository
 import com.swyp.moodit.data.repository.TournamentRepository
@@ -18,7 +21,8 @@ import javax.inject.Inject
 class HomeMainViewModel @Inject constructor(
     private val missionRepository: MissionRepository,
     private val tournamentRepository: TournamentRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val analyticsHelper: AnalyticsHelper
 ) :
     BaseViewModel<HomeMainContract.State, HomeMainContract.Intent, HomeMainContract.SideEffect>(
         initialState = HomeMainContract.State()
@@ -81,8 +85,19 @@ class HomeMainViewModel @Inject constructor(
             is HomeMainContract.Intent.OnResumeTournamentClick -> {
                 isDialogShownInThisSession = false
                 reduce { it.copy(showResumeTournamentDialog = false) }
-                if (intent.tournamentId != -1L)
+                if (intent.tournamentId != -1L) {
+                    val currentTimeStamp = System.currentTimeMillis()
+                    analyticsHelper.logEvent(
+                        AnalyticsEvent(
+                            type = "tournament_resume",
+                            extras = listOf(
+                                Param("tournament_id", intent.tournamentId.toString()),
+                                Param("resumed_at", currentTimeStamp.toString())
+                            )
+                        )
+                    )
                     sendEffect(HomeMainContract.SideEffect.NavigateToMatchUp(intent.tournamentId))
+                }
                 if (intent.matchUpResultId != -1L)
                     sendEffect(HomeMainContract.SideEffect.NavigateToMatchResult(intent.tournamentId))
             }

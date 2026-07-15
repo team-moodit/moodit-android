@@ -40,6 +40,7 @@ internal class TournamentRepositoryImpl @Inject constructor(
     private val s3Api: S3Api,
     private val userDataStore: UserPreferencesDataStore
 ) : TournamentRepository {
+    override val isCreatedMatchBefore: Flow<Boolean> = userDataStore.isCreatedMatchBefore
     override val onGoingTournamentId: Flow<Long> = userDataStore.onGoingTournamentId
     override val onGoingMatchUpResultId: Flow<Long> = userDataStore.onGoingMatchResultId
 
@@ -196,6 +197,15 @@ internal class TournamentRepositoryImpl @Inject constructor(
     override suspend fun deleteTournament(matchId: Long): Result<Unit> {
         try {
             mooditApi.deleteMatch(matchId).getOrThrow()
+            return Result.Success(Unit)
+        } catch (e: Exception) {
+            return Result.Error(e)
+        }
+    }
+
+    override suspend fun setIsCreatedMatchBefore(created: Boolean): Result<Unit> {
+        try {
+            userDataStore.setIsCreatedMatchBefore(created)
             return Result.Success(Unit)
         } catch (e: Exception) {
             return Result.Error(e)

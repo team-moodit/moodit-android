@@ -13,6 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.swyp.moodit.analytics.AnalyticsEvent
+import com.swyp.moodit.analytics.LocalAnalyticsHelper
+import com.swyp.moodit.analytics.Param
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.model.MissionStatus
 
@@ -23,6 +26,7 @@ fun TournamentResultRoute(
     navigateToMissionDetail: (Long, MissionStatus) -> Unit,
     navigateToHome: () -> Unit
 ) {
+    val analyticsHelper = LocalAnalyticsHelper.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
@@ -41,6 +45,15 @@ fun TournamentResultRoute(
                 is TournamentResultContract.SideEffect.NavigateToHome -> navigateToHome()
             }
         }
+    }
+
+    LaunchedEffect(Unit) {
+        analyticsHelper.logEvent(
+            AnalyticsEvent(
+                type = AnalyticsEvent.Types.SCREEN_VIEW,
+                extras = listOf(Param(Param.Keys.SCREEN_NAME, "MatchOutcomeScreen"))
+            )
+        )
     }
 
     LaunchedEffect(Unit) {

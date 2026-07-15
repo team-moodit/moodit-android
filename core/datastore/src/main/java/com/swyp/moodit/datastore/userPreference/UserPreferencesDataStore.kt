@@ -3,6 +3,7 @@ package com.swyp.moodit.datastore.userPreference
 import kotlinx.coroutines.flow.Flow
 
 interface UserPreferencesDataStore {
+    val isCreatedMatchBefore: Flow<Boolean>
     val isOnBoardingCompleted: Flow<Boolean>
     val isAutoLoginEnabled: Flow<Boolean>
     val nickname: Flow<String>
@@ -16,4 +17,5 @@ interface UserPreferencesDataStore {
     suspend fun clearOnGoingTournamentId()
     suspend fun clearOnGoingMatchResultId()
     suspend fun clearUserPreference()
+    suspend fun setIsCreatedMatchBefore(created: Boolean)
 }

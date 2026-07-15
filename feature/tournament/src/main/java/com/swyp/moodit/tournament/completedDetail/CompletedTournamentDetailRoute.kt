@@ -25,6 +25,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.swyp.moodit.analytics.AnalyticsEvent
+import com.swyp.moodit.analytics.LocalAnalyticsHelper
+import com.swyp.moodit.analytics.Param
 import com.swyp.moodit.designsystem.R
 import com.swyp.moodit.designsystem.component.MooditLottie
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
@@ -37,6 +40,7 @@ fun CompletedTournamentDetailRoute(
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
     navigateToReportReady: () -> Unit
 ) {
+    val analyticsHelper = LocalAnalyticsHelper.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
@@ -52,6 +56,15 @@ fun CompletedTournamentDetailRoute(
                 }
             }
         }
+    }
+
+    LaunchedEffect(Unit) {
+        analyticsHelper.logEvent(
+            AnalyticsEvent(
+                type = AnalyticsEvent.Types.SCREEN_VIEW,
+                extras = listOf(Param(Param.Keys.SCREEN_NAME, "MatchDetailDoneScreen"))
+            )
+        )
     }
 
     LaunchedEffect(Unit) {

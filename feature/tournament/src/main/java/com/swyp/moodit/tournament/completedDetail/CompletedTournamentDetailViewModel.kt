@@ -3,6 +3,9 @@ package com.swyp.moodit.tournament.completedDetail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.swyp.moodit.analytics.AnalyticsEvent
+import com.swyp.moodit.analytics.AnalyticsHelper
+import com.swyp.moodit.analytics.Param
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.MissionRepository
 import com.swyp.moodit.data.repository.TournamentRepository
@@ -21,7 +24,8 @@ class CompletedTournamentDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val tournamentRepository: TournamentRepository,
     private val missionRepository: MissionRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val analyticsHelper: AnalyticsHelper
 ) :
     BaseViewModel<CompletedTournamentDetailContract.State, CompletedTournamentDetailContract.Intent, CompletedTournamentDetailContract.SideEffect>(
         initialState = CompletedTournamentDetailContract.State(
@@ -41,12 +45,30 @@ class CompletedTournamentDetailViewModel @Inject constructor(
             is CompletedTournamentDetailContract.Intent.LoadMissionInfo -> loadMissionInfo()
             is CompletedTournamentDetailContract.Intent.OnCompleteClick -> completeMission()
             is CompletedTournamentDetailContract.Intent.OnDeleteClick -> deleteMission()
-            is CompletedTournamentDetailContract.Intent.OnDeleteDialogShowChange -> updateDeleteDialogShow(intent.show)
-            is CompletedTournamentDetailContract.Intent.OnDeleteCompleteDialogShowChange -> updateDeleteCompleteDialogShow(intent.show)
-            is CompletedTournamentDetailContract.Intent.OnSatisfactionBottomSheetShowChange -> updateSatisfactionShow(intent.show)
-            is CompletedTournamentDetailContract.Intent.OnFeedbackBottomSheetShowChange -> updateFeedbackShow(intent.show)
-            is CompletedTournamentDetailContract.Intent.OnSliderRatingChange -> updateSliderRating(intent.rating)
-            is CompletedTournamentDetailContract.Intent.ToggleFeedbackOption -> toggleFeedbackOption(intent.option)
+            is CompletedTournamentDetailContract.Intent.OnDeleteDialogShowChange -> updateDeleteDialogShow(
+                intent.show
+            )
+
+            is CompletedTournamentDetailContract.Intent.OnDeleteCompleteDialogShowChange -> updateDeleteCompleteDialogShow(
+                intent.show
+            )
+
+            is CompletedTournamentDetailContract.Intent.OnSatisfactionBottomSheetShowChange -> updateSatisfactionShow(
+                intent.show
+            )
+
+            is CompletedTournamentDetailContract.Intent.OnFeedbackBottomSheetShowChange -> updateFeedbackShow(
+                intent.show
+            )
+
+            is CompletedTournamentDetailContract.Intent.OnSliderRatingChange -> updateSliderRating(
+                intent.rating
+            )
+
+            is CompletedTournamentDetailContract.Intent.ToggleFeedbackOption -> toggleFeedbackOption(
+                intent.option
+            )
+
             is CompletedTournamentDetailContract.Intent.ClearFeedbackOption -> clearFeedbackOption()
             is CompletedTournamentDetailContract.Intent.SubmitSatisfaction -> submitSatisfaction()
             is CompletedTournamentDetailContract.Intent.LoadUserInfo -> loadUserInfo()
@@ -61,6 +83,7 @@ class CompletedTournamentDetailViewModel @Inject constructor(
                 is Result.Success -> {
                     reduce { it.copy(tournamentDetail = result.data) }
                 }
+
                 is Result.Error -> {
                     sendEffect(
                         CompletedTournamentDetailContract.SideEffect.ShowSnackbar("완료된 무드매치 정보 조회에 실패했습니다.")
@@ -113,9 +136,19 @@ class CompletedTournamentDetailViewModel @Inject constructor(
         reduce { it.copy(isLoading = MissionDetailLoadingType.DEFAULT) }
         viewModelScope.launch {
             when (val result =
-                missionRepository.completeMission(currentState.mission?.userMissionId?:-1L)) {
+                missionRepository.completeMission(currentState.mission?.userMissionId ?: -1L)) {
                 is Result.Success -> {
                     reduce { it.copy(mission = result.data) }
+                    val clickTimeStamp = System.currentTimeMillis()
+                    analyticsHelper.logEvent(
+                        AnalyticsEvent(
+                            type = "mission_complete",
+                            extras = listOf(
+                                Param("mission_id", currentState.mission?.userMissionId.toString()),
+                                Param("completed_at", clickTimeStamp.toString()),
+                            )
+                        )
+                    )
                     updateSatisfactionShow(true)
                 }
 
@@ -135,7 +168,7 @@ class CompletedTournamentDetailViewModel @Inject constructor(
         reduce { it.copy(isLoading = MissionDetailLoadingType.DEFAULT) }
         viewModelScope.launch {
             when (val result =
-                missionRepository.deleteMission(currentState.mission?.userMissionId?:-1L)) {
+                missionRepository.deleteMission(currentState.mission?.userMissionId ?: -1L)) {
                 is Result.Success -> {
                     updateDeleteCompleteDialogShow(true)
                 }
@@ -156,11 +189,25 @@ class CompletedTournamentDetailViewModel @Inject constructor(
         reduce { it.copy(isLoading = MissionDetailLoadingType.DEFAULT) }
         viewModelScope.launch {
             when (val result = missionRepository.submitSatisfaction(
-                currentState.mission?.userMissionId?:-1L,
+                currentState.mission?.userMissionId ?: -1L,
                 currentState.slidingRating,
                 currentState.selectedFeedback.map { it.content }
             )) {
                 is Result.Success -> {
+                    val clickTimeStamp = System.currentTimeMillis()
+                    analyticsHelper.logEvent(
+                        AnalyticsEvent(
+                            type = "satisfaction_submit",
+                            extras = listOf(
+                                Param("mission_id", currentState.mission?.userMissionId.toString()),
+                                Param("satisfaction_score", currentState.slidingRating.toString()),
+                                Param("submitted_at", clickTimeStamp.toString()),
+                                Param(
+                                    "feedback",
+                                    currentState.selectedFeedback.joinToString(", ") { it.content })
+                            )
+                        )
+                    )
                     makeReport()
                     sendEffect(CompletedTournamentDetailContract.SideEffect.NavigateToReportReady)
                 }

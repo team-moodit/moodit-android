@@ -23,6 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.test.services.events.run.TestRunEventWithTestCase
+import com.swyp.moodit.analytics.AnalyticsEvent
+import com.swyp.moodit.analytics.LocalAnalyticsHelper
+import com.swyp.moodit.analytics.Param
 import com.swyp.moodit.designsystem.component.MooditLottie
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.designsystem.theme.MooditTheme
@@ -35,6 +38,7 @@ fun CreateTournamentRoute(
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean,
     navigateToMatchUp: (Long, Boolean) -> Unit
 ) {
+    val analyticsHelper = LocalAnalyticsHelper.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val maxTotalPhotos = MAX_TOTAL_PHOTOS
     val remainingPhotos = (maxTotalPhotos - uiState.selectedPhotos.size)
@@ -78,10 +82,12 @@ fun CreateTournamentRoute(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
-                is CreateTournamentContract.SideEffect.NavigateToMatchUp -> navigateToMatchUp(
-                    sideEffect.tournamentId,
-                    sideEffect.isStarted
-                )
+                is CreateTournamentContract.SideEffect.NavigateToMatchUp -> {
+                    navigateToMatchUp(
+                        sideEffect.tournamentId,
+                        sideEffect.isStarted
+                    )
+                }
 
                 is CreateTournamentContract.SideEffect.ShowSnackbar -> onShowSnackbar(
                     sideEffect.message,
@@ -89,6 +95,15 @@ fun CreateTournamentRoute(
                 )
             }
         }
+    }
+
+    LaunchedEffect(Unit) {
+        analyticsHelper.logEvent(
+            AnalyticsEvent(
+                type = AnalyticsEvent.Types.SCREEN_VIEW,
+                extras = listOf(Param(Param.Keys.SCREEN_NAME, "CreateMatchScreen"))
+            )
+        )
     }
 
     when {

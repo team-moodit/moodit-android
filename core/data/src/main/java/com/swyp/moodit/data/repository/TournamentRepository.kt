@@ -13,6 +13,7 @@ import com.swyp.moodit.model.tournament.InProgressTournamentDetail
 import kotlinx.coroutines.flow.Flow
 
 interface TournamentRepository {
+    val isCreatedMatchBefore: Flow<Boolean>
     val onGoingTournamentId: Flow<Long>
     val onGoingMatchUpResultId: Flow<Long>
     fun getPagingInProgressTournaments(): Flow<PagingData<InProgressTournament>>
@@ -30,4 +31,5 @@ interface TournamentRepository {
     suspend fun getInProgressTournamentDetail(matchId: Long): Result<InProgressTournamentDetail>
     suspend fun getCompletedTournamentDetail(matchId: Long): Result<CompletedTournamentDetail>
     suspend fun deleteTournament(matchId: Long): Result<Unit>
+    suspend fun setIsCreatedMatchBefore(created: Boolean): Result<Unit>
 }

@@ -3,6 +3,7 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     alias(libs.plugins.moodit.android.application.compose)
     alias(libs.plugins.moodit.hilt)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -50,8 +51,8 @@ dependencies {
     implementation(projects.core.navigation)
     implementation(projects.core.network)
     implementation(projects.core.ui)
+    implementation(projects.core.analytics)
 
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.kakao.user)
-    implementation(libs.haze)
 }

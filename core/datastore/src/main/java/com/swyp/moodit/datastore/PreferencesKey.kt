@@ -13,4 +13,5 @@ internal object PreferencesKey {
     val Nickname = stringPreferencesKey("moodit_nickname")
     val OnGoingTournamentId = longPreferencesKey("moodit_onGoing_tournament_id")
     val OnGoingMatchResultId = longPreferencesKey("moodit_onGoing_match_result_id")
+    val Created_Match_Before = booleanPreferencesKey("moodit_created_match_before")
 }

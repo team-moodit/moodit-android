@@ -23,4 +23,5 @@ android {
 dependencies {
     implementation(projects.core.data)
     implementation(libs.bundles.coil)
+    implementation(projects.core.analytics)
 }

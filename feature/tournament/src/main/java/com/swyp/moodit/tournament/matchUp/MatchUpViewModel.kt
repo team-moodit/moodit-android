@@ -3,6 +3,9 @@ package com.swyp.moodit.tournament.matchUp
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.swyp.moodit.analytics.AnalyticsEvent
+import com.swyp.moodit.analytics.AnalyticsHelper
+import com.swyp.moodit.analytics.Param
 import com.swyp.moodit.common.util.Result
 import com.swyp.moodit.data.repository.TournamentRepository
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
@@ -11,13 +14,15 @@ import com.swyp.moodit.model.SelectedMatchUpIds
 import com.swyp.moodit.navigation.TournamentRoute
 import com.swyp.moodit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MatchUpViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val tournamentRepository: TournamentRepository
+    private val tournamentRepository: TournamentRepository,
+    private val analyticsHelper: AnalyticsHelper
 ) :
     BaseViewModel<MatchUpContract.State, MatchUpContract.Intent, MatchUpContract.SideEffect>(
         initialState = MatchUpContract.State(
@@ -70,11 +75,44 @@ class MatchUpViewModel @Inject constructor(
             }
             when (result) {
                 is Result.Success -> {
+                    val isCreatedMatchBefore = tournamentRepository.isCreatedMatchBefore.first()
+                    val isFirstCreation = !isCreatedMatchBefore
                     val data = result.data
                     val progressFraction = if (data.totalRounds > 0) {
                         data.curMatchIndex.toFloat() / data.totalRounds
                     } else {
                         0f
+                    }
+                    val currentTimeStamp = System.currentTimeMillis()
+                    if (currentState.isStarted) {
+                        analyticsHelper.logEvent(
+                            AnalyticsEvent(
+                                type = "tournament_start",
+                                extras = listOf(
+                                    Param("tournament_id", tournamentId.toString()),
+                                    Param("started_at", currentTimeStamp.toString()),
+                                    Param("is_first_tournament", isFirstCreation.toString())
+                                )
+                            )
+                        )
+
+                        if (isFirstCreation) {
+                            tournamentRepository.setIsCreatedMatchBefore(true)
+                        }
+                    } else {
+                        analyticsHelper.logEvent(
+                            AnalyticsEvent(
+                                type = "tournament_round_complete",
+                                extras = listOf(
+                                    Param("tournament_id", tournamentId.toString()),
+                                    Param("progressed_at", currentTimeStamp.toString()),
+                                    Param(
+                                        "round_number",
+                                        data.roundTitle + "-" + data.curMatchIndex.toString() + "경기"
+                                    ),
+                                )
+                            )
+                        )
                     }
                     reduce {
                         it.copy(

@@ -8,5 +8,6 @@ android {
 
 dependencies {
     implementation(projects.core.data)
+    implementation(projects.core.analytics)
     implementation(libs.bundles.coil)
 }

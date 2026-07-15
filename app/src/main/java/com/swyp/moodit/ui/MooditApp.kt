@@ -21,7 +21,6 @@ import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.navigation.MainBottomBarTab
 import com.swyp.moodit.navigation.MainBottomBarTab.Companion.toItemData
 import com.swyp.moodit.navigation.MooditNavHost
-import dev.chrisbanes.haze.HazeState
 
 @Composable
 internal fun MooditApp(
@@ -42,7 +41,6 @@ internal fun MooditAppContent(
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState
 ) {
-    val hazeState = remember { HazeState() }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),

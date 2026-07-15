@@ -6,6 +6,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.swyp.moodit.analytics.AnalyticsEvent
+import com.swyp.moodit.analytics.LocalAnalyticsHelper
+import com.swyp.moodit.analytics.Param
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 
 @Composable
@@ -15,6 +18,7 @@ fun MatchUpRoute(
     navigateToTournamentResult: (Long) -> Unit,
     navigateToHome: () -> Unit
 ) {
+    val analyticsHelper = LocalAnalyticsHelper.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
@@ -36,28 +40,21 @@ fun MatchUpRoute(
     }
 
     LaunchedEffect(Unit) {
+        analyticsHelper.logEvent(
+            AnalyticsEvent(
+                type = AnalyticsEvent.Types.SCREEN_VIEW,
+                extras = listOf(Param(Param.Keys.SCREEN_NAME, "MatchInProgressScreen"))
+            )
+        )
+    }
+
+    LaunchedEffect(Unit) {
         viewModel.sendIntent(MatchUpContract.Intent.LoadMatchUpInfo)
     }
 
     BackHandler {
         viewModel.sendIntent(MatchUpContract.Intent.OnExitClick)
     }
-
-    /*when {
-        uiState.isLoading -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
-            ) {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(text = "내 취향을 찾기 위한\n무드매치를 준비하고 있어요", textAlign = TextAlign.Center)
-                    CircularProgressIndicator()
-                }
-            }
-        } */
 
     MatchUpScreen(
         uiState = uiState,
