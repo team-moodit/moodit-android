@@ -10,14 +10,18 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult.ActionPerformed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.swyp.moodit.common.auth.AuthEvent
+import com.swyp.moodit.common.auth.AuthEventManager
 import com.swyp.moodit.designsystem.component.MainBottomBar
 import com.swyp.moodit.designsystem.component.MooditSnackbar
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 import com.swyp.moodit.designsystem.component.MooditSnackbarVisuals
 import com.swyp.moodit.designsystem.theme.MooditTheme
+import com.swyp.moodit.navigation.AuthRoute
 import com.swyp.moodit.navigation.MainBottomBarTab
 import com.swyp.moodit.navigation.MainBottomBarTab.Companion.toItemData
 import com.swyp.moodit.navigation.MooditNavHost
@@ -25,9 +29,23 @@ import com.swyp.moodit.navigation.MooditNavHost
 @Composable
 internal fun MooditApp(
     appState: MooditAppState,
+    authEventManager: AuthEventManager,
     modifier: Modifier = Modifier
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(Unit) {
+        authEventManager.authEvents.collect { event ->
+            when(event) {
+                AuthEvent.Unauthorized -> {
+                    appState.navController.navigate(AuthRoute.Login) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                    snackbarHostState.showSnackbar("세션이 만료되었습니다. 다시 로그인해주세요.")
+                }
+            }
+        }
+    }
     MooditAppContent(
         appState = appState,
         modifier = modifier,

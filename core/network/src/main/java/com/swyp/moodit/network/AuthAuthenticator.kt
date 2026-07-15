@@ -1,5 +1,6 @@
 package com.swyp.moodit.network
 
+import com.swyp.moodit.common.auth.AuthEventManager
 import com.swyp.moodit.datastore.token.AuthDataStore
 import com.swyp.moodit.datastore.userPreference.UserPreferencesDataStore
 import com.swyp.moodit.network.api.AuthApi
@@ -18,7 +19,8 @@ import javax.inject.Inject
 class AuthAuthenticator @Inject constructor(
     private val authDataStore: AuthDataStore,
     private val userPreferencesDataStore: UserPreferencesDataStore,
-    private val authApi: Lazy<AuthApi>
+    private val authApi: Lazy<AuthApi>,
+    private val authEventManager: AuthEventManager
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
@@ -32,6 +34,7 @@ class AuthAuthenticator @Inject constructor(
             runBlocking {
                 authDataStore.clearToken()
                 userPreferencesDataStore.setAutoLoginEnabled(false)
+                authEventManager.onUnauthorized()
             }
             return null
         }
@@ -64,6 +67,7 @@ class AuthAuthenticator @Inject constructor(
                 Timber.e("토큰 재발급 실패: ${e.message}")
                 authDataStore.clearToken()
                 userPreferencesDataStore.setAutoLoginEnabled(false)
+                authEventManager.onUnauthorized()
                 return@runBlocking null
             }
         }
