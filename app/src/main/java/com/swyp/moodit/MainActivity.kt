@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.swyp.moodit.analytics.AnalyticsHelper
 import com.swyp.moodit.analytics.LocalAnalyticsHelper
+import com.swyp.moodit.common.auth.AuthEventManager
 import com.swyp.moodit.designsystem.theme.MooditTheme
 import com.swyp.moodit.ui.MooditApp
 import com.swyp.moodit.ui.MooditSplashScreen
@@ -32,6 +33,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
+
+    @Inject
+    lateinit var authEventManager: AuthEventManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -78,7 +82,10 @@ class MainActivity : ComponentActivity() {
                     }
 
                     Box(modifier = Modifier.fillMaxSize()) {
-                        MooditApp(appState = appState)
+                        MooditApp(
+                            appState = appState,
+                            authEventManager = authEventManager
+                        )
 
                         if (uiState.isLoading) {
                             MooditSplashScreen()
