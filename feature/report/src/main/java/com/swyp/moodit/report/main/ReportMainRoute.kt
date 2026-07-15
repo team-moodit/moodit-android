@@ -9,6 +9,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.swyp.moodit.analytics.AnalyticsEvent
+import com.swyp.moodit.analytics.LocalAnalyticsHelper
+import com.swyp.moodit.analytics.Param
 import com.swyp.moodit.designsystem.component.MooditSnackbarType
 
 @Composable
@@ -20,11 +23,21 @@ fun ReportMainRoute(
     navigateToCreateMoodMatch: () -> Unit,
     onShowSnackbar: suspend (String, MooditSnackbarType?) -> Boolean
 ) {
+    val analyticsHelper = LocalAnalyticsHelper.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val feedbackSubMittedMissions = uiState.feedbackSubMittedMissions.collectAsLazyPagingItems()
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         feedbackSubMittedMissions.refresh()
+    }
+
+    LaunchedEffect(Unit) {
+        analyticsHelper.logEvent(
+            AnalyticsEvent(
+                type = AnalyticsEvent.Types.SCREEN_VIEW,
+                extras = listOf(Param(Param.Keys.SCREEN_NAME, "TapReportScreen"))
+            )
+        )
     }
 
     LaunchedEffect(Unit) {
